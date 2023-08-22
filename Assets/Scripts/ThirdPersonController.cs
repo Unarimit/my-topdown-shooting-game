@@ -19,6 +19,8 @@ namespace StarterAssets
         [Header("Shot")]
         [Tooltip("Bullet prefab")]
         public GameObject Bullet;
+        [Tooltip("GunFire GameObject")]
+        public GameObject GunFire;
 
         [Tooltip("Bullet start trans")]
         public Transform BulletStartTrans;
@@ -389,6 +391,7 @@ namespace StarterAssets
 
                 
                 _animator.SetBool(_animIDShoot, _input.shoot);
+                GunFire.SetActive(_input.shoot);
                 if (_input.shoot)
                 {
                     var b = Instantiate(Bullet, Enviorment);
