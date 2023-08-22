@@ -112,6 +112,8 @@ namespace StarterAssets
         private int _animIDMotionSpeed;
         private int _animIDAim;
         private int _animIDShoot;
+        private int _animIDASpeed;
+        private int _animIDWSpeed;
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
         private PlayerInput _playerInput;
@@ -173,6 +175,7 @@ namespace StarterAssets
             JumpAndGravity();
             GroundedCheck();
             Move();
+            AimMove();
         }
 
         private void FixedUpdate()
@@ -194,6 +197,8 @@ namespace StarterAssets
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
             _animIDAim = Animator.StringToHash("Aim");
             _animIDShoot = Animator.StringToHash("Shoot");
+            _animIDASpeed = Animator.StringToHash("ASpeed");
+            _animIDWSpeed = Animator.StringToHash("WSpeed");
         }
 
         private void GroundedCheck()
@@ -234,6 +239,7 @@ namespace StarterAssets
 
         private void Move()
         {
+            if (_input.aim) return;
             // set target speed based on move speed, sprint speed and if sprint is pressed
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
@@ -300,6 +306,20 @@ namespace StarterAssets
             }
         }
 
+        private void AimMove()
+        {
+            if (!_input.aim) return;
+            var vec = _input.move.normalized;
+
+            // 动画
+            _animator.SetFloat(_animIDASpeed, vec.x);
+            _animator.SetFloat(_animIDWSpeed, vec.y);
+
+            // 移动
+            var aim = transform.forward * vec.y * Time.deltaTime; // 前
+            aim += transform.right * vec.x * Time.deltaTime; // 右
+            _controller.Move(new Vector3(aim.x, _verticalVelocity, aim.z));
+        }
         private void JumpAndGravity()
         {
             if (Grounded)
