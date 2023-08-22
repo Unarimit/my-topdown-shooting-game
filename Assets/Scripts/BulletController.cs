@@ -33,7 +33,7 @@ namespace Assets.Scripts
         {
             for(int i = 0; i < 2; i++)
             {
-                if(i == 0) yield return new WaitForSeconds(0.4f);
+                if(i == 0) yield return new WaitForSeconds(0.3f);
                 if(i == 1)
                 {
                     var temp = ParticalSystem.GetComponent<ParticleSystem>().emission;

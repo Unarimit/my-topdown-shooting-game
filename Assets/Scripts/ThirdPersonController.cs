@@ -3,6 +3,7 @@ using Unity.Burst.Intrinsics;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
+using static UnityEditor.Progress;
 #endif
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -311,18 +312,22 @@ namespace StarterAssets
             if (!_input.aim) return;
             var vec = _input.move.normalized;
 
-            // 动画
-            _animator.SetFloat(_animIDASpeed, vec.x);
-            _animator.SetFloat(_animIDWSpeed, vec.y);
 
             // 移动
-            var aim = transform.forward * vec.y * Time.deltaTime; // 前
-            aim += transform.right * vec.x * Time.deltaTime; // 右
-            _controller.Move(new Vector3(aim.x, _verticalVelocity, aim.z));
+            var moveVec = new Vector3(vec.x * Time.deltaTime, _verticalVelocity * Time.deltaTime, vec.y * Time.deltaTime);
+            _controller.Move(moveVec);
+
+
+            // 动画
+            var aniVec = new Vector3(vec.x, 0, vec.y);
+            var proj1 = Vector3.Project(aniVec, transform.forward);
+            var proj2 = Vector3.Project(aniVec, transform.right);
+            _animator.SetFloat(_animIDWSpeed, proj1.magnitude); // 这里没有区分正负
+            _animator.SetFloat(_animIDASpeed, proj2.magnitude);
         }
         private void JumpAndGravity()
         {
-            if (Grounded)
+            if (Grounded && !_input.aim)
             {
                 // reset the fall timeout timer
                 _fallTimeoutDelta = FallTimeout;
@@ -390,6 +395,7 @@ namespace StarterAssets
         }
 
         private MyGun MyGun = new MyGun();
+        private float GunLine = 0.95f; // 枪线，应该在准星上
         private void AimAndShoot()
         {
             _animator.SetBool(_animIDAim, _input.aim);
@@ -399,9 +405,15 @@ namespace StarterAssets
                 var mouse = Mouse.current.position.ReadValue();
                 var ray = Camera.main.ScreenPointToRay(mouse);
                 var hits = Physics.RaycastAll(ray, 100f, LayerMask.GetMask(new string[] { "Ground" }));
+                var aim = new Vector3(); // 射击目标
                 if(hits.Length == 1)
                 {
                     var temp = hits[0].point;
+                    aim = new Vector3(
+                        temp.x + GunLine / ray.direction.y * ray.direction.x,
+                        GunLine,
+                        temp.z + GunLine / ray.direction.y * ray.direction.z
+                    );
                     transform.LookAt(new Vector3(temp.x, transform.position.y, temp.z));
                 }
                 else
@@ -423,7 +435,7 @@ namespace StarterAssets
                     }
                     else
                     {
-                        StartCoroutine(MyGun.DelayForce(b, transform.forward));
+                        StartCoroutine(MyGun.DelayForce(b, (aim - BulletStartTrans.position).normalized));
                     }
                 }
 
