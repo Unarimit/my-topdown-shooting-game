@@ -115,6 +115,7 @@ namespace StarterAssets
         private int _animIDShoot;
         private int _animIDASpeed;
         private int _animIDWSpeed;
+        private int _animIDSlide;
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
         private PlayerInput _playerInput;
@@ -200,6 +201,7 @@ namespace StarterAssets
             _animIDShoot = Animator.StringToHash("Shoot");
             _animIDASpeed = Animator.StringToHash("ASpeed");
             _animIDWSpeed = Animator.StringToHash("WSpeed");
+            _animIDSlide = Animator.StringToHash("Slide");
         }
 
         private void GroundedCheck()
@@ -241,6 +243,7 @@ namespace StarterAssets
         private void Move()
         {
             if (_input.aim) return;
+            _animator.SetBool(_animIDSlide, _input.slide);
             // set target speed based on move speed, sprint speed and if sprint is pressed
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 

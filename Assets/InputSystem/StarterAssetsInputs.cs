@@ -15,6 +15,7 @@ namespace StarterAssets
 		public bool sprint;
 		public bool aim;
 		public bool shoot;
+		public bool slide;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -56,6 +57,10 @@ namespace StarterAssets
         {
             shoot = value.isPressed;
             if (shoot && !aim) shoot = false;
+        }
+        public void OnSlide(InputValue value)
+        {
+			slide = value.isPressed;
         }
 
 #endif
