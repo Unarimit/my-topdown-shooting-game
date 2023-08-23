@@ -3,7 +3,6 @@
 // #pragma once is a safe guard best practice in almost every .hlsl (need Unity2020 or up), 
 // doing this can make sure your .hlsl's user can include this .hlsl anywhere anytime without producing any multi include conflict
 #pragma once
-
 // We don't have "UnityCG.cginc" in SRP/URP's package anymore, so:
 // Including the following two hlsl files is enough for shading with Universal Pipeline. Everything is included in them.
 // Core.hlsl will include SRP shader library, all constant buffers not related to materials (perobject, percamera, perframe).
@@ -19,7 +18,7 @@
 
 // Include this if you are doing a lit shader. This includes lighting shader variables,
 // lighting and shadow functions
-#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+#include "Lighting.hlsl"
 
 // Material shader variables are not defined in SRP or URP shader library.
 // This means _BaseColor, _BaseMap, _BaseMap_ST, and all variables in the Properties section of a shader
@@ -36,6 +35,8 @@
 #include "NiloOutlineUtil.hlsl"
 #include "NiloZOffset.hlsl"
 #include "NiloInvLerpRemap.hlsl"
+#include "FuckInput.hlsl"
+
 
 // note:
 // subfix OS means object spaces    (e.g. positionOS = position object space)
@@ -58,6 +59,9 @@ struct Varyings
     float2 uv                       : TEXCOORD0;
     float4 positionWSAndFogFactor   : TEXCOORD1; // xyz: positionWS, w: vertex fog factor
     half3 normalWS                  : TEXCOORD2;
+    float3 positionWS               : TEXCOORD3;
+    float3 tangentWS               : TEXCOORD4;
+    half3 viewDirTS                 : TEXCOORD5;
     float4 positionCS               : SV_POSITION;
 };
 
@@ -67,56 +71,12 @@ struct Varyings
 ///////////////////////////////////////////////////////////////////////////////////////
 
 // all sampler2D don't need to put inside CBUFFER 
-sampler2D _BaseMap; 
-sampler2D _EmissionMap;
-sampler2D _OcclusionMap;
+sampler2D _BaseMapSampler; 
+sampler2D _EmissionMapSampler;
+sampler2D _OcclusionMapSampler;
 sampler2D _OutlineZOffsetMaskTex;
 
-// put all your uniforms(usually things inside .shader file's properties{}) inside this CBUFFER, in order to make SRP batcher compatible
-// see -> https://blogs.unity3d.com/2019/02/28/srp-batcher-speed-up-your-rendering/
-CBUFFER_START(UnityPerMaterial)
-    
-    // high level settings
-    float   _IsFace;
 
-    // base color
-    float4  _BaseMap_ST;
-    half4   _BaseColor;
-
-    // alpha
-    half    _Cutoff;
-
-    // emission
-    float   _UseEmission;
-    half3   _EmissionColor;
-    half    _EmissionMulByBaseColor;
-    half3   _EmissionMapChannelMask;
-
-    // occlusion
-    float   _UseOcclusion;
-    half    _OcclusionStrength;
-    half4   _OcclusionMapChannelMask;
-    half    _OcclusionRemapStart;
-    half    _OcclusionRemapEnd;
-
-    // lighting
-    half3   _IndirectLightMinColor;
-    half    _CelShadeMidPoint;
-    half    _CelShadeSoftness;
-
-    // shadow mapping
-    half    _ReceiveShadowMappingAmount;
-    float   _ReceiveShadowMappingPosOffset;
-    half3   _ShadowMapColor;
-
-    // outline
-    float   _OutlineWidth;
-    half3   _OutlineColor;
-    float   _OutlineZOffset;
-    float   _OutlineZOffsetMaskRemapStart;
-    float   _OutlineZOffsetMaskRemapEnd;
-
-CBUFFER_END
 
 //a special uniform for applyShadowBiasFixToHClipPos() only, it is not a per material uniform, 
 //so it is fine to write it outside our UnityPerMaterial CBUFFER
@@ -162,7 +122,7 @@ Varyings VertexShaderWork(Attributes input)
     // Similar to VertexPositionInputs, VertexNormalInputs will contain normal, tangent and bitangent
     // in world space. If not used it will be stripped.
     VertexNormalInputs vertexNormalInput = GetVertexNormalInputs(input.normalOS, input.tangentOS);
-
+    //half3 vertexLight = VertexLighting(vertexInput.positionWS, vertexNormalInput.normalWS);
     float3 positionWS = vertexInput.positionWS;
 
 #ifdef ToonShaderIsOutline
@@ -173,10 +133,12 @@ Varyings VertexShaderWork(Attributes input)
     float fogFactor = ComputeFogFactor(vertexInput.positionCS.z);
 
     // TRANSFORM_TEX is the same as the old shader library.
-    output.uv = TRANSFORM_TEX(input.uv,_BaseMap);
+    output.uv = TRANSFORM_TEX(input.uv,_BaseMapSampler);
 
     // packing positionWS(xyz) & fog(w) into a vector4
     output.positionWSAndFogFactor = float4(positionWS, fogFactor);
+    
+    output.positionWS = positionWS;
     output.normalWS = vertexNormalInput.normalWS; //normlaized already by GetVertexNormalInputs(...)
 
     output.positionCS = TransformWorldToHClip(positionWS);
@@ -212,7 +174,14 @@ Varyings VertexShaderWork(Attributes input)
     output.positionCS = positionCS;
 #endif
     //--------------------------------------------------------------------------------------    
+    // shadow work
+    half3 viewDirWS = GetWorldSpaceNormalizeViewDir(vertexInput.positionWS);
 
+    real sign = input.tangentOS.w * GetOddNegativeScale();
+    half4 tangentWS = half4(vertexNormalInput.tangentWS.xyz, sign);
+
+    half3 viewDirTS = GetViewDirectionTangentSpace(tangentWS, output.normalWS, viewDirWS);
+    output.viewDirTS = viewDirTS;
     return output;
 }
 
@@ -221,14 +190,14 @@ Varyings VertexShaderWork(Attributes input)
 ///////////////////////////////////////////////////////////////////////////////////////
 half4 GetFinalBaseColor(Varyings input)
 {
-    return tex2D(_BaseMap, input.uv) * _BaseColor;
+    return tex2D(_BaseMapSampler, input.uv) * _BaseColor;
 }
 half3 GetFinalEmissionColor(Varyings input)
 {
     half3 result = 0;
     if(_UseEmission)
     {
-        result = tex2D(_EmissionMap, input.uv).rgb * _EmissionMapChannelMask * _EmissionColor.rgb;
+        result = tex2D(_EmissionMapSampler, input.uv).rgb * _EmissionMapChannelMask * _EmissionColor.rgb;
     }
 
     return result;
@@ -238,7 +207,7 @@ half GetFinalOcculsion(Varyings input)
     half result = 1;
     if(_UseOcclusion)
     {
-        half4 texValue = tex2D(_OcclusionMap, input.uv);
+        half4 texValue = tex2D(_OcclusionMapSampler, input.uv);
         half occlusionValue = dot(texValue, _OcclusionMapChannelMask);
         occlusionValue = lerp(1, occlusionValue, _OcclusionStrength);
         occlusionValue = invLerpClamp(_OcclusionRemapStart, _OcclusionRemapEnd, occlusionValue);
@@ -277,7 +246,7 @@ ToonLightingData InitializeLightingData(Varyings input)
     lightingData.positionWS = input.positionWSAndFogFactor.xyz;
     lightingData.viewDirectionWS = SafeNormalize(GetCameraPositionWS() - lightingData.positionWS);  
     lightingData.normalWS = normalize(input.normalWS); //interpolated normal is NOT unit vector, we need to normalize it
-
+    lightingData.shadowCoord = TransformWorldToShadowCoord(input.positionWS);
     return lightingData;
 }
 
@@ -288,10 +257,9 @@ ToonLightingData InitializeLightingData(Varyings input)
 // all lighting equation written inside this .hlsl,
 // just by editing this .hlsl can control most of the visual result.
 #include "SimpleURPToonLitOutlineExample_LightingEquation.hlsl"
-
 // this function contains no lighting logic, it just pass lighting results data around
 // the job done in this function is "do shadow mapping depth test positionWS offset"
-half3 ShadeAllLights(ToonSurfaceData surfaceData, ToonLightingData lightingData)
+half3 ShadeAllLights(ToonSurfaceData surfaceData, ToonLightingData lightingData, float2 uv)
 {
     // Indirect lighting
     half3 indirectResult = ShadeGI(surfaceData, lightingData);
@@ -316,8 +284,21 @@ half3 ShadeAllLights(ToonSurfaceData surfaceData, ToonLightingData lightingData)
     // It is shaded outside the light loop and it has a specific set of variables and shading path
     // so we can be as fast as possible in the case when there's only a single directional light
     // You can pass optionally a shadowCoord. If so, shadowAttenuation will be computed.
-    Light mainLight = GetMainLight();
+    InputData inputData = (InputData)0;
+    inputData.positionWS = lightingData.positionWS;
+    inputData.normalWS = lightingData.normalWS;
+    inputData.viewDirectionWS = lightingData.viewDirectionWS;
+    inputData.shadowCoord = lightingData.shadowCoord;
 
+    SurfaceData realSurfaceData =  (SurfaceData)0;
+    InitializeStandardLitSurfaceData(uv, realSurfaceData);
+
+    half4 shadowMask = CalculateShadowMask(inputData);
+    AmbientOcclusionFactor aoFactor = CreateAmbientOcclusionFactor(inputData, realSurfaceData);
+    Light mainLight = GetMainLight(inputData, shadowMask, aoFactor);
+    //Light mainLight = GetMainLight();
+
+    
     float3 shadowTestPosWS = lightingData.positionWS + mainLight.direction * (_ReceiveShadowMappingPosOffset + _IsFace);
 #ifdef _MAIN_LIGHT_SHADOWS
     // compute the shadow coords in the fragment shader now due to this change
@@ -391,12 +372,18 @@ half4 ShadeFinalColor(Varyings input) : SV_TARGET
     ToonLightingData lightingData = InitializeLightingData(input);
  
     // apply all lighting calculation
-    half3 color = ShadeAllLights(surfaceData, lightingData);
+    half3 color = ShadeAllLights(surfaceData, lightingData, input.uv);
 
 #ifdef ToonShaderIsOutline
     color = ConvertSurfaceColorToOutlineColor(color);
 #endif
 
+    // shadow
+#if defined(_PARALLAXMAP)
+    half3 viewDirTS = input.viewDirTS;
+    ApplyPerPixelDisplacement(viewDirTS, input.uv);
+#endif
+    
     color = ApplyFog(color, input);
 
     return half4(color, surfaceData.alpha);
@@ -409,3 +396,5 @@ void BaseColorAlphaClipTest(Varyings input)
 {
     DoClipTestToTargetAlphaValue(GetFinalBaseColor(input).a);
 }
+
+

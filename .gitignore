@@ -70,3 +70,11 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+Assets/Plugins/DynamicBone/Scripts/DynamicBonePlaneCollider.cs.meta
+Assets/Plugins/DynamicBone/Scripts/DynamicBonePlaneCollider.cs
+Assets/Plugins/DynamicBone/Scripts/DynamicBoneColliderBase.cs.meta
+Assets/Plugins/DynamicBone/Scripts/DynamicBoneColliderBase.cs
+Assets/Plugins/DynamicBone/Scripts/DynamicBoneCollider.cs.meta
+Assets/Plugins/DynamicBone/Scripts/DynamicBoneCollider.cs
+Assets/Plugins/DynamicBone/Scripts.meta
+Assets/Plugins/DynamicBone.meta
