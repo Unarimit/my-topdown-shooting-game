@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity.Burst.Intrinsics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.Windows;
@@ -39,6 +40,8 @@ namespace Assets.Scripts.ComputerControllers
         private int _animIDWSpeed;
         private int _animIDSlide;
         private CharacterController _controller;
+        [HideInInspector]
+        public GameInformationManager _gameInformationManager;
 
         private bool Moving = false;
 
@@ -62,6 +65,10 @@ namespace Assets.Scripts.ComputerControllers
             _animator.SetFloat(_animIDMotionSpeed, 1);
         }
 
+        public virtual void Start()
+        {
+            _gameInformationManager = GameInformationManager.Instance;
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -109,6 +116,7 @@ namespace Assets.Scripts.ComputerControllers
             transform.LookAt(location);
         }
 
+        System.Random random = new System.Random();
         /// <summary>
         /// if not aim, return false
         /// </summary>
@@ -116,6 +124,7 @@ namespace Assets.Scripts.ComputerControllers
         /// <returns></returns>
         public bool Shoot(MyGun gun, Vector3 location)
         {
+            float diff_factor = 0.03f;
             if (!_animator.GetBool(_animIDAim)) return false;
 
             var b = Instantiate(Bullet, Enviorment);
@@ -131,7 +140,11 @@ namespace Assets.Scripts.ComputerControllers
             {
                 GunFire.SetActive(true);
                 _animator.SetBool(_animIDShoot, true);
-                StartCoroutine(gun.DelayForce(b, (location - BulletStartTrans.position).normalized));
+                var push = (location - BulletStartTrans.position).normalized;
+                push.x += ((float)random.NextDouble() - 0.5f) * diff_factor;
+                push.z += ((float)random.NextDouble() - 0.5f) * diff_factor;
+
+                StartCoroutine(gun.DelayForce(b, push));
             }
 
             return true;
