@@ -48,7 +48,7 @@ namespace Assets.Scripts.ComputerControllers
             {
                 if (msg.Found) {
                     Aim(msg.FoundPos);
-                    Shoot(gun, msg.FoundPos + new Vector3(0,0.5f,0));
+                    Shoot(gun, new Vector3(msg.FoundPos.x, 0.8f ,msg.FoundPos.z));
                 }
                 else
                 {

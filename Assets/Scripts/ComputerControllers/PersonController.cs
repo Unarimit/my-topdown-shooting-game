@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.BulletLogic;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,9 +40,14 @@ namespace Assets.Scripts.ComputerControllers
         private int _animIDASpeed;
         private int _animIDWSpeed;
         private int _animIDSlide;
-        private CharacterController _controller;
+
         [HideInInspector]
         public GameInformationManager _gameInformationManager;
+        private CharacterController _controller;
+        private DestructiblePersonController _destructiblePersonController;
+
+
+
 
         private bool Moving = false;
 
@@ -49,6 +55,8 @@ namespace Assets.Scripts.ComputerControllers
         {
             bool temp = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
+            _destructiblePersonController = GetComponent<DestructiblePersonController>();
+            _destructiblePersonController.HittedEvent += DestructiblePersonController_HittedEvent;
             if (!temp) Debug.LogError(transform.ToString() + " have no animator");
 
             _animIDSpeed = Animator.StringToHash("Speed");
@@ -63,6 +71,11 @@ namespace Assets.Scripts.ComputerControllers
             _animIDSlide = Animator.StringToHash("Slide");
             _animator.SetBool(_animIDGrounded, true);
             _animator.SetFloat(_animIDMotionSpeed, 1);
+        }
+
+        private void DestructiblePersonController_HittedEvent(object sender, Vector3 hitSourcePos)
+        {
+            transform.LookAt(hitSourcePos);
         }
 
         public virtual void Start()

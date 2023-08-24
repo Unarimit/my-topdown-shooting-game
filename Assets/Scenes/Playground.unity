@@ -438,6 +438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5816dd68381e1884489ef7d572581427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HP: 100
 --- !u!64 &91688552
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1316,33 +1317,6 @@ TrailRenderer:
     widthCurve:
       serializedVersion: 2
       m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 3.1052153
-        outSlope: 3.1052153
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.75773644
-      - serializedVersion: 3
-        time: 0.043689556
-        value: 0.094776094
-        inSlope: 0.48443702
-        outSlope: 0.48443702
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 1
-        outWeight: 1
-      - serializedVersion: 3
-        time: 0.1139742
-        value: 0.1067314
-        inSlope: 0.05846082
-        outSlope: 0.05846082
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 1
       - serializedVersion: 3
         time: 0.18085182
         value: 0.038907662
@@ -7168,12 +7142,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0271df749728104eac22c3d897fd8ce, type: 3}
+--- !u!1 &764729758 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3619889203333071663, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+    type: 3}
+  m_PrefabInstance: {fileID: 1717684388}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &764729759 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4140987984046512533, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
     type: 3}
   m_PrefabInstance: {fileID: 1717684388}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &764729764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 764729758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ea33d0505846ab4cb6716c4c18e6046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 10
 --- !u!1 &822559119 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8888591208006723894, guid: be486496db7a23348869305c1df76879,
@@ -7575,7 +7568,7 @@ GameObject:
   - component: {fileID: 1111747931}
   - component: {fileID: 1111747932}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Bullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7691,6 +7684,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ParticalSystem: {fileID: 611682085}
+  InitiatePos: {x: 0, y: 0, z: 0}
 --- !u!1 &1123009473
 GameObject:
   m_ObjectHideFlags: 0
@@ -9454,12 +9448,31 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &1512251072 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3619889203333071663, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+    type: 3}
+  m_PrefabInstance: {fileID: 6746478}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1512251073 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4140987984046512533, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
     type: 3}
   m_PrefabInstance: {fileID: 6746478}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1512251078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512251072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ea33d0505846ab4cb6716c4c18e6046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 10
 --- !u!1 &1530408556
 GameObject:
   m_ObjectHideFlags: 0
@@ -9754,6 +9767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5816dd68381e1884489ef7d572581427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HP: 10
 --- !u!64 &1611809111
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -10522,12 +10536,31 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1835982936}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1890954940 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3619889203333071663, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+    type: 3}
+  m_PrefabInstance: {fileID: 1245816960}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1890954941 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4140987984046512533, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
     type: 3}
   m_PrefabInstance: {fileID: 1245816960}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1890954946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890954940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ea33d0505846ab4cb6716c4c18e6046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 10
 --- !u!1 &1952425731
 GameObject:
   m_ObjectHideFlags: 0
@@ -11164,6 +11197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5816dd68381e1884489ef7d572581427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HP: 100
 --- !u!64 &2043517588
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -11935,6 +11969,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &919132147751680334 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3619889203333071663, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+    type: 3}
+  m_PrefabInstance: {fileID: 4538792644063656545}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &919132149293394433
 GameObject:
   m_ObjectHideFlags: 0
@@ -14803,6 +14843,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &5866666020095981969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132147751680334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ea33d0505846ab4cb6716c4c18e6046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 10
 --- !u!95 &5866666021771520705
 Animator:
   serializedVersion: 4

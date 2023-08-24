@@ -12,7 +12,8 @@ namespace Assets.Scripts
     {
         public GameObject ParticalSystem;
 
-        private Vector3 InitiatePos;
+        [HideInInspector]
+        public Vector3 InitiatePos;
         private void Awake()
         {
             InitiatePos = transform.position;

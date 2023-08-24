@@ -9,7 +9,7 @@ namespace Assets.Scripts
 {
     public class DestructibleObjectController : MonoBehaviour
     {
-        private int HP = 10;
+        public int HP = 10;
         private void OnCollisionEnter(Collision collision)
         {
             if(collision.transform.tag == "Bullet")
