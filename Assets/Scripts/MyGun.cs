@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    internal class MyGun
+    public class MyGun
     {
         public string Name { get; set; } = "AK47";
 

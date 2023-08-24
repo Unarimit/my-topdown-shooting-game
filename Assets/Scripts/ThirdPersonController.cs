@@ -22,11 +22,10 @@ namespace StarterAssets
         public GameObject Bullet;
         [Tooltip("GunFire GameObject")]
         public GameObject GunFire;
-
         [Tooltip("Bullet start trans")]
         public Transform BulletStartTrans;
-
         public Transform Enviorment;
+
 
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
@@ -424,7 +423,7 @@ namespace StarterAssets
                     Debug.Log("can not hit ground " + hits.Length);
                 }
 
-                
+                // 开始射击
                 _animator.SetBool(_animIDShoot, _input.shoot);
                 GunFire.SetActive(_input.shoot);
                 if (_input.shoot)
