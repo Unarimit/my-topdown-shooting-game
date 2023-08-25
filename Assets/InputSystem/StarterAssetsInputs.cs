@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using Assets.Scripts.ComputerControllers;
 using System;
 using UnityEngine;
@@ -68,6 +69,11 @@ namespace StarterAssets
 		{
 			GameInformationManager.Instance.ChangeTeammateStatu();
         }
+
+		public void OnChangeView(InputValue value)
+		{
+			ViewChangeManager.Instance.ChangeVew();
+		}
 
 #endif
 

@@ -40,6 +40,7 @@ namespace Assets.Scripts.ComputerControllers
         private int _animIDASpeed;
         private int _animIDWSpeed;
         private int _animIDSlide;
+        private int _animIDDied;
 
         [HideInInspector]
         public GameInformationManager _gameInformationManager;
@@ -55,6 +56,7 @@ namespace Assets.Scripts.ComputerControllers
             _controller = GetComponent<CharacterController>();
             _destructiblePersonController = GetComponent<DestructiblePersonController>();
             _destructiblePersonController.HittedEvent += HittedEvent;
+            _destructiblePersonController.HP0Event += HP0Event;
             if (!temp) Debug.LogError(transform.ToString() + " have no animator");
 
             _animIDSpeed = Animator.StringToHash("Speed");
@@ -67,6 +69,7 @@ namespace Assets.Scripts.ComputerControllers
             _animIDASpeed = Animator.StringToHash("ASpeed");
             _animIDWSpeed = Animator.StringToHash("WSpeed");
             _animIDSlide = Animator.StringToHash("Slide");
+            _animIDDied = Animator.StringToHash("Died");
             _animator.SetBool(_animIDGrounded, true);
             _animator.SetFloat(_animIDMotionSpeed, 1);
         }
@@ -75,7 +78,18 @@ namespace Assets.Scripts.ComputerControllers
         {
             transform.LookAt(new Vector3(hitSourcePos.x, 0, hitSourcePos.z));
         }
-
+        private void HP0Event(object sender)
+        {
+            _animator.SetBool(_animIDJump, false);
+            _animator.SetBool(_animIDAim, false);
+            _animator.SetBool(_animIDShoot, false);
+            _animator.SetBool(_animIDSlide, false);
+            _animator.SetBool(_animIDDied, true);
+            _gameInformationManager.EnemyTeamTrans.Remove(transform);
+            GetComponent<CapsuleCollider>().enabled = false;
+            _controller.enabled = false;
+            this.enabled = false;
+        }
         protected virtual void Start()
         {
             _gameInformationManager = GameInformationManager.Instance;
@@ -156,6 +170,7 @@ namespace Assets.Scripts.ComputerControllers
         }
         public void StopAimming()
         {
+            GunFire.SetActive(false);
             _animator.SetBool(_animIDAim, false);
         }
 

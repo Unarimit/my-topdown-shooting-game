@@ -106,7 +106,7 @@ namespace Assets.Scripts.ComputerControllers
         {
             Vector3 moveVec = new Vector3(UnityEngine.Random.Range(-1, 1), 0, UnityEngine.Random.Range(-1, 1));
             moveVec = moveVec.normalized* MoveRadius;
-            MoveOnce(_instantiatePosition + moveVec, 2.0f);
+            MoveOnce(new Vector3(_instantiatePosition.x, transform.position.y, _instantiatePosition.z) + moveVec, 2.0f);
         }
         
 
