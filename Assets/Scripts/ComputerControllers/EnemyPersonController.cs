@@ -40,7 +40,7 @@ namespace Assets.Scripts.ComputerControllers
 
         private void OnEngage(Transform trans, Vector3 poi)
         {
-            if (trans == transform) return;
+            if (trans != null && trans == transform) return;
             TransferState(new FoundMsg { Found = true, FoundPos = poi, FromSelf = false });
         }
 
