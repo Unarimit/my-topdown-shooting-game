@@ -1,7 +1,9 @@
+using Assets.Scripts.ComputerControllers;
 using System;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
+
 #endif
 
 namespace StarterAssets
@@ -61,6 +63,10 @@ namespace StarterAssets
         public void OnSlide(InputValue value)
         {
 			slide = value.isPressed;
+        }
+        public void OnChangeTeammateStatu(InputValue value)
+		{
+			GameInformationManager.Instance.ChangeTeammateStatu();
         }
 
 #endif

@@ -11,7 +11,7 @@ namespace Assets.Scripts.ComputerControllers
     
     public class EnemyPersonController : PersonController
     {
-        enum Statu
+        enum State
         {
             Idle,
             IdleMoving,
@@ -19,72 +19,96 @@ namespace Assets.Scripts.ComputerControllers
             AlertMoving,
             Shooting
         }
-        private Statu _statu;
-        private MyGun gun = new MyGun() { MuzzleVelocity = 1200, RateOfFile = 100 };
-        public override void Start()
+        private State _state;
+        private Vector3 _instantiatePosition;
+        private MyGun _gun = new MyGun() { MuzzleVelocity = 1200, RateOfFile = 100 };
+        protected override void Start()
         {
             //MoveOnce(new Vector3(0, transform.position.y, 0), 3);
             //Aim(new Vector3(0, 0, 0));
             base.Start();
-            _statu = Statu.Idle;
+            _state = State.Idle;
+            _gameInformationManager.OnEnemyEngageEvent += OnEngage;
+            _instantiatePosition = transform.position;
         }
 
         private void Update()
         {
-            var msg = TryFind();
-            if (_statu == Statu.Idle)
+            var msg = TryFindCounters(_gameInformationManager.PlayerTeamTrans);
+            TransferState(msg);
+        }
+
+        private void OnEngage(Transform trans, Vector3 poi)
+        {
+            if (trans == transform) return;
+            TransferState(new FoundMsg { Found = true, FoundPos = poi, FromSelf = false });
+        }
+
+        float _idleDelta = 0;
+        private void TransferState(FoundMsg msg)
+        {
+            if (_state == State.Idle)
             {
-                if(msg.Found) _statu = Statu.Alert;
+                if (msg.Found)
+                {
+                    _state = State.Alert;
+                    _gameInformationManager.EnemyFindCounter(transform, msg.FoundPos);
+                }
+                else
+                {
+                    _idleDelta += Time.deltaTime;
+                    if(_idleDelta > 1)
+                    {
+                        RandomMove();
+                        _idleDelta = 0;
+                        _state = State.IdleMoving;
+                    }
+                }
             }
-            else if(_statu == Statu.Alert)
+            else if(_state == State.IdleMoving)
+            {
+                if (msg.Found)
+                {
+                    StopMoving();
+                    _state = State.Alert;
+                    _gameInformationManager.EnemyFindCounter(transform, msg.FoundPos);
+                }
+                else if (!Moving)
+                {
+                    _state = State.Idle;
+                }
+            } 
+            else if (_state == State.Alert)
             {
                 if (msg.Found)
                 {
                     Aim(msg.FoundPos);
-                    _statu = Statu.Shooting;
-                } 
+                    _state = State.Shooting;
+                }
             }
-            else if (_statu == Statu.Shooting)
+            else if (_state == State.Shooting)
             {
-                if (msg.Found) {
+                if (!msg.FromSelf) return;
+                if (msg.Found)
+                {
                     Aim(msg.FoundPos);
-                    Shoot(gun, new Vector3(msg.FoundPos.x, 0.8f ,msg.FoundPos.z));
+                    Shoot(_gun, new Vector3(msg.FoundPos.x, 0.8f, msg.FoundPos.z));
                 }
                 else
                 {
-                    _statu = Statu.Alert;
+                    _state = State.Alert;
                 }
             }
         }
 
-        struct FoundMsg
+        private float MoveRadius = 2.0f;
+        private void RandomMove()
         {
-            public bool Found;
-            public Vector3 FoundPos;
+            Vector3 moveVec = new Vector3(UnityEngine.Random.Range(-1, 1), 0, UnityEngine.Random.Range(-1, 1));
+            moveVec = moveVec.normalized* MoveRadius;
+            MoveOnce(_instantiatePosition + moveVec, 2.0f);
         }
-        /// <summary>
-        /// 尝试发现敌人
-        /// </summary>
-        /// <returns></returns>
-        private FoundMsg TryFind()
-        {
-            var forward = transform.forward;
-            foreach(var x in _gameInformationManager.PlayerTeamTrans)
-            {
-                var vec = x.position - transform.position;
-                if(Vector3.Angle(forward, vec) < 30) // in my eyes
-                {
-                    // it is in my eyes
-                    Ray ray = new Ray(transform.position, x.position);
-                    var hits = Physics.RaycastAll(ray, vec.magnitude, LayerMask.GetMask(new string[] { "Obstacle" }));
-                    if(hits.Length == 0)
-                    {
-                        return new FoundMsg { Found = true,  FoundPos = x.position};
-                    }
-                }
-            }
-            return new FoundMsg { Found = false };
-        }
+        
 
     }
 }

@@ -47,16 +47,14 @@ namespace Assets.Scripts.ComputerControllers
         private DestructiblePersonController _destructiblePersonController;
 
 
-
-
-        private bool Moving = false;
+        protected bool Moving = false;
 
         private void Awake()
         {
             bool temp = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _destructiblePersonController = GetComponent<DestructiblePersonController>();
-            _destructiblePersonController.HittedEvent += DestructiblePersonController_HittedEvent;
+            _destructiblePersonController.HittedEvent += HittedEvent;
             if (!temp) Debug.LogError(transform.ToString() + " have no animator");
 
             _animIDSpeed = Animator.StringToHash("Speed");
@@ -73,49 +71,74 @@ namespace Assets.Scripts.ComputerControllers
             _animator.SetFloat(_animIDMotionSpeed, 1);
         }
 
-        private void DestructiblePersonController_HittedEvent(object sender, Vector3 hitSourcePos)
+        private void HittedEvent(object sender, Vector3 hitSourcePos)
         {
-            transform.LookAt(hitSourcePos);
+            transform.LookAt(new Vector3(hitSourcePos.x, 0, hitSourcePos.z));
         }
 
-        public virtual void Start()
+        protected virtual void Start()
         {
             _gameInformationManager = GameInformationManager.Instance;
         }
+
+        // ************************** move **************************
+
+        private Vector3 MovingLocation;
         /// <summary>
-        /// 
+        /// 一次性move到某个地方
         /// </summary>
         /// <param name="location"> shoud be (x, transform.y, z) </param>
         /// <param name="Speed"></param>
-        public void MoveOnce(Vector3 location, float Speed)
+        public void MoveOnce(Vector3 location, float MaxSpeed)
         {
             transform.LookAt(location);
+            MovingLocation = location;
             if (Moving)
             {
-                Debug.LogError(transform.ToString() + " is in Moving! can not trigger more Moving");
+                //Debug.LogError(transform.ToString() + " is in Moving! can not trigger more Moving");
             }
             else
             {
-                StartCoroutine(MoveOnceSub(location, Speed));
+                Moving = true;
+                StartCoroutine(MoveOnceSub(MaxSpeed));
             }
             
         }
-        IEnumerator MoveOnceSub(Vector3 location, float Speed)
+        protected void StopMoving()
         {
-            Moving = true;
-            _animator.SetFloat(_animIDSpeed, Speed);
-            while (transform.position != location)
+            Moving = false;
+        }
+        private float Accelaration = 4f;
+        private float Accelarator(float speed, float maxSpeed, float lastDistance)
+        {
+            var acc = Accelaration * Time.deltaTime;
+            if(acc * 30 > lastDistance) // 30帧减速
+            {
+                return Math.Max(speed - acc * 2, 0);
+            }
+            else
+            {
+                return Math.Min(maxSpeed, acc + speed);
+            }
+        }
+        IEnumerator MoveOnceSub(float MaxSpeed)
+        {
+            float Speed = 0;
+            while (transform.position != MovingLocation)
             {
                 if (!Moving) break;
-                var aim = location - transform.position;
+                var aim = MovingLocation - transform.position;
+                aim.y = 0;
                 var moveVec = aim.normalized * Time.deltaTime * Speed;
+
+                Speed = Accelarator(Speed, MaxSpeed, aim.magnitude);
+                _animator.SetFloat(_animIDSpeed, Speed);
+                var flag = _controller.Move(moveVec);
+                // 防止阻挡死循环
+                if (flag == CollisionFlags.CollidedSides || flag == CollisionFlags.Sides) Speed = 0;
+
                 // 防止运动超出界限
-                if(moveVec.magnitude >= aim.magnitude * Time.deltaTime * Speed)
-                {
-                    _controller.Move(aim * Time.deltaTime * Speed);
-                    break;
-                }
-                else _controller.Move(moveVec);
+                if (Speed == 0) break;
                 yield return null;
             }
             Moving = false;
@@ -123,10 +146,17 @@ namespace Assets.Scripts.ComputerControllers
             yield return null;
         }
 
+
+        // ************************** aim and shoot **************************
+
         public void Aim(Vector3 location)
         {
             _animator.SetBool(_animIDAim, true);
             transform.LookAt(location);
+        }
+        public void StopAimming()
+        {
+            _animator.SetBool(_animIDAim, false);
         }
 
         System.Random random = new System.Random();
@@ -163,6 +193,41 @@ namespace Assets.Scripts.ComputerControllers
             return true;
         }
 
+        // ************************** normal detect **************************
+
+        protected struct FoundMsg
+        {
+            public bool Found;
+            public bool FromSelf;
+            public Vector3 FoundPos;
+        }
+
+        private float FindDistance = 10f;
+        protected float FindAngle = 30f;
+        /// <summary>
+        /// 尝试发现敌人
+        /// </summary>
+        /// <returns></returns>
+        protected FoundMsg TryFindCounters(List<Transform> CounterGroup)
+        {
+            var forward = transform.forward;
+            foreach (var x in CounterGroup)
+            {
+                if (x == null) continue;
+                var vec = x.position - transform.position;
+                if (Vector3.Angle(forward, vec) < FindAngle && vec.magnitude < FindDistance) // in my eyes
+                {
+                    // it is in my eyes
+                    Ray ray = new Ray(transform.position, vec);
+                    var hits = Physics.RaycastAll(ray, vec.magnitude, LayerMask.GetMask(new string[] { "Obstacle" }));
+                    if (hits.Length == 0)
+                    {
+                        return new FoundMsg { Found = true, FoundPos = x.position, FromSelf = true };
+                    }
+                }
+            }
+            return new FoundMsg { Found = false };
+        }
 
         private void OnFootstep(AnimationEvent animationEvent)
         {
