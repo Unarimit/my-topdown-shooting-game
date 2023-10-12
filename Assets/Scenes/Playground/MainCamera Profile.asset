@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9096737061637583311
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3ac5ce384e33744e961ec64da0b9794, type: 3}
+  m_Name: EdgeDetectionOutlineEffect
+  m_EditorClassIdentifier: 
+  active: 1
+  intensity:
+    m_OverrideState: 1
+    m_Value: 1
+  thickness:
+    m_OverrideState: 1
+    m_Value: 0.83
+  angleThreshold:
+    m_OverrideState: 1
+    m_Value: 30
+  depthThreshold:
+    m_OverrideState: 1
+    m_Value: 0.001
+  color:
+    m_OverrideState: 1
+    m_Value: {r: 0, g: 0, b: 0, a: 1}
+  LowQuality:
+    m_OverrideState: 0
+    m_Value: 0
 --- !u!114 &-5771395145789734180
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -13,6 +44,9 @@ MonoBehaviour:
   m_Name: Bloom
   m_EditorClassIdentifier: 
   active: 1
+  skipIterations:
+    m_OverrideState: 0
+    m_Value: 1
   threshold:
     m_OverrideState: 1
     m_Value: 0.9
@@ -31,12 +65,16 @@ MonoBehaviour:
   highQualityFiltering:
     m_OverrideState: 0
     m_Value: 0
-  skipIterations:
+  downscale:
     m_OverrideState: 0
-    m_Value: 1
+    m_Value: 0
+  maxIterations:
+    m_OverrideState: 0
+    m_Value: 6
   dirtTexture:
     m_OverrideState: 0
     m_Value: {fileID: 0}
+    dimension: 1
   dirtIntensity:
     m_OverrideState: 0
     m_Value: 0
@@ -56,6 +94,30 @@ MonoBehaviour:
   mode:
     m_OverrideState: 1
     m_Value: 2
+  neutralHDRRangeReductionMode:
+    m_OverrideState: 0
+    m_Value: 2
+  acesPreset:
+    m_OverrideState: 0
+    m_Value: 3
+  hueShiftAmount:
+    m_OverrideState: 0
+    m_Value: 0
+  detectPaperWhite:
+    m_OverrideState: 0
+    m_Value: 0
+  paperWhite:
+    m_OverrideState: 0
+    m_Value: 300
+  detectBrightnessLimits:
+    m_OverrideState: 0
+    m_Value: 1
+  minNits:
+    m_OverrideState: 0
+    m_Value: 0.005
+  maxNits:
+    m_OverrideState: 0
+    m_Value: 1000
 --- !u!114 &-1832018677867875600
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -106,3 +168,24 @@ MonoBehaviour:
   - {fileID: -1832018677867875600}
   - {fileID: -5771395145789734180}
   - {fileID: -5197041572156718334}
+  - {fileID: 6041459640530369924}
+  - {fileID: -9096737061637583311}
+--- !u!114 &6041459640530369924
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 055b54de798a3b44ab4ee34c187bb261, type: 3}
+  m_Name: DepthOffsetVolume
+  m_EditorClassIdentifier: 
+  active: 1
+  isEnable:
+    m_OverrideState: 1
+    m_Value: 0
+  downSample:
+    m_OverrideState: 1
+    m_Value: 1
