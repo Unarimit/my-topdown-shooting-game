@@ -47,17 +47,11 @@ half3 ShadeSingleLight(ToonSurfaceData surfaceData, ToonLightingData lightingDat
     litOrShadowArea = _IsFace? lerp(0.5,1,litOrShadowArea) : litOrShadowArea;
 
     // light's shadow map
-    /*
-    litOrShadowArea *= lerp(1, light.shadowAttenuation, _ReceiveShadowMappingAmount);
+    litOrShadowArea *= lerp(1,light.shadowAttenuation,_ReceiveShadowMappingAmount);
 
     half3 litOrShadowColor = lerp(_ShadowMapColor,1, litOrShadowArea);
 
-    half3 lightAttenuationRGB = litOrShadowColor * distanceAttenuation;*/
-    half3 lightAttenuationRGB = _ShadowMapColor * light.shadowAttenuation;
-    // it's 2d shadow
-    if(light.shadowAttenuation > _ReceiveShadowMappingAmount){
-        lightAttenuationRGB = (1,1,1);
-    }
+    half3 lightAttenuationRGB = litOrShadowColor * distanceAttenuation;
 
     // saturate() light.color to prevent over bright
     // additional light reduce intensity since it is additive
