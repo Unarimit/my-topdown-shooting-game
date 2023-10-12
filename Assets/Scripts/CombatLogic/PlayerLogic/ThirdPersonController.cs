@@ -396,7 +396,7 @@ namespace StarterAssets
             }
         }
 
-        private MyGun MyGun = new MyGun();
+        private MyGun MyGun = new MyGun { IsPlayer = true };
         private float GunLine = 0.95f; // 枪线，应该在准星上
         private void AimAndShoot()
         {
