@@ -199,6 +199,16 @@ PrefabInstance:
       propertyPath: HP
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 7373533162894083295, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+        type: 3}
+      propertyPath: Bullet
+      value: 
+      objectReference: {fileID: 1111747926}
+    - target: {fileID: 7373533162894083295, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+        type: 3}
+      propertyPath: Enviorment
+      value: 
+      objectReference: {fileID: 1302241780}
     - target: {fileID: 8041056691795330030, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
         type: 3}
       propertyPath: Bullet
@@ -214,12 +224,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6be1dbd55f0ee544a8fe67954aa64b57, type: 3}
---- !u!1 &33061347 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6953864935998965343, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
-    type: 3}
-  m_PrefabInstance: {fileID: 619024028}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &40649928
 GameObject:
   m_ObjectHideFlags: 0
@@ -2114,10 +2118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Bullet: {fileID: 1111747926}
-  GunFire: {fileID: 1957919193}
-  BulletStartTrans: {fileID: 3919364656417965349}
-  Enviorment: {fileID: 917222825}
+  _gunController: {fileID: 5866666021771520707}
   MoveSpeed: 2
   SprintSpeed: 5.335
   RotationSmoothTime: 0.12
@@ -7508,6 +7509,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7373533162894083295, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+        type: 3}
+      propertyPath: Bullet
+      value: 
+      objectReference: {fileID: 1111747926}
+    - target: {fileID: 7373533162894083295, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+        type: 3}
+      propertyPath: Enviorment
+      value: 
+      objectReference: {fileID: 1302241780}
     - target: {fileID: 8041056691795330030, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
         type: 3}
       propertyPath: Bullet
@@ -7534,6 +7545,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 619024028}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &619024030 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7373533162894083295, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+    type: 3}
+  m_PrefabInstance: {fileID: 619024028}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810242873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf339f28af182d448435c94cee2113e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &633281433
 GameObject:
   m_ObjectHideFlags: 0
@@ -7951,10 +7974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dc8276fa2f0df14aaf1a0a3dbd4e0bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Bullet: {fileID: 1111747926}
-  GunFire: {fileID: 33061347}
-  BulletStartTrans: {fileID: 1319254266}
-  Enviorment: {fileID: 917222825}
+  _gunController: {fileID: 619024030}
   _gameInformationManager: {fileID: 0}
 --- !u!1 &822559119 stripped
 GameObject:
@@ -8667,6 +8687,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7373533162894083295, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+        type: 3}
+      propertyPath: Bullet
+      value: 
+      objectReference: {fileID: 1111747926}
+    - target: {fileID: 7373533162894083295, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+        type: 3}
+      propertyPath: Enviorment
+      value: 
+      objectReference: {fileID: 917222825}
     - target: {fileID: 8041056691795330030, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
         type: 3}
       propertyPath: Bullet
@@ -8693,6 +8723,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1072664839}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1072664841 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7373533162894083295, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+    type: 3}
+  m_PrefabInstance: {fileID: 1072664839}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 790209020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf339f28af182d448435c94cee2113e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1072664845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8705,10 +8747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dc8276fa2f0df14aaf1a0a3dbd4e0bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Bullet: {fileID: 1111747926}
-  GunFire: {fileID: 1654982835}
-  BulletStartTrans: {fileID: 1143045716}
-  Enviorment: {fileID: 917222825}
+  _gunController: {fileID: 1072664841}
   _gameInformationManager: {fileID: 0}
 --- !u!1 &1080600008
 GameObject:
@@ -9224,12 +9263,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1128684482}
   m_CullTransparentMesh: 1
---- !u!4 &1143045716 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 771458097290709377, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
-    type: 3}
-  m_PrefabInstance: {fileID: 1072664839}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1219103840
 GameObject:
   m_ObjectHideFlags: 0
@@ -9830,6 +9863,16 @@ PrefabInstance:
       propertyPath: HP
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 7373533162894083295, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+        type: 3}
+      propertyPath: Bullet
+      value: 
+      objectReference: {fileID: 1111747926}
+    - target: {fileID: 7373533162894083295, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+        type: 3}
+      propertyPath: Enviorment
+      value: 
+      objectReference: {fileID: 917222825}
     - target: {fileID: 8041056691795330030, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
         type: 3}
       propertyPath: Bullet
@@ -10389,12 +10432,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1309258186}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1319254266 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 771458097290709377, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
-    type: 3}
-  m_PrefabInstance: {fileID: 619024028}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1345802340 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100012, guid: c888f0c922d622147bbdbe2ca794142b,
@@ -10914,10 +10951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dc8276fa2f0df14aaf1a0a3dbd4e0bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Bullet: {fileID: 0}
-  GunFire: {fileID: 0}
-  BulletStartTrans: {fileID: 0}
-  Enviorment: {fileID: 917222825}
+  _gunController: {fileID: 0}
   _gameInformationManager: {fileID: 0}
 --- !u!143 &1445403254
 CharacterController:
@@ -11600,10 +11634,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dc8276fa2f0df14aaf1a0a3dbd4e0bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Bullet: {fileID: 0}
-  GunFire: {fileID: 0}
-  BulletStartTrans: {fileID: 0}
-  Enviorment: {fileID: 917222825}
+  _gunController: {fileID: 0}
   _gameInformationManager: {fileID: 0}
 --- !u!1 &1641698995
 GameObject:
@@ -11713,12 +11744,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1641698995}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1654982835 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6953864935998965343, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
-    type: 3}
-  m_PrefabInstance: {fileID: 1072664839}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1688692238
 GameObject:
   m_ObjectHideFlags: 0
@@ -12018,6 +12043,16 @@ PrefabInstance:
       propertyPath: HP
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 7373533162894083295, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+        type: 3}
+      propertyPath: Bullet
+      value: 
+      objectReference: {fileID: 1111747926}
+    - target: {fileID: 7373533162894083295, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+        type: 3}
+      propertyPath: Enviorment
+      value: 
+      objectReference: {fileID: 917222825}
     - target: {fileID: 8041056691795330030, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
         type: 3}
       propertyPath: Bullet
@@ -14441,6 +14476,7 @@ GameObject:
   - component: {fileID: 504725147}
   - component: {fileID: 504725149}
   - component: {fileID: 5866666021771520706}
+  - component: {fileID: 5866666021771520707}
   m_Layer: 8
   m_Name: Hoshino_Original
   m_TagString: Player
@@ -18902,6 +18938,16 @@ PrefabInstance:
       propertyPath: HP
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 7373533162894083295, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+        type: 3}
+      propertyPath: Bullet
+      value: 
+      objectReference: {fileID: 1111747926}
+    - target: {fileID: 7373533162894083295, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+        type: 3}
+      propertyPath: Enviorment
+      value: 
+      objectReference: {fileID: 917222825}
     - target: {fileID: 8041056691795330030, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
         type: 3}
       propertyPath: Bullet
@@ -20418,6 +20464,22 @@ CapsuleCollider:
   m_Height: 1.4
   m_Direction: 1
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &5866666021771520707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132149293394433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf339f28af182d448435c94cee2113e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Bullet: {fileID: 1111747926}
+  GunFire: {fileID: 1957919193}
+  BulletStartTrans: {fileID: 3919364656417965349}
+  Enviorment: {fileID: 917222825}
 --- !u!1 &5869883596405197170
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,15 +18,9 @@ namespace Assets.Scripts.ComputerControllers
     /// </summary>
     public class PersonController : MonoBehaviour
     {
-        [Header("Shot")]
-        [Tooltip("Bullet prefab")]
-        public GameObject Bullet;
-        [Tooltip("GunFire GameObject")]
-        public GameObject GunFire;
-        [Tooltip("Bullet start trans")]
-        public Transform BulletStartTrans;
-        public Transform Enviorment;
 
+
+        public GunController _gunController;
 
         private Animator _animator;
         // animation IDs
@@ -170,39 +164,26 @@ namespace Assets.Scripts.ComputerControllers
         }
         public void StopAimming()
         {
-            GunFire.SetActive(false);
             _animator.SetBool(_animIDAim, false);
         }
 
-        System.Random random = new System.Random();
         /// <summary>
         /// if not aim, return false
         /// </summary>
         /// <param name="location"></param>
         /// <returns></returns>
-        public bool Shoot(MyGun gun, Vector3 location)
+        public bool Shoot(Vector3 location)
         {
-            float diff_factor = 0.03f;
             if (!_animator.GetBool(_animIDAim)) return false;
 
-            var b = Instantiate(Bullet, Enviorment);
-            b.transform.position = BulletStartTrans.position;
-            var res = gun.ShootOrWait(b, transform.forward);
+            var res = _gunController.Shoot(location);
             if (!res)
             {
-                Destroy(b);
-                GunFire.SetActive(false);
                 _animator.SetBool(_animIDShoot, false);
             }
             else
             {
-                GunFire.SetActive(true);
                 _animator.SetBool(_animIDShoot, true);
-                var push = (location - BulletStartTrans.position).normalized;
-                push.x += ((float)random.NextDouble() - 0.5f) * diff_factor;
-                push.z += ((float)random.NextDouble() - 0.5f) * diff_factor;
-
-                StartCoroutine(gun.DelayForce(b, push));
             }
 
             return true;

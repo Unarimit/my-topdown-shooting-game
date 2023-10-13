@@ -17,14 +17,7 @@ namespace StarterAssets
 #endif
     public class ThirdPersonController : MonoBehaviour
     {
-        [Header("Shot")]
-        [Tooltip("Bullet prefab")]
-        public GameObject Bullet;
-        [Tooltip("GunFire GameObject")]
-        public GameObject GunFire;
-        [Tooltip("Bullet start trans")]
-        public Transform BulletStartTrans;
-        public Transform Enviorment;
+        public GunController _gunController;
 
 
         [Header("Player")]
@@ -396,7 +389,6 @@ namespace StarterAssets
             }
         }
 
-        private MyGun MyGun = new MyGun { IsPlayer = true };
         private float GunLine = 0.95f; // 枪线，应该在准星上
         private void AimAndShoot()
         {
@@ -424,20 +416,15 @@ namespace StarterAssets
                 }
 
                 // 开始射击
-                _animator.SetBool(_animIDShoot, _input.shoot);
-                GunFire.SetActive(_input.shoot);
                 if (_input.shoot)
                 {
-                    var b = Instantiate(Bullet, Enviorment);
-                    b.transform.position = BulletStartTrans.position;
-                    var res = MyGun.ShootOrWait(b, transform.forward);
-                    if (!res)
+                    if(_gunController.Shoot((aim - _gunController.BulletStartTrans.position).normalized))
                     {
-                        Destroy(b);
+                        _animator.SetBool(_animIDShoot, true);
                     }
                     else
                     {
-                        StartCoroutine(MyGun.DelayForce(b, (aim - BulletStartTrans.position).normalized));
+                        _animator.SetBool(_animIDShoot, false);
                     }
                 }
 

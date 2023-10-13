@@ -17,7 +17,6 @@ namespace Assets.Scripts.ComputerControllers
             Shooting
         }
         private Status _statu;
-        private MyGun _gun = new MyGun() { MuzzleVelocity = 1200, RateOfFile = 100 };
         protected override void Start()
         {
             base.Start();
@@ -60,7 +59,7 @@ namespace Assets.Scripts.ComputerControllers
                 if (findMsg.Found)
                 {
                     base.Aim(findMsg.FoundPos);
-                    base.Shoot(_gun, findMsg.FoundPos);
+                    base.Shoot(findMsg.FoundPos);
                 }
                 else
                 {

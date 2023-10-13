@@ -21,7 +21,6 @@ namespace Assets.Scripts.ComputerControllers
         }
         private State _state;
         private Vector3 _instantiatePosition;
-        private MyGun _gun = new MyGun() { MuzzleVelocity = 1200, RateOfFile = 100 };
         protected override void Start()
         {
             //MoveOnce(new Vector3(0, transform.position.y, 0), 3);
@@ -30,6 +29,12 @@ namespace Assets.Scripts.ComputerControllers
             _state = State.Idle;
             _gameInformationManager.OnEnemyEngageEvent += OnEngage;
             _instantiatePosition = transform.position;
+
+            if(_gunController != null)
+            {
+                _gunController.gunProperty.MuzzleVelocity = 1200;
+                _gunController.gunProperty.RateOfFile = 100;
+            }
         }
 
         private void Update()
@@ -92,7 +97,7 @@ namespace Assets.Scripts.ComputerControllers
                 if (msg.Found)
                 {
                     Aim(msg.FoundPos);
-                    Shoot(_gun, new Vector3(msg.FoundPos.x, 0.8f, msg.FoundPos.z));
+                    Shoot(new Vector3(msg.FoundPos.x, 0.8f, msg.FoundPos.z));
                 }
                 else
                 {
