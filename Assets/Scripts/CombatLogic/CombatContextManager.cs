@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static Assets.Scripts.ComputerControllers.CombatContextManager;
 
 namespace Assets.Scripts.ComputerControllers
 {
@@ -58,5 +57,10 @@ namespace Assets.Scripts.ComputerControllers
         public delegate void OnTeammateEngageHandler(Transform sender, Vector3 poi);
         public event OnTeammateEngageHandler OnTeammateEngageEvent;
         */
+
+        public bool IsPlayer(Transform transform)
+        {
+            return transform == PlayerTeamTrans[0];
+        }
     }
 }

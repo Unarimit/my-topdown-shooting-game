@@ -22,6 +22,9 @@ namespace Assets.Scripts.CombatLogic.UILogic
             else Debug.LogWarning(transform.ToString() + " try to load another Manager");
         }
 
+        public readonly Color AmmoWarning = new Color(1, 0, 0);
+        public readonly Color AmmoNormal = new Color(1, 1, 1);
+
         /// <summary>
         /// 更新当前子弹数量，当数量小于最大子弹的1/5时，颜色变为红色
         /// </summary>
@@ -31,7 +34,11 @@ namespace Assets.Scripts.CombatLogic.UILogic
             CurrentAmmoText.text = k.ToString();
             if (maxAmmo != 0 && maxAmmo > k * 5)
             {
-                CurrentAmmoText.color = new Color(1, 0, 0);
+                CurrentAmmoText.color = AmmoWarning;
+            }
+            else
+            {
+                CurrentAmmoText.color = AmmoNormal;
             }
         }
         public void UpdateMaxAmmo(int k)

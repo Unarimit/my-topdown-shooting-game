@@ -19,8 +19,9 @@ namespace StarterAssets
 		public bool aim;
 		public bool shoot;
 		public bool slide;
+        public bool reloading;
 
-		[Header("Movement Settings")]
+        [Header("Movement Settings")]
 		public bool analogMovement;
 
 		[Header("Mouse Cursor Settings")]
@@ -64,6 +65,10 @@ namespace StarterAssets
         public void OnSlide(InputValue value)
         {
 			slide = value.isPressed;
+        }
+		public void OnReloading(InputValue value)
+        {
+            reloading = value.isPressed;
         }
         public void OnChangeTeammateStatu(InputValue value)
 		{

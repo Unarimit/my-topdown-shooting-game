@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.CombatLogic.UILogic;
+using Assets.Scripts.ComputerControllers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -67,7 +68,11 @@ namespace Assets.Scripts
 
             public DateTime lastShootTime = DateTime.Now;
         }
-        
+
+        private void Start()
+        {
+            if (CombatContextManager.Instance.IsPlayer(transform)) IsPlayer = true;
+        }
 
         public bool Shoot(Vector3 push)
         {
@@ -102,8 +107,6 @@ namespace Assets.Scripts
             {   
                 return false;
             }
-
-
             gunProperty.lastShootTime = DateTime.Now;
             return true;
         }
@@ -146,6 +149,12 @@ namespace Assets.Scripts
             }
             // 更新子弹
             gunProperty.CurrentAmmo = gunProperty.MaxAmmo;
+            gunProperty.LastReloading = gunProperty.ReloadTime;
+            if (IsPlayer) GunStatuUIManager.Instance.UpdateCurrentAmmo(gunProperty.CurrentAmmo);
+        }
+        public bool IsReloading()
+        {
+            return gunProperty.LastReloading != gunProperty.ReloadTime;
         }
     }
 }

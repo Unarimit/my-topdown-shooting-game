@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts;
+using System.Collections;
 using Unity.Burst.Intrinsics;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -108,6 +109,7 @@ namespace StarterAssets
         private int _animIDASpeed;
         private int _animIDWSpeed;
         private int _animIDSlide;
+        private int _animIDReloading;
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
         private PlayerInput _playerInput;
@@ -170,6 +172,7 @@ namespace StarterAssets
             GroundedCheck();
             Move();
             AimMove();
+            Reloading();
         }
 
         private void FixedUpdate()
@@ -194,6 +197,7 @@ namespace StarterAssets
             _animIDASpeed = Animator.StringToHash("ASpeed");
             _animIDWSpeed = Animator.StringToHash("WSpeed");
             _animIDSlide = Animator.StringToHash("Slide");
+            _animIDReloading = Animator.StringToHash("Reloading");
         }
 
         private void GroundedCheck()
@@ -211,26 +215,7 @@ namespace StarterAssets
             }
         }
 
-        private void CameraRotation()
-        {
-            // if there is an input and camera position is not fixed
-            if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
-            {
-                //Don't multiply mouse input by Time.deltaTime;
-                float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-                _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier;
-                _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier;
-            }
-
-            // clamp our rotations so our values are limited 360 degrees
-            _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
-            _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
-
-            // Cinemachine will follow this target
-            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
-                _cinemachineTargetYaw, 0.0f);
-        }
 
         private void Move()
         {
@@ -436,12 +421,22 @@ namespace StarterAssets
             }
         }
 
-        private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
+        private void Reloading()
         {
-            if (lfAngle < -360f) lfAngle += 360f;
-            if (lfAngle > 360f) lfAngle -= 360f;
-            return Mathf.Clamp(lfAngle, lfMin, lfMax);
+            if (!_input.reloading) return; // 检测按键
+            if (_gunController.IsReloading()) return; // 检测换弹中
+            
+            StartCoroutine(CoroReloading());
         }
+
+        private IEnumerator CoroReloading()
+        {
+            _animator.SetBool(_animIDReloading, true);
+            yield return _gunController.Reloading();
+            _animator.SetBool(_animIDReloading, false);
+            yield break;
+        }
+
 
         private void OnDrawGizmosSelected()
         {
