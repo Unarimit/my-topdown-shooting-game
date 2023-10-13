@@ -124,19 +124,19 @@ Material:
     - _AngleRingSoftness: 0
     - _AngleRingThreshold: 0
     - _AngleRingWidth: 0
-    - _AnisoShiftScale: 10
-    - _AnisoSpread1: 0
+    - _AnisoShiftScale: 19
+    - _AnisoSpread1: 0.57
     - _AnisoSpread2: 0
     - _AnsioSecondarySpeularExponent: 1
     - _AnsioSecondarySpeularShift: 1
     - _AnsioSecondarySpeularStrength: 1
-    - _AnsioSpeularExponent: 1
-    - _AnsioSpeularShift: 1
-    - _AnsioSpeularStrength: 1
+    - _AnsioSpeularExponent: 1024
+    - _AnsioSpeularShift: 2.72
+    - _AnsioSpeularStrength: 64
     - _Blend: 0
     - _BumpMapKeyword: 0
     - _BumpScale: 1
-    - _CELLSmoothing: 0.001
+    - _CELLSmoothing: 0.005
     - _CELLThreshold: 0.5
     - _CasterShadow: 1
     - _CelShadeMidPoint: 0.03
