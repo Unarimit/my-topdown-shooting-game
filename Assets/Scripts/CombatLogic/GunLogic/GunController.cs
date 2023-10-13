@@ -69,9 +69,17 @@ namespace Assets.Scripts
             public DateTime lastShootTime = DateTime.Now;
         }
 
+        private float LastFireTime = -1; // 最后一次开火时间
+
         private void Start()
         {
             if (CombatContextManager.Instance.IsPlayer(transform)) IsPlayer = true;
+        }
+
+        // 判断枪口火焰
+        private void Update()
+        {
+            GunFire.SetActive(Time.time - LastFireTime < 0.2);
         }
 
         public bool Shoot(Vector3 push)
@@ -119,13 +127,10 @@ namespace Assets.Scripts
         /// <returns></returns>
         public IEnumerator DelayForce(GameObject bullet, Vector3 push)
         {
-
-            GunFire.SetActive(true);
+            LastFireTime = Time.time;
+            
             yield return new WaitForSeconds(0.05f);
-
-
             bullet.GetComponent<Rigidbody>().AddForce(gunProperty.MuzzleVelocity * push / 10);
-            GunFire.SetActive(false);
             yield return null;
                 
         }

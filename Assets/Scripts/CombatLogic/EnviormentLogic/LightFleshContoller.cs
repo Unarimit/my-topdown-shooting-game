@@ -7,6 +7,9 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
+    /// <summary>
+    /// 控制车辆闪光灯
+    /// </summary>
     public class LightFleshContoller : MonoBehaviour
     {
         [Tooltip("ms")]
