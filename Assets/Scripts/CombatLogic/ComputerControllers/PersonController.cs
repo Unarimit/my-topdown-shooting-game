@@ -37,7 +37,7 @@ namespace Assets.Scripts.ComputerControllers
         private int _animIDDied;
 
         [HideInInspector]
-        public GameInformationManager _gameInformationManager;
+        public CombatContextManager _gameInformationManager;
         private CharacterController _controller;
         private DestructiblePersonController _destructiblePersonController;
 
@@ -86,7 +86,7 @@ namespace Assets.Scripts.ComputerControllers
         }
         protected virtual void Start()
         {
-            _gameInformationManager = GameInformationManager.Instance;
+            _gameInformationManager = CombatContextManager.Instance;
         }
 
         // ************************** move **************************

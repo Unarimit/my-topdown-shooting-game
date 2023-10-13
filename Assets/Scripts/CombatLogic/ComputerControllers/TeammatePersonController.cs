@@ -78,15 +78,15 @@ namespace Assets.Scripts.ComputerControllers
         {
             switch (_gameInformationManager.TeammateStatu)
             {
-                case GameInformationManager.TeammateStatus.Follow:
+                case CombatContextManager.TeammateStatus.Follow:
                     var vec = _gameInformationManager.PlayerTeamTrans[0].position - transform.position;
                     float moveD = vec.magnitude - KeepDistance;
                     if(moveD > 0) MoveOnce(transform.position + vec.normalized * moveD, FollowSpeed);
                     break;
-                case GameInformationManager.TeammateStatus.Forward:
+                case CombatContextManager.TeammateStatus.Forward:
                     MoveOnce(transform.position + transform.forward * MoveDistance, ForwardSpeed);
                     break;
-                case GameInformationManager.TeammateStatus.StandBy:
+                case CombatContextManager.TeammateStatus.StandBy:
                     base.StopMoving();
                     break;
                 default:

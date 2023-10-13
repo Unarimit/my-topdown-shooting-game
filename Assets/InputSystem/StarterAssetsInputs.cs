@@ -67,7 +67,7 @@ namespace StarterAssets
         }
         public void OnChangeTeammateStatu(InputValue value)
 		{
-			GameInformationManager.Instance.ChangeTeammateStatu();
+			CombatContextManager.Instance.ChangeTeammateStatu();
         }
 
 		public void OnChangeView(InputValue value)

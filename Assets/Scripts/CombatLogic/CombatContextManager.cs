@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static Assets.Scripts.ComputerControllers.GameInformationManager;
+using static Assets.Scripts.ComputerControllers.CombatContextManager;
 
 namespace Assets.Scripts.ComputerControllers
 {
 
-    public class GameInformationManager : MonoBehaviour
+    public class CombatContextManager : MonoBehaviour
     {
         public List<Transform> PlayerTeamTrans;
 
         public List<Transform> EnemyTeamTrans;
 
-        public static GameInformationManager Instance;
+        public static CombatContextManager Instance;
 
         private void Awake()
         {
