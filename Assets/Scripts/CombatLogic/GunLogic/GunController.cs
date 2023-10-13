@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.Mathematics;
 using UnityEngine;
+using static UnityEditor.FilePathAttribute;
 
 namespace Assets.Scripts
 {
@@ -84,6 +86,11 @@ namespace Assets.Scripts
 
         public bool Shoot(Vector3 push)
         {
+            if(push.magnitude > 100)
+            {
+                Debug.LogWarning("bullet push force is too big, " + push.ToString());
+                return false;
+            }
             if (!ShootOrWait()) return false;
             else
             {

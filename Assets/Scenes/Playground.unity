@@ -219,6 +219,11 @@ PrefabInstance:
       propertyPath: Enviorment
       value: 
       objectReference: {fileID: 917222825}
+    - target: {fileID: 8041056691795330030, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+        type: 3}
+      propertyPath: _gunController
+      value: 
+      objectReference: {fileID: 1512251074}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -623,6 +628,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CH9999
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 105355d488fe809428f3018fd4673cdc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2649812052233386294, guid: 105355d488fe809428f3018fd4673cdc,
         type: 3}
@@ -2218,6 +2228,7 @@ MonoBehaviour:
   aim: 0
   shoot: 0
   slide: 0
+  reloading: 0
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1
@@ -7950,6 +7961,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1717684388}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &764729760 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7373533162894083295, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+    type: 3}
+  m_PrefabInstance: {fileID: 1717684388}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf339f28af182d448435c94cee2113e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &790209020 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3619889203333071663, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
@@ -9883,6 +9906,11 @@ PrefabInstance:
       propertyPath: Enviorment
       value: 
       objectReference: {fileID: 917222825}
+    - target: {fileID: 8041056691795330030, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+        type: 3}
+      propertyPath: _gunController
+      value: 
+      objectReference: {fileID: 1890954942}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10896,7 +10924,7 @@ PrefabInstance:
     - target: {fileID: 2070925441746177913, guid: a1a802ecaf6775746bb2a929fb554ad8,
         type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 1.6575121
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2070925442191277752, guid: a1a802ecaf6775746bb2a929fb554ad8,
         type: 3}
@@ -11234,6 +11262,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6746478}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1512251074 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7373533162894083295, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+    type: 3}
+  m_PrefabInstance: {fileID: 6746478}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf339f28af182d448435c94cee2113e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1530408556
 GameObject:
   m_ObjectHideFlags: 0
@@ -12063,6 +12103,11 @@ PrefabInstance:
       propertyPath: Enviorment
       value: 
       objectReference: {fileID: 917222825}
+    - target: {fileID: 8041056691795330030, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+        type: 3}
+      propertyPath: _gunController
+      value: 
+      objectReference: {fileID: 764729760}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12452,6 +12497,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1245816960}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1890954942 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7373533162894083295, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+    type: 3}
+  m_PrefabInstance: {fileID: 1245816960}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf339f28af182d448435c94cee2113e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1952425731
 GameObject:
   m_ObjectHideFlags: 0
@@ -13920,6 +13977,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4538792644063656545}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &543450651755095029 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7373533162894083295, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+    type: 3}
+  m_PrefabInstance: {fileID: 4538792644063656545}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf339f28af182d448435c94cee2113e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &543450652109908065
 Transform:
   m_ObjectHideFlags: 0
@@ -14410,7 +14479,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!136 &919132147565425372
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -18958,6 +19027,11 @@ PrefabInstance:
       propertyPath: Enviorment
       value: 
       objectReference: {fileID: 917222825}
+    - target: {fileID: 8041056691795330030, guid: 6be1dbd55f0ee544a8fe67954aa64b57,
+        type: 3}
+      propertyPath: _gunController
+      value: 
+      objectReference: {fileID: 543450651755095029}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

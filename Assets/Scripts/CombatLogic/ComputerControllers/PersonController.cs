@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity.Burst.Intrinsics;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
@@ -167,6 +168,7 @@ namespace Assets.Scripts.ComputerControllers
             _animator.SetBool(_animIDAim, false);
         }
 
+        
         /// <summary>
         /// if not aim, return false
         /// </summary>
@@ -176,7 +178,14 @@ namespace Assets.Scripts.ComputerControllers
         {
             if (!_animator.GetBool(_animIDAim)) return false;
 
-            var res = _gunController.Shoot(location);
+            // 子弹偏移
+            System.Random random = new System.Random();
+            float diff_factor = 0.03f;
+
+            var push = (location - _gunController.BulletStartTrans.position).normalized;
+            push.x += ((float)random.NextDouble() - 0.5f) * diff_factor;
+            push.z += ((float)random.NextDouble() - 0.5f) * diff_factor;
+            var res = _gunController.Shoot(push);
             if (!res)
             {
                 _animator.SetBool(_animIDShoot, false);
