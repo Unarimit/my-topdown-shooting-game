@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.ComputerControllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,11 +10,9 @@ namespace Assets.Scripts.BulletLogic
 {
     public class DestructiblePersonController : MonoBehaviour
     {
-        public int HP = 10;
         public ParticleSystem Shield;
         public GameObject EorTMark;
 
-        private int _fullHp;
         /// <summary>
         /// 用于检测敌方来源
         /// </summary>
@@ -26,26 +25,33 @@ namespace Assets.Scripts.BulletLogic
         /// </summary>
         public delegate void HP0EventHandler(object sender);
         public event HP0EventHandler HP0Event;
+        private CombatContextManager _contxt;
         private void Start()
         {
             Shield.Stop();
-            _fullHp = HP;
+            _contxt = CombatContextManager.Instance;
         }
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.transform.tag == "Bullet")
             {
-                HP -= 1;
+                CombatContextManager.Instance.DellDamage(null, transform, 1);
                 HittedEvent.Invoke(transform, collision.transform.GetComponent<BulletController>().InitiatePos);
                 Shield.Simulate(1.0f);
                 Shield.Play();
-                Shield.startColor = new Color(1, 1, 1) * (float)HP / _fullHp;
+                Shield.startColor = new Color(1, 1, 1) * 
+                    (float)_contxt.GetOperatorCurrentHP(transform) / _contxt.GetOperatorMaxHP(transform);
             }
-            if (HP == 2) Shield.Stop();
-            if (HP <= 0) {
-                EorTMark.SetActive(false);
-                HP0Event.Invoke(transform);
-            }
+            
+        }
+        public void DoDied()
+        {
+            EorTMark.SetActive(false);
+            HP0Event.Invoke(transform);
+        }
+        public void GotDMG()
+        {
+            if (_contxt.GetOperatorCurrentHP(transform) == 2) Shield.Stop();
         }
 
     }
