@@ -8,12 +8,14 @@ using UnityEngine;
 
 namespace Assets.Scripts.CombatLogic.CombatEntities
 {
-    internal class CombatOperator : Operator
+    public class CombatOperator : Operator
     {
         public int CurrentHP { get; set; }
 
         public int Team { get; set; }
 
         public Transform Transform { get; set; }
+
+        public List<CombatCombatSkill> CombatSkillList { get; set; } = new List<CombatCombatSkill>();
     }
 }

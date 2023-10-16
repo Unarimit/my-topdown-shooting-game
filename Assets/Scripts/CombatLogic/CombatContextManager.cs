@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.BulletLogic;
+using Assets.Scripts.CombatLogic;
 using Assets.Scripts.CombatLogic.CombatEntities;
 using System;
 using System.Collections.Generic;
@@ -14,16 +15,25 @@ namespace Assets.Scripts.ComputerControllers
 
     public class CombatContextManager : MonoBehaviour
     {
+        /// <summary>
+        /// singleton
+        /// </summary>
+        public static CombatContextManager Instance;
+
+        /// <summary>
+        /// 己方干员列表，0号为玩家位
+        /// </summary>
         public List<Transform> PlayerTeamTrans;
 
         public List<Transform> EnemyTeamTrans;
 
-        public static CombatContextManager Instance;
 
         /// <summary>
         /// 所有干员列表，在start初始化
         /// </summary>
         private Dictionary<Transform, CombatOperator> Operators;
+
+        public Transform PlayerTrans => PlayerTeamTrans[0];
 
         private void Awake()
         {
@@ -40,16 +50,8 @@ namespace Assets.Scripts.ComputerControllers
             // 所有干员放入Operator列表
             // TODO: 暂时使用在sence中放置的初始化方式
             Operators = new Dictionary<Transform, CombatOperator>();
-            foreach(var x in PlayerTeamTrans)
-            {
-                Operators.Add(x, new CombatOperator { HP = 10, Team = 0 });
-                Operators[x].CurrentHP = Operators[x].HP;
-            }
-            foreach(var x in EnemyTeamTrans)
-            {
-                Operators.Add(x, new CombatOperator { HP = 5, Team = 1 });
-                Operators[x].CurrentHP = Operators[x].HP;
-            }
+            TestData.AddTestData(Operators, PlayerTeamTrans, EnemyTeamTrans);
+
         }
 
         // *********** NPC logic ************
@@ -112,6 +114,17 @@ namespace Assets.Scripts.ComputerControllers
         public int GetOperatorCurrentHP(Transform aim)
         {
             return Operators[aim].CurrentHP;
+        }
+        public float GetCoolDownRatio(int index, float time)
+        {
+            if (Operators[PlayerTrans].CombatSkillList[index].IsCoolDowning(time))
+            {
+                return (Operators[PlayerTrans].CombatSkillList[index].CoolDownEndTime - time) / Operators[PlayerTrans].CombatSkillList[index].CoolDown;
+            }
+            else
+            {
+                return 0f;
+            }
         }
     }
 }
