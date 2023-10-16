@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts;
+using Assets.Scripts.ComputerControllers;
 using System.Collections;
 using Unity.Burst.Intrinsics;
 using UnityEngine;
@@ -18,7 +19,7 @@ namespace StarterAssets
 #endif
     public class ThirdPersonController : MonoBehaviour
     {
-        public GunController _gunController;
+        public GunController GunController;
 
 
         [Header("Player")]
@@ -118,6 +119,7 @@ namespace StarterAssets
         private CharacterController _controller;
         private StarterAssetsInputs _input;
         private GameObject _mainCamera;
+        private CombatContextManager _context;
 
         private const float _threshold = 0.01f;
 
@@ -151,6 +153,7 @@ namespace StarterAssets
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
+            _context = CombatContextManager.Instance;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
             _playerInput = GetComponent<PlayerInput>();
 #else
@@ -173,6 +176,7 @@ namespace StarterAssets
             Move();
             AimMove();
             Reloading();
+            Skill();
         }
 
         private void FixedUpdate()
@@ -214,7 +218,6 @@ namespace StarterAssets
                 _animator.SetBool(_animIDGrounded, Grounded);
             }
         }
-
 
 
         private void Move()
@@ -377,33 +380,18 @@ namespace StarterAssets
         private float GunLine = 0.95f; // 枪线，应该在准星上
         private void AimAndShoot()
         {
-            _animator.SetBool(_animIDAim, _input.aim);
-            if (_input.aim)
+            // 瞄准和射击的动作控制
+            if (_input.aim && isActionCanWork(_animIDAim))
             {
-                // 枪口朝向前方
-                var mouse = Mouse.current.position.ReadValue();
-                var ray = Camera.main.ScreenPointToRay(mouse);
-                var hits = Physics.RaycastAll(ray, 100f, LayerMask.GetMask(new string[] { "Ground" }));
-                var aim = new Vector3(); // 射击目标
-                if(hits.Length == 1)
-                {
-                    var temp = hits[0].point;
-                    aim = new Vector3(
-                        temp.x + GunLine / ray.direction.y * ray.direction.x,
-                        GunLine,
-                        temp.z + GunLine / ray.direction.y * ray.direction.z
-                    );
-                    transform.LookAt(new Vector3(temp.x, transform.position.y, temp.z));
-                }
-                else
-                {
-                    Debug.Log("can not hit ground " + hits.Length);
-                }
+                _animator.SetBool(_animIDAim, true);
+                var aim = getMouseAiming();
+                // 枪口朝向鼠标方向
+                transform.LookAt(new Vector3(aim.x, transform.position.y, aim.z));
 
                 // 开始射击
                 if (_input.shoot)
                 {
-                    if(_gunController.Shoot((aim - _gunController.BulletStartTrans.position).normalized))
+                    if(GunController.Shoot((aim - GunController.BulletStartTrans.position).normalized))
                     {
                         _animator.SetBool(_animIDShoot, true);
                     }
@@ -417,6 +405,7 @@ namespace StarterAssets
             }
             else
             {
+                _animator.SetBool(_animIDAim, false);
                 _animator.SetBool(_animIDShoot, false);
             }
         }
@@ -424,19 +413,59 @@ namespace StarterAssets
         private void Reloading()
         {
             if (!_input.reloading) return; // 检测按键
-            if (_gunController.IsReloading()) return; // 检测换弹中
+            if (GunController.IsReloading()) return; // 检测换弹中
             
             StartCoroutine(CoroReloading());
+        }
+
+        private void Skill()
+        {
+            if((_input.skill1 || _input.skill2) && isActionCanWork(_animIDJump))
+            {
+                if (_input.skill1) Skillx(0);
+                if (_input.skill2) Skillx(1);
+            }
+        }
+        private void Skillx(int index)
+        {
+            _context.UseSkill(transform, index, Time.time);
+        }
+        private bool isActionCanWork(int actionId)
+        {
+            if (actionId == _animIDReloading) return true;
+            else if (_animator.GetBool(_animIDReloading)) return false;
+            else return true;
         }
 
         private IEnumerator CoroReloading()
         {
             _animator.SetBool(_animIDReloading, true);
-            yield return _gunController.Reloading();
+            yield return GunController.Reloading();
             _animator.SetBool(_animIDReloading, false);
             yield break;
         }
 
+        private Vector3 getMouseAiming()
+        {
+            var mouse = Mouse.current.position.ReadValue();
+            var ray = Camera.main.ScreenPointToRay(mouse);
+            var hits = Physics.RaycastAll(ray, 100f, LayerMask.GetMask(new string[] { "Ground" }));
+            var aim = new Vector3(); // 射击目标
+            if (hits.Length == 1)
+            {
+                var temp = hits[0].point;
+                aim = new Vector3(
+                    temp.x + GunLine / ray.direction.y * ray.direction.x,
+                    GunLine,
+                    temp.z + GunLine / ray.direction.y * ray.direction.z
+                );
+            }
+            else
+            {
+                Debug.Log("can not hit ground " + hits.Length);
+            }
+            return aim;
+        }
 
         private void OnDrawGizmosSelected()
         {

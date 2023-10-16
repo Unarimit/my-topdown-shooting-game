@@ -20,6 +20,8 @@ namespace StarterAssets
 		public bool shoot;
 		public bool slide;
         public bool reloading;
+		public bool skill1;
+		public bool skill2;
 
         [Header("Movement Settings")]
 		public bool analogMovement;
@@ -70,6 +72,15 @@ namespace StarterAssets
         {
             reloading = value.isPressed;
         }
+
+		public void OnSkill1(InputValue value)
+		{
+			skill1 = value.isPressed;
+		}
+        public void OnSkill2(InputValue value)
+        {
+            skill2 = value.isPressed;
+        }
         public void OnChangeTeammateStatu(InputValue value)
 		{
 			CombatContextManager.Instance.ChangeTeammateStatu();
@@ -79,6 +90,8 @@ namespace StarterAssets
 		{
 			ViewChangeManager.Instance.ChangeVew();
 		}
+
+
 
 #endif
 

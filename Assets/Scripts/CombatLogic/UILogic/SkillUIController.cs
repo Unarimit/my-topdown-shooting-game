@@ -24,8 +24,8 @@ namespace Assets.Scripts.CombatLogic.UILogic
 
         private void FixedUpdate()
         {
-            Skill1Mask.fillAmount = _context.GetCoolDownRatio(0, Time.fixedTime);
-            Skill2Mask.fillAmount = _context.GetCoolDownRatio(1, Time.fixedTime);
+            Skill1Mask.fillAmount = _context.GetCoolDownRatio(0, Time.time);
+            Skill2Mask.fillAmount = _context.GetCoolDownRatio(1, Time.time);
         }
     }
 }

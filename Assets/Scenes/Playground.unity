@@ -1763,7 +1763,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 1
-  m_FillAmount: 0.347
+  m_FillAmount: 0.353
   m_FillClockwise: 1
   m_FillOrigin: 1
   m_UseSpriteMesh: 0
@@ -2283,7 +2283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gunController: {fileID: 5866666021771520707}
+  GunController: {fileID: 5866666021771520707}
   MoveSpeed: 2
   SprintSpeed: 5.335
   RotationSmoothTime: 0.12
@@ -2384,6 +2384,8 @@ MonoBehaviour:
   shoot: 0
   slide: 0
   reloading: 0
+  skill1: 0
+  skill2: 0
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1

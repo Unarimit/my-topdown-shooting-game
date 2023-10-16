@@ -26,8 +26,7 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
         public bool IsCoolDowning(float time)
         {
             if (CoolDownEndTime == -1) return false;
-            if (CoolDownEndTime <= time) return true;
-            else return false;
+            return CoolDownEndTime >= time;
         }
     }
 }

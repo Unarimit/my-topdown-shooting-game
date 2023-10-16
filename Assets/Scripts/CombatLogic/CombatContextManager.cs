@@ -115,6 +115,25 @@ namespace Assets.Scripts.ComputerControllers
         {
             return Operators[aim].CurrentHP;
         }
+
+        /// <summary>
+        /// 如果技能正在冷却中返回false；否则进入cd，并返回true
+        /// </summary>
+        public bool UseSkill(Transform op ,int index, float time)
+        {
+            if (Operators[op].CombatSkillList[index].IsCoolDowning(time)) return false;
+            Operators[op].CombatSkillList[index].CoolDownEndTime = time + Operators[op].CombatSkillList[index].CoolDown;
+            return true;
+        }
+
+
+
+
+        // ********************* UI logic *********************
+
+        /// <summary>
+        /// 获得UI显示用的冷却比值
+        /// </summary>
         public float GetCoolDownRatio(int index, float time)
         {
             if (Operators[PlayerTrans].CombatSkillList[index].IsCoolDowning(time))
@@ -126,5 +145,6 @@ namespace Assets.Scripts.ComputerControllers
                 return 0f;
             }
         }
+        
     }
 }
