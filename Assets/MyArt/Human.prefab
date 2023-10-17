@@ -1076,7 +1076,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b1ebe78ca7f5d34891de94078734aae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gunController: {fileID: 0}
+  _gunController: {fileID: 7373533162894083295}
   _gameInformationManager: {fileID: 0}
 --- !u!114 &5169650415140603996
 MonoBehaviour:
@@ -1090,7 +1090,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ea33d0505846ab4cb6716c4c18e6046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 10
   Shield: {fileID: 4930317394019181824}
   EorTMark: {fileID: 8199621841046755800}
 --- !u!114 &7373533162894083295
@@ -1102,7 +1101,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3619889203333071663}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cf339f28af182d448435c94cee2113e, type: 3}
+  m_Script: {fileID: 11500000, guid: 95f318689b507f64f97b795fe1f3db36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Bullet: {fileID: 0}
