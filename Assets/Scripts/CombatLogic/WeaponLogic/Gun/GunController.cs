@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Unity.Mathematics;
 using UnityEngine;
-using static UnityEditor.FilePathAttribute;
 
 namespace Assets.Scripts
 {

@@ -1,10 +1,12 @@
 ﻿using Assets.Scripts;
+using Assets.Scripts.CombatLogic;
 using Assets.Scripts.ComputerControllers;
 using System.Collections;
 using Unity.Burst.Intrinsics;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
+using static Assets.Scripts.GunController;
 using static UnityEditor.Progress;
 #endif
 
@@ -21,6 +23,9 @@ namespace StarterAssets
     {
         public GunController GunController;
 
+        public GameObject Grenade;
+
+        public GameObject Enviorment;
 
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
@@ -418,6 +423,7 @@ namespace StarterAssets
             StartCoroutine(CoroReloading());
         }
 
+        //TODO：分离技能逻辑
         private void Skill()
         {
             if((_input.skill1 || _input.skill2) && isActionCanWork(_animIDJump))
@@ -428,8 +434,18 @@ namespace StarterAssets
         }
         private void Skillx(int index)
         {
-            _context.UseSkill(transform, index, Time.time);
+            if(_context.UseSkill(transform, index, Time.time))
+            {
+                if(index == 1)
+                {
+                    var g = Instantiate(Grenade, Enviorment.transform);
+                    g.transform.position = new Vector3(transform.position.x, 0.1f, transform.position.z);
+                    g.GetComponent<Rigidbody>().AddForce((getMouseAiming() - transform.position)  * 3);
+                    _context.AddDelayWeapon(g.GetComponent<GrenadeController>(), new Assets.Scripts.CombatLogic.CombatEntities.DelayWeapon { DelayEndTime = Time.time + 3 });
+                }
+            }
         }
+
         private bool isActionCanWork(int actionId)
         {
             if (actionId == _animIDReloading) return true;

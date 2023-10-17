@@ -35,6 +35,9 @@ namespace Assets.Scripts.ComputerControllers
 
         public Transform PlayerTrans => PlayerTeamTrans[0];
 
+
+        private Dictionary<IDelayWeaponController, DelayWeapon> CombatDelayWeapons;
+
         private void Awake()
         {
             if (Instance == null) Instance = this;
@@ -50,8 +53,13 @@ namespace Assets.Scripts.ComputerControllers
             // 所有干员放入Operator列表
             // TODO: 暂时使用在sence中放置的初始化方式
             Operators = new Dictionary<Transform, CombatOperator>();
+            CombatDelayWeapons = new Dictionary<IDelayWeaponController, DelayWeapon>();
             TestData.AddTestData(Operators, PlayerTeamTrans, EnemyTeamTrans);
 
+        }
+        private void FixedUpdate()
+        {
+            TriggerDelayWeapon();
         }
 
         // *********** NPC logic ************
@@ -99,6 +107,30 @@ namespace Assets.Scripts.ComputerControllers
 
         }
 
+        public void AddDelayWeapon(IDelayWeaponController controller, DelayWeapon data)
+        {
+            CombatDelayWeapons.Add(controller, data);
+        }
+
+        private void TriggerDelayWeapon()
+        {
+            var keysToRemove = new List<IDelayWeaponController>();
+            foreach (var pair in CombatDelayWeapons)
+            {
+                if(pair.Value.DelayEndTime < Time.time)
+                {
+                    keysToRemove.Add(pair.Key);
+                    pair.Key.DoDelayAction();
+                    // TODO: Dell Damage
+                }
+            }
+            foreach(var x in keysToRemove)
+            {
+                CombatDelayWeapons.Remove(x);
+            }
+
+        }
+
         private void OperatorDied(Transform aim)
         {
             aim.GetComponent<DestructiblePersonController>().DoDied();
@@ -123,6 +155,7 @@ namespace Assets.Scripts.ComputerControllers
         {
             if (Operators[op].CombatSkillList[index].IsCoolDowning(time)) return false;
             Operators[op].CombatSkillList[index].CoolDownEndTime = time + Operators[op].CombatSkillList[index].CoolDown;
+
             return true;
         }
 
