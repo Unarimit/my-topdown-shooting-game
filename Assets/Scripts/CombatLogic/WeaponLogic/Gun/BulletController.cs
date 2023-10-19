@@ -14,6 +14,7 @@ namespace Assets.Scripts
         {
             InitiatePos = transform.position;
             StartCoroutine(StopPartical());
+            StartCoroutine(ClearBullet());
         }
         private void FixedUpdate()
         {
@@ -23,7 +24,6 @@ namespace Assets.Scripts
             //Destroy(gameObject);
             gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
             gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-            StartCoroutine(ClearBullet());
         }
 
         private IEnumerator StopPartical()
