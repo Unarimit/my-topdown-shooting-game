@@ -41,6 +41,7 @@ namespace Assets.Scripts.ComputerControllers
         {
             var msg = TryFindCounters(_gameInformationManager.PlayerTeamTrans);
             TransferState(msg);
+            baseUpdate();
         }
 
         private void OnEngage(Transform trans, Vector3 poi)

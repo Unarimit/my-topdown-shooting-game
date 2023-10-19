@@ -27,7 +27,8 @@ namespace Assets.Scripts.ComputerControllers
         private void Update()
         {
             var findMsg = base.TryFindCounters(_gameInformationManager.EnemyTeamTrans);
-            if(_statu == Status.Idle)
+            baseUpdate();
+            if (_statu == Status.Idle)
             {
                 if (findMsg.Found)
                 {

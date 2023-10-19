@@ -963,12 +963,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4140987984046512533}
   - component: {fileID: 8041056691795330031}
-  - component: {fileID: 8041056691795330033}
   - component: {fileID: 4538792644406263363}
   - component: {fileID: 8041056691795330030}
   - component: {fileID: 5169650415140603996}
   - component: {fileID: 7373533162894083295}
-  m_Layer: 0
+  - component: {fileID: 3931273683662401877}
+  m_Layer: 8
   m_Name: Human
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1015,32 +1015,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!143 &8041056691795330033
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3619889203333071663}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 1.8
-  m_Radius: 0.25
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!136 &4538792644406263363
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1108,6 +1082,28 @@ MonoBehaviour:
   GunFire: {fileID: 6953864935998965343}
   BulletStartTrans: {fileID: 771458097290709377}
   Enviorment: {fileID: 0}
+--- !u!195 &3931273683662401877
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3619889203333071663}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.25
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1.8
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &3715009122492800097
 GameObject:
   m_ObjectHideFlags: 0
@@ -7272,7 +7268,6 @@ GameObject:
   - component: {fileID: 184945549487269727}
   - component: {fileID: 8490124938194621021}
   - component: {fileID: 408283491087338713}
-  - component: {fileID: 7459940144068963038}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -7345,27 +7340,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &7459940144068963038
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8199621841046755800}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8215324199279333554
 GameObject:
   m_ObjectHideFlags: 0

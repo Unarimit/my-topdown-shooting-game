@@ -9,6 +9,7 @@ using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.Windows;
 
@@ -39,8 +40,8 @@ namespace Assets.Scripts.ComputerControllers
 
         [HideInInspector]
         public CombatContextManager _gameInformationManager;
-        private CharacterController _controller;
         private DestructiblePersonController _destructiblePersonController;
+        private NavMeshAgent _navMeshAgent;
 
 
         protected bool Moving = false;
@@ -48,8 +49,8 @@ namespace Assets.Scripts.ComputerControllers
         private void Awake()
         {
             bool temp = TryGetComponent(out _animator);
-            _controller = GetComponent<CharacterController>();
             _destructiblePersonController = GetComponent<DestructiblePersonController>();
+            _navMeshAgent = GetComponent<NavMeshAgent>();
             _destructiblePersonController.HittedEvent += HittedEvent;
             _destructiblePersonController.HP0Event += HP0Event;
             if (!temp) Debug.LogError(transform.ToString() + " have no animator");
@@ -82,7 +83,6 @@ namespace Assets.Scripts.ComputerControllers
             _animator.SetBool(_animIDDied, true);
             _gameInformationManager.EnemyTeamTrans.Remove(transform);
             GetComponent<CapsuleCollider>().enabled = false;
-            _controller.enabled = false;
             this.enabled = false;
         }
         protected virtual void Start()
@@ -92,7 +92,6 @@ namespace Assets.Scripts.ComputerControllers
 
         // ************************** move **************************
 
-        private Vector3 MovingLocation;
         /// <summary>
         /// 一次性move到某个地方
         /// </summary>
@@ -100,59 +99,17 @@ namespace Assets.Scripts.ComputerControllers
         /// <param name="Speed"></param>
         public void MoveOnce(Vector3 location, float MaxSpeed)
         {
-            transform.LookAt(location);
-            MovingLocation = location;
-            if (Moving)
-            {
-                //Debug.LogError(transform.ToString() + " is in Moving! can not trigger more Moving");
-            }
-            else
-            {
-                Moving = true;
-                StartCoroutine(MoveOnceSub(MaxSpeed));
-            }
-            
+            _navMeshAgent.speed = MaxSpeed/2;
+            _navMeshAgent.SetDestination(location);
         }
         protected void StopMoving()
         {
             Moving = false;
+            _navMeshAgent.isStopped = true;
         }
-        private float Accelaration = 4f;
-        private float Accelarator(float speed, float maxSpeed, float lastDistance)
+        protected void baseUpdate()
         {
-            var acc = Accelaration * Time.deltaTime;
-            if(acc * 30 > lastDistance) // 30帧减速
-            {
-                return Math.Max(speed - acc * 2, 0);
-            }
-            else
-            {
-                return Math.Min(maxSpeed, acc + speed);
-            }
-        }
-        IEnumerator MoveOnceSub(float MaxSpeed)
-        {
-            float Speed = 0;
-            while (transform.position != MovingLocation)
-            {
-                if (!Moving) break;
-                var aim = MovingLocation - transform.position;
-                aim.y = 0;
-                var moveVec = aim.normalized * Time.deltaTime * Speed;
-
-                Speed = Accelarator(Speed, MaxSpeed, aim.magnitude);
-                _animator.SetFloat(_animIDSpeed, Speed);
-                var flag = _controller.Move(moveVec);
-                // 防止阻挡死循环
-                if (flag == CollisionFlags.CollidedSides || flag == CollisionFlags.Sides) Speed = 0;
-
-                // 防止运动超出界限
-                if (Speed == 0) break;
-                yield return null;
-            }
-            Moving = false;
-            _animator.SetFloat(_animIDSpeed, 0);
-            yield return null;
+            _animator.SetFloat(_animIDSpeed, _navMeshAgent.velocity.sqrMagnitude);
         }
 
 
