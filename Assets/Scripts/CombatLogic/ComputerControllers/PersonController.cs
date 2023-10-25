@@ -83,6 +83,7 @@ namespace Assets.Scripts.ComputerControllers
             _animator.SetBool(_animIDDied, true);
             _gameInformationManager.EnemyTeamTrans.Remove(transform);
             GetComponent<CapsuleCollider>().enabled = false;
+            GetComponent<NavMeshAgent>().enabled = false;
             this.enabled = false;
         }
         protected virtual void Start()

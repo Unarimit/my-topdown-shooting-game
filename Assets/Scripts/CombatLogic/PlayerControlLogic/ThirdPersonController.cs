@@ -25,6 +25,8 @@ namespace StarterAssets
 
         public GameObject Grenade;
 
+        public GameObject BeamGO;
+
         public GameObject Enviorment;
 
         [Header("Player")]
@@ -436,7 +438,14 @@ namespace StarterAssets
         {
             if(_context.UseSkill(transform, index, Time.time))
             {
-                if(index == 1)
+                if(index == 0)
+                {
+                    var b = Instantiate(BeamGO, Enviorment.transform);
+                    b.transform.position = new Vector3(transform.position.x, 1f, transform.position.z);
+                    _context.AddDelayWeapon(b.GetComponent<BeamController>(), new Assets.Scripts.CombatLogic.CombatEntities.DelayWeapon { DelayEndTime = Time.time + 0.2f });
+
+                }
+                else if(index == 1)
                 {
                     var g = Instantiate(Grenade, Enviorment.transform);
                     g.transform.position = new Vector3(transform.position.x, 0.1f, transform.position.z);
