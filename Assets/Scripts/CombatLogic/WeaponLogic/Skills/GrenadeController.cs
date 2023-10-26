@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.ComputerControllers;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,23 @@ namespace Assets.Scripts.CombatLogic
         public ParticleSystem Explosion;
         public GameObject SmallRed;
         private bool isTrigger = false;
+        private DelayWeapon _entity; 
+
+        private CombatContextManager _context;
+
+        public void Start()
+        {
+            _context = CombatContextManager.Instance;
+        }
+
         public void DoDelayAction()
         {
             isTrigger = true;
-            transform.eulerAngles = Vector3.zero;
+            transform.eulerAngles = Vector3.zero; // 方便播放动画，不然动画会边转边播
+
+            // 造成伤害（使用碰撞器检测
+            GetComponent<SphereCollider>().enabled = true;
+
             Explosion.Play();
             Destroy(SmallRed);
             StartCoroutine(DelayDestroySelf());
@@ -35,12 +49,24 @@ namespace Assets.Scripts.CombatLogic
             return isTrigger;
         }
 
+        private void OnTriggerEnter(Collider collision)
+        {
+            if (collision.transform == _entity.Caster) return;
+            Debug.Log(collision.name);
+            _context.DellDamage(_entity.Caster, collision.transform, _entity.Damage);
+        }
+
         IEnumerator DelayDestroySelf()
         {
             yield return new WaitForSeconds(3f); // TODO: 想办法改成效果结束时间
             Destroy(transform.gameObject);
             yield break;
         }
-        
+
+        public void SetDalayWeaponEntity(DelayWeapon entity)
+        {
+            _entity = entity;
+        }
+
     }
 }

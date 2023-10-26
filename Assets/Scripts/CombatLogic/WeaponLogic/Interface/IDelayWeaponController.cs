@@ -25,5 +25,7 @@ namespace Assets.Scripts.CombatLogic
         /// 延时动作是否已经触发
         /// </summary>
         public bool IsTrigger();
+
+        public void SetDalayWeaponEntity(DelayWeapon entity);
     }
 }

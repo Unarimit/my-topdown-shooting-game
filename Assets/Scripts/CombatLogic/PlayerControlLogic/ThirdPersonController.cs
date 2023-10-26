@@ -442,7 +442,8 @@ namespace StarterAssets
                 {
                     var b = Instantiate(BeamGO, Enviorment.transform);
                     b.transform.position = new Vector3(transform.position.x, 1f, transform.position.z);
-                    _context.AddDelayWeapon(b.GetComponent<BeamController>(), new Assets.Scripts.CombatLogic.CombatEntities.DelayWeapon { DelayEndTime = Time.time + 0.2f });
+                    b.transform.eulerAngles = transform.eulerAngles;
+                    _context.AddDelayWeapon(b.GetComponent<BeamController>(), new DelayWeapon { DelayEndTime = Time.time + 0.2f, Caster = transform, Damage = 10 });
 
                 }
                 else if(index == 1)
@@ -450,7 +451,7 @@ namespace StarterAssets
                     var g = Instantiate(Grenade, Enviorment.transform);
                     g.transform.position = new Vector3(transform.position.x, 0.1f, transform.position.z);
                     g.GetComponent<Rigidbody>().AddForce((getMouseAiming() - transform.position)  * 3);
-                    _context.AddDelayWeapon(g.GetComponent<GrenadeController>(), new Assets.Scripts.CombatLogic.CombatEntities.DelayWeapon { DelayEndTime = Time.time + 3 });
+                    _context.AddDelayWeapon(g.GetComponent<GrenadeController>(), new DelayWeapon { DelayEndTime = Time.time + 3, Caster = transform, Damage = 5 });
                 }
             }
         }

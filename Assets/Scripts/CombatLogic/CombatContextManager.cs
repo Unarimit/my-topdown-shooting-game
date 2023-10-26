@@ -110,6 +110,7 @@ namespace Assets.Scripts.ComputerControllers
         public void AddDelayWeapon(IDelayWeaponController controller, DelayWeapon data)
         {
             CombatDelayWeapons.Add(controller, data);
+            controller.SetDalayWeaponEntity(data);
         }
 
         private void TriggerDelayWeapon()
