@@ -52,7 +52,6 @@ namespace Assets.Scripts.CombatLogic
         private void OnTriggerEnter(Collider collision)
         {
             if (collision.transform == _entity.Caster) return;
-            Debug.Log(collision.name);
             _context.DellDamage(_entity.Caster, collision.transform, _entity.Damage);
         }
 
