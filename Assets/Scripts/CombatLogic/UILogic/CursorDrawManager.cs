@@ -14,7 +14,7 @@ namespace Assets.Scripts
         {
             Cursor.visible = false;
         }
-        private void Update()
+        private void OnGUI()
         {
             transform.position = Mouse.current.position.ReadValue();
         }

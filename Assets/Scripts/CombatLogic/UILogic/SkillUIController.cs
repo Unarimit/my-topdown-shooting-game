@@ -22,7 +22,7 @@ namespace Assets.Scripts.CombatLogic.UILogic
             _context = CombatContextManager.Instance;
         }
 
-        private void FixedUpdate()
+        private void OnGUI()
         {
             Skill1Mask.fillAmount = _context.GetCoolDownRatio(0, Time.time);
             Skill2Mask.fillAmount = _context.GetCoolDownRatio(1, Time.time);
