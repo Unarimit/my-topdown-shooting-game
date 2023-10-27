@@ -23,8 +23,8 @@ namespace Assets.Scripts.CombatLogic
                 Operators[x].CurrentHP = Operators[x].HP;
             }
 
-            Operators[PlayerTeamTrans[0]].CombatSkillList.Add(new CombatCombatSkill { CoolDown = 15 });
-            Operators[PlayerTeamTrans[0]].CombatSkillList.Add(new CombatCombatSkill { CoolDown = 5 });
+            Operators[PlayerTeamTrans[0]].CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[0]));
+            Operators[PlayerTeamTrans[0]].CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[1]));
         }
     }
 }

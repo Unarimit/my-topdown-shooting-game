@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.BulletLogic;
 using Assets.Scripts.CombatLogic;
 using Assets.Scripts.CombatLogic.CombatEntities;
+using Assets.Scripts.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,7 @@ namespace Assets.Scripts.ComputerControllers
 
     public class CombatContextManager : MonoBehaviour
     {
-        /// <summary>
-        /// singleton
-        /// </summary>
-        public static CombatContextManager Instance;
-
+        // ******************* inspector *************
         /// <summary>
         /// 己方干员列表，0号为玩家位
         /// </summary>
@@ -27,6 +24,9 @@ namespace Assets.Scripts.ComputerControllers
 
         public List<Transform> EnemyTeamTrans;
 
+        public Transform Enviorment;
+
+        // ******************* end inspector *************
 
         /// <summary>
         /// 所有干员列表，在start初始化
@@ -35,8 +35,11 @@ namespace Assets.Scripts.ComputerControllers
 
         public Transform PlayerTrans => PlayerTeamTrans[0];
 
-
-        private Dictionary<IDelayWeaponController, DelayWeapon> CombatDelayWeapons;
+        /// <summary>
+        /// singleton
+        /// </summary>
+        public static CombatContextManager Instance;
+        private SkillManager _skillContext;
 
         private void Awake()
         {
@@ -47,19 +50,19 @@ namespace Assets.Scripts.ComputerControllers
 
         private void Start()
         {
+            _skillContext = SkillManager.Instance;
+
             // 队员跟随状态显示
             TeammateText.text = TeammateStatu.ToString();
 
             // 所有干员放入Operator列表
             // TODO: 暂时使用在sence中放置的初始化方式
             Operators = new Dictionary<Transform, CombatOperator>();
-            CombatDelayWeapons = new Dictionary<IDelayWeaponController, DelayWeapon>();
             TestData.AddTestData(Operators, PlayerTeamTrans, EnemyTeamTrans);
 
         }
         private void FixedUpdate()
         {
-            TriggerDelayWeapon();
         }
 
         // *********** NPC logic ************
@@ -107,30 +110,7 @@ namespace Assets.Scripts.ComputerControllers
 
         }
 
-        public void AddDelayWeapon(IDelayWeaponController controller, DelayWeapon data)
-        {
-            CombatDelayWeapons.Add(controller, data);
-            controller.SetDalayWeaponEntity(data);
-        }
-
-        private void TriggerDelayWeapon()
-        {
-            var keysToRemove = new List<IDelayWeaponController>();
-            foreach (var pair in CombatDelayWeapons)
-            {
-                if(pair.Value.DelayEndTime < Time.time)
-                {
-                    keysToRemove.Add(pair.Key);
-                    pair.Key.DoDelayAction();
-                    // TODO: Dell Damage
-                }
-            }
-            foreach(var x in keysToRemove)
-            {
-                CombatDelayWeapons.Remove(x);
-            }
-
-        }
+        
 
         private void OperatorDied(Transform aim)
         {
@@ -152,11 +132,11 @@ namespace Assets.Scripts.ComputerControllers
         /// <summary>
         /// 如果技能正在冷却中返回false；否则进入cd，并返回true
         /// </summary>
-        public bool UseSkill(Transform op ,int index, float time)
+        public bool UseSkill(Transform op, int index, Vector3 aim, float time)
         {
             if (Operators[op].CombatSkillList[index].IsCoolDowning(time)) return false;
-            Operators[op].CombatSkillList[index].CoolDownEndTime = time + Operators[op].CombatSkillList[index].CoolDown;
-
+            Operators[op].CombatSkillList[index].CoolDownEndTime = time + Operators[op].CombatSkillList[index].SkillInfo.CoolDown;
+            _skillContext.CastSkill(op, Operators[op].CombatSkillList[index].SkillInfo, aim);
             return true;
         }
 
@@ -172,7 +152,7 @@ namespace Assets.Scripts.ComputerControllers
         {
             if (Operators[PlayerTrans].CombatSkillList[index].IsCoolDowning(time))
             {
-                return (Operators[PlayerTrans].CombatSkillList[index].CoolDownEndTime - time) / Operators[PlayerTrans].CombatSkillList[index].CoolDown;
+                return (Operators[PlayerTrans].CombatSkillList[index].CoolDownEndTime - time) / Operators[PlayerTrans].CombatSkillList[index].SkillInfo.CoolDown;
             }
             else
             {

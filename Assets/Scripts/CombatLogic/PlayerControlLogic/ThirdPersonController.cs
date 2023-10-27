@@ -430,29 +430,8 @@ namespace StarterAssets
         {
             if((_input.skill1 || _input.skill2) && isActionCanWork(_animIDJump))
             {
-                if (_input.skill1) Skillx(0);
-                if (_input.skill2) Skillx(1);
-            }
-        }
-        private void Skillx(int index)
-        {
-            if(_context.UseSkill(transform, index, Time.time))
-            {
-                if(index == 0)
-                {
-                    var b = Instantiate(BeamGO, Enviorment.transform);
-                    b.transform.position = new Vector3(transform.position.x, 1f, transform.position.z);
-                    b.transform.eulerAngles = transform.eulerAngles;
-                    _context.AddDelayWeapon(b.GetComponent<BeamController>(), new DelayWeapon { DelayEndTime = Time.time + 0.2f, Caster = transform, Damage = 10 });
-
-                }
-                else if(index == 1)
-                {
-                    var g = Instantiate(Grenade, Enviorment.transform);
-                    g.transform.position = new Vector3(transform.position.x, 0.1f, transform.position.z);
-                    g.GetComponent<Rigidbody>().AddForce((getMouseAiming() - transform.position)  * 3);
-                    _context.AddDelayWeapon(g.GetComponent<GrenadeController>(), new DelayWeapon { DelayEndTime = Time.time + 3, Caster = transform, Damage = 5 });
-                }
+                if (_input.skill1) _context.UseSkill(transform, 0, getMouseAiming(), Time.time);
+                if (_input.skill2) _context.UseSkill(transform, 1, getMouseAiming(), Time.time);
             }
         }
 
