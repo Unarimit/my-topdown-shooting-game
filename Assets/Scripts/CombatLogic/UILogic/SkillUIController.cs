@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.CombatLogic.UILogic
 {
-    public class SkillUIController : MonoBehaviour
+    public class SkillUIController : SubUIBase
     {
         public RawImage Skill1Icon;
         public RawImage Skill2Icon;

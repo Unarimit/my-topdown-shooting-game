@@ -159,6 +159,11 @@ namespace Assets.Scripts.ComputerControllers
                 return 0f;
             }
         }
+
+        public bool IsPlayerNoShield()
+        {
+            return (float)Operators[PlayerTrans].HP / Operators[PlayerTrans].CurrentHP < 0.5;
+        }
         
     }
 }

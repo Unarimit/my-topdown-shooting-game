@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.CombatLogic.UILogic
 {
-    public class CursorDrawManager : MonoBehaviour
+    public class CursorDrawManager : SubUIBase
     {
         private void Awake()
         {

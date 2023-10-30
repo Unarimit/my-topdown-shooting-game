@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.CombatLogic.UILogic
 {
-    public class GunStatuUIManager : MonoBehaviour
+    public class GunStatuUIManager : SubUIBase
     {
         public static GunStatuUIManager Instance;
         public TextMeshProUGUI MaxAmmoText;
