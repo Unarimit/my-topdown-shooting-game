@@ -8,8 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 namespace Assets.Scripts.ComputerControllers
 {
@@ -105,6 +107,7 @@ namespace Assets.Scripts.ComputerControllers
 
             // Process DMG
             Operators[to].CurrentHP -= val;
+            DamageTextEffect(val, to);
             if (Operators[to].CurrentHP <= 0) OperatorDied(to);
             else OperatorGotDMG(to);
 
@@ -165,5 +168,12 @@ namespace Assets.Scripts.ComputerControllers
             return (float)Operators[PlayerTrans].HP / Operators[PlayerTrans].CurrentHP < 0.5;
         }
         
+        private void DamageTextEffect(int dmg, Transform hitted)
+        {
+            var prefab = Resources.Load<GameObject>("Effects/DamageTextEffect");
+            var go = Instantiate(prefab, Enviorment);
+            go.transform.position = hitted.position + new Vector3(0, 1.5f, 0);
+            go.GetComponent<DamageNumEffectController>().DamageNum = dmg;
+        }
     }
 }
