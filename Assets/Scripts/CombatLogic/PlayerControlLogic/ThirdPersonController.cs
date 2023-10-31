@@ -159,6 +159,7 @@ namespace StarterAssets
             
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
+            _controller.detectCollisions = false;
             _input = GetComponent<StarterAssetsInputs>();
             _context = CombatContextManager.Instance;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -401,6 +402,7 @@ namespace StarterAssets
                     if(GunController.Shoot((aim - GunController.BulletStartTrans.position).normalized))
                     {
                         _animator.SetBool(_animIDShoot, true);
+                        _context.Operators[transform].ActAttack();
                     }
                     else
                     {

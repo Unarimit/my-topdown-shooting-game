@@ -14,6 +14,8 @@ namespace Assets.Scripts.Entities
     {
         public int HP { get; set; }
 
+        public int RecoverHP { get; set; }
+
         public string Name { get; set; } = "empty";
 
         public int WeaponType { get; set; }

@@ -33,7 +33,7 @@ namespace Assets.Scripts.ComputerControllers
         /// <summary>
         /// 所有干员列表，在start初始化
         /// </summary>
-        private Dictionary<Transform, CombatOperator> Operators;
+        public Dictionary<Transform, CombatOperator> Operators { get; private set; }
 
         public Transform PlayerTrans => PlayerTeamTrans[0];
 
@@ -65,7 +65,24 @@ namespace Assets.Scripts.ComputerControllers
         }
         private void FixedUpdate()
         {
+            UpdatePerSecond();
         }
+
+        public float updateInterval = 1f; // 每秒更新的间隔
+        private float timer = 0f;
+        private void UpdatePerSecond()
+        {
+            timer += Time.deltaTime;
+
+            if (timer >= updateInterval)
+            {
+                // do logic
+                RecoverShield();
+
+                timer -= updateInterval; // 重置计时器
+            }
+        }
+
 
         // *********** NPC logic ************
         public enum TeammateStatus
@@ -106,7 +123,7 @@ namespace Assets.Scripts.ComputerControllers
             }
 
             // Process DMG
-            Operators[to].CurrentHP -= val;
+            Operators[to].TakeDamage(val);
             DamageTextEffect(val, to);
             if (Operators[to].CurrentHP <= 0) OperatorDied(to);
             else OperatorGotDMG(to);
@@ -125,7 +142,7 @@ namespace Assets.Scripts.ComputerControllers
         }
         public int GetOperatorMaxHP(Transform aim)
         {
-            return Operators[aim].HP;
+            return Operators[aim].MaxHP;
         }
         public int GetOperatorCurrentHP(Transform aim)
         {
@@ -138,11 +155,19 @@ namespace Assets.Scripts.ComputerControllers
         public bool UseSkill(Transform op, int index, Vector3 aim, float time)
         {
             if (Operators[op].CombatSkillList[index].IsCoolDowning(time)) return false;
+            Operators[op].ActAttack();
             Operators[op].CombatSkillList[index].CoolDownEndTime = time + Operators[op].CombatSkillList[index].SkillInfo.CoolDown;
             _skillContext.CastSkill(op, Operators[op].CombatSkillList[index].SkillInfo, aim);
             return true;
         }
 
+        public void RecoverShield()
+        {
+            foreach(var p in Operators.Values)
+            {
+                p.TryRecover();
+            }
+        }
 
 
 
@@ -165,7 +190,7 @@ namespace Assets.Scripts.ComputerControllers
 
         public bool IsPlayerNoShield()
         {
-            return (float)Operators[PlayerTrans].HP / Operators[PlayerTrans].CurrentHP < 0.5;
+            return (float)Operators[PlayerTrans].CurrentHP / Operators[PlayerTrans].MaxHP < 0.5;
         }
         
         private void DamageTextEffect(int dmg, Transform hitted)

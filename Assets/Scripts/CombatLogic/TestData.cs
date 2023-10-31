@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.CombatLogic.CombatEntities;
+using Assets.Scripts.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +13,15 @@ namespace Assets.Scripts.CombatLogic
     {
         public static void AddTestData(Dictionary<Transform, CombatOperator> Operators, List<Transform> PlayerTeamTrans, List<Transform> EnemyTeamTrans)
         {
+            var op1 = new Operator { HP = 10, RecoverHP = 2 };
+            var op2 = new Operator { HP = 5, RecoverHP = 2 };
             foreach (var x in PlayerTeamTrans)
             {
-                Operators.Add(x, new CombatOperator { HP = 10, Team = 0 });
-                Operators[x].CurrentHP = Operators[x].HP;
+                Operators.Add(x, new CombatOperator(op1, 0));
             }
             foreach (var x in EnemyTeamTrans)
             {
-                Operators.Add(x, new CombatOperator { HP = 5, Team = 1 });
-                Operators[x].CurrentHP = Operators[x].HP;
+                Operators.Add(x, new CombatOperator(op2, 1));
             }
 
             Operators[PlayerTeamTrans[0]].CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[0]));
