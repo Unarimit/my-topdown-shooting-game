@@ -159,7 +159,6 @@ namespace StarterAssets
             
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
-            _controller.detectCollisions = false;
             _input = GetComponent<StarterAssetsInputs>();
             _context = CombatContextManager.Instance;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -232,6 +231,7 @@ namespace StarterAssets
         {
             if (_input.aim) return;
             _animator.SetBool(_animIDSlide, _input.slide);
+            ChangeCollider(_input.slide);
             // set target speed based on move speed, sprint speed and if sprint is pressed
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
@@ -472,6 +472,24 @@ namespace StarterAssets
                 Debug.Log("can not hit ground " + hits.Length);
             }
             return aim;
+        }
+
+        /// <summary>
+        /// 用于下蹲时切换Collider的范围
+        /// </summary>
+        private void ChangeCollider(bool isSquat)
+        {
+            if (isSquat)
+            {
+                _controller.center = new Vector3(0, 0.475f, 0);
+                _controller.height = 0.75f;
+            }
+            else
+            {
+                _controller.center = new Vector3(0, 0.8f, 0);
+                _controller.height = 1.4f;
+            }
+            
         }
 
         private void OnDrawGizmosSelected()
