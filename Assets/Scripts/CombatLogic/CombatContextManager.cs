@@ -134,6 +134,7 @@ namespace Assets.Scripts.ComputerControllers
 
         private void OperatorDied(Transform aim)
         {
+            if (Operators[aim].Team == 1) StorageManager.Instance.KillOne();
             aim.GetComponent<DestructiblePersonController>().DoDied();
         }
         private void OperatorGotDMG(Transform aim)

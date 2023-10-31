@@ -26,6 +26,8 @@ namespace Assets.Scripts.CombatLogic
 
             Operators[PlayerTeamTrans[0]].CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[0]));
             Operators[PlayerTeamTrans[0]].CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[1]));
+
+            StorageManager.Instance.InitSet(EnemyTeamTrans.Count);
         }
     }
 }
