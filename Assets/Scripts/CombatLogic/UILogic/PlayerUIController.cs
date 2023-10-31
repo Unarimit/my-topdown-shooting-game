@@ -9,12 +9,14 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.CombatLogic.UILogic
 {
-    public class SkillUIController : SubUIBase
+    public class PlayerUIController : SubUIBase
     {
         public RawImage Skill1Icon;
         public RawImage Skill2Icon;
         public Image Skill1Mask;
         public Image Skill2Mask;
+
+        public Slider HPSlider;
 
         private CombatContextManager _context;
         private void Start()
@@ -26,6 +28,7 @@ namespace Assets.Scripts.CombatLogic.UILogic
         {
             Skill1Mask.fillAmount = _context.GetCoolDownRatio(0, Time.time);
             Skill2Mask.fillAmount = _context.GetCoolDownRatio(1, Time.time);
+            HPSlider.value = (float)_context.Operators[_context.PlayerTrans].CurrentHP / _context.Operators[_context.PlayerTrans].MaxHP;
         }
     }
 }
