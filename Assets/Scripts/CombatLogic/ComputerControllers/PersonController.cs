@@ -76,14 +76,26 @@ namespace Assets.Scripts.ComputerControllers
         }
         private void HP0Event(object sender)
         {
+            // 清空动画
             _animator.SetBool(_animIDJump, false);
             _animator.SetBool(_animIDAim, false);
             _animator.SetBool(_animIDShoot, false);
             _animator.SetBool(_animIDSlide, false);
-            _animator.SetBool(_animIDDied, true);
+
+            // 清空效果
             _gameInformationManager.EnemyTeamTrans.Remove(transform);
             GetComponent<CapsuleCollider>().enabled = false;
             GetComponent<NavMeshAgent>().enabled = false;
+            // 死亡动画
+            //_animator.SetBool(_animIDDied, true);
+
+            // 新死亡动画
+            var prefab = Resources.Load<GameObject>("Effects/RagDoll");
+            var go = Instantiate(prefab, CombatContextManager.Instance.Enviorment);
+            go.transform.position = transform.position;
+            go.transform.rotation = transform.rotation;
+            Destroy(gameObject);
+            
             this.enabled = false;
         }
         protected virtual void Start()
