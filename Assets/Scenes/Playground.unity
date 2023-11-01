@@ -1406,7 +1406,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 76.23882, y: 27.166}
+  m_AnchoredPosition: {x: 134, y: -42}
   m_SizeDelta: {x: 212.4696, y: 54.332}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &184057693
@@ -2345,8 +2345,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -738.3152, y: -388.9733}
-  m_SizeDelta: {x: -1476.6227, y: -851.3629}
+  m_AnchoredPosition: {x: -695.3376, y: -335.63977}
+  m_SizeDelta: {x: -1390.6676, y: -744.6959}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &425614685
 MonoBehaviour:
@@ -9196,8 +9196,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 89.298, y: 66.255}
-  m_SizeDelta: {x: -204.7903, y: 96.1262}
+  m_AnchoredPosition: {x: 143.2, y: 58}
+  m_SizeDelta: {x: -286.4, y: 96.1262}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &783690840
 MonoBehaviour:
@@ -10263,7 +10263,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 180, y: -48.82}
+  m_AnchoredPosition: {x: 161, y: -51}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1084538656
@@ -12222,31 +12222,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 366490242784075914, guid: a8aabb8b54e87d24cbb30640fab080ba,
-        type: 3}
-      propertyPath: m_CameraType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 366490242784075914, guid: a8aabb8b54e87d24cbb30640fab080ba,
-        type: 3}
-      propertyPath: m_Antialiasing
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 366490242784075914, guid: a8aabb8b54e87d24cbb30640fab080ba,
-        type: 3}
-      propertyPath: m_VolumeTrigger
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 366490242784075914, guid: a8aabb8b54e87d24cbb30640fab080ba,
-        type: 3}
-      propertyPath: m_AllowXRRendering
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2372012309169863906, guid: a8aabb8b54e87d24cbb30640fab080ba,
-        type: 3}
-      propertyPath: m_projectionMatrixMode
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3421364588607182408, guid: a8aabb8b54e87d24cbb30640fab080ba,
         type: 3}
       propertyPath: m_Name
@@ -12301,21 +12276,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7178799128229352053, guid: a8aabb8b54e87d24cbb30640fab080ba,
-        type: 3}
-      propertyPath: weight
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7178799128229352053, guid: a8aabb8b54e87d24cbb30640fab080ba,
-        type: 3}
-      propertyPath: m_IsGlobal
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8507844756675065840, guid: a8aabb8b54e87d24cbb30640fab080ba,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12705,7 +12665,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 180, y: -48.82}
+  m_AnchoredPosition: {x: 161.00003, y: -50.999992}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1371507001
@@ -15664,8 +15624,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 91.9831, y: -18.959}
-  m_SizeDelta: {x: 165.9642, y: 170.85}
+  m_AnchoredPosition: {x: 145, y: -21.46}
+  m_SizeDelta: {x: 256, y: 256}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1993223547
 MonoBehaviour:
