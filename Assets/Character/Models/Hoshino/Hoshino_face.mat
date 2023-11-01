@@ -16,6 +16,7 @@ Material:
   m_InvalidKeywords:
   - _IS_FILTER_LIGHTCOLOR_ON
   - _METALLICSPECGLOSSMAP
+  - _RENDERENVSETTING
   - _USEHALFLAMBERT_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -23,7 +24,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties: _Smoothness
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -129,12 +130,17 @@ Material:
     - _CelShadeSoftness: 0.05
     - _CellBandSoftness: 0.001
     - _CellBands: 1
+    - _ClearCoat: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
+    - _ClearCoatTexSource: 0
     - _Cull: 2
     - _Cutoff: 0.5
+    - _DepthOffsetRimReverseX: 0
     - _DepthOffsetShadowReverseX: 0
     - _DepthPrePass: 0
+    - _DepthRimOffset: 0.01
+    - _DepthRimThresoldOffset: 0.01
     - _DepthShadowOffset: 0.15
     - _DepthShadowSoftness: 0
     - _DepthShadowThresoldOffset: 0
@@ -158,7 +164,7 @@ Material:
     - _Metallic: 0
     - _OcclusionRemapEnd: 1
     - _OcclusionRemapStart: 0
-    - _OcclusionStrength: 1
+    - _OcclusionStrength: 0
     - _Outline: 0
     - _OutlineWidth: 1
     - _OutlineZOffset: 0.0001
@@ -184,6 +190,9 @@ Material:
     - _Shininess: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
+    - _SpaceScreenVariant: 0.5
+    - _SpecularAA: 0
+    - _SpecularAAThreshold: 1
     - _SpecularHighlights: 1
     - _SpecularMask: 0
     - _SrcBlend: 1
@@ -203,6 +212,7 @@ Material:
     - _ZOffset: 0
     - _ZWrite: 1
     - _enum_diffuse: 0
+    - _enum_env: 1
     - _enum_outline_color: 0
     - _enum_outline_smoothed: 0
     - _enum_outline_width: 0
@@ -211,8 +221,10 @@ Material:
     - _group: 0
     - _group1: 1
     - _groupAdditionLight: 1
+    - _groupClearCoat: 1
     - _groupDissolveSetting: 0
     - _groupEmission: 0
+    - _groupEnvironment: 1
     - _groupLightDirectionOffset: 0
     - _groupOutline: 1
     - _groupRim: 1
@@ -223,7 +235,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DarkColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+    - _DarkColor: {r: 0.33962262, g: 0.33962262, b: 0.33962262, a: 1}
     - _EmissionChannel: {r: 0, g: 0, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionMapChannelMask: {r: 1, g: 1, b: 1, a: 0}

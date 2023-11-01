@@ -18,7 +18,8 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
         /// <summary>
         /// 战斗中最大HP
         /// </summary>
-        public int MaxHP { get; set; }
+        public int MaxHP { get; private set; }
+        public float Speed { get; set; }
         public int Team { get; private set; }
 
         /// <summary>

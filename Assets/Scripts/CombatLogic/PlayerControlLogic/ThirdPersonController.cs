@@ -296,6 +296,8 @@ namespace StarterAssets
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
+
+            _context.Operators[transform].Speed = _speed;
         }
 
         private void AimMove()
@@ -308,6 +310,7 @@ namespace StarterAssets
             var moveVec = new Vector3(vec.x * Time.deltaTime, _verticalVelocity * Time.deltaTime, vec.y * Time.deltaTime);
             _controller.Move(moveVec);
 
+            _context.Operators[transform].Speed = 1;
 
             // 动画
             var aniVec = new Vector3(vec.x, 0, vec.y);
