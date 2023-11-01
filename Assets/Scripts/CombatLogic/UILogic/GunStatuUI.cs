@@ -8,9 +8,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.CombatLogic.UILogic
 {
-    public class GunStatuUIManager : SubUIBase
+    public class GunStatuUI : SubUIBase
     {
-        public static GunStatuUIManager Instance;
+        public static GunStatuUI Instance;
         public TextMeshProUGUI MaxAmmoText;
         public TextMeshProUGUI CurrentAmmoText;
 

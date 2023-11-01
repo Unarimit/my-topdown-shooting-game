@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.CombatLogic.UILogic
 {
-    public class PlayerUIController : SubUIBase
+    public class PlayerUI : SubUIBase
     {
         public RawImage Skill1Icon;
         public RawImage Skill2Icon;

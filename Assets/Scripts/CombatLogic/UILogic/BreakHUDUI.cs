@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.CombatLogic.UILogic
 {
-    public class BreakHUDController : SubUIBase
+    public class BreakHUDUI : SubUIBase
     {
         Image _image;
         private void Start()

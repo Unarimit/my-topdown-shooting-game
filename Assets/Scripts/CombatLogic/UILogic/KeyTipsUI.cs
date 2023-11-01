@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.CombatLogic.UILogic
 {
-    public class KeyTipsController : SubUIBase
+    public class KeyTipsUI : SubUIBase
     {
 
         public TextMeshProUGUI keyPromptText;

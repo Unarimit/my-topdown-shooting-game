@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.CombatLogic.UILogic
 {
-    public class CursorDrawManager : SubUIBase
+    public class CursorDrawUI : SubUIBase
     {
         private void Awake()
         {

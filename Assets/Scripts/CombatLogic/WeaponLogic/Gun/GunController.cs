@@ -101,7 +101,7 @@ namespace Assets.Scripts
                 gunProperty.CurrentAmmo -= 1;
 
                 // UI更新
-                if (IsPlayer) GunStatuUIManager.Instance.UpdateCurrentAmmo(gunProperty.CurrentAmmo);
+                if (IsPlayer) GunStatuUI.Instance.UpdateCurrentAmmo(gunProperty.CurrentAmmo);
 
                 return true;
             }
@@ -161,7 +161,7 @@ namespace Assets.Scripts
             // 更新子弹
             gunProperty.CurrentAmmo = gunProperty.MaxAmmo;
             gunProperty.LastReloading = gunProperty.ReloadTime;
-            if (IsPlayer) GunStatuUIManager.Instance.UpdateCurrentAmmo(gunProperty.CurrentAmmo);
+            if (IsPlayer) GunStatuUI.Instance.UpdateCurrentAmmo(gunProperty.CurrentAmmo);
         }
         public bool IsReloading()
         {

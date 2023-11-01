@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.CombatLogic.UILogic
 {
-    public class GameOverPanelController : SubUIBase
+    public class GameOverUI : SubUIBase
     {
     }
 }
