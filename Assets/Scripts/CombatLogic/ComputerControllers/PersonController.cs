@@ -37,6 +37,7 @@ namespace Assets.Scripts.ComputerControllers
         private int _animIDWSpeed;
         private int _animIDSlide;
         private int _animIDDied;
+        private int _animIDReloading;
 
         [HideInInspector]
         public CombatContextManager _context;
@@ -66,6 +67,7 @@ namespace Assets.Scripts.ComputerControllers
             _animIDWSpeed = Animator.StringToHash("WSpeed");
             _animIDSlide = Animator.StringToHash("Slide");
             _animIDDied = Animator.StringToHash("Died");
+            _animIDReloading = Animator.StringToHash("Reloading"); ;
             _animator.SetBool(_animIDGrounded, true);
             _animator.SetFloat(_animIDMotionSpeed, 1);
         }
@@ -130,6 +132,7 @@ namespace Assets.Scripts.ComputerControllers
 
         public void Aim(Vector3 location)
         {
+            if (_animator.GetBool(_animIDReloading)) return;
             _animator.SetBool(_animIDAim, true);
             transform.LookAt(location);
         }
@@ -138,7 +141,15 @@ namespace Assets.Scripts.ComputerControllers
             _animator.SetBool(_animIDAim, false);
         }
 
-        
+        private IEnumerator CoroReloading()
+        {
+            _animator.SetBool(_animIDAim, false);
+            _animator.SetBool(_animIDReloading, true);
+            yield return _gunController.Reloading();
+            _animator.SetBool(_animIDReloading, false);
+            yield break;
+        }
+
         /// <summary>
         /// if not aim, return false
         /// </summary>
@@ -146,7 +157,13 @@ namespace Assets.Scripts.ComputerControllers
         /// <returns></returns>
         public bool Shoot(Vector3 location)
         {
-            if (!_animator.GetBool(_animIDAim)) return false;
+            if (!_animator.GetBool(_animIDAim) || _animator.GetBool(_animIDReloading)) return false;
+
+            if(_gunController.gunProperty.CurrentAmmo == 0)
+            {
+                StartCoroutine(CoroReloading());
+                return false;
+            }
 
             // 子弹偏移
             System.Random random = new System.Random();

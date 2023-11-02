@@ -30,7 +30,9 @@ namespace Assets.Scripts.ComputerControllers
             if(_gunController != null)
             {
                 _gunController.gunProperty.MuzzleVelocity = 1200;
-                _gunController.gunProperty.RateOfFile = 100;
+                _gunController.gunProperty.RateOfFile = 300;
+                _gunController.gunProperty.CurrentAmmo = 10;
+                _gunController.gunProperty.MaxAmmo = 10;
             }
         }
 
