@@ -35,18 +35,20 @@ namespace Assets.Scripts.BulletLogic
         {
             if (collision.transform.tag == "Bullet")
             {
-                CombatContextManager.Instance.DellDamage(null, transform, 1);
                 HittedEvent.Invoke(transform, collision.transform.GetComponent<BulletController>().InitiatePos);
                 Shield.Simulate(1.0f);
                 Shield.Play();
                 Shield.startColor = new Color(1, 1, 1) * 
                     (float)_contxt.GetOperatorCurrentHP(transform) / _contxt.GetOperatorMaxHP(transform);
+
+                CombatContextManager.Instance.DellDamage(null, transform, 1);
             }
             
         }
         public void DoDied()
         {
             EorTMark.SetActive(false);
+            GetComponent<Collider>().enabled = false;
             HP0Event.Invoke(transform);
         }
         public void GotDMG()

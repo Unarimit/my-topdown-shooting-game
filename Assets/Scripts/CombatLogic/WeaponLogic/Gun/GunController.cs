@@ -21,7 +21,6 @@ namespace Assets.Scripts
         public GameObject GunFire;
         [Tooltip("Bullet start trans")]
         public Transform BulletStartTrans;
-        public Transform Enviorment;
 
         public GunProperty gunProperty = new GunProperty();
 
@@ -94,7 +93,7 @@ namespace Assets.Scripts
             else
             {
                 // 发射逻辑
-                var bullet = Instantiate(Bullet, Enviorment);
+                var bullet = Instantiate(Bullet, CombatContextManager.Instance.Enviorment);
                 bullet.transform.position = BulletStartTrans.position;
                 bullet.SetActive(true);
                 StartCoroutine(DelayForce(bullet, push));

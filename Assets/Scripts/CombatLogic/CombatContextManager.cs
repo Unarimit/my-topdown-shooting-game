@@ -136,6 +136,7 @@ namespace Assets.Scripts.ComputerControllers
         {
             if (Operators[aim].Team == 1) StorageManager.Instance.KillOne();
             aim.GetComponent<DestructiblePersonController>().DoDied();
+            Operators.Remove(aim);
         }
         private void OperatorGotDMG(Transform aim)
         {
@@ -170,7 +171,25 @@ namespace Assets.Scripts.ComputerControllers
             }
         }
 
+        // ********************* Level logic *********************
 
+        public Transform GenerateAgent(GameObject agnetPrefab, Vector3 pos, Vector3 angle, int Team, Operator BaseInfo)
+        {
+            if(Team == 1)
+            {
+                var go = Instantiate(agnetPrefab, Enviorment);
+                go.transform.position = pos;
+                go.transform.eulerAngles = angle;
+                EnemyTeamTrans.Add(go.transform);
+                Operators.Add(go.transform, new CombatOperator(BaseInfo, Team));
+                return go.transform;
+            }
+            else
+            {
+                Debug.Log("No Team 0 Match");
+                return null;
+            }
+        }
 
         // ********************* UI logic *********************
 

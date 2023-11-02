@@ -10,15 +10,16 @@ namespace Assets.Scripts.Entities
     /// <summary>
     /// 要存入数据库的信息
     /// </summary>
+    [Serializable]
     public class Operator
     {
-        public int HP { get; set; }
+        public int HP;
 
-        public int RecoverHP { get; set; }
+        public int RecoverHP;
 
-        public string Name { get; set; } = "empty";
+        public string Name = "empty";
 
-        public int WeaponType { get; set; }
+        public int WeaponType;
 
     }
 }

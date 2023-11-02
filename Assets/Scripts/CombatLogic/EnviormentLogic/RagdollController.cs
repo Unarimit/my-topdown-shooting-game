@@ -18,7 +18,6 @@ namespace Assets.Scripts.CombatLogic.EnviormentLogic
                 if(go.name == "bomb")
                 {
                     go.transform.position += new Vector3(0, 0, (float)(Math.Sin((double)Time.time) / 4));
-                    Debug.Log((float)(Math.Sin((double)Time.time) / 4));
                     StartCoroutine(DelayDestory(go));
                 }
                 else
