@@ -26,7 +26,7 @@ namespace Assets.Scripts.ComputerControllers
 
         private void Update()
         {
-            var findMsg = base.TryFindCounters(_gameInformationManager.EnemyTeamTrans);
+            var findMsg = base.TrySeeCounters(_context.EnemyTeamTrans);
             baseUpdate();
             if (_statu == Status.Idle)
             {
@@ -77,10 +77,10 @@ namespace Assets.Scripts.ComputerControllers
         private float ForwardSpeed = 2f;
         private void TeammateMove()
         {
-            switch (_gameInformationManager.TeammateStatu)
+            switch (_context.TeammateStatu)
             {
                 case CombatContextManager.TeammateStatus.Follow:
-                    var vec = _gameInformationManager.PlayerTeamTrans[0].position - transform.position;
+                    var vec = _context.PlayerTeamTrans[0].position - transform.position;
                     float moveD = vec.magnitude - KeepDistance;
                     if(moveD > 0) MoveOnce(transform.position + vec.normalized * moveD, FollowSpeed);
                     break;

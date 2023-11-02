@@ -100,13 +100,6 @@ namespace Assets.Scripts.ComputerControllers
             TeammateText.text = TeammateStatu.ToString();
         }
 
-        // Engage Channel
-        public delegate void OnEnemyEngageHandler(Transform sender, Vector3 poi);
-        public event OnEnemyEngageHandler OnEnemyEngageEvent;
-        public void EnemyFindCounter(Transform sender, Vector3 poi)
-        {
-            OnEnemyEngageEvent.Invoke(sender, poi);
-        }
 
         // ************ Game logic ******************
         public bool IsPlayer(Transform transform)

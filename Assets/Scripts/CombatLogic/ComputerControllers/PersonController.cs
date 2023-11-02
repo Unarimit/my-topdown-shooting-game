@@ -39,7 +39,7 @@ namespace Assets.Scripts.ComputerControllers
         private int _animIDDied;
 
         [HideInInspector]
-        public CombatContextManager _gameInformationManager;
+        public CombatContextManager _context;
         private DestructiblePersonController _destructiblePersonController;
         private NavMeshAgent _navMeshAgent;
 
@@ -83,7 +83,7 @@ namespace Assets.Scripts.ComputerControllers
             _animator.SetBool(_animIDSlide, false);
 
             // 清空效果
-            _gameInformationManager.EnemyTeamTrans.Remove(transform);
+            _context.EnemyTeamTrans.Remove(transform);
             GetComponent<CapsuleCollider>().enabled = false;
             GetComponent<NavMeshAgent>().enabled = false;
             // 死亡动画
@@ -100,7 +100,7 @@ namespace Assets.Scripts.ComputerControllers
         }
         protected virtual void Start()
         {
-            _gameInformationManager = CombatContextManager.Instance;
+            _context = CombatContextManager.Instance;
         }
 
         // ************************** move **************************
@@ -170,11 +170,12 @@ namespace Assets.Scripts.ComputerControllers
 
         // ************************** normal detect **************************
 
-        protected struct FoundMsg
+        protected struct SeeMsg
         {
             public bool Found;
             public bool FromSelf;
             public Vector3 FoundPos;
+            public Transform FoundTrans;
         }
 
         private float FindDistance = 10f;
@@ -183,7 +184,7 @@ namespace Assets.Scripts.ComputerControllers
         /// 尝试发现敌人
         /// </summary>
         /// <returns></returns>
-        protected FoundMsg TryFindCounters(List<Transform> CounterGroup)
+        protected SeeMsg TrySeeCounters(List<Transform> CounterGroup)
         {
             var forward = transform.forward;
             foreach (var x in CounterGroup)
@@ -197,11 +198,28 @@ namespace Assets.Scripts.ComputerControllers
                     var hits = Physics.RaycastAll(ray, vec.magnitude, LayerMask.GetMask(new string[] { "Obstacle" }));
                     if (hits.Length == 0)
                     {
-                        return new FoundMsg { Found = true, FoundPos = x.position, FromSelf = true };
+                        return new SeeMsg { Found = true, FoundPos = x.position, FoundTrans = x, FromSelf = true };
                     }
                 }
             }
-            return new FoundMsg { Found = false };
+            return new SeeMsg { Found = false };
+        }
+
+        protected bool TrySeeAim(Transform transform)
+        {
+            if(transform == null) return false;
+            var vec = transform.position - transform.position;
+            if (Vector3.Angle(transform.forward, vec) < FindAngle && vec.magnitude < FindDistance) // in my eyes
+            {
+                // it is in my eyes
+                Ray ray = new Ray(transform.position, vec);
+                var hits = Physics.RaycastAll(ray, vec.magnitude, LayerMask.GetMask(new string[] { "Obstacle" }));
+                if (hits.Length == 0)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void OnFootstep(AnimationEvent animationEvent)

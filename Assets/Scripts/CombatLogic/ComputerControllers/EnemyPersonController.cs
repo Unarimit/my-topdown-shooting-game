@@ -14,9 +14,7 @@ namespace Assets.Scripts.ComputerControllers
         enum State
         {
             Idle,
-            IdleMoving,
-            Alert,
-            AlertMoving,
+            Find,
             Shooting
         }
         private State _state;
@@ -27,7 +25,6 @@ namespace Assets.Scripts.ComputerControllers
             //Aim(new Vector3(0, 0, 0));
             base.Start();
             _state = State.Idle;
-            _gameInformationManager.OnEnemyEngageEvent += OnEngage;
             _instantiatePosition = transform.position;
 
             if(_gunController != null)
@@ -37,72 +34,65 @@ namespace Assets.Scripts.ComputerControllers
             }
         }
 
+        private void OnDestroy()
+        {
+
+        }
+
         private void Update()
         {
-            var msg = TryFindCounters(_gameInformationManager.PlayerTeamTrans);
-            TransferState(msg);
+            TransferState();
             baseUpdate();
         }
-
-        private void OnEngage(Transform trans, Vector3 poi)
-        {
-            if (trans != null && trans == transform) return;
-            TransferState(new FoundMsg { Found = true, FoundPos = poi, FromSelf = false });
-        }
-
+        private Vector3 aimPos;
+        private Transform aimTran;
         float _idleDelta = 0;
-        private void TransferState(FoundMsg msg)
+        private void TransferState()
         {
             if (_state == State.Idle)
             {
-                if (msg.Found)
+                aimPos = TryFindAim();
+                if (aimPos != null)
                 {
-                    _state = State.Alert;
-                    _gameInformationManager.EnemyFindCounter(transform, msg.FoundPos);
+                    _state = State.Find;
                 }
                 else
                 {
                     _idleDelta += Time.deltaTime;
-                    if(_idleDelta > 1)
+                    if (_idleDelta > 1)
                     {
-                        RandomMove();
                         _idleDelta = 0;
-                        _state = State.IdleMoving;
+                        RandomMove();
                     }
                 }
             }
-            else if(_state == State.IdleMoving)
+            else if(_state == State.Find)
             {
-                if (msg.Found)
+                MoveOnce(aimPos, 3);
+                var msg = TrySeeCounters(_context.PlayerTeamTrans);
+                if (msg.Found == true)
                 {
-                    StopMoving();
-                    _state = State.Alert;
-                    _gameInformationManager.EnemyFindCounter(transform, msg.FoundPos);
+                    transform.LookAt(msg.FoundPos);
+                    aimTran = msg.FoundTrans;
+                    _state = State.Shooting;
                 }
                 else if (!Moving)
                 {
                     _state = State.Idle;
                 }
             } 
-            else if (_state == State.Alert)
-            {
-                if (msg.Found)
-                {
-                    Aim(msg.FoundPos);
-                    _state = State.Shooting;
-                }
-            }
             else if (_state == State.Shooting)
             {
-                if (!msg.FromSelf) return;
-                if (msg.Found)
+                StopMoving();
+                if (TrySeeAim(aimTran))
                 {
-                    Aim(msg.FoundPos);
-                    Shoot(new Vector3(msg.FoundPos.x, 0.8f, msg.FoundPos.z));
+                    Aim(aimTran.position);
+                    Shoot(new Vector3(aimTran.position.x, 0.8f, aimTran.position.z));
+                    _state = State.Shooting;
                 }
                 else
                 {
-                    _state = State.Alert;
+                    _state = State.Find;
                 }
             }
         }
@@ -114,7 +104,10 @@ namespace Assets.Scripts.ComputerControllers
             moveVec = moveVec.normalized* MoveRadius;
             MoveOnce(new Vector3(_instantiatePosition.x, transform.position.y, _instantiatePosition.z) + moveVec, 2.0f);
         }
-        
 
+        private Vector3 TryFindAim()
+        {
+            return _context.PlayerTrans.position;
+        }
     }
 }
