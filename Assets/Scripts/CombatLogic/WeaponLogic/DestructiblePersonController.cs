@@ -10,9 +10,6 @@ namespace Assets.Scripts.BulletLogic
 {
     public class DestructiblePersonController : MonoBehaviour
     {
-        public ParticleSystem Shield;
-        public GameObject EorTMark;
-
         /// <summary>
         /// 用于检测敌方来源
         /// </summary>
@@ -25,35 +22,56 @@ namespace Assets.Scripts.BulletLogic
         /// </summary>
         public delegate void HP0EventHandler(object sender);
         public event HP0EventHandler HP0Event;
-        private CombatContextManager _contxt;
+        private CombatContextManager _context;
+
+        // prefab in character
+        private ParticleSystem Shield;
+        private GameObject EorTMark;
         private void Start()
         {
+            _context = CombatContextManager.Instance;
+
+            // init prefab
+            // shield
+            var s_prefab = Resources.Load<GameObject>("Effects/Shield");
+            Shield = Instantiate(s_prefab, transform).GetComponent<ParticleSystem>();
             Shield.Stop();
-            _contxt = CombatContextManager.Instance;
+
+            // team mark
+            if (_context.Operators[transform].Team == 0 && transform != _context.PlayerTrans)
+            {
+                var t_prefab = Resources.Load<GameObject>("Effects/TeammateMark");
+                EorTMark = Instantiate(s_prefab, transform);
+            }
+            else if(_context.Operators[transform].Team == 1)
+            {
+                var t_prefab = Resources.Load<GameObject>("Effects/EnemyMark");
+                EorTMark = Instantiate(s_prefab, transform);
+            }
         }
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.transform.tag == "Bullet")
             {
-                HittedEvent.Invoke(transform, collision.transform.GetComponent<BulletController>().InitiatePos);
+                //HittedEvent.Invoke(transform, collision.transform.GetComponent<BulletController>().InitiatePos);
+                Shield.startColor = new Color(1, 1, 1) * 
+                    (float)_context.GetOperatorCurrentHP(transform) / _context.GetOperatorMaxHP(transform);
+                CombatContextManager.Instance.DellDamage(null, transform, 1);
+
                 Shield.Simulate(1.0f);
                 Shield.Play();
-                Shield.startColor = new Color(1, 1, 1) * 
-                    (float)_contxt.GetOperatorCurrentHP(transform) / _contxt.GetOperatorMaxHP(transform);
-
-                CombatContextManager.Instance.DellDamage(null, transform, 1);
             }
             
         }
         public void DoDied()
         {
-            EorTMark.SetActive(false);
             GetComponent<Collider>().enabled = false;
             HP0Event.Invoke(transform);
+            if(EorTMark != null) EorTMark.SetActive(false);
         }
         public void GotDMG()
         {
-            if (_contxt.GetOperatorCurrentHP(transform) == 2) Shield.Stop();
+            if (_context.GetOperatorCurrentHP(transform) == 2) Shield.Stop();
         }
 
     }

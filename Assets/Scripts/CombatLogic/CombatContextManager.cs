@@ -28,6 +28,8 @@ namespace Assets.Scripts.ComputerControllers
 
         public Transform Enviorment;
 
+        public Transform AgentsSpawnTrans;
+
         // ******************* end inspector *************
 
         /// <summary>
@@ -48,6 +50,7 @@ namespace Assets.Scripts.ComputerControllers
             if (Instance == null) Instance = this;
             else Debug.LogWarning(transform.ToString() + " try to load another Manager");
             TeammateStatu = TeammateStatus.Follow;
+
         }
 
         private void Start()
@@ -57,6 +60,7 @@ namespace Assets.Scripts.ComputerControllers
             // 队员跟随状态显示
             TeammateText.text = TeammateStatu.ToString();
 
+            AgentsSpawnTrans = Enviorment.Find("Agents");
             // 所有干员放入Operator列表
             // TODO: 暂时使用在sence中放置的初始化方式
             Operators = new Dictionary<Transform, CombatOperator>();
@@ -170,16 +174,25 @@ namespace Assets.Scripts.ComputerControllers
         {
             if(Team == 1)
             {
-                var go = Instantiate(agnetPrefab, Enviorment);
+                var go = Instantiate(agnetPrefab, AgentsSpawnTrans);
                 go.transform.position = pos;
                 go.transform.eulerAngles = angle;
                 EnemyTeamTrans.Add(go.transform);
                 Operators.Add(go.transform, new CombatOperator(BaseInfo, Team));
                 return go.transform;
             }
+            else if(Team == 0)
+            {
+                var go = Instantiate(agnetPrefab, AgentsSpawnTrans);
+                go.transform.position = pos;
+                go.transform.eulerAngles = angle;
+                PlayerTeamTrans.Add(go.transform);
+                Operators.Add(go.transform, new CombatOperator(BaseInfo, Team));
+                return go.transform;
+            }
             else
             {
-                Debug.Log("No Team 0 Match");
+                Debug.LogWarning("can not match this team");
                 return null;
             }
         }
