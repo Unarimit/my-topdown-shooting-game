@@ -23,6 +23,13 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
         public int Team { get; private set; }
 
         /// <summary>
+        /// 复活剩余时间
+        /// </summary>
+        public float ReviveTime { get; private set; }
+
+        public bool IsDead => ReviveTime != 0;
+
+        /// <summary>
         /// 最后一次进入交战状态的时间
         /// </summary>
         public float LastInCombatTime { get; private set; }
@@ -49,6 +56,26 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
             if (Time.time - LastInCombatTime > 5) CurrentHP = Math.Min(BaseInfo.RecoverHP + CurrentHP, MaxHP);
             return Time.time - LastInCombatTime > 5;
         }
+
+        /// <summary>
+        /// 刷新复活时间，如果返回true表示复活时间正好清零
+        /// </summary>
+        /// <returns></returns>
+        public bool TryRevive()
+        {
+            if (!IsDead) return false; // 没死不能复活
+            ReviveTime -= Time.deltaTime;
+            if (ReviveTime < 0)
+            {
+                ReviveTime = 0;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// 发生主动战斗行为
         /// </summary>

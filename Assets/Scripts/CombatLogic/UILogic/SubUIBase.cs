@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.ComputerControllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,11 @@ namespace Assets.Scripts.CombatLogic.UILogic
 {
     public class SubUIBase : MonoBehaviour
     {
+        public CombatContextManager _context => CombatContextManager.Instance;
+        /// <summary>
+        /// 实际上是SetActive
+        /// </summary>
+        /// <param name="isVisible"></param>
         public void SetVisible(bool isVisible)
         {
             gameObject.SetActive(isVisible);

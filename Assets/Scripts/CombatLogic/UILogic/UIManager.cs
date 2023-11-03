@@ -32,10 +32,15 @@ namespace Assets.Scripts.CombatLogic
             windows[GameOverPanel].SetVisible(false);
         }
         const string GameOverPanel = "GameOverPanel";
+        const string ReviveCountdownPanel = "ReviveCountdownPanel";
         const string BreakHUD = "BreakHUDImg";
         public void ShowFinish()
         {
             windows[GameOverPanel].SetVisible(true);
+        }
+        public void ShowReviveCountdown()
+        {
+            windows[ReviveCountdownPanel].SetVisible(true);
         }
 
         private void OnGUI()
