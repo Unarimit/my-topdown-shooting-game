@@ -14,8 +14,8 @@ namespace Assets.Scripts.CombatLogic.UILogic
         public TextMeshProUGUI text;
         private void OnGUI()
         {
-            text.text = _context.Operators[_context.PlayerTrans].ReviveTime.ToString();
-            if(_context.Operators[_context.PlayerTrans].ReviveTime == 0)
+            text.text = _context.Operators[_context.PlayerTrans].CurrentReviveTime.ToString("0.00");
+            if(_context.Operators[_context.PlayerTrans].CurrentReviveTime == 0)
             {
                 StartCoroutine(DelayClose());
             }

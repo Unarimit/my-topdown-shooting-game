@@ -22593,6 +22593,7 @@ MonoBehaviour:
     RecoverHP: 2
     Name: empty
     WeaponType: 0
+    ReviveTime: 5
 --- !u!114 &1458971852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24113,6 +24114,7 @@ MonoBehaviour:
     RecoverHP: 2
     Name: empty
     WeaponType: 0
+    ReviveTime: 5
 --- !u!114 &1538417420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32889,6 +32891,7 @@ MonoBehaviour:
     RecoverHP: 2
     Name: empty
     WeaponType: 0
+    ReviveTime: 5
 --- !u!114 &2132031952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37731,10 +37734,35 @@ PrefabInstance:
       propertyPath: Bullet
       value: 
       objectReference: {fileID: 1111747926}
+    - target: {fileID: 552846456860543801, guid: 42e21a61c9586c0429d8d9aa10985da6,
+        type: 3}
+      propertyPath: m_Name
+      value: WeaponMesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 552846456860543801, guid: 42e21a61c9586c0429d8d9aa10985da6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 931449938446829755, guid: 42e21a61c9586c0429d8d9aa10985da6,
+        type: 3}
+      propertyPath: m_Name
+      value: BodyMesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 931449938446829755, guid: 42e21a61c9586c0429d8d9aa10985da6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1113227377600581828, guid: 42e21a61c9586c0429d8d9aa10985da6,
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1700686722791400648, guid: 42e21a61c9586c0429d8d9aa10985da6,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3086615545227190066, guid: 42e21a61c9586c0429d8d9aa10985da6,
         type: 3}
@@ -37784,6 +37812,16 @@ PrefabInstance:
     - target: {fileID: 3086615545227190066, guid: 42e21a61c9586c0429d8d9aa10985da6,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5696047711471880534, guid: 42e21a61c9586c0429d8d9aa10985da6,
+        type: 3}
+      propertyPath: m_Name
+      value: GunFire
+      objectReference: {fileID: 0}
+    - target: {fileID: 7753419644716562286, guid: 42e21a61c9586c0429d8d9aa10985da6,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8245812794344532746, guid: 42e21a61c9586c0429d8d9aa10985da6,

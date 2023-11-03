@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TMPro;
+using Unity.Burst.Intrinsics;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -136,6 +137,9 @@ namespace Assets.Scripts.CombatLogic
             if (Operators[aim].Team == 1) StorageManager.Instance.KillOne();
             aim.GetComponent<DestructiblePersonController>().DoDied();
             if (aim == PlayerTrans) UIManager.Instance.ShowReviveCountdown();
+
+            aim.gameObject.SetActive(false);
+            AnimeHelper.ApplyRagdoll(aim);
             //Operators.Remove(aim);
         }
         private void OperatorGotDMG(Transform aim)
@@ -183,7 +187,9 @@ namespace Assets.Scripts.CombatLogic
         public void Respawn(Transform trans)
         {
             Operators[trans].Respawn();
-            trans.position = new Vector3(0, 0, 0);
+
+            trans.gameObject.SetActive(true);
+            trans.position = Operators[trans].SpawnBase.position;
         }
 
         // ********************* Level logic *********************

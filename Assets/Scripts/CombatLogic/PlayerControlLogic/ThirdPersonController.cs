@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts;
+using Assets.Scripts.BulletLogic;
 using Assets.Scripts.CombatLogic;
 using Assets.Scripts.ComputerControllers;
 using System.Collections;
@@ -153,6 +154,7 @@ namespace StarterAssets
             }
         }
 
+        private DestructiblePersonController _destructiblePersonController;
         private void Start()
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
@@ -166,6 +168,9 @@ namespace StarterAssets
 #else
 			Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
 #endif
+
+            _destructiblePersonController = GetComponent<DestructiblePersonController>();
+            _destructiblePersonController.HP0Event += HP0Event;
 
             AssignAnimationIDs();
 
@@ -494,6 +499,17 @@ namespace StarterAssets
             }
             
         }
+
+        private void HP0Event(object sender)
+        {
+            // 清空动画
+            _animator.SetBool(_animIDJump, false);
+            _animator.SetBool(_animIDAim, false);
+            _animator.SetBool(_animIDShoot, false);
+            _animator.SetBool(_animIDSlide, false);
+
+        }
+
 
         private void OnDrawGizmosSelected()
         {

@@ -17,17 +17,17 @@ namespace Assets.Scripts.CombatLogic
             var op2 = new Operator { HP = 5, RecoverHP = 2 };
             foreach (var x in PlayerTeamTrans)
             {
-                Operators.Add(x, new CombatOperator(op1, 0));
+                Operators.Add(x, new CombatOperator(op1, 0, CombatContextManager.Instance.Enviorment));
             }
             foreach (var x in EnemyTeamTrans)
             {
-                Operators.Add(x, new CombatOperator(op2, 1));
+                Operators.Add(x, new CombatOperator(op2, 1, CombatContextManager.Instance.Enviorment));
             }
 
             Operators[PlayerTeamTrans[0]].CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[0]));
             Operators[PlayerTeamTrans[0]].CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[1]));
 
-            StorageManager.Instance.InitSet(EnemyTeamTrans.Count);
+            StorageManager.Instance.InitSet(EnemyTeamTrans.Count*10);
         }
     }
 }

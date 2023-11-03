@@ -26,7 +26,8 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             {
                 if (!checkCapacity()) return;
                 _innerInterval -= config.SpawnInterval;
-                var trans = CombatContextManager.Instance.GenerateAgent(_agentPrefab, transform.position + transform.forward * 3, new Vector3(), config.Team, operatorInfo);
+                var trans = CombatContextManager.Instance.GenerateAgent(_agentPrefab, transform.position + transform.forward * 3, new Vector3(), 
+                    config.Team, operatorInfo, transform);
                 _agents.Add(trans);
             }
         }

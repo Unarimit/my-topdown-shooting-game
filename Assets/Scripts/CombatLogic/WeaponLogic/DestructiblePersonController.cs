@@ -41,12 +41,12 @@ namespace Assets.Scripts.BulletLogic
             if (_context.Operators[transform].Team == 0 && transform != _context.PlayerTrans)
             {
                 var t_prefab = Resources.Load<GameObject>("Effects/TeammateMark");
-                EorTMark = Instantiate(s_prefab, transform);
+                EorTMark = Instantiate(t_prefab, transform);
             }
             else if(_context.Operators[transform].Team == 1)
             {
                 var t_prefab = Resources.Load<GameObject>("Effects/EnemyMark");
-                EorTMark = Instantiate(s_prefab, transform);
+                EorTMark = Instantiate(t_prefab, transform);
             }
         }
         private void OnCollisionEnter(Collision collision)
@@ -65,7 +65,6 @@ namespace Assets.Scripts.BulletLogic
         }
         public void DoDied()
         {
-            GetComponent<Collider>().enabled = false;
             HP0Event.Invoke(transform);
             if(EorTMark != null) EorTMark.SetActive(false);
         }

@@ -89,20 +89,6 @@ namespace Assets.Scripts.ComputerControllers
             _animator.SetBool(_animIDShoot, false);
             _animator.SetBool(_animIDSlide, false);
 
-            // 清空效果
-            GetComponent<CapsuleCollider>().enabled = false;
-            GetComponent<NavMeshAgent>().enabled = false;
-            // 死亡动画
-            //_animator.SetBool(_animIDDied, true);
-
-            // 新死亡动画
-            var prefab = Resources.Load<GameObject>("Effects/RagDoll");
-            var go = Instantiate(prefab, CombatContextManager.Instance.Enviorment);
-            go.transform.position = transform.position;
-            go.transform.rotation = transform.rotation;
-            Destroy(gameObject);
-            
-            this.enabled = false;
         }
 
         protected virtual void Start()

@@ -10,7 +10,12 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
 {
     public class CombatOperator
     {
-        public Operator BaseInfo { get; }
+        public Operator OpInfo { get; }
+
+        /// <summary>
+        /// 出生点
+        /// </summary>
+        public Transform SpawnBase { get; }
         /// <summary>
         /// 目前HP
         /// </summary>
@@ -25,9 +30,9 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
         /// <summary>
         /// 复活剩余时间
         /// </summary>
-        public float ReviveTime { get; private set; }
+        public float CurrentReviveTime { get; private set; }
 
-        public bool IsDead => ReviveTime != 0;
+        public bool IsDead => CurrentReviveTime != 0;
 
         /// <summary>
         /// 最后一次进入交战状态的时间
@@ -38,12 +43,13 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
 
         public List<CombatCombatSkill> CombatSkillList { get; set; } = new List<CombatCombatSkill>();
 
-        public CombatOperator(Operator op, int team)
+        public CombatOperator(Operator op, int team, Transform spawnBase)
         {
-            BaseInfo = op;
+            OpInfo = op;
             CurrentHP = op.HP;
             MaxHP = op.HP;
             Team = team;
+            SpawnBase = spawnBase;
         }
 
         public void TakeDamage(int dmg)
@@ -53,7 +59,8 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
         }
         public bool TryRecover()
         {
-            if (Time.time - LastInCombatTime > 5) CurrentHP = Math.Min(BaseInfo.RecoverHP + CurrentHP, MaxHP);
+            if (IsDead) return false;
+            if (Time.time - LastInCombatTime > 5) CurrentHP = Math.Min(OpInfo.RecoverHP + CurrentHP, MaxHP);
             return Time.time - LastInCombatTime > 5;
         }
 
@@ -64,16 +71,26 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
         public bool TryRevive()
         {
             if (!IsDead) return false; // 没死不能复活
-            ReviveTime -= Time.deltaTime;
-            if (ReviveTime < 0)
+            if (SpawnBase == null) return false; // 家没了不能复活
+            CurrentReviveTime -= Time.deltaTime;
+            if (CurrentReviveTime < 0)
             {
-                ReviveTime = 0;
+                CurrentReviveTime = 0;
                 return true;
             }
             else
             {
                 return false;
             }
+        }
+        public void DoDied()
+        {
+            CurrentReviveTime = OpInfo.ReviveTime;
+        }
+
+        public void Respawn()
+        {
+            CurrentHP = MaxHP;
         }
 
         /// <summary>

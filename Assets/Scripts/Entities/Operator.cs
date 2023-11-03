@@ -21,5 +21,7 @@ namespace Assets.Scripts.Entities
 
         public int WeaponType;
 
+        public float ReviveTime = 5;
+
     }
 }
