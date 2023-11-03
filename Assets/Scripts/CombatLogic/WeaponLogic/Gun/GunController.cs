@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.CombatLogic.UILogic;
-using Assets.Scripts.ComputerControllers;
+﻿using Assets.Scripts.CombatLogic;
+using Assets.Scripts.CombatLogic.UILogic;
 using System;
 using System.Collections;
 using System.Collections.Generic;

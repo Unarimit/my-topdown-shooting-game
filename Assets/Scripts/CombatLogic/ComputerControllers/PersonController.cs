@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.BulletLogic;
+using Assets.Scripts.CombatLogic;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -50,12 +51,16 @@ namespace Assets.Scripts.ComputerControllers
         private void Awake()
         {
             bool temp = TryGetComponent(out _animator);
-            _destructiblePersonController = GetComponent<DestructiblePersonController>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
+
+            // hitted or died
+            _destructiblePersonController = GetComponent<DestructiblePersonController>();
             _destructiblePersonController.HittedEvent += HittedEvent;
             _destructiblePersonController.HP0Event += HP0Event;
+
             if (!temp) Debug.LogError(transform.ToString() + " have no animator");
 
+            // anime
             _animIDSpeed = Animator.StringToHash("Speed");
             _animIDGrounded = Animator.StringToHash("Grounded");
             _animIDJump = Animator.StringToHash("Jump");
@@ -85,7 +90,6 @@ namespace Assets.Scripts.ComputerControllers
             _animator.SetBool(_animIDSlide, false);
 
             // 清空效果
-            _context.EnemyTeamTrans.Remove(transform);
             GetComponent<CapsuleCollider>().enabled = false;
             GetComponent<NavMeshAgent>().enabled = false;
             // 死亡动画
@@ -100,6 +104,7 @@ namespace Assets.Scripts.ComputerControllers
             
             this.enabled = false;
         }
+
         protected virtual void Start()
         {
             _context = CombatContextManager.Instance;

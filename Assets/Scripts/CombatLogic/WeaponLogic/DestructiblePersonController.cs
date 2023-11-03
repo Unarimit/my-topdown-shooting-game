@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.ComputerControllers;
+﻿using Assets.Scripts.CombatLogic;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -13,7 +13,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-namespace Assets.Scripts.ComputerControllers
+namespace Assets.Scripts.CombatLogic
 {
 
     public class CombatContextManager : MonoBehaviour
@@ -69,6 +69,7 @@ namespace Assets.Scripts.ComputerControllers
         }
         private void FixedUpdate()
         {
+            ForOperatorsLogic();
             UpdatePerSecond();
         }
 
@@ -131,9 +132,11 @@ namespace Assets.Scripts.ComputerControllers
 
         private void OperatorDied(Transform aim)
         {
+            Operators[aim].DoDied();
             if (Operators[aim].Team == 1) StorageManager.Instance.KillOne();
             aim.GetComponent<DestructiblePersonController>().DoDied();
-            Operators.Remove(aim);
+            if (aim == PlayerTrans) UIManager.Instance.ShowReviveCountdown();
+            //Operators.Remove(aim);
         }
         private void OperatorGotDMG(Transform aim)
         {
@@ -167,10 +170,25 @@ namespace Assets.Scripts.ComputerControllers
                 p.TryRecover();
             }
         }
+        public void ForOperatorsLogic()
+        {
+            foreach (var pair in Operators)
+            {
+                if (pair.Value.TryRevive())
+                {
+                    Respawn(pair.Key);
+                }
+            }
+        }
+        public void Respawn(Transform trans)
+        {
+            Operators[trans].Respawn();
+            trans.position = new Vector3(0, 0, 0);
+        }
 
         // ********************* Level logic *********************
 
-        public Transform GenerateAgent(GameObject agnetPrefab, Vector3 pos, Vector3 angle, int Team, Operator BaseInfo)
+        public Transform GenerateAgent(GameObject agnetPrefab, Vector3 pos, Vector3 angle, int Team, Operator OpInfo, Transform spawnBase)
         {
             if(Team == 1)
             {
@@ -178,7 +196,7 @@ namespace Assets.Scripts.ComputerControllers
                 go.transform.position = pos;
                 go.transform.eulerAngles = angle;
                 EnemyTeamTrans.Add(go.transform);
-                Operators.Add(go.transform, new CombatOperator(BaseInfo, Team));
+                Operators.Add(go.transform, new CombatOperator(OpInfo, Team, spawnBase));
                 return go.transform;
             }
             else if(Team == 0)
@@ -187,7 +205,7 @@ namespace Assets.Scripts.ComputerControllers
                 go.transform.position = pos;
                 go.transform.eulerAngles = angle;
                 PlayerTeamTrans.Add(go.transform);
-                Operators.Add(go.transform, new CombatOperator(BaseInfo, Team));
+                Operators.Add(go.transform, new CombatOperator(OpInfo, Team, spawnBase));
                 return go.transform;
             }
             else
