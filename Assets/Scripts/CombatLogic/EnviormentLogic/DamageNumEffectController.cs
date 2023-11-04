@@ -17,6 +17,9 @@ namespace Assets.Scripts.CombatLogic
         private TextMeshPro _text;
         private float speed = 3;
         private float speed_weak = 5f;
+
+        const float BASE_DELAY_TIME = 0.5f;
+        private float delay_time = BASE_DELAY_TIME;
         private void Start()
         {
             _text = GetComponent<TextMeshPro>();
@@ -30,10 +33,25 @@ namespace Assets.Scripts.CombatLogic
             {
                 speed -= speed_weak * Time.deltaTime;//使得向上移动的速度逐渐减少
             }
+            else if(delay_time > 0)
+            {
+                delay_time -= Time.deltaTime;
+            }
             else
             {
                 Destroy(gameObject);
             }
+        }
+
+        /// <summary>
+        /// 积累伤害
+        /// </summary>
+        /// <param name="dmg"></param>
+        public void AppendDamageNum(int dmg)
+        {
+            delay_time = BASE_DELAY_TIME;
+            DamageNum += 1;
+            _text.text = DamageNum.ToString();
         }
 
     }

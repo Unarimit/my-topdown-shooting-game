@@ -123,7 +123,7 @@ namespace Assets.Scripts.CombatLogic
 
             // Process DMG
             Operators[to].TakeDamage(val);
-            DamageTextEffect(val, to);
+            AnimeHelper.Instance.DamageTextEffect(val, to);
             if (Operators[to].CurrentHP <= 0) OperatorDied(to);
             else OperatorGotDMG(to);
 
@@ -139,7 +139,7 @@ namespace Assets.Scripts.CombatLogic
             if (aim == PlayerTrans) UIManager.Instance.ShowReviveCountdown();
 
             aim.gameObject.SetActive(false);
-            AnimeHelper.ApplyRagdoll(aim);
+            AnimeHelper.Instance.ApplyRagdoll(aim);
             //Operators.Remove(aim);
         }
         private void OperatorGotDMG(Transform aim)
@@ -243,12 +243,6 @@ namespace Assets.Scripts.CombatLogic
             return (float)Operators[PlayerTrans].CurrentHP / Operators[PlayerTrans].MaxHP < 0.5;
         }
         
-        private void DamageTextEffect(int dmg, Transform hitted)
-        {
-            var prefab = Resources.Load<GameObject>("Effects/DamageTextEffect");
-            var go = Instantiate(prefab, Enviorment);
-            go.transform.position = hitted.position + new Vector3(0, 1.5f, 0);
-            go.GetComponent<DamageNumEffectController>().DamageNum = dmg;
-        }
+        
     }
 }
