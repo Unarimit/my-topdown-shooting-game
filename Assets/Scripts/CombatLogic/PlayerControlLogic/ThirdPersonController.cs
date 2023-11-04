@@ -17,9 +17,7 @@ using static UnityEditor.Progress;
 namespace StarterAssets
 {
     [RequireComponent(typeof(CharacterController))]
-#if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
-    [RequireComponent(typeof(PlayerInput))]
-#endif
+
     public class ThirdPersonController : MonoBehaviour
     {
         public GunController GunController;

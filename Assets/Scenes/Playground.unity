@@ -10442,8 +10442,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dc8276fa2f0df14aaf1a0a3dbd4e0bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gunController: {fileID: 0}
-  _context: {fileID: 0}
 --- !u!143 &1445403254
 CharacterController:
   m_ObjectHideFlags: 0
@@ -11778,8 +11776,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dc8276fa2f0df14aaf1a0a3dbd4e0bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gunController: {fileID: 0}
-  _context: {fileID: 0}
 --- !u!4 &1639912054 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 78663587995101969, guid: 6fbeead406b0d6c4ba7793d754752d28,
@@ -31598,6 +31594,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GunFire
       objectReference: {fileID: 0}
+    - target: {fileID: 7403405112460984461, guid: 42e21a61c9586c0429d8d9aa10985da6,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7753419644716562286, guid: 42e21a61c9586c0429d8d9aa10985da6,
         type: 3}
       propertyPath: m_IsActive
@@ -31618,8 +31619,7 @@ PrefabInstance:
       propertyPath: Enviorment
       value: 
       objectReference: {fileID: 1327619676}
-    m_RemovedComponents:
-    - {fileID: 7009809458335147037, guid: 42e21a61c9586c0429d8d9aa10985da6, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

@@ -29,7 +29,9 @@ namespace Assets.Scripts.CombatLogic
             {
                 windows.Add(x.name, x);
             }
-            windows[GameOverPanel].SetVisible(false);
+
+            windows[GameOverPanel].SetVisible(false); 
+            windows[ReviveCountdownPanel].SetVisible(false);
         }
         const string GameOverPanel = "GameOverPanel";
         const string ReviveCountdownPanel = "ReviveCountdownPanel";

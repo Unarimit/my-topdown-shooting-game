@@ -9,7 +9,10 @@ using UnityEngine.InputSystem;
 
 namespace StarterAssets
 {
-	public class StarterAssetsInputs : MonoBehaviour
+#if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
+    [RequireComponent(typeof(PlayerInput))]
+#endif
+    public class StarterAssetsInputs : MonoBehaviour
 	{
 		[Header("Character Input Values")]
 		public Vector2 move;
