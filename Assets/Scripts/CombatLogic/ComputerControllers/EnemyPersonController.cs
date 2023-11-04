@@ -71,7 +71,9 @@ namespace Assets.Scripts.ComputerControllers
             else if(_state == State.Find)
             {
                 MoveOnce(aimPos, 3);
-                var msg = TrySeeCounters(_context.PlayerTeamTrans);
+                SeeMsg msg;
+                if(_context.Operators[transform].Team == 1) msg = TrySeeCounters(_context.PlayerTeamTrans);
+                else msg = TrySeeCounters(_context.EnemyTeamTrans);
                 if (msg.Found == true)
                 {
                     transform.LookAt(msg.FoundPos);
@@ -109,7 +111,8 @@ namespace Assets.Scripts.ComputerControllers
 
         private Vector3 TryFindAim()
         {
-            return _context.PlayerTrans.position;
+            if(_context.Operators[transform].Team == 1) return _context.PlayerTrans.position;
+            else return _context.EnemyTeamTrans.FirstOrDefault() == null ? new Vector3(0, 0, 0) : _context.EnemyTeamTrans[0].position;
         }
     }
 }

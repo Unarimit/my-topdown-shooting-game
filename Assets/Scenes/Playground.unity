@@ -10525,7 +10525,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   config:
     Team: 1
-    MaxCapacity: 5
+    MaxCapacity: 3
     SpawnInterval: 5
     AgentPrefabURL: SimpleEnemy
   operatorInfo:
@@ -11208,7 +11208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   config:
     Team: 1
-    MaxCapacity: 5
+    MaxCapacity: 3
     SpawnInterval: 5
     AgentPrefabURL: SimpleEnemy
   operatorInfo:
@@ -13371,6 +13371,8 @@ GameObject:
   - component: {fileID: 1979195856}
   - component: {fileID: 1979195857}
   - component: {fileID: 1979195858}
+  - component: {fileID: 1979195860}
+  - component: {fileID: 1979195859}
   m_Layer: 0
   m_Name: GameRoot
   m_TagString: Untagged
@@ -13479,6 +13481,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79fd811a88ebf594db6d8f355b7e3e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1979195859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979195844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e087ecce43ebbff45a1b360637807d93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  move: {x: 0, y: 0}
+  look: {x: 0, y: 0}
+  jump: 0
+  sprint: 0
+  aim: 0
+  shoot: 0
+  slide: 0
+  reloading: 0
+  skill1: 0
+  skill2: 0
+  analogMovement: 0
+  cursorLocked: 1
+  cursorInputForLook: 1
+--- !u!114 &1979195860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979195844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 4419d82f33d36e848b3ed5af4c8da37e,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!4 &1988687796 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6075866848947241547, guid: 989cb3a038b5e8a418f4c15ab40e8e08,
@@ -13986,7 +14044,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   config:
     Team: 1
-    MaxCapacity: 5
+    MaxCapacity: 3
     SpawnInterval: 5
     AgentPrefabURL: SimpleEnemy
   operatorInfo:
@@ -31547,7 +31605,8 @@ PrefabInstance:
       propertyPath: Enviorment
       value: 
       objectReference: {fileID: 1327619676}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7009809458335147037, guid: 42e21a61c9586c0429d8d9aa10985da6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

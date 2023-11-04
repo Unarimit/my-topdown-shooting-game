@@ -26,6 +26,16 @@ namespace Assets.Scripts.CombatLogic
 
             Operators[PlayerTeamTrans[0]].CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[0]));
             Operators[PlayerTeamTrans[0]].CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[1]));
+            
+            CombatContextManager.Instance.GenerateAgent(
+                Resources.Load<GameObject>("Characters/SimpleEnemy"),
+                new Vector3(1, 0, 0), new Vector3(),
+                0, op1, CombatContextManager.Instance.Enviorment);
+
+            CombatContextManager.Instance.GenerateAgent(
+                Resources.Load<GameObject>("Characters/SimpleEnemy"),
+                new Vector3(2, 0, 0), new Vector3(),
+                0, op1, CombatContextManager.Instance.Enviorment);
 
             StorageManager.Instance.InitSet(EnemyTeamTrans.Count*10);
         }
