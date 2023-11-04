@@ -120,9 +120,7 @@ namespace StarterAssets
         private int _animIDSlide;
         private int _animIDReloading;
 
-#if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
-        private PlayerInput _playerInput;
-#endif
+
         private Animator _animator;
         private CharacterController _controller;
         private StarterAssetsInputs _input;
@@ -133,17 +131,7 @@ namespace StarterAssets
 
         private bool _hasAnimator;
 
-        private bool IsCurrentDeviceMouse
-        {
-            get
-            {
-#if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
-                return _playerInput.currentControlScheme == "KeyboardMouse";
-#else
-				return false;
-#endif
-            }
-        }
+
 
         private void Awake()
         {
@@ -161,13 +149,8 @@ namespace StarterAssets
             
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
-            _input = GetComponent<StarterAssetsInputs>();
+            _input = StarterAssetsInputs.Instance;
             _context = CombatContextManager.Instance;
-#if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
-            _playerInput = GetComponent<PlayerInput>();
-#else
-			Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
-#endif
 
             _destructiblePersonController = GetComponent<DestructiblePersonController>();
             _destructiblePersonController.HP0Event += HP0Event;
@@ -507,6 +490,7 @@ namespace StarterAssets
             _animator.SetBool(_animIDAim, false);
             _animator.SetBool(_animIDShoot, false);
             _animator.SetBool(_animIDSlide, false);
+            Debug.Log("clear state");
 
         }
 
