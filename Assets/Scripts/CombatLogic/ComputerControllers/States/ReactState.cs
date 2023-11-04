@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using static Assets.Scripts.ComputerControllers.PersonController;
 
 namespace Assets.Scripts.CombatLogic.ComputerControllers.States
 {
@@ -27,7 +26,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers.States
 
         public void OnUpdate()
         {
-            SeeMsg msg;
+            AgentController.SeeMsg msg;
             if (_agent._context.Operators[_agent.transform].Team == 1) msg = _agent.TrySeeCounters(_agent._context.PlayerTeamTrans);
             else msg = _agent.TrySeeCounters(_agent._context.EnemyTeamTrans);
             if (msg.Found == true)

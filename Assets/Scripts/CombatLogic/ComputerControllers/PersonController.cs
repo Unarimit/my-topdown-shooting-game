@@ -53,7 +53,6 @@ namespace Assets.Scripts.ComputerControllers
 
             // hitted or died
             _destructiblePersonController = GetComponent<DestructiblePersonController>();
-            _destructiblePersonController.HittedEvent += HittedEvent;
             _destructiblePersonController.HP0Event += HP0Event;
 
             if (!temp) Debug.LogError(transform.ToString() + " have no animator");
@@ -70,15 +69,15 @@ namespace Assets.Scripts.ComputerControllers
             _animIDWSpeed = Animator.StringToHash("WSpeed");
             _animIDSlide = Animator.StringToHash("Slide");
             _animIDDied = Animator.StringToHash("Died");
-            _animIDReloading = Animator.StringToHash("Reloading"); ;
+            _animIDReloading = Animator.StringToHash("Reloading");
+        }
+        private void OnEnable()
+        {
+
             _animator.SetBool(_animIDGrounded, true);
             _animator.SetFloat(_animIDMotionSpeed, 1);
         }
 
-        private void HittedEvent(object sender, Vector3 hitSourcePos)
-        {
-            transform.LookAt(new Vector3(hitSourcePos.x, 0, hitSourcePos.z));
-        }
         private void HP0Event(object sender)
         {
             // 清空动画
@@ -160,63 +159,6 @@ namespace Assets.Scripts.ComputerControllers
             return true;
         }
 
-        // ************************** normal detect **************************
 
-        public struct SeeMsg
-        {
-            public bool Found;
-            public bool FromSelf;
-            public Vector3 FoundPos;
-            public Transform FoundTrans;
-        }
-
-        private float FindDistance = 10f;
-        protected float FindAngle = 30f;
-        /// <summary>
-        /// 尝试发现敌人
-        /// </summary>
-        /// <returns></returns>
-        public SeeMsg TrySeeCounters(List<Transform> CounterGroup)
-        {
-            var forward = transform.forward;
-            foreach (var x in CounterGroup)
-            {
-                if (x == null) continue;
-                var vec = x.position - transform.position;
-                if (Vector3.Angle(forward, vec) < FindAngle && vec.magnitude < FindDistance) // in my eyes
-                {
-                    // it is in my eyes
-                    Ray ray = new Ray(transform.position, vec);
-                    var hits = Physics.RaycastAll(ray, vec.magnitude, LayerMask.GetMask(new string[] { "Obstacle" }));
-                    if (hits.Length == 0)
-                    {
-                        return new SeeMsg { Found = true, FoundPos = x.position, FoundTrans = x, FromSelf = true };
-                    }
-                }
-            }
-            return new SeeMsg { Found = false };
-        }
-
-        public bool TrySeeAim(Transform trans)
-        {
-            if(trans == null) return false;
-            var vec = trans.position - transform.position;
-            if (Vector3.Angle(transform.forward, vec) < FindAngle && vec.magnitude < FindDistance) // in my eyes
-            {
-                // it is in my eyes
-                Ray ray = new Ray(transform.position, vec);
-                var hits = Physics.RaycastAll(ray, vec.magnitude, LayerMask.GetMask(new string[] { "Obstacle" }));
-                if (hits.Length == 0)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private void OnFootstep(AnimationEvent animationEvent)
-        {
-            
-        }
     }
 }

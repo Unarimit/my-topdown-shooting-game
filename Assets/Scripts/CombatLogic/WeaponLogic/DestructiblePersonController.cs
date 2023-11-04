@@ -66,7 +66,6 @@ namespace Assets.Scripts.BulletLogic
         public void DoDied()
         {
             HP0Event.Invoke(transform);
-            if(EorTMark != null) EorTMark.SetActive(false);
         }
         public void GotDMG()
         {

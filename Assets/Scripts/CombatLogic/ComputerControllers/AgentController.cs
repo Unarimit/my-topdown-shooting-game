@@ -11,6 +11,8 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
     {
         private Dictionary<StateType, IAgentState> states = new Dictionary<StateType, IAgentState>();
         private IAgentState currentState;
+
+        [Tooltip("for debug use")]
         public StateType type;
 
         [HideInInspector]
@@ -61,6 +63,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
             currentState.OnUpdate();
         }
 
+        // ********************** Agent Behavior ********************
         private float MoveRadius = 2.0f;
         public void RandomMove()
         {
@@ -84,6 +87,65 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
         public void StopMoving()
         {
             _navMeshAgent.isStopped = true;
+        }
+
+        // ************************** normal detect **************************
+
+        public struct SeeMsg
+        {
+            public bool Found;
+            public bool FromSelf;
+            public Vector3 FoundPos;
+            public Transform FoundTrans;
+        }
+
+        private float FindDistance = 10f;
+        protected float FindAngle = 30f;
+        /// <summary>
+        /// 尝试发现敌人
+        /// </summary>
+        /// <returns></returns>
+        public SeeMsg TrySeeCounters(List<Transform> CounterGroup)
+        {
+            var forward = transform.forward;
+            foreach (var x in CounterGroup)
+            {
+                if (x == null || _context.Operators[x].IsDead) continue;
+                var vec = x.position - transform.position;
+                if (Vector3.Angle(forward, vec) < FindAngle && vec.magnitude < FindDistance) // in my eyes
+                {
+                    // it is in my eyes
+                    Ray ray = new Ray(transform.position, vec);
+                    var hits = Physics.RaycastAll(ray, vec.magnitude, LayerMask.GetMask(new string[] { "Obstacle" }));
+                    if (hits.Length == 0)
+                    {
+                        return new SeeMsg { Found = true, FoundPos = x.position, FoundTrans = x, FromSelf = true };
+                    }
+                }
+            }
+            return new SeeMsg { Found = false };
+        }
+
+        public bool TrySeeAim(Transform trans)
+        {
+            if (trans == null || _context.Operators[trans].IsDead) return false;
+            var vec = trans.position - transform.position;
+            if (Vector3.Angle(transform.forward, vec) < FindAngle && vec.magnitude < FindDistance) // in my eyes
+            {
+                // it is in my eyes
+                Ray ray = new Ray(transform.position, vec);
+                var hits = Physics.RaycastAll(ray, vec.magnitude, LayerMask.GetMask(new string[] { "Obstacle" }));
+                if (hits.Length == 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private void OnFootstep(AnimationEvent animationEvent)
+        {
+
         }
     }
 }

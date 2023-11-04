@@ -488,7 +488,6 @@ namespace StarterAssets
             _animator.SetBool(_animIDAim, false);
             _animator.SetBool(_animIDShoot, false);
             _animator.SetBool(_animIDSlide, false);
-            Debug.Log("clear state");
 
         }
 
