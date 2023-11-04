@@ -43,15 +43,13 @@ namespace Assets.Scripts.ComputerControllers
         [HideInInspector]
         public CombatContextManager _context;
         private DestructiblePersonController _destructiblePersonController;
-        private NavMeshAgent _navMeshAgent;
 
 
         protected bool Moving = false;
 
-        private void Awake()
+        protected void Awake()
         {
             bool temp = TryGetComponent(out _animator);
-            _navMeshAgent = GetComponent<NavMeshAgent>();
 
             // hitted or died
             _destructiblePersonController = GetComponent<DestructiblePersonController>();
@@ -98,24 +96,10 @@ namespace Assets.Scripts.ComputerControllers
 
         // ************************** move **************************
 
-        /// <summary>
-        /// 一次性move到某个地方
-        /// </summary>
-        /// <param name="location"> shoud be (x, transform.y, z) </param>
-        /// <param name="Speed"></param>
-        public void MoveOnce(Vector3 location, float MaxSpeed)
+        
+        public void setSpeed(float speed)
         {
-            _navMeshAgent.speed = MaxSpeed/2;
-            _navMeshAgent.SetDestination(location);
-        }
-        protected void StopMoving()
-        {
-            Moving = false;
-            _navMeshAgent.isStopped = true;
-        }
-        protected void baseUpdate()
-        {
-            _animator.SetFloat(_animIDSpeed, _navMeshAgent.velocity.sqrMagnitude);
+            _animator.SetFloat(_animIDSpeed, speed);
         }
 
 
@@ -178,7 +162,7 @@ namespace Assets.Scripts.ComputerControllers
 
         // ************************** normal detect **************************
 
-        protected struct SeeMsg
+        public struct SeeMsg
         {
             public bool Found;
             public bool FromSelf;
@@ -192,7 +176,7 @@ namespace Assets.Scripts.ComputerControllers
         /// 尝试发现敌人
         /// </summary>
         /// <returns></returns>
-        protected SeeMsg TrySeeCounters(List<Transform> CounterGroup)
+        public SeeMsg TrySeeCounters(List<Transform> CounterGroup)
         {
             var forward = transform.forward;
             foreach (var x in CounterGroup)
@@ -213,10 +197,10 @@ namespace Assets.Scripts.ComputerControllers
             return new SeeMsg { Found = false };
         }
 
-        protected bool TrySeeAim(Transform transform)
+        public bool TrySeeAim(Transform trans)
         {
-            if(transform == null) return false;
-            var vec = transform.position - transform.position;
+            if(trans == null) return false;
+            var vec = trans.position - transform.position;
             if (Vector3.Angle(transform.forward, vec) < FindAngle && vec.magnitude < FindDistance) // in my eyes
             {
                 // it is in my eyes
