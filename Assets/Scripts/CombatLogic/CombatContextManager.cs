@@ -3,6 +3,7 @@ using Assets.Scripts.CombatLogic;
 using Assets.Scripts.CombatLogic.CombatEntities;
 using Assets.Scripts.Entities;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ using Unity.Burst.Intrinsics;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Scripting;
 using UnityEngine.UIElements;
 
 namespace Assets.Scripts.CombatLogic
@@ -29,6 +31,9 @@ namespace Assets.Scripts.CombatLogic
 
         public Transform Enviorment;
 
+        /// <summary>
+        /// agent的父trans，方便debug
+        /// </summary>
         public Transform AgentsSpawnTrans;
 
         // ******************* end inspector *************
