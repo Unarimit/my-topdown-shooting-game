@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts;
 using Assets.Scripts.BulletLogic;
 using Assets.Scripts.CombatLogic;
+using Assets.Scripts.CombatLogic.EnviormentLogic;
 using Assets.Scripts.ComputerControllers;
 using System.Collections;
 using Unity.Burst.Intrinsics;
@@ -28,148 +29,46 @@ namespace StarterAssets
 
         public GameObject Enviorment;
 
-        [Header("Player")]
-        [Tooltip("Move speed of the character in m/s")]
-        public float MoveSpeed = 2.0f;
 
-        [Tooltip("Sprint speed of the character in m/s")]
-        public float SprintSpeed = 5.335f;
-
-        [Tooltip("How fast the character turns to face movement direction")]
-        [Range(0.0f, 0.3f)]
-        public float RotationSmoothTime = 0.12f;
-
-        [Tooltip("Acceleration and deceleration")]
-        public float SpeedChangeRate = 10.0f;
 
         public AudioClip LandingAudioClip;
         public AudioClip[] FootstepAudioClips;
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
 
-        [Space(10)]
-        [Tooltip("The height the player can jump")]
-        public float JumpHeight = 1.2f;
-
-        [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
-        public float Gravity = -15.0f;
-
-        [Space(10)]
-        [Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
-        public float JumpTimeout = 0.50f;
-
-        [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
-        public float FallTimeout = 0.15f;
-
-        [Header("Player Grounded")]
-        [Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
-        public bool Grounded = true;
-
-        [Tooltip("Useful for rough ground")]
-        public float GroundedOffset = -0.14f;
-
-        [Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
-        public float GroundedRadius = 0.28f;
-
-        [Tooltip("What layers the character uses as ground")]
-        public LayerMask GroundLayers;
 
         [Header("Cinemachine")]
         [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
         public GameObject CinemachineCameraTarget;
 
-        [Tooltip("How far in degrees can you move the camera up")]
-        public float TopClamp = 70.0f;
 
-        [Tooltip("How far in degrees can you move the camera down")]
-        public float BottomClamp = -30.0f;
-
-        [Tooltip("Additional degress to override the camera. Useful for fine tuning camera position when locked")]
-        public float CameraAngleOverride = 0.0f;
-
-        [Tooltip("For locking the camera position on all axis")]
-        public bool LockCameraPosition = false;
-
-        // cinemachine
-        private float _cinemachineTargetYaw;
-        private float _cinemachineTargetPitch;
-
-        // player
-        private float _speed;
-        private float _animationBlend;
-        private float _targetRotation = 0.0f;
-        private float _rotationVelocity;
-        private float _verticalVelocity;
-        private float _terminalVelocity = 53.0f;
-
-        // timeout deltatime
-        private float _jumpTimeoutDelta;
-        private float _fallTimeoutDelta;
-
-        // animation IDs
-        private int _animIDSpeed;
-        private int _animIDGrounded;
-        private int _animIDJump;
-        private int _animIDFreeFall;
-        private int _animIDMotionSpeed;
-        private int _animIDAim;
-        private int _animIDShoot;
-        private int _animIDASpeed;
-        private int _animIDWSpeed;
-        private int _animIDSlide;
-        private int _animIDReloading;
-
-
-        private Animator _animator;
+        private OperatorAnimatorBaseController _animatorController;
         private CharacterController _controller;
         private StarterAssetsInputs _input;
-        private GameObject _mainCamera;
         private CombatContextManager _context;
 
         private const float _threshold = 0.01f;
 
-        private bool _hasAnimator;
 
-
-
-        private void Awake()
-        {
-            // get a reference to our main camera
-            if (_mainCamera == null)
-            {
-                _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-            }
-        }
 
         private DestructiblePersonController _destructiblePersonController;
         private void Start()
         {
-            _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-            
-            _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
+            _animatorController = GetComponent<OperatorAnimatorBaseController>();
             _input = StarterAssetsInputs.Instance;
             _context = CombatContextManager.Instance;
 
             _destructiblePersonController = GetComponent<DestructiblePersonController>();
             _destructiblePersonController.HP0Event += HP0Event;
 
-            AssignAnimationIDs();
 
-            // reset our timeouts on start
-            _jumpTimeoutDelta = JumpTimeout;
-            _fallTimeoutDelta = FallTimeout;
         }
 
         private void Update()
         {
-            _hasAnimator = TryGetComponent(out _animator);
-
-            JumpAndGravity();
-            GroundedCheck();
             Move();
-            AimMove();
-            Reloading();
             Skill();
+            DoTriggerAction();
         }
 
         private void FixedUpdate()
@@ -177,210 +76,39 @@ namespace StarterAssets
             AimAndShoot();
         }
 
-        private void LateUpdate()
+        private void DoTriggerAction()
         {
-            //CameraRotation();
-        }
-
-        private void AssignAnimationIDs()
-        {
-            _animIDSpeed = Animator.StringToHash("Speed");
-            _animIDGrounded = Animator.StringToHash("Grounded");
-            _animIDJump = Animator.StringToHash("Jump");
-            _animIDFreeFall = Animator.StringToHash("FreeFall");
-            _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
-            _animIDAim = Animator.StringToHash("Aim");
-            _animIDShoot = Animator.StringToHash("Shoot");
-            _animIDASpeed = Animator.StringToHash("ASpeed");
-            _animIDWSpeed = Animator.StringToHash("WSpeed");
-            _animIDSlide = Animator.StringToHash("Slide");
-            _animIDReloading = Animator.StringToHash("Reloading");
-        }
-
-        private void GroundedCheck()
-        {
-            // set sphere position, with offset
-            Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset,
-                transform.position.z);
-            Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
-                QueryTriggerInteraction.Ignore);
-
-            // update animator if using character
-            if (_hasAnimator)
+            _animatorController.SetSprint(_input.sprint);
+            if (_input.jump && _animatorController.TryBreakAction(OperatorAnimatorBaseController.ActionName.Jump))
             {
-                _animator.SetBool(_animIDGrounded, Grounded);
-            }
-        }
-
-
-        private void Move()
-        {
-            if (_input.aim) return;
-            _animator.SetBool(_animIDSlide, _input.slide);
-            ChangeCollider(_input.slide);
-            // set target speed based on move speed, sprint speed and if sprint is pressed
-            float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
-
-            // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
-
-            // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-            // if there is no input, set the target speed to 0
-            if (_input.move == Vector2.zero) targetSpeed = 0.0f;
-
-            // a reference to the players current horizontal velocity
-            float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
-
-            float speedOffset = 0.1f;
-            float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
-
-            // accelerate or decelerate to target speed
-            if (currentHorizontalSpeed < targetSpeed - speedOffset ||
-                currentHorizontalSpeed > targetSpeed + speedOffset)
-            {
-                // creates curved result rather than a linear one giving a more organic speed change
-                // note T in Lerp is clamped, so we don't need to clamp our speed
-                _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
-                    Time.deltaTime * SpeedChangeRate);
-
-                // round speed to 3 decimal places
-                _speed = Mathf.Round(_speed * 1000f) / 1000f;
-            }
-            else
-            {
-                _speed = targetSpeed;
-            }
-
-            _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
-            if (_animationBlend < 0.01f) _animationBlend = 0f;
-
-            // normalise input direction
-            Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
-
-            // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-            // if there is a move input rotate player when the player is moving
-            if (_input.move != Vector2.zero)
-            {
-                _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
-                                  _mainCamera.transform.eulerAngles.y;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
-                    RotationSmoothTime);
-
-                // rotate to face input direction relative to camera position
-                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-            }
-
-
-            Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-
-            // move the player
-            _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
-                             new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
-
-            // update animator if using character
-            if (_hasAnimator)
-            {
-                _animator.SetFloat(_animIDSpeed, _animationBlend);
-                _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
-            }
-
-            _context.Operators[transform].Speed = _speed;
-        }
-
-        private void AimMove()
-        {
-            if (!_input.aim) return;
-            var vec = _input.move.normalized;
-
-
-            // 移动
-            var moveVec = new Vector3(vec.x * Time.deltaTime, _verticalVelocity * Time.deltaTime, vec.y * Time.deltaTime);
-            _controller.Move(moveVec);
-
-            _context.Operators[transform].Speed = 1;
-
-            // 动画
-            var aniVec = new Vector3(vec.x, 0, vec.y);
-            var proj1 = Vector3.Project(aniVec, transform.forward);
-            var proj2 = Vector3.Project(aniVec, transform.right);
-            _animator.SetFloat(_animIDWSpeed, proj1.magnitude); // 这里没有区分正负
-            _animator.SetFloat(_animIDASpeed, proj2.magnitude);
-        }
-        private void JumpAndGravity()
-        {
-            if (Grounded)
-            {
-                // reset the fall timeout timer
-                _fallTimeoutDelta = FallTimeout;
-
-                // update animator if using character
-                if (_hasAnimator)
-                {
-                    _animator.SetBool(_animIDJump, false);
-                    _animator.SetBool(_animIDFreeFall, false);
-                }
-
-                // stop our velocity dropping infinitely when grounded
-                if (_verticalVelocity < 0.0f)
-                {
-                    _verticalVelocity = -2f;
-                }
-
-                // Jump
-                if (_input.jump && !_input.aim && _jumpTimeoutDelta <= 0.0f)
-                {
-                    // the square root of H * -2 * G = how much velocity needed to reach desired height
-                    _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
-
-                    // update animator if using character
-                    if (_hasAnimator)
-                    {
-                        _animator.SetBool(_animIDJump, true);
-                    }
-                }
-
-                // jump timeout
-                if (_jumpTimeoutDelta >= 0.0f)
-                {
-                    _jumpTimeoutDelta -= Time.deltaTime;
-                }
-            }
-            else
-            {
-                // reset the jump timeout timer
-                _jumpTimeoutDelta = JumpTimeout;
-
-                // fall timeout
-                if (_fallTimeoutDelta >= 0.0f)
-                {
-                    _fallTimeoutDelta -= Time.deltaTime;
-                }
-                else
-                {
-                    // update animator if using character
-                    if (_hasAnimator)
-                    {
-                        _animator.SetBool(_animIDFreeFall, true);
-                    }
-                }
-
-                // if we are not grounded, do not jump
+                _animatorController.DoJump();
                 _input.jump = false;
             }
-
-            // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
-            if (_verticalVelocity < _terminalVelocity)
+            if(_input.slide && _animatorController.TryBreakAction(OperatorAnimatorBaseController.ActionName.Slide))
             {
-                _verticalVelocity += Gravity * Time.deltaTime;
+                _animatorController.DoSlide();
             }
+            if(_input.reloading && _animatorController.TryBreakAction(OperatorAnimatorBaseController.ActionName.Reload))
+                _animatorController.DoReload(GunController.Reloading());
+            
         }
+        
+        private void Move()
+        {
+            var moveVec = _animatorController.GetMoveVec(_input.move);
+            _controller.Move(moveVec);
+            _context.Operators[transform].Speed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+        }
+        
+        
 
         private float GunLine = 0.95f; // 枪线，应该在准星上
         private void AimAndShoot()
         {
             // 瞄准和射击的动作控制
-            if (_input.aim && isActionCanWork(_animIDAim))
+            if (_input.aim && _animatorController.TryBreakAction(OperatorAnimatorBaseController.ActionName.Aim))
             {
-                _animator.SetBool(_animIDAim, true);
+                _animatorController.SetAim(true);
                 var aim = getMouseAiming();
                 // 枪口朝向鼠标方向
                 transform.LookAt(new Vector3(aim.x, transform.position.y, aim.z));
@@ -390,12 +118,12 @@ namespace StarterAssets
                 {
                     if(GunController.Shoot((aim - GunController.BulletStartTrans.position).normalized))
                     {
-                        _animator.SetBool(_animIDShoot, true);
+                        _animatorController.SetShoot(true);
                         _context.Operators[transform].ActAttack();
                     }
                     else
                     {
-                        _animator.SetBool(_animIDShoot, false);
+                        _animatorController.SetShoot(false);
                     }
                 }
 
@@ -403,43 +131,23 @@ namespace StarterAssets
             }
             else
             {
-                _animator.SetBool(_animIDAim, false);
-                _animator.SetBool(_animIDShoot, false);
+                _animatorController.SetAim(false);
+                _animatorController.SetShoot(false);
             }
         }
 
-        private void Reloading()
-        {
-            if (!_input.reloading) return; // 检测按键
-            if (GunController.IsReloading()) return; // 检测换弹中
-            
-            StartCoroutine(CoroReloading());
-        }
 
         //TODO：分离技能逻辑
         private void Skill()
         {
-            if((_input.skill1 || _input.skill2) && isActionCanWork(_animIDJump))
+            if((_input.skill1 || _input.skill2) && _animatorController.TryBreakAction(OperatorAnimatorBaseController.ActionName.Skill))
             {
                 if (_input.skill1) _context.UseSkill(transform, 0, getMouseAiming(), Time.time);
                 if (_input.skill2) _context.UseSkill(transform, 1, getMouseAiming(), Time.time);
             }
         }
 
-        private bool isActionCanWork(int actionId)
-        {
-            if (actionId == _animIDReloading) return true;
-            else if (_animator.GetBool(_animIDReloading)) return false;
-            else return true;
-        }
 
-        private IEnumerator CoroReloading()
-        {
-            _animator.SetBool(_animIDReloading, true);
-            yield return GunController.Reloading();
-            _animator.SetBool(_animIDReloading, false);
-            yield break;
-        }
 
         private Vector3 getMouseAiming()
         {
@@ -484,27 +192,11 @@ namespace StarterAssets
         private void HP0Event(object sender)
         {
             // 清空动画
-            _animator.SetBool(_animIDJump, false);
-            _animator.SetBool(_animIDAim, false);
-            _animator.SetBool(_animIDShoot, false);
-            _animator.SetBool(_animIDSlide, false);
+            _animatorController.StopAll();
 
         }
 
 
-        private void OnDrawGizmosSelected()
-        {
-            Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
-            Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);
-
-            if (Grounded) Gizmos.color = transparentGreen;
-            else Gizmos.color = transparentRed;
-
-            // when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
-            Gizmos.DrawSphere(
-                new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z),
-                GroundedRadius);
-        }
 
         private void OnFootstep(AnimationEvent animationEvent)
         {
