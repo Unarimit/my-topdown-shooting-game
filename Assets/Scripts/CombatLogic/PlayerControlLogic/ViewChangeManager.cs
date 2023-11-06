@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.ComputerControllers;
-using Cinemachine;
+﻿using Cinemachine;
 using System;
 using System.Collections.Generic;
 using System.Linq;

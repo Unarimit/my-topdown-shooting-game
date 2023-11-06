@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.Windows;
 
@@ -76,6 +77,7 @@ namespace Assets.Scripts.CombatLogic.EnviormentLogic
 
         private GameObject _mainCamera;
         private CharacterController _controller;
+        private NavMeshAgent _navMeshAgent;
         private void Awake()
         {
             // get a reference to our main camera
@@ -88,6 +90,7 @@ namespace Assets.Scripts.CombatLogic.EnviormentLogic
         {
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
+            _navMeshAgent = GetComponent<NavMeshAgent>();
             // AssignAnimationIDs
             _animIDSpeed = Animator.StringToHash("Speed");
             _animIDGrounded = Animator.StringToHash("Grounded");
@@ -211,7 +214,9 @@ namespace Assets.Scripts.CombatLogic.EnviormentLogic
             if (input == Vector2.zero) targetSpeed = 0.0f;
 
             // a reference to the players current horizontal velocity
-            float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+            float currentHorizontalSpeed;
+            if (_controller != null) currentHorizontalSpeed =  new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+            else currentHorizontalSpeed = _navMeshAgent.velocity.magnitude;
 
             float speedOffset = 0.1f;
             float inputMagnitude = 1f;

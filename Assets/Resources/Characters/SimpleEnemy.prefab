@@ -968,6 +968,7 @@ GameObject:
   - component: {fileID: 5169650415140603996}
   - component: {fileID: 7373533162894083295}
   - component: {fileID: 3931273683662401877}
+  - component: {fileID: 3534624300943529233}
   m_Layer: 8
   m_Name: SimpleEnemy
   m_TagString: Untagged
@@ -1048,10 +1049,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9dcb148cbe6d124bbce4ca1032b50a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gunController: {fileID: 7373533162894083295}
-  _context: {fileID: 0}
+  type: 0
   aimPos: {x: 0, y: 0, z: 0}
   aimTran: {fileID: 0}
+  _context: {fileID: 0}
+  _gunController: {fileID: 7373533162894083295}
 --- !u!114 &5169650415140603996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1101,6 +1103,32 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &3534624300943529233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3619889203333071663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7bffa3bcd05af4bbf58176fd759584, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Grounded: 1
+  GroundedOffset: -0.14
+  GroundedRadius: 0.28
+  GroundLayers:
+    serializedVersion: 2
+    m_Bits: 513
+  JumpHeight: 1.2
+  Gravity: -15
+  JumpTimeout: 0.5
+  FallTimeout: 0.15
+  MoveSpeed: 2
+  SprintSpeed: 5.335
+  RotationSmoothTime: 0.12
+  SpeedChangeRate: 10
 --- !u!1 &3715009122492800097
 GameObject:
   m_ObjectHideFlags: 0

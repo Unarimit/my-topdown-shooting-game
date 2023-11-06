@@ -1,13 +1,14 @@
 ﻿using Assets.Scripts.CombatLogic.ComputerControllers.States;
-using Assets.Scripts.ComputerControllers;
+using Assets.Scripts.CombatLogic.EnviormentLogic;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.FilePathAttribute;
 
 namespace Assets.Scripts.CombatLogic.ComputerControllers
 {
-    public class AgentController : PersonController
+    public class AgentController : MonoBehaviour
     {
         private Dictionary<StateType, IAgentState> states = new Dictionary<StateType, IAgentState>();
         private IAgentState currentState;
@@ -22,17 +23,19 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
         public bool isStopped => _navMeshAgent.velocity == new Vector3();
         private Vector3 _instantiatePosition;
         private NavMeshAgent _navMeshAgent;
+        public CombatContextManager _context;
+        private OperatorAnimatorBaseController _animatorController;
+        public GunController _gunController;
         private new void Awake()
         {
-            base.Awake();
             _navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
-        protected override void Start()
+        protected void Start()
         {
-
-            base.Start();
             _instantiatePosition = transform.position;
+            _context = CombatContextManager.Instance;
+            _animatorController = GetComponent<OperatorAnimatorBaseController>();
 
             states.Add(StateType.Idle, new IdleState(this));
             states.Add(StateType.React, new ReactState(this));
@@ -59,8 +62,9 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
         }
         private void Update()
         {
-            base.setSpeed(_navMeshAgent.velocity.sqrMagnitude);
             currentState.OnUpdate();
+
+            _animatorController.GetMoveVec(new Vector2(_navMeshAgent.velocity.x,  _navMeshAgent.velocity.z));
         }
 
         // ********************** Agent Behavior ********************
@@ -101,6 +105,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
 
         private float FindDistance = 10f;
         protected float FindAngle = 30f;
+
         /// <summary>
         /// 尝试发现敌人
         /// </summary>
@@ -141,6 +146,35 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
                 }
             }
             return false;
+        }
+
+        public void Aim(Vector3 aim)
+        {
+            if(_animatorController.TryBreakAction(OperatorAnimatorBaseController.ActionName.Aim) == false) return;
+            _animatorController.SetAim(true);
+            transform.LookAt(aim);
+        }
+        public bool Shoot(Vector3 aim)
+        {
+            if (_animatorController.TryBreakAction(OperatorAnimatorBaseController.ActionName.Shoot) == false) return false;
+
+            if (_gunController.gunProperty.CurrentAmmo == 0)
+            {
+                _animatorController.DoReload(_gunController.Reloading());
+                return false;
+            }
+
+            // 子弹偏移
+            System.Random random = new System.Random();
+            float diff_factor = 0.03f;
+
+            var push = (aim - _gunController.BulletStartTrans.position).normalized;
+            push.x += ((float)random.NextDouble() - 0.5f) * diff_factor;
+            push.z += ((float)random.NextDouble() - 0.5f) * diff_factor;
+            var res = _gunController.Shoot(push);
+            _animatorController.SetShoot(res);
+
+            return res;
         }
 
         private void OnFootstep(AnimationEvent animationEvent)

@@ -2,7 +2,6 @@
 using Assets.Scripts.BulletLogic;
 using Assets.Scripts.CombatLogic;
 using Assets.Scripts.CombatLogic.EnviormentLogic;
-using Assets.Scripts.ComputerControllers;
 using System.Collections;
 using Unity.Burst.Intrinsics;
 using UnityEngine;
