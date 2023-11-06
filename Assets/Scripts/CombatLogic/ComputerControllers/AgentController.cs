@@ -154,7 +154,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
             _animatorController.SetAim(true);
             transform.LookAt(aim);
         }
-        public bool Shoot(Vector3 aim)
+        public bool Shoot(Vector3 aim, float diff_factor)
         {
             if (_animatorController.TryBreakAction(OperatorAnimatorBaseController.ActionName.Shoot) == false) return false;
 
@@ -166,7 +166,6 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
 
             // 子弹偏移
             System.Random random = new System.Random();
-            float diff_factor = 0.03f;
 
             var push = (aim - _gunController.BulletStartTrans.position).normalized;
             push.x += ((float)random.NextDouble() - 0.5f) * diff_factor;
