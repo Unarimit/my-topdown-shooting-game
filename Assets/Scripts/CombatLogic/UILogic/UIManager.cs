@@ -35,9 +35,10 @@ namespace Assets.Scripts.CombatLogic
         const string GameOverPanel = "GameOverPanel";
         const string ReviveCountdownPanel = "ReviveCountdownPanel";
         const string BreakHUD = "BreakHUDImg";
-        public void ShowFinish()
+        public void ShowFinish(bool isWin)
         {
-            windows[GameOverPanel].SetVisible(true);
+            if(isWin) GameOverUI.Instance.ShowWinText();
+            else GameOverUI.Instance.ShowLossText();
         }
         public void ShowReviveCountdown()
         {

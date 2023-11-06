@@ -37,7 +37,6 @@ namespace Assets.Scripts.CombatLogic
                 new Vector3(2, 0, 0), new Vector3(),
                 0, op1, CombatContextManager.Instance.Enviorment);
 
-            StorageManager.Instance.InitSet(EnemyTeamTrans.Count*10);
         }
     }
 }

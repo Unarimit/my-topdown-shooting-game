@@ -139,7 +139,8 @@ namespace Assets.Scripts.CombatLogic
         private void OperatorDied(Transform aim)
         {
             Operators[aim].DoDied();
-            if (Operators[aim].Team == 1) StorageManager.Instance.KillOne();
+            if (Operators[aim].Team == 1) StorageManager.Instance.AddObject("win");
+            if (Operators[aim].Team == 0) StorageManager.Instance.AddObject("loss");
             aim.GetComponent<DestructiblePersonController>().DoDied();
             if (aim == PlayerTrans) UIManager.Instance.ShowReviveCountdown();
 
