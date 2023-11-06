@@ -26,7 +26,7 @@ namespace Assets.Scripts.CombatLogic
         private Dictionary<Transform, DamageNumEffectController> hitTextDic = new Dictionary<Transform, DamageNumEffectController>();
         public void DamageTextEffect(int dmg, Transform hitted)
         {
-            if(hitTextDic.ContainsKey(hitted) && hitTextDic[hitted] != null)
+            if(hitTextDic.ContainsKey(hitted) && hitTextDic[hitted] != null && hitTextDic[hitted].InDestroy == false)
             {
                 hitTextDic[hitted].AppendDamageNum(dmg);
                 hitTextDic[hitted].transform.position = hitted.position + new Vector3(0, 1.5f, 0);

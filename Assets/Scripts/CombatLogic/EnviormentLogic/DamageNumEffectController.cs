@@ -14,6 +14,7 @@ namespace Assets.Scripts.CombatLogic
     public class DamageNumEffectController : MonoBehaviour
     {
         public int DamageNum { get; set; }
+        public bool InDestroy { get; set; } = false;
         private TextMeshPro _text;
         private float speed = 3;
         private float speed_weak = 5f;
@@ -29,6 +30,7 @@ namespace Assets.Scripts.CombatLogic
         {
             transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward);
             transform.Translate(transform.up * speed * Time.deltaTime); //使字体向上移动
+            _text.text = DamageNum.ToString();
             if (speed > 0)
             {
                 speed -= speed_weak * Time.deltaTime;//使得向上移动的速度逐渐减少
@@ -39,6 +41,7 @@ namespace Assets.Scripts.CombatLogic
             }
             else
             {
+                InDestroy = true;
                 Destroy(gameObject);
             }
         }
@@ -50,8 +53,7 @@ namespace Assets.Scripts.CombatLogic
         public void AppendDamageNum(int dmg)
         {
             delay_time = BASE_DELAY_TIME;
-            DamageNum += 1;
-            _text.text = DamageNum.ToString();
+            DamageNum += dmg;
         }
 
     }

@@ -65,7 +65,7 @@ namespace Assets.Scripts.BulletLogic
         }
         public void DoDied()
         {
-            HP0Event.Invoke(transform);
+            //HP0Event.Invoke(transform);
         }
         public void GotDMG()
         {
