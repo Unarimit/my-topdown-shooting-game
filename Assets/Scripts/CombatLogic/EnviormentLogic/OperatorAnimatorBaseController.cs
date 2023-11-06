@@ -78,6 +78,7 @@ namespace Assets.Scripts.CombatLogic.EnviormentLogic
         private GameObject _mainCamera;
         private CharacterController _controller;
         private NavMeshAgent _navMeshAgent;
+        private CapsuleCollider _collider;
         private void Awake()
         {
             // get a reference to our main camera
@@ -91,6 +92,9 @@ namespace Assets.Scripts.CombatLogic.EnviormentLogic
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
+            _collider = GetComponent<CapsuleCollider>();
+
+
             // AssignAnimationIDs
             _animIDSpeed = Animator.StringToHash("Speed");
             _animIDGrounded = Animator.StringToHash("Grounded");
@@ -153,12 +157,15 @@ namespace Assets.Scripts.CombatLogic.EnviormentLogic
         public void DoSlide()
         {
             _animator.SetBool(_animIDSlide, true);
+            ChangeCollider(true);
             StartCoroutine(DelayCloseSlide());
         }
         IEnumerator DelayCloseSlide()
         {
             yield return new WaitForEndOfFrame();
             _animator.SetBool(_animIDSlide, false);
+            yield return new WaitForSeconds(2f);
+            ChangeCollider(false);
         }
         public void StopAll()
         {
@@ -331,7 +338,24 @@ namespace Assets.Scripts.CombatLogic.EnviormentLogic
                 _verticalVelocity += Gravity * Time.deltaTime;
             }
         }
-        
+
+        /// <summary>
+        /// 用于下蹲时切换Collider的范围
+        /// </summary>
+        private void ChangeCollider(bool isSquat)
+        {
+            if (isSquat)
+            {
+                _collider.center = new Vector3(0, 0.475f, 0);
+                _collider.height = 0.75f;
+            }
+            else
+            {
+                _collider.center = new Vector3(0, 0.8f, 0);
+                _collider.height = 1.4f;
+            }
+
+        }
         private void OnDrawGizmosSelected()
         {
             Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);

@@ -45,7 +45,6 @@ namespace StarterAssets
         private StarterAssetsInputs _input;
         private CombatContextManager _context;
 
-        private const float _threshold = 0.01f;
 
 
 
@@ -53,6 +52,7 @@ namespace StarterAssets
         private void Start()
         {
             _controller = GetComponent<CharacterController>();
+            _controller.detectCollisions = false;
             _animatorController = GetComponent<OperatorAnimatorBaseController>();
             _input = StarterAssetsInputs.Instance;
             _context = CombatContextManager.Instance;
@@ -170,23 +170,6 @@ namespace StarterAssets
             return aim;
         }
 
-        /// <summary>
-        /// 用于下蹲时切换Collider的范围
-        /// </summary>
-        private void ChangeCollider(bool isSquat)
-        {
-            if (isSquat)
-            {
-                _controller.center = new Vector3(0, 0.475f, 0);
-                _controller.height = 0.75f;
-            }
-            else
-            {
-                _controller.center = new Vector3(0, 0.8f, 0);
-                _controller.height = 1.4f;
-            }
-            
-        }
 
         private void HP0Event(object sender)
         {

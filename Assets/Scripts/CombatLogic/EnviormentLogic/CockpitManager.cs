@@ -65,7 +65,7 @@ namespace Assets.Scripts.CombatLogic
                 // normalize [0, 1]
                 float normal = _intervalClock / (_INTERVAL / 2);
                 // cal
-                Cockpit.position = new Vector3(cockpitInitPos.x, cockpitInitPos.y + 0.05f * (float)Math.Sin((double)normal * Math.PI), cockpitInitPos.z);
+                Cockpit.position = new Vector3(cockpitInitPos.x, cockpitInitPos.y + 0.05f * Mathf.Sin(normal * Mathf.PI), cockpitInitPos.z);
             }
             else// if (_intervalClock < _INTERVAL)
             {
