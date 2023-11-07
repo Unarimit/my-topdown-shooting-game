@@ -10553,12 +10553,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5519100431995847005}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1439278999 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1113227377600581828, guid: 42e21a61c9586c0429d8d9aa10985da6,
-    type: 3}
-  m_PrefabInstance: {fileID: 6045144686580813265}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1442536214
 GameObject:
   m_ObjectHideFlags: 0
@@ -15961,32 +15955,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6045144686580813265}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &543450653569478851
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1439278999}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e7bffa3bcd05af4bbf58176fd759584, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Grounded: 1
-  GroundedOffset: -0.14
-  GroundedRadius: 0.28
-  GroundLayers:
-    serializedVersion: 2
-    m_Bits: 513
-  JumpHeight: 1.2
-  Gravity: -15
-  JumpTimeout: 0.5
-  FallTimeout: 0.15
-  MoveSpeed: 2
-  SprintSpeed: 5.335
-  RotationSmoothTime: 0.12
-  SpeedChangeRate: 10
 --- !u!1001 &558788619541293872
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31935,6 +31903,11 @@ PrefabInstance:
       propertyPath: Bullet
       value: 
       objectReference: {fileID: 1111747926}
+    - target: {fileID: 282599055190748582, guid: 42e21a61c9586c0429d8d9aa10985da6,
+        type: 3}
+      propertyPath: GunshotAudioVolume
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 552846456860543801, guid: 42e21a61c9586c0429d8d9aa10985da6,
         type: 3}
       propertyPath: m_Name
@@ -32058,11 +32031,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1113227377600581828, guid: 42e21a61c9586c0429d8d9aa10985da6,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 543450653569478851}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42e21a61c9586c0429d8d9aa10985da6, type: 3}
 --- !u!1001 &6049278298445490500
 PrefabInstance:

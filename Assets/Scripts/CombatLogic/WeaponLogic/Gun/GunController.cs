@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 namespace Assets.Scripts
 {
@@ -23,12 +24,14 @@ namespace Assets.Scripts
         public Transform BulletStartTrans;
 
         public GunProperty gunProperty = new GunProperty();
-
         /// <summary>
         /// 是否是玩家的武器
         /// </summary>
         public bool IsPlayer { get; set; } = false;
 
+
+        private List<AudioClip> gunshotAudioAudioClips;
+        [Range(0, 1)] public float GunshotAudioVolume = 0.5f;
         public class GunProperty
         {
             public string Name { get; set; } = "AK47";
@@ -74,6 +77,8 @@ namespace Assets.Scripts
         private void Start()
         {
             if (CombatContextManager.Instance.IsPlayer(transform)) IsPlayer = true;
+
+            gunshotAudioAudioClips = AnimeHelper.Instance.GetGunshot();
         }
 
         // 判断枪口火焰
@@ -98,7 +103,15 @@ namespace Assets.Scripts
                 bullet.SetActive(true);
                 StartCoroutine(DelayForce(bullet, push));
                 gunProperty.CurrentAmmo -= 1;
-
+                if (CombatContextManager.Instance.IsPlayer(transform))
+                {
+                    AudioSource.PlayClipAtPoint(gunshotAudioAudioClips[gunProperty.CurrentAmmo % 15], Camera.main.transform.position + Camera.main.transform.forward * 2, GunshotAudioVolume);
+                }
+                else
+                {
+                    AudioSource.PlayClipAtPoint(gunshotAudioAudioClips[gunProperty.CurrentAmmo % 15], transform.position, GunshotAudioVolume);
+                }
+                
                 // UI更新
                 if (IsPlayer) GunStatuUI.Instance.UpdateCurrentAmmo(gunProperty.CurrentAmmo);
 
@@ -166,5 +179,7 @@ namespace Assets.Scripts
         {
             return gunProperty.LastReloading != gunProperty.ReloadTime;
         }
+
+        
     }
 }
