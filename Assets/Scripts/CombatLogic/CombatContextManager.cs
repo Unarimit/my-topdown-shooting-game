@@ -11,8 +11,10 @@ using System.Threading.Tasks;
 using TMPro;
 using Unity.Burst.Intrinsics;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.Scripting;
 using UnityEngine.UIElements;
 
@@ -21,6 +23,10 @@ namespace Assets.Scripts.CombatLogic
 
     public class CombatContextManager : MonoBehaviour
     {
+        /// <summary>
+        /// singleton
+        /// </summary>
+        public static CombatContextManager Instance;
         // ******************* inspector *************
         /// <summary>
         /// 己方干员列表，0号为玩家位
@@ -45,10 +51,6 @@ namespace Assets.Scripts.CombatLogic
 
         public Transform PlayerTrans => PlayerTeamTrans[0];
 
-        /// <summary>
-        /// singleton
-        /// </summary>
-        public static CombatContextManager Instance;
         private SkillManager _skillContext;
 
         private void Awake()
@@ -56,6 +58,8 @@ namespace Assets.Scripts.CombatLogic
             if (Instance == null) Instance = this;
             else Debug.LogWarning(transform.ToString() + " try to load another Manager");
             TeammateStatu = TeammateStatus.Follow;
+
+            Time.timeScale = 1;
 
         }
 
@@ -248,7 +252,14 @@ namespace Assets.Scripts.CombatLogic
         {
             return (float)Operators[PlayerTrans].CurrentHP / Operators[PlayerTrans].MaxHP < 0.5;
         }
+        public void GameFinish()
+        {
+            Time.timeScale = 0;
+        }
         
-        
+        public void RestartScene()
+        {
+            SceneManager.LoadScene("Playground", LoadSceneMode.Single);
+        }
     }
 }

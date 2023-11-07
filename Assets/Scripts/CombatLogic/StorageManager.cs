@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.CombatLogic.LevelLogic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,23 +15,17 @@ namespace Assets.Scripts.CombatLogic
     {
         public static StorageManager Instance;
         Dictionary<string, int> storages = new Dictionary<string, int>();
-        const string WIN_OBJECT = "win";
-        const string LOSS_OBJECT = "loss";
 
         private void Awake()
         {
             if (Instance == null) Instance = this;
             else Debug.LogWarning(transform.ToString() + " try to load another Manager");
         }
-        private void Start()
-        {
-            storages[WIN_OBJECT] = 0;
-            storages[LOSS_OBJECT] = 0;
-        }
         public void AddObject(string key, int amount)
         {
+            if(!storages.ContainsKey(key)) storages[key] = 0;
             storages[key] += amount;
-            CheckAim(key);
+            GameLevelManager.Instance.CheckAim(key);
         }
         public void AddObject(string key)
         {
@@ -40,11 +35,12 @@ namespace Assets.Scripts.CombatLogic
         {
 
         }
-        private void CheckAim(string key)
+        public int GetValue(string key)
         {
-
-            if (key == WIN_OBJECT && storages[key] >= 10) UIManager.Instance.ShowFinish(true);
-            if (key == LOSS_OBJECT && storages[key] >= 6) UIManager.Instance.ShowFinish(false);
+            if (storages.ContainsKey(key)) return storages[key];
+            else return 0;
         }
+
+
     }
 }
