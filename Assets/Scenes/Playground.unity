@@ -150,6 +150,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8587501068056858118}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &26710245 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7734157968435064979, guid: a8aabb8b54e87d24cbb30640fab080ba,
+    type: 3}
+  m_PrefabInstance: {fileID: 1308433837}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &35983374 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7667667299490085784, guid: c65df2ca4c250c442925bcdb64911c51,
@@ -2915,6 +2921,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainText: {fileID: 627601288}
+--- !u!1 &473252403 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6716493545791509566, guid: a8aabb8b54e87d24cbb30640fab080ba,
+    type: 3}
+  m_PrefabInstance: {fileID: 1308433837}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &474872269 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8719739787567930251, guid: 341e51ffcacc4a3419e517763508953d,
@@ -4958,6 +4970,12 @@ Transform:
   - {fileID: 1098899384}
   m_Father: {fileID: 1327619677}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &828309864 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5505551570350813933, guid: a8aabb8b54e87d24cbb30640fab080ba,
+    type: 3}
+  m_PrefabInstance: {fileID: 1308433837}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &829777188 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7667667299490085784, guid: c65df2ca4c250c442925bcdb64911c51,
@@ -8609,6 +8627,21 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 141826527644978445, guid: a8aabb8b54e87d24cbb30640fab080ba,
+        type: 3}
+      propertyPath: RedDisplay
+      value: 
+      objectReference: {fileID: 473252403}
+    - target: {fileID: 141826527644978445, guid: a8aabb8b54e87d24cbb30640fab080ba,
+        type: 3}
+      propertyPath: BlueDisplay
+      value: 
+      objectReference: {fileID: 828309864}
+    - target: {fileID: 141826527644978445, guid: a8aabb8b54e87d24cbb30640fab080ba,
+        type: 3}
+      propertyPath: CharacterAnimator
+      value: 
+      objectReference: {fileID: 26710245}
     - target: {fileID: 147659730589170449, guid: a8aabb8b54e87d24cbb30640fab080ba,
         type: 3}
       propertyPath: m_Layer

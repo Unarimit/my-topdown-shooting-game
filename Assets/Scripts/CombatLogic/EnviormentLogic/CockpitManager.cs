@@ -18,11 +18,20 @@ namespace Assets.Scripts.CombatLogic
         public Camera Cam;
         public Transform Cockpit;
 
+        public GameObject BlueDisplay;
+        public GameObject RedDisplay;
+
+        public Animator CharacterAnimator;
+
+        // ************ inspector end **********************
+
         private Vector3 cockpitInitPos;
 
         private CockpitWalkState _state;
 
         public static CockpitManager Instance;
+
+        int _animIDAngry;
 
         private void Awake()
         {
@@ -34,6 +43,14 @@ namespace Assets.Scripts.CombatLogic
         {
             Cam = Camera.main;
             cockpitInitPos = Cockpit.position;
+            CombatContextManager.Instance.PlayerDiedEvent += ChangeDiedStatu;
+
+            _animIDAngry = Animator.StringToHash("Angry");
+        }
+
+        private void OnDestroy()
+        {
+            CombatContextManager.Instance.PlayerDiedEvent -= ChangeDiedStatu;
         }
 
 
@@ -47,6 +64,13 @@ namespace Assets.Scripts.CombatLogic
             _state = state;
             if (state == CockpitWalkState.Walking) _INTERVAL = 1;
             else if(state == CockpitWalkState.Running) _INTERVAL = 0.3f;
+        }
+
+        private void ChangeDiedStatu(object sender,bool isDied)
+        {
+            CharacterAnimator.SetBool(_animIDAngry, isDied);
+            RedDisplay.SetActive(isDied);
+            BlueDisplay.SetActive(!isDied);
         }
 
 
@@ -72,5 +96,6 @@ namespace Assets.Scripts.CombatLogic
                 //pass
             }
         }
+       
     }
 }
