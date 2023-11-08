@@ -73,7 +73,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _LightMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 283278e0cd11bc749a76b887833a10ac, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -162,10 +162,10 @@ Material:
     - _Is_Filter_LightColor: 1
     - _LightIntensityClamp: 1
     - _MainLightIgnoreCelShade: 0
-    - _Metallic: 0
+    - _Metallic: 0.9
     - _OcclusionRemapEnd: 1
     - _OcclusionRemapStart: 0
-    - _OcclusionStrength: 1
+    - _OcclusionStrength: 0
     - _Outline: 0
     - _OutlineWidth: 1
     - _OutlineZOffset: 0.0001
@@ -236,7 +236,7 @@ Material:
     - _IndirectLightMinColor: {r: 0, g: 0, b: 0, a: 1}
     - _OcclusionMapChannelMask: {r: 1, g: 0, b: 0, a: 0}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 0}
-    - _PBRMetallicChannel: {r: 1, g: 0, b: 0, a: 0}
+    - _PBRMetallicChannel: {r: 0, g: 1, b: 0, a: 0}
     - _PBROcclusionChannel: {r: 0, g: 1, b: 0, a: 0}
     - _PBRSmothnessChannel: {r: 0, g: 0, b: 0, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
