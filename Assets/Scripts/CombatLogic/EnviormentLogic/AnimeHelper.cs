@@ -40,19 +40,24 @@ namespace Assets.Scripts.CombatLogic
 
                 go.transform.position = hitted.position + new Vector3(0, 1.5f, 0);
             }
-            
+
         }
         List<AudioClip> gunshotAudioAudioClips = null;
         public List<AudioClip> GetGunshot()
         {
             if (gunshotAudioAudioClips == null)
             {
-                gunshotAudioAudioClips = SplitGunSound(Resources.Load<AudioClip>("Sounds/Spray")).ToList();
+                gunshotAudioAudioClips = SplitGunSound(Resources.Load<AudioClip>("Sounds/Spray"));
             }
             return gunshotAudioAudioClips;
         }
         private List<AudioClip> SplitGunSound(AudioClip gunSound)
         {
+            if(gunSound.LoadAudioData() == false)
+            {
+                Debug.Log("audio not load");
+                return null;
+            }
             float clipLength = 1.2f; // 分割后的长度为1.2秒
             float[] PeekSeconds = new float[] {
                 0.07f, 0.143f, 0.227f, 0.307f, 0.391f,

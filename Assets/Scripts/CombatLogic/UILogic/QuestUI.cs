@@ -22,5 +22,10 @@ namespace Assets.Scripts.CombatLogic.UILogic
         {
             MainText.text = text;
         }
+
+        private void OnDestroy()
+        {
+            GameLevelManager.Instance.AimChangeEvent -= ChangeText;
+        }
     }
 }

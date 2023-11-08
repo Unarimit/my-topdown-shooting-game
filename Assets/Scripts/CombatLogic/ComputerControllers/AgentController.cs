@@ -104,7 +104,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
         }
 
         private float FindDistance = 10f;
-        protected float FindAngle = 30f;
+        protected float FindAngle = 60f;
 
         /// <summary>
         /// 尝试发现敌人
