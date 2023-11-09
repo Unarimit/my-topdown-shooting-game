@@ -881,6 +881,7 @@ MonoBehaviour:
   Bullet: {fileID: 0}
   GunFire: {fileID: 4645050022110338437}
   BulletStartTrans: {fileID: 3370070808442082333}
+  GunshotAudioVolume: 0.5
 --- !u!114 &3881446740082572308
 MonoBehaviour:
   m_ObjectHideFlags: 0
