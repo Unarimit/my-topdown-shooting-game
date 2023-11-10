@@ -23,7 +23,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
         public bool isStopped => _navMeshAgent.velocity == new Vector3();
         private Vector3 _instantiatePosition;
         private NavMeshAgent _navMeshAgent;
-        public CombatContextManager _context;
+        private CombatContextManager _context;
         private OperatorAnimatorBaseController _animatorController;
         public GunController _gunController;
         private new void Awake()
@@ -38,7 +38,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
             _animatorController = GetComponent<OperatorAnimatorBaseController>();
 
             states.Add(StateType.Idle, new IdleState(this));
-            states.Add(StateType.React, new ReactState(this));
+            states.Add(StateType.React, new ReactState(this, _context));
             states.Add(StateType.Attack, new AttackState(this));
 
             TranslateState(StateType.Idle);

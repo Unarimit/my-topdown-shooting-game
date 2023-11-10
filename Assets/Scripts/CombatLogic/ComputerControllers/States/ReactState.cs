@@ -10,9 +10,11 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers.States
     public class ReactState : IAgentState
     {
         private AgentController _agent;
-        public ReactState(AgentController agent)
+        private CombatContextManager _context;
+        public ReactState(AgentController agent, CombatContextManager context)
         {
             _agent = agent;
+            _context = context;
         }
         public void OnEnter()
         {
@@ -27,8 +29,8 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers.States
         public void OnUpdate()
         {
             AgentController.SeeMsg msg;
-            if (_agent._context.Operators[_agent.transform].Team == 1) msg = _agent.TrySeeCounters(_agent._context.PlayerTeamTrans);
-            else msg = _agent.TrySeeCounters(_agent._context.EnemyTeamTrans);
+            if (_context.Operators[_agent.transform].Team == 1) msg = _agent.TrySeeCounters(_context.PlayerTeamTrans);
+            else msg = _agent.TrySeeCounters(_context.EnemyTeamTrans);
             if (msg.Found == true)
             {
                 _agent.transform.LookAt(msg.FoundPos);
