@@ -28,7 +28,7 @@ namespace Assets.Scripts.CombatLogic
             Operators[PlayerTeamTrans[0]].CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[1]));
             
             CombatContextManager.Instance.GenerateAgent(
-                Resources.Load<GameObject>("Characters/Shiroko"),
+                Resources.Load<GameObject>("Characters/ShirokoAgent"),
                 new Vector3(1, 0, 0), new Vector3(),
                 0, op1, CombatContextManager.Instance.Enviorment);
 

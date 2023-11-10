@@ -19,6 +19,8 @@ namespace Assets.Scripts.Entities
 
         public string Name = "empty";
 
+        public string ModelResourceUrl;
+
         public int WeaponType;
 
         public float ReviveTime = 5;
