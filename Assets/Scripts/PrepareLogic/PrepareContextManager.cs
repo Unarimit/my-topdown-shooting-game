@@ -40,6 +40,18 @@ namespace Assets.Scripts.PrepareLogic
                 new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
                 new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
                 new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
+                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino" },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
+                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino" },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
+                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino" },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
             };
         }
     }
