@@ -9,5 +9,6 @@ namespace Assets.Scripts.PrepareLogic.UILogic
 {
     public class PrepareUIBase : MonoBehaviour
     {
+
     }
 }
