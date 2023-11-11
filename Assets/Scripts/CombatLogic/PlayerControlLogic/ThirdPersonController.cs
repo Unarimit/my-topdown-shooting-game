@@ -21,13 +21,6 @@ namespace StarterAssets
     {
         public GunController GunController;
 
-        public GameObject Grenade;
-
-        public GameObject BeamGO;
-
-        public GameObject Enviorment;
-
-
 
         public AudioClip LandingAudioClip;
         public AudioClip[] FootstepAudioClips;

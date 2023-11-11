@@ -51,10 +51,10 @@ namespace Assets.Scripts.CombatLogic
         /// <param name="data"></param>
         public void CastSkill(Transform Caster, CombatSkill skill, Vector3 aim)
         {
-            CastSkill2(Caster, skill, aim, Caster.position + new Vector3(0, 0.5f, 0), Caster.eulerAngles);
+            CastSkill(Caster, skill, aim, Caster.position + new Vector3(0, 0.5f, 0), Caster.eulerAngles);
         }
 
-        private void CastSkill2(Transform Caster, CombatSkill skill, Vector3 aim, Vector3 position , Vector3 angles)
+        private void CastSkill(Transform Caster, CombatSkill skill, Vector3 aim, Vector3 position , Vector3 angles)
         {
             // 初始化技能prefab
             var prefab = Resources.Load<GameObject>("Skills/" + skill.PrefabResourceUrl);
@@ -88,7 +88,7 @@ namespace Assets.Scripts.CombatLogic
             }
             foreach (var x in keysToTrigger)
             {
-                CastSkill2(x.Caster, skills[x.CSkill.NextSkillId], x.Aim, x.transform.position, new Vector3(0, 0, 0));
+                CastSkill(x.Caster, skills[x.CSkill.NextSkillId], x.Aim, x.transform.position, new Vector3(0, 0, 0));
                 TriggeringSkills.Remove(x);
                 Destroy(x.gameObject);
             }
