@@ -10785,6 +10785,7 @@ MonoBehaviour:
     HP: 5
     RecoverHP: 2
     Name: empty
+    ModelResourceUrl: 
     WeaponType: 0
     ReviveTime: 5
 --- !u!114 &1458971852
@@ -11468,6 +11469,7 @@ MonoBehaviour:
     HP: 5
     RecoverHP: 2
     Name: empty
+    ModelResourceUrl: 
     WeaponType: 0
     ReviveTime: 5
 --- !u!114 &1538417420
@@ -14491,6 +14493,7 @@ MonoBehaviour:
     HP: 5
     RecoverHP: 2
     Name: empty
+    ModelResourceUrl: 
     WeaponType: 0
     ReviveTime: 5
 --- !u!114 &2132031952

@@ -1,22 +1,10 @@
 ﻿using Assets.Scripts.BulletLogic;
-using Assets.Scripts.CombatLogic;
 using Assets.Scripts.CombatLogic.CombatEntities;
 using Assets.Scripts.Entities;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TMPro;
-using Unity.Burst.Intrinsics;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.SearchService;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.Scripting;
-using UnityEngine.UIElements;
 
 namespace Assets.Scripts.CombatLogic
 {
