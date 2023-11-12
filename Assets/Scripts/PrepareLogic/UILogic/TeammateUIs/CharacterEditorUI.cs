@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.UI;
 using UnityEngine;
+using Assets.Scripts.PrepareLogic.PrepareEntities;
+using Assets.Scripts.PrepareLogic.EffectLogic;
 
 namespace Assets.Scripts.PrepareLogic.UILogic
 {
@@ -14,6 +16,11 @@ namespace Assets.Scripts.PrepareLogic.UILogic
     {
         public RawImage m_RawImage;
         public RectTransform m_InfoPanelTrans;
+
+        public void ChooseCharacter(PrepareOperator model)
+        {
+            EditRoomManager.Instance.SetCharacterModel(model.OpInfo.ModelResourceUrl);
+        }
 
         public void Enter()
         {

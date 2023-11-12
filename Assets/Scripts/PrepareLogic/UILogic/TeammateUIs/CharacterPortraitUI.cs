@@ -20,22 +20,20 @@ namespace Assets.Scripts.PrepareLogic.UILogic
         private TeammatePortraitPage _page; 
 
         private PrepareOperator _model;
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="page"></param>
-        public void Inject(PrepareOperator model, TeammatePortraitPage page)
+
+        private CharacterPortraitScrollViewUI _parent;
+        public void Inject(PrepareOperator model, TeammatePortraitPage page, CharacterPortraitScrollViewUI parent)
         {
             _model = model;
             PortraitImage.texture = PhotographyManager.Instance.GetCharacterPortrait(_model.OpInfo.ModelResourceUrl);
             CharacterNameTMP.text = _model.OpInfo.Name;
             _page = page;
+            _parent = parent;
 
 
             if (_page == TeammatePortraitPage.ChoosePage)
             {
-                setChoose(_model.IsChoose);
+                SetChoose(_model.IsChoose);
             }
         }
         public void ChangePage(TeammatePortraitPage page)
@@ -43,11 +41,11 @@ namespace Assets.Scripts.PrepareLogic.UILogic
             _page = page;
             if (_page == TeammatePortraitPage.ChoosePage)
             {
-                setChoose(_model.IsChoose);
+                SetChoose(_model.IsChoose);
             }
             else
             {
-                setChoose(false);
+                SetChoose(false);
             }
         }
 
@@ -66,7 +64,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic
         }
 
 
-        private void setChoose(bool choose)
+        public void SetChoose(bool choose)
         {
             if (choose)
             {
@@ -82,11 +80,12 @@ namespace Assets.Scripts.PrepareLogic.UILogic
             if(_page == TeammatePortraitPage.ChoosePage)
             {
                 _model.IsChoose = !_model.IsChoose;
-                setChoose(_model.IsChoose);
+                SetChoose(_model.IsChoose);
             }
             else if(_page == TeammatePortraitPage.EditPage)
             {
-
+                _parent.InEditSelect(this, _model);
+                SetChoose(true);
             }
         }
     }

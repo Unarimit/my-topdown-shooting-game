@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using Assets.Scripts.PrepareLogic.PrepareEntities;
+using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 
@@ -13,6 +14,18 @@ namespace Assets.Scripts.PrepareLogic.UILogic
     {
         public CharacterEditorUI m_CharacterEditorUI;
         public CharacterPortraitScrollViewUI m_TeammatePortraitUI;
+
+        private void Start()
+        {
+            m_TeammatePortraitUI.Inject(this);
+            m_TeammatePortraitUI.GeneratePortrait();
+        }
+
+        public void ShowEditCharacter(PrepareOperator model)
+        {
+            m_CharacterEditorUI.ChooseCharacter(model);
+        }
+
 
         public override void Refresh()
         {

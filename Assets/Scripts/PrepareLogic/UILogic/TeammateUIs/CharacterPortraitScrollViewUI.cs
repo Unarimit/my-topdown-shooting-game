@@ -1,4 +1,6 @@
+using Assets.Scripts.PrepareLogic.PrepareEntities;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Scripts.PrepareLogic.UILogic
@@ -13,11 +15,12 @@ namespace Assets.Scripts.PrepareLogic.UILogic
         public Transform PortraitsContentTrans;
         private PrepareContextManager _context => PrepareContextManager.Instance;
         private List<CharacterPortraitUI> _characterPortraits;
-        void Start()
+        private TeammateUI _teammateUI;
+        public void Inject(TeammateUI teammateUI)
         {
-            generatePortrait();
+            _teammateUI = teammateUI;
         }
-        private void generatePortrait()
+        public void GeneratePortrait()
         {
             var ops = _context.data;
             _characterPortraits = new List<CharacterPortraitUI>();
@@ -27,11 +30,10 @@ namespace Assets.Scripts.PrepareLogic.UILogic
 
                 // set content
                 var cp = go.GetComponent<CharacterPortraitUI>();
-                cp.Inject(op, TeammatePortraitPage.ChoosePage);
+                cp.Inject(op, TeammatePortraitPage.ChoosePage, this);
 
                 _characterPortraits.Add(cp);
             }
-
         }
         public void ChangePage(TeammatePortraitPage page)
         {
@@ -39,6 +41,23 @@ namespace Assets.Scripts.PrepareLogic.UILogic
             {
                 cp.ChangePage(page);
             }
+            if(page == TeammatePortraitPage.EditPage) // 默认选中第一个角色
+            {
+                InEditSelect(_characterPortraits[0], _context.data[0]);
+                _characterPortraits[0].SetChoose(true);
+            }
+        }
+
+        /// <summary>
+        /// 子组件在显示自己前调用
+        /// </summary>
+        public void InEditSelect(CharacterPortraitUI portraitUI, PrepareOperator model)
+        {
+            foreach (var cp in _characterPortraits)
+            {
+                if(cp != portraitUI) cp.SetChoose(false);
+            }
+            _teammateUI.ShowEditCharacter(model);
         }
 
     }
