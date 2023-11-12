@@ -32,22 +32,24 @@ namespace Assets.Scripts.PrepareLogic
         }
 
         //TODO: Enum it!
-        private int state = 0;
+        private TeammatePortraitPage page = TeammatePortraitPage.ChoosePage;
         public void SwithPage()
         {
-            if(state == 0)
+            if(page == TeammatePortraitPage.ChoosePage)
             {
+                page = TeammatePortraitPage.EditPage;
                 StartCoroutine(SwithToEditorPageAsync());
-                state = 1;
             }
             else
             {
+                page = TeammatePortraitPage.ChoosePage;
                 StartCoroutine(SwithToMainPageAsync());
-                state = 0;
             }
             
 
         }
+        public delegate void SwtichPageHandler(TeammatePortraitPage page);
+        public event SwtichPageHandler SwtichPageEvent; // invoke end anime
         IEnumerator SwithToEditorPageAsync()
         {
             // to edit page
@@ -60,6 +62,7 @@ namespace Assets.Scripts.PrepareLogic
             yield return new WaitForSeconds(1);
 
             // 3.visable portrait list
+            SwtichPageEvent.Invoke(page);
             windows["PortraitsScrollView"].Enter();
 
             // 4. change onclick event
@@ -83,6 +86,7 @@ namespace Assets.Scripts.PrepareLogic
             yield return new WaitForSeconds(1);
 
             // 4.visable portrait list
+            SwtichPageEvent.Invoke(page);
             windows["PortraitsScrollView"].Enter();
 
             // 5. change onclick event

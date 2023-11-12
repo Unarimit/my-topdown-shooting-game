@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Entities;
+using Assets.Scripts.PrepareLogic.PrepareEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,48 +12,24 @@ namespace Assets.Scripts.PrepareLogic
     public class PrepareContextManager : MonoBehaviour
     {
         public static PrepareContextManager Instance;
+
+        public List<PrepareOperator> data;
         private void Awake()
         {
             if (Instance == null) Instance = this;
             else Debug.LogWarning(transform.ToString() + " try to load another Manager");
+
+            dataInit();
         }
 
-        public List<Operator> GetOperators()
+        private void dataInit()
         {
-            // TODO: these just for test
-            return new List<Operator>() { 
-                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko" },
-            };
+            data = new List<PrepareOperator>();
+            var ops = TestDB.GetOperators();
+            foreach(var op in ops)
+            {
+                data.Add(new PrepareOperator(op));
+            }
         }
     }
 }
