@@ -11,6 +11,7 @@ namespace Assets.Scripts.PrepareLogic
     {
         public static UIManager Instance;
 
+        public TeammatePortraitPage Page = TeammatePortraitPage.ChoosePage;
 
         private Dictionary<string, PrepareUIBase> windows;
         private void Awake()
@@ -28,69 +29,23 @@ namespace Assets.Scripts.PrepareLogic
                 windows.Add(x.name, x);
             }
 
-            windows["CharacterEditorPanel"].gameObject.SetActive(false);
         }
 
-        //TODO: Enum it!
-        private TeammatePortraitPage page = TeammatePortraitPage.ChoosePage;
+        
         public void SwithPage()
         {
-            if(page == TeammatePortraitPage.ChoosePage)
+            if(Page == TeammatePortraitPage.ChoosePage)
             {
-                page = TeammatePortraitPage.EditPage;
-                StartCoroutine(SwithToEditorPageAsync());
+                Page = TeammatePortraitPage.EditPage;
             }
             else
             {
-                page = TeammatePortraitPage.ChoosePage;
-                StartCoroutine(SwithToMainPageAsync());
+                Page = TeammatePortraitPage.ChoosePage;
             }
-            
 
+            windows["TeammatePanel"].Refresh();
+            windows["EnemyPanel"].Refresh();
         }
-        public delegate void SwtichPageHandler(TeammatePortraitPage page);
-        public event SwtichPageHandler SwtichPageEvent; // invoke end anime
-        IEnumerator SwithToEditorPageAsync()
-        {
-            // to edit page
-            // 1.invisable portrait list
-            windows["PortraitsScrollView"].gameObject.SetActive(false);
-
-            // 2. dotween anime
-            windows["TeammatePanel"].GetComponent<RectTransform>().DOSizeDelta(new Vector2(500, 780f), 1);
-            windows["EnemyPanel"].GetComponent<RectTransform>().DOSizeDelta(new Vector2(0, 780f), 1);
-            yield return new WaitForSeconds(1);
-
-            // 3.visable portrait list
-            SwtichPageEvent.Invoke(page);
-            windows["PortraitsScrollView"].Enter();
-
-            // 4. change onclick event
-
-            // 5. set editor visiable
-            windows["CharacterEditorPanel"].Enter();
-        }
-        IEnumerator SwithToMainPageAsync()
-        {
-            // 1.invisable portrait list
-            windows["PortraitsScrollView"].gameObject.SetActive(false);
-
-
-            // 2. set editor invisiable
-            windows["CharacterEditorPanel"].Quit();
-            yield return new WaitForSeconds(0.2f);
-
-            // 3. dotween anime
-            windows["TeammatePanel"].GetComponent<RectTransform>().DOSizeDelta(new Vector2(1300, 780f), 1);
-            windows["EnemyPanel"].GetComponent<RectTransform>().DOSizeDelta(new Vector2(618, 780f), 1);
-            yield return new WaitForSeconds(1);
-
-            // 4.visable portrait list
-            SwtichPageEvent.Invoke(page);
-            windows["PortraitsScrollView"].Enter();
-
-            // 5. change onclick event
-
-        }
+        
     }
 }

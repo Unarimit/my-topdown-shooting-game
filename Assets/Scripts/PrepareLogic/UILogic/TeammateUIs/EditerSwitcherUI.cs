@@ -9,6 +9,9 @@ using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.PrepareLogic.UILogic
 {
+    /// <summary>
+    /// 改变页面的UI，占据TeammateUI grid布局的第一个位置
+    /// </summary>
     public class EditerSwitcherUI : MonoBehaviour, IPointerClickHandler
     {
 

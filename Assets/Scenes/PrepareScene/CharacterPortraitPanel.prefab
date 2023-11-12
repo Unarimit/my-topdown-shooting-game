@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 7960545824064801690}
   - component: {fileID: 5474104229863210115}
   - component: {fileID: 7420830231447409753}
-  - component: {fileID: 5693172641917700765}
+  - component: {fileID: 4473823502412406705}
   m_Layer: 5
   m_Name: CharacterPortraitPanel
   m_TagString: Untagged
@@ -329,7 +329,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &5693172641917700765
+--- !u!114 &4473823502412406705
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -338,7 +338,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6253301986148533273}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d0ab5169c1847d42ae58a6d6d6c2064, type: 3}
+  m_Script: {fileID: 11500000, guid: 90af58695de7b4f44a5b803104285d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   PortraitImage: {fileID: 8429261592246727734}

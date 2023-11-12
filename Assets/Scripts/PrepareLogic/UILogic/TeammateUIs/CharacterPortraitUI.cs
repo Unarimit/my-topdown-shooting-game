@@ -59,13 +59,10 @@ namespace Assets.Scripts.PrepareLogic.UILogic
         private void Start()
         {
             Button.onClick.AddListener(onClick);
-            UIManager.Instance.SwtichPageEvent += ChangePage;
-
         }
         private void OnDestroy()
         {
             Button.onClick.RemoveAllListeners();
-            UIManager.Instance.SwtichPageEvent -= ChangePage;
         }
 
 

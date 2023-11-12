@@ -3,15 +3,10 @@ using UnityEngine;
 
 namespace Assets.Scripts.PrepareLogic.UILogic
 {
-    public enum TeammatePortraitPage
-    {
-        ChoosePage,
-        EditPage
-    }
     /// <summary>
     /// ½ÐPortraitsScrollView
     /// </summary>
-    public class TeammatePortraitUI : PrepareUIBase
+    public class CharacterPortraitScrollViewUI : MonoBehaviour
     {
 
         public GameObject CharacterPortraitPrefab;
@@ -44,16 +39,6 @@ namespace Assets.Scripts.PrepareLogic.UILogic
             {
                 cp.ChangePage(page);
             }
-        }
-        private void ClearChooseState()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
 
     }

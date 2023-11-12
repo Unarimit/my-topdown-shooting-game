@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 7960545824064801690}
   - component: {fileID: 5474104229863210115}
   - component: {fileID: 7420830231447409753}
-  - component: {fileID: 6074571477497297634}
+  - component: {fileID: 6342896399362720648}
   m_Layer: 5
   m_Name: EditButtonPanel
   m_TagString: Untagged
@@ -195,7 +195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.23529412}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -256,7 +256,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6074571477497297634
+--- !u!114 &6342896399362720648
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -265,7 +265,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6253301986148533273}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cadea6b26fa8144ab6484caac786915, type: 3}
+  m_Script: {fileID: 11500000, guid: 7759f1e8d83f4bb449b752106d2434a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_MainText: {fileID: 4850267471173015678}

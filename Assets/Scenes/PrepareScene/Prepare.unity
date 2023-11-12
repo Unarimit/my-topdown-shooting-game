@@ -686,7 +686,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &189266826
 RectTransform:
   m_ObjectHideFlags: 0
@@ -694,19 +694,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 189266825}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1840339572}
   - {fileID: 2077877157}
-  m_Father: {fileID: 1244049268}
+  m_Father: {fileID: 690988053}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 250, y: 149.95}
-  m_SizeDelta: {x: -500, y: -299.89}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1210.02, y: -390}
+  m_SizeDelta: {x: 1420.04, y: 780}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &189266828
 CanvasRenderer:
@@ -725,7 +725,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 189266825}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76715a105af20844d9482861ced01872, type: 3}
+  m_Script: {fileID: 11500000, guid: 1f6fce99323d3b648be265f2dd2e6489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_RawImage: {fileID: 1840339573}
@@ -2067,6 +2067,7 @@ RectTransform:
   m_Children:
   - {fileID: 1454985772}
   - {fileID: 1218066615}
+  - {fileID: 189266826}
   m_Father: {fileID: 1244049268}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
@@ -2124,6 +2125,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c503740ed32a54bbfd5cb03b129b5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_CharacterEditorUI: {fileID: 189266829}
+  m_TeammatePortraitUI: {fileID: 1454985776}
 --- !u!1 &710872004
 GameObject:
   m_ObjectHideFlags: 0
@@ -3478,7 +3481,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1074097437
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3582,6 +3585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4b3b0973d134f44080f35ba95a2abfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Page: 0
 --- !u!114 &1213201250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3768,7 +3772,6 @@ RectTransform:
   - {fileID: 1934241563}
   - {fileID: 1859708023}
   - {fileID: 113805163}
-  - {fileID: 189266826}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -6044,7 +6047,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1934241562}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f0f86255719a3a498bd99174df68150, type: 3}
+  m_Script: {fileID: 11500000, guid: dfcfd940ab6b4e04ab1012197ffafc33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1974020598

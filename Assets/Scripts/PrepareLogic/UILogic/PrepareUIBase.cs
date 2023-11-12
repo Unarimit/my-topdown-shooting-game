@@ -18,5 +18,10 @@ namespace Assets.Scripts.PrepareLogic.UILogic
         {
             gameObject.SetActive(false);
         }
+
+        public virtual void Refresh()
+        {
+            // do nothing
+        }
     }
 }
