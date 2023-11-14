@@ -10,6 +10,7 @@ namespace Assets.Scripts.PrepareLogic
     public class UIManager : MonoBehaviour
     {
         public static UIManager Instance;
+        public Transform CanvasRoot;
 
         public TeammatePortraitPage Page = TeammatePortraitPage.ChoosePage;
 
