@@ -13,6 +13,9 @@ namespace Assets.Scripts.PrepareLogic
     {
         public static PrepareContextManager Instance;
 
+        [SerializeField]
+        private SkillListConfig skillConfig;
+
         public List<PrepareOperator> data;
         private void Awake()
         {
@@ -30,6 +33,11 @@ namespace Assets.Scripts.PrepareLogic
             {
                 data.Add(new PrepareOperator(op));
             }
+        }
+
+        public Texture2D GetSkillIcon(int skillId)
+        {
+            return Resources.Load<Texture2D>("Skills/" + skillConfig.CombatSkills[skillId].IconUrl);
         }
     }
 }

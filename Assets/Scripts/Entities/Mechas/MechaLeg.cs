@@ -7,17 +7,20 @@ using System.Threading.Tasks;
 namespace Assets.Scripts.Entities.Mechas
 {
     [Serializable]
-    public class MechaLeg
+    public class MechaLeg : MechaBase
     {
-        public string IconUrl = "leg";
-        public string Name = "default leg";
         /// <summary>
         /// 等同于unity定义的speed
         /// </summary>
-        public float Speed = 3f;
+        public float Speed;
         /// <summary>
         /// 闪避率，百分比
         /// </summary>
-        public int Dodge = 5;
+        public int Dodge;
+
+        public static MechaLeg DefaultMecha()
+        {
+            return new MechaLeg { IconUrl = "leg" , Name = "default leg" , Speed = 3f , Dodge = 5 };
+        }
     }
 }

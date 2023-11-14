@@ -24,6 +24,7 @@ MonoBehaviour:
     NextSkillId: -1
     EffectType: 2
     PrefabResourceUrl: Beam
+    IconUrl: 0-img
     AffectGroup: 4
   - Type: 0
     Name: Grenade
@@ -36,6 +37,7 @@ MonoBehaviour:
     NextSkillId: 2
     EffectType: 1
     PrefabResourceUrl: Grenade1
+    IconUrl: 1-img
     AffectGroup: 0
   - Type: 1
     Name: Grenade 2
@@ -48,4 +50,5 @@ MonoBehaviour:
     NextSkillId: -1
     EffectType: 0
     PrefabResourceUrl: Grenade2
+    IconUrl: 
     AffectGroup: 4

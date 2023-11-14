@@ -10,37 +10,45 @@ namespace Assets.Scripts
         {
             // TODO: these just for test
             return new List<Operator>() {
-                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = new  MechaBody(), McHead = new MechaHead(), McLeg = new MechaLeg()  },
+                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+            };
+        }
+
+        public static List<MechaBase> GetMechas()
+        {
+            return new List<MechaBase>
+            {
+                MechaBody.DefaultMecha(),
+                MechaHead.DefaultMecha(),
+                MechaLeg.DefaultMecha()
             };
         }
     }

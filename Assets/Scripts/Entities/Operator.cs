@@ -24,6 +24,9 @@ namespace Assets.Scripts.Entities
 
         public int PropBlue;
 
+        public int GunSkillId = 0;
+
+        public int MainSkillId = 1;
 
         // 需要删除的属性
         public int HP;

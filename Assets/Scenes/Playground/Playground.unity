@@ -10782,12 +10782,32 @@ MonoBehaviour:
     SpawnInterval: 5
     AgentPrefabURL: SimpleEnemy
   operatorInfo:
-    HP: 5
-    RecoverHP: 2
     Name: empty
     ModelResourceUrl: 
+    PropRed: 0
+    PropGreen: 0
+    PropBlue: 0
+    GunSkillId: 0
+    MainSkillId: 1
+    HP: 5
+    RecoverHP: 2
     WeaponType: 0
     ReviveTime: 5
+    McHead:
+      IconUrl: 
+      Name: 
+      Critical: 0
+      Accurate: 0
+    McBody:
+      IconUrl: 
+      Name: 
+      HP: 5
+      HPRecover: 1
+    McLeg:
+      IconUrl: 
+      Name: 
+      Speed: 0
+      Dodge: 0
 --- !u!114 &1458971852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11466,12 +11486,32 @@ MonoBehaviour:
     SpawnInterval: 5
     AgentPrefabURL: SimpleEnemy
   operatorInfo:
-    HP: 5
-    RecoverHP: 2
     Name: empty
     ModelResourceUrl: 
+    PropRed: 0
+    PropGreen: 0
+    PropBlue: 0
+    GunSkillId: 0
+    MainSkillId: 1
+    HP: 5
+    RecoverHP: 2
     WeaponType: 0
     ReviveTime: 5
+    McHead:
+      IconUrl: 
+      Name: 
+      Critical: 0
+      Accurate: 0
+    McBody:
+      IconUrl: 
+      Name: 
+      HP: 5
+      HPRecover: 1
+    McLeg:
+      IconUrl: 
+      Name: 
+      Speed: 0
+      Dodge: 0
 --- !u!114 &1538417420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14490,12 +14530,32 @@ MonoBehaviour:
     SpawnInterval: 5
     AgentPrefabURL: SimpleEnemy
   operatorInfo:
-    HP: 5
-    RecoverHP: 2
     Name: empty
     ModelResourceUrl: 
+    PropRed: 0
+    PropGreen: 0
+    PropBlue: 0
+    GunSkillId: 0
+    MainSkillId: 1
+    HP: 5
+    RecoverHP: 2
     WeaponType: 0
     ReviveTime: 5
+    McHead:
+      IconUrl: 
+      Name: 
+      Critical: 0
+      Accurate: 0
+    McBody:
+      IconUrl: 
+      Name: 
+      HP: 5
+      HPRecover: 1
+    McLeg:
+      IconUrl: 
+      Name: 
+      Speed: 0
+      Dodge: 0
 --- !u!114 &2132031952
 MonoBehaviour:
   m_ObjectHideFlags: 0

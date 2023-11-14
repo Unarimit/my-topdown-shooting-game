@@ -69,6 +69,11 @@ namespace Assets.Scripts.Entities
         public string PrefabResourceUrl;
 
         /// <summary>
+        /// 技能Icon路径
+        /// </summary>
+        public string IconUrl;
+
+        /// <summary>
         /// 技能影响组
         /// </summary>
         public SkillAffectGroup AffectGroup;

@@ -7,19 +7,22 @@ using System.Threading.Tasks;
 namespace Assets.Scripts.Entities.Mechas
 {
     [Serializable]
-    public class MechaHead
+    public class MechaHead : MechaBase
     {
 
-        public string IconUrl = "head";
-        public string Name = "default head";
         /// <summary>
         /// 暴击率，百分比
         /// </summary>
-        public int Critical = 5;
+        public int Critical;
         /// <summary>
         /// 准确率，百分比
         /// </summary>
-        public int Accurate = 5;
+        public int Accurate;
+
+        public static MechaHead DefaultMecha()
+        {
+            return new MechaHead { IconUrl = "head", Name = "default head" , Critical = 5 , Accurate = 5 };
+        }
 
     }
 }
