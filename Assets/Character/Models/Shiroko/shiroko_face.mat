@@ -16,6 +16,7 @@ Material:
   m_InvalidKeywords:
   - _IS_FILTER_LIGHTCOLOR_ON
   - _METALLICSPECGLOSSMAP
+  - _USEHALFLAMBERT_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -195,7 +196,7 @@ Material:
     - _UseDissolveEffect: 0
     - _UseEmission: 0
     - _UseEmissionTex: 0
-    - _UseHalfLambert: 0
+    - _UseHalfLambert: 1
     - _UseOcclusion: 0
     - _UseRadianceOcclusion: 0
     - _WorkflowMode: 1

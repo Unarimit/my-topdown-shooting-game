@@ -2300,7 +2300,6 @@ MonoBehaviour:
   type: 0
   aimPos: {x: 0, y: 0, z: 0}
   aimTran: {fileID: 0}
-  _context: {fileID: 0}
   _gunController: {fileID: 7373533162894083295}
 --- !u!114 &5169650415140603996
 MonoBehaviour:
@@ -5208,7 +5207,7 @@ SkinnedMeshRenderer:
   m_Materials:
   - {fileID: 2100000, guid: 2b4ca477be3647344bf94225b5a37aea, type: 2}
   - {fileID: -5597738903142147822, guid: 88df891a7bbf77b4283e21dd49b30590, type: 3}
-  - {fileID: 2100000, guid: 02def85439416254bb7c042cc9ecd253, type: 2}
+  - {fileID: 2100000, guid: 8738fca097fd8d44ebce98392acde6af, type: 2}
   - {fileID: 2100000, guid: e981a344aa31e8849883134cfa00f88b, type: 2}
   - {fileID: 2100000, guid: 44684bf07dbe74e4ca0e00ea62972d8c, type: 2}
   m_StaticBatchInfo:

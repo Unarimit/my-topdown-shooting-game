@@ -15,8 +15,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic
     public class EditerSwitcherUI : MonoBehaviour, IPointerClickHandler
     {
 
-        public TextMeshProUGUI m_MainText; 
-
+        public TextMeshProUGUI m_MainText;
         int statu = 0;
         public void OnPointerClick(PointerEventData eventData)
         {
