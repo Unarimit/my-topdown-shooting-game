@@ -8,6 +8,7 @@ using Assets.Scripts.PrepareLogic.PrepareEntities;
 using Assets.Scripts.PrepareLogic.EffectLogic;
 using Assets.Scripts.PrepareLogic.UILogic.TeammateUIs;
 using Assets.Scripts.Entities.Mechas;
+using Assets.Scripts.Entities;
 
 namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
 {
@@ -23,6 +24,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
         // 干员信息，名称、属性、技能图标等
         private TextMeshProUGUI _operatorName;
         private TextMeshProUGUI _operatorProperties;
+        private TextMeshProUGUI _operatorType;
         private RawImage _operatorGunImg;
         private RawImage _operatorSkillImg;
 
@@ -122,6 +124,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
         {
             _operatorName = transform.Find("InfoPanel").Find("OperatorPanel").Find("OperatorNameTMP").GetComponent<TextMeshProUGUI>();
             _operatorProperties = transform.Find("InfoPanel").Find("OperatorPanel").Find("PropertiesTMP").GetComponent<TextMeshProUGUI>();
+            _operatorType = transform.Find("InfoPanel").Find("OperatorPanel").Find("Panel").Find("CharacterTypeTMP").GetComponent<TextMeshProUGUI>();
             _operatorGunImg = transform.Find("InfoPanel").Find("OperatorPanel").Find("GunRawImage").GetComponent<RawImage>();
             _operatorSkillImg = transform.Find("InfoPanel").Find("OperatorPanel").Find("SkillRawImage").GetComponent<RawImage>();
             _mechaBuffs = transform.Find("InfoPanel").Find("MechaPanel").Find("BuffsTMP").GetComponent<TextMeshProUGUI>();
@@ -176,6 +179,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
                 $"Red:\t{_model.OpInfo.PropRed}\n" +
                 $"Gre:\t{_model.OpInfo.PropGreen}\n" +
                 $"Blu:\t{_model.OpInfo.PropBlue}";
+            _operatorType.text = _model.OpInfo.Type.ToString();
             _mechaBuffs.text = $"Buffs:\nNO BUFFS";
 
             _operatorGunImg.texture = _context.GetSkillIcon(_model.OpInfo.GunSkillId);

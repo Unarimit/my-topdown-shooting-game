@@ -14,6 +14,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterSelector
         public RawImage PortraitImage;
         public TextMeshProUGUI CharacterNameTMP;
         public Button Button;
+        public TextMeshProUGUI CharacterTypeTMP;
 
 
         private Image _panelImage;
@@ -27,6 +28,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterSelector
             _model = model;
             PortraitImage.texture = PhotographyManager.Instance.GetCharacterPortrait(_model.OpInfo.ModelResourceUrl);
             CharacterNameTMP.text = _model.OpInfo.Name;
+            CharacterTypeTMP.text = _model.OpInfo.Type.ToString();
             _page = page;
             _parent = parent;
 

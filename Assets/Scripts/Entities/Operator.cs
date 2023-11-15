@@ -8,22 +8,30 @@ using UnityEngine;
 
 namespace Assets.Scripts.Entities
 {
+    public enum OperatorType
+    {
+        CA,
+        CV
+    }
     /// <summary>
     /// 要存入数据库的信息
     /// </summary>
     [Serializable]
     public class Operator
     {
+        public OperatorType Type = OperatorType.CA;
         public string Name = "empty";
 
         public string ModelResourceUrl;
 
+        // 属性
         public int PropRed;
 
         public int PropGreen;
 
         public int PropBlue;
 
+        // 技能id
         public int GunSkillId = 0;
 
         public int MainSkillId = 1;
