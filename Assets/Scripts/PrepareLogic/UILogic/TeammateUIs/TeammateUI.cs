@@ -1,15 +1,12 @@
 ﻿using Assets.Scripts.PrepareLogic.PrepareEntities;
+using Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor;
+using Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterSelector;
 using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 
-namespace Assets.Scripts.PrepareLogic.UILogic
+namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs
 {
-    public enum TeammatePortraitPage
-    {
-        ChoosePage,
-        EditPage
-    }
     public class TeammateUI : PrepareUIBase
     {
         public CharacterEditorUI m_CharacterEditorUI;

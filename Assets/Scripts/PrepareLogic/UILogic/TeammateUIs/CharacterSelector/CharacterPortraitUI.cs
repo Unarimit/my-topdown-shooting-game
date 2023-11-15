@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.PrepareLogic.UILogic
+namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterSelector
 {
     /// <summary>
     /// 选择角色时的一个角色框，代表这个角色框参与的所有行为

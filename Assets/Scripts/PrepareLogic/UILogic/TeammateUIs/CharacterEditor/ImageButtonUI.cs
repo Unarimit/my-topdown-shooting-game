@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs
+namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
 {
     public class ImageButtonUI : MonoBehaviour
     {

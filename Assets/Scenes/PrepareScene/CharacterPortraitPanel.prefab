@@ -338,7 +338,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6253301986148533273}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90af58695de7b4f44a5b803104285d67, type: 3}
+  m_Script: {fileID: 11500000, guid: b09fd2a1f6825b04ea5ac08311c98ece, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   PortraitImage: {fileID: 8429261592246727734}

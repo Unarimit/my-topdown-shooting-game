@@ -9,7 +9,7 @@ using Assets.Scripts.PrepareLogic.EffectLogic;
 using Assets.Scripts.PrepareLogic.UILogic.TeammateUIs;
 using Assets.Scripts.Entities.Mechas;
 
-namespace Assets.Scripts.PrepareLogic.UILogic
+namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
 {
     public class CharacterEditorUI : MonoBehaviour
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Assets.Scripts.PrepareLogic.UILogic
+namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterSelector
 {
     /// <summary>
     /// ½ÐPortraitsScrollView

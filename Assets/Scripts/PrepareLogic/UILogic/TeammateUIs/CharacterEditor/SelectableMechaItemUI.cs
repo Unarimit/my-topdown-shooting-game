@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs
+namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
 {
     internal class SelectableMechaItemUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {

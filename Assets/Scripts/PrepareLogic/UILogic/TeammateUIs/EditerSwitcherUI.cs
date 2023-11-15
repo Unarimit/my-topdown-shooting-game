@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Assets.Scripts.PrepareLogic.UILogic
+namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs
 {
     /// <summary>
     /// 改变页面的UI，占据TeammateUI grid布局的第一个位置

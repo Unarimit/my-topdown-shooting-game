@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.PrepareLogic.UILogic;
+using Assets.Scripts.PrepareLogic.UILogic.TeammateUIs;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +8,11 @@ using UnityEngine;
 
 namespace Assets.Scripts.PrepareLogic
 {
+    public enum TeammatePortraitPage
+    {
+        ChoosePage,
+        EditPage
+    }
     public class UIManager : MonoBehaviour
     {
         public static UIManager Instance;
