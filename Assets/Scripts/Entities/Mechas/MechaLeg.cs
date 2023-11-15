@@ -18,9 +18,17 @@ namespace Assets.Scripts.Entities.Mechas
         /// </summary>
         public int Dodge;
 
+        public override string ToString()
+        {
+            return $"SPD:\t{Speed.ToString("0.00")}\n" +
+            $"DOG:\t{Dodge}%";
+        }
+
         public static MechaLeg DefaultMecha()
         {
             return new MechaLeg { IconUrl = "leg" , Name = "default leg" , Speed = 3f , Dodge = 5 };
         }
+
+        
     }
 }

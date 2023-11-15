@@ -1,15 +1,11 @@
 ﻿using DG.Tweening;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine.UI;
 using UnityEngine;
+using TMPro;
 using Assets.Scripts.PrepareLogic.PrepareEntities;
 using Assets.Scripts.PrepareLogic.EffectLogic;
-using TMPro;
 using Assets.Scripts.PrepareLogic.UILogic.TeammateUIs;
 using Assets.Scripts.Entities.Mechas;
 
@@ -48,13 +44,14 @@ namespace Assets.Scripts.PrepareLogic.UILogic
             public TextMeshProUGUI PartProperties;
         }
 
-        class MechaSelectPanel
+        public class MechaSelectPanel
         {
             private Transform Transform;
             private CanvasGroup CanvasGroup;
             private Transform ContentTrans;
             private Button OKButton;
-            private List<SelectableMecha> SelectableMechas = new List<SelectableMecha>();
+            private List<SelectableMechaItemUI> SelectableMechas = new List<SelectableMechaItemUI>();
+            private List<int> ActiveMechas = new List<int> { 0, 1, 2 }; // TODO：返回时保存该设置
             public MechaSelectPanel(Transform MechaSelectPanel)
             {
                 Transform = MechaSelectPanel;
@@ -71,6 +68,19 @@ namespace Assets.Scripts.PrepareLogic.UILogic
                 InitContent(selectableMechaPrefab, model);
             }
 
+            public void ItemOnClick(int index)
+            {
+                int aimPos = 0;
+                if (SelectableMechas[index].Mecha.GetMechaType() == MechaType.Head) aimPos = 0;
+                else if(SelectableMechas[index].Mecha.GetMechaType() == MechaType.Body) aimPos = 1;
+                else aimPos = 2;
+
+                // change ui and statu
+                SelectableMechas[ActiveMechas[aimPos]].IsSelect = false;
+                ActiveMechas[aimPos] = index;
+                SelectableMechas[ActiveMechas[aimPos]].IsSelect = true;
+            }
+
             private void InitContent(GameObject selectableMechaPrefab, PrepareOperator model)
             {
                 SelectableMechas.Clear();
@@ -80,16 +90,23 @@ namespace Assets.Scripts.PrepareLogic.UILogic
                     Destroy(ContentTrans.GetChild(i).gameObject);  
                 }
 
-                SelectableMechas.Add(new SelectableMecha(selectableMechaPrefab, model.OpInfo.McHead, ContentTrans, SelectableMechas.Count));
-                SelectableMechas.Add(new SelectableMecha(selectableMechaPrefab, model.OpInfo.McBody, ContentTrans, SelectableMechas.Count));
-                SelectableMechas.Add(new SelectableMecha(selectableMechaPrefab, model.OpInfo.McLeg, ContentTrans, SelectableMechas.Count));
+                SelectableMechas.Add(CreateItem(selectableMechaPrefab, model.OpInfo.McHead, SelectableMechas.Count));
+                SelectableMechas.Add(CreateItem(selectableMechaPrefab, model.OpInfo.McBody, SelectableMechas.Count));
+                SelectableMechas.Add(CreateItem(selectableMechaPrefab, model.OpInfo.McLeg, SelectableMechas.Count));
 
                 for (int i = 0; i < 3; i++) SelectableMechas[i].IsSelect = true;
 
                 foreach (var x in TestDB.GetMechas())
                 {
-                    SelectableMechas.Add(new SelectableMecha(selectableMechaPrefab, x, ContentTrans, SelectableMechas.Count));
+                    SelectableMechas.Add(CreateItem(selectableMechaPrefab, x, SelectableMechas.Count));
                 }
+            }
+            private SelectableMechaItemUI CreateItem(GameObject selectableMechaPrefab, MechaBase mecha, int i)
+            {
+                var go = Instantiate(selectableMechaPrefab, ContentTrans);
+                var res = go.AddComponent<SelectableMechaItemUI>();
+                res.Inject(mecha, i, this);
+                return res;
             }
 
             private void SelectPanelQuit()
@@ -98,33 +115,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic
             }
         }
 
-        class SelectableMecha
-        {
-            public bool IsSelect { 
-                get => _isSelect; 
-                set {
-                    _isSelect = value;
-                    if (SelectRim == null) return;
-                    SelectRim.color = value ? Color.yellow : new Color(0, 0, 0, 0);
-                } 
-            }
-            private bool _isSelect;
-            public int index;
-            public Image SelectRim;
-            public SelectableMecha(GameObject selectableMechaPrefab, MechaBase mecha, Transform parent, int i)
-            {
-                var go = Instantiate(selectableMechaPrefab, parent);
-                go.GetComponent<ImageButtonUI>().Button.onClick.AddListener(OnClick);
-                go.GetComponent<ImageButtonUI>().RawImage.texture = Resources.Load<Texture2D>("Textures/" + mecha.IconUrl);
-                SelectRim = go.GetComponent<Image>();
-                IsSelect = false;
-                index = i;
-            }
-            private void OnClick()
-            {
-
-            }
-        }
+        
 
 
         private void Awake()
@@ -193,18 +184,15 @@ namespace Assets.Scripts.PrepareLogic.UILogic
             // TODO: 是否需要手动GC
             _mechaPanels[0].PartName.text = _model.OpInfo.McHead.Name;
             _mechaPanels[0].PartRawImage.texture = Resources.Load<Texture2D>("Textures/" + _model.OpInfo.McHead.IconUrl);
-            _mechaPanels[0].PartProperties.text = $"ACC:\t{_model.OpInfo.McHead.Accurate}%\n" +
-                $"Crt:\t{_model.OpInfo.McHead.Critical}%";
+            _mechaPanels[0].PartProperties.text = _model.OpInfo.McHead.ToString();
 
             _mechaPanels[1].PartName.text = _model.OpInfo.McBody.Name;
             _mechaPanels[1].PartRawImage.texture = Resources.Load<Texture2D>("Textures/" + _model.OpInfo.McBody.IconUrl);
-            _mechaPanels[1].PartProperties.text = $"HP:\t{_model.OpInfo.McBody.HP}\n" +
-                $"HPR:\t{_model.OpInfo.McBody.HPRecover}";
+            _mechaPanels[1].PartProperties.text = _model.OpInfo.McBody.ToString();
 
             _mechaPanels[2].PartName.text = _model.OpInfo.McLeg.Name;
             _mechaPanels[2].PartRawImage.texture = Resources.Load<Texture2D>("Textures/" + _model.OpInfo.McLeg.IconUrl);
-            _mechaPanels[2].PartProperties.text = $"SPD:\t{_model.OpInfo.McLeg.Speed.ToString("0.00")}\n" +
-                $"DOG:\t{_model.OpInfo.McLeg.Dodge}%";
+            _mechaPanels[2].PartProperties.text = _model.OpInfo.McLeg.ToString();
         }
 
         private MechaPanel FindMechaPart(Transform partPanelTrans)

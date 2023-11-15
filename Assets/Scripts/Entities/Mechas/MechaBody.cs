@@ -16,5 +16,10 @@ namespace Assets.Scripts.Entities.Mechas
         {
             return new MechaBody { IconUrl = "body", Name = "default body" , HP = 5 , HPRecover = 1 };
         }
+        public override string ToString()
+        {
+            return $"HP:\t{HP}\n" +
+                $"HPR:\t{HPRecover}";
+        }
     }
 }

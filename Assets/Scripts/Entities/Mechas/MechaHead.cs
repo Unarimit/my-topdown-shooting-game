@@ -23,6 +23,11 @@ namespace Assets.Scripts.Entities.Mechas
         {
             return new MechaHead { IconUrl = "head", Name = "default head" , Critical = 5 , Accurate = 5 };
         }
+        public override string ToString()
+        {
+            return $"ACC:\t{Accurate}%\n" +
+                $"Crt:\t{Critical}%";
+        }
 
     }
 }
