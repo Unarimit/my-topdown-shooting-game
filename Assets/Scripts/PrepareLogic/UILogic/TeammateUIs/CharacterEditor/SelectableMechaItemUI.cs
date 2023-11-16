@@ -32,7 +32,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
         public void Inject(MechaBase mecha, int i, CharacterEditorUI.MechaSelectPanel panel)
         {
             GetComponent<ImageButtonUI>().Button.onClick.AddListener(OnClick);
-            GetComponent<ImageButtonUI>().RawImage.texture = Resources.Load<Texture2D>("Textures/" + mecha.IconUrl);
+            GetComponent<ImageButtonUI>().RawImage.texture = ResourceManager.Load<Texture2D>("Textures/" + mecha.IconUrl);
             _selectRim = GetComponent<Image>();
 
             Mecha = mecha;
@@ -57,7 +57,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
         private TextMeshProUGUI _tipText;
         private void Start()
         {
-            _tipGo = Instantiate(Resources.Load<GameObject>("Effects/TipPanel"), UIManager.Instance.CanvasRoot);
+            _tipGo = Instantiate(ResourceManager.Load<GameObject>("Effects/TipPanel"), UIManager.Instance.CanvasRoot);
             _tipPanel = _tipGo.GetComponent<RectTransform>();
             _tipText = _tipGo.transform.Find("TextTMP").GetComponent<TextMeshProUGUI>();
             _tipGo.SetActive(false);

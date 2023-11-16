@@ -15,10 +15,10 @@ namespace Assets.Scripts.CombatLogic.EnviormentLogic
                 for(int j = 0; j < arr[i].Length; j++)
                 {
                     GameObject prefab;
-                    if (arr[i][j] == 1) prefab = Resources.Load<GameObject>("Terrains/Road");
-                    else if(arr[i][j] == 2) prefab = Resources.Load<GameObject>("Terrains/Mountain");
-                    else if (arr[i][j] == 3) prefab = Resources.Load<GameObject>("Terrains/Water");
-                    else prefab = Resources.Load<GameObject>("Terrains/Grass");
+                    if (arr[i][j] == 1) prefab = ResourceManager.Load<GameObject>("Terrains/Road");
+                    else if(arr[i][j] == 2) prefab = ResourceManager.Load<GameObject>("Terrains/Mountain");
+                    else if (arr[i][j] == 3) prefab = ResourceManager.Load<GameObject>("Terrains/Water");
+                    else prefab = ResourceManager.Load<GameObject>("Terrains/Grass");
                     var trans = context.CreateGO(prefab, TerrainTrans);
                     trans.localPosition = new Vector3(i, 0, j);
                     

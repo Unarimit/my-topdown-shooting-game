@@ -33,19 +33,19 @@ namespace Assets.Scripts.BulletLogic
 
             // init prefab
             // shield
-            var s_prefab = Resources.Load<GameObject>("Effects/Shield");
+            var s_prefab = ResourceManager.Load<GameObject>("Effects/Shield");
             Shield = Instantiate(s_prefab, transform).GetComponent<ParticleSystem>();
             Shield.Stop();
 
             // team mark
             if (_context.Operators[transform].Team == 0 && transform != _context.PlayerTrans)
             {
-                var t_prefab = Resources.Load<GameObject>("Effects/TeammateMark");
+                var t_prefab = ResourceManager.Load<GameObject>("Effects/TeammateMark");
                 EorTMark = Instantiate(t_prefab, transform);
             }
             else if(_context.Operators[transform].Team == 1)
             {
-                var t_prefab = Resources.Load<GameObject>("Effects/EnemyMark");
+                var t_prefab = ResourceManager.Load<GameObject>("Effects/EnemyMark");
                 EorTMark = Instantiate(t_prefab, transform);
             }
         }

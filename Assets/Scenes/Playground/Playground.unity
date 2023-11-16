@@ -10009,6 +10009,7 @@ PrefabInstance:
     - {fileID: 2136381875136946973, guid: a8aabb8b54e87d24cbb30640fab080ba, type: 3}
     - {fileID: 8357630599255554944, guid: a8aabb8b54e87d24cbb30640fab080ba, type: 3}
     - {fileID: 6983852351905797328, guid: a8aabb8b54e87d24cbb30640fab080ba, type: 3}
+    - {fileID: 903061144535236568, guid: a8aabb8b54e87d24cbb30640fab080ba, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8aabb8b54e87d24cbb30640fab080ba, type: 3}
@@ -13909,7 +13910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3ec1bf999e3a7a4e9dd3f8eced9d4a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TestAvatar: {fileID: 9000000, guid: 88df891a7bbf77b4283e21dd49b30590, type: 3}
+  NormalAvatar: {fileID: 9000000, guid: 88df891a7bbf77b4283e21dd49b30590, type: 3}
 --- !u!1 &1990810644
 GameObject:
   m_ObjectHideFlags: 0

@@ -37,7 +37,7 @@ namespace Assets.Scripts.PrepareLogic
 
         public Texture2D GetSkillIcon(int skillId)
         {
-            return Resources.Load<Texture2D>("Skills/" + skillConfig.CombatSkills[skillId].IconUrl);
+            return ResourceManager.Load<Texture2D>("Skills/" + skillConfig.CombatSkills[skillId].IconUrl);
         }
     }
 }

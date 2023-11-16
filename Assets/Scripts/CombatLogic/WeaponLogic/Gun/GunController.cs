@@ -77,7 +77,7 @@ namespace Assets.Scripts
         {
             if (CombatContextManager.Instance.IsPlayer(transform)) IsPlayer = true;
 
-            _bullet = Resources.Load<GameObject>("Effects/bullet");
+            _bullet = ResourceManager.Load<GameObject>("Effects/bullet");
             gunshotAudioAudioClips = AnimeHelper.Instance.GetGunshot();
         }
 

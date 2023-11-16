@@ -24,7 +24,7 @@ namespace Assets.Scripts.PrepareLogic.EffectLogic
             if(_lastGO != null) Destroy(_lastGO);
 
             m_camera.gameObject.SetActive(true);
-            var pref = Resources.Load<GameObject>("Characters/" + modelUrl);
+            var pref = ResourceManager.Load<GameObject>("Characters/" + modelUrl);
             var go = Instantiate(pref, transform);
             go.transform.position = new Vector3(-1.4f, 0, 3.2f) + transform.position;
             go.transform.eulerAngles = new Vector3(0, 130, 0);

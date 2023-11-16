@@ -15,13 +15,14 @@ namespace Assets.Scripts.CombatLogic
     }
     internal class FbxLoadManager : MonoBehaviour
     {
-        public Avatar TestAvatar;
+        [Tooltip("泛用的，能代表导入角色的avatar")]
+        public Avatar NormalAvatar;
 
 
         public LoadModelRes LoadModel(string modelName, Transform parent, bool withGun)
         {
             // 1.读取模型
-            var prefab = Resources.Load<GameObject>($"Fbx/{modelName}");
+            var prefab = ResourceManager.Load<GameObject>($"Fbx/{modelName}");
             var go = Instantiate(prefab, parent);
             var go_root = go;
 
@@ -62,7 +63,7 @@ namespace Assets.Scripts.CombatLogic
                     Destroy(temp.gameObject);
                 }
             }
-
+            
             // 2.读取avatar
             Avatar avatar = AvatarBuilder.BuildHumanAvatar(go, GetHumanDesc());
             parent.GetComponent<Animator>().avatar = avatar;
@@ -79,7 +80,7 @@ namespace Assets.Scripts.CombatLogic
 
                 // 配置枪口位置
                 var fireStart = weaponBone.Find("fire_01");
-                var gf = Instantiate(Resources.Load<GameObject>("Effects/Gunfire"), fireStart);
+                var gf = Instantiate(ResourceManager.Load<GameObject>("Effects/Gunfire"), fireStart);
                 gf.transform.localEulerAngles = new Vector3(0, -90, 0);
                 gf.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
                 return new LoadModelRes { ModelTransform = go_root.transform, GunfireEffect = gf, GunfireTransform = fireStart };
@@ -93,13 +94,15 @@ namespace Assets.Scripts.CombatLogic
 
         private HumanDescription GetHumanDesc()
         {
-            var res = TestAvatar.humanDescription;
+            var res = NormalAvatar.humanDescription;
             int t = 0;
             for(; t < res.skeleton.Length; t++)
             {
                 if (res.skeleton[t].name == "bone_root") break;
             }
             res.skeleton = res.skeleton.Skip(t-1).Take(115).ToArray(); // 保留mesh当作根，我也不知道为什么要这样，反正这样是对的
+            
+            // delete parent
             res.skeleton[0] = new SkeletonBone { name = "this_is_root", position = res.skeleton[0].position, rotation = res.skeleton[0].rotation, scale = res.skeleton[0].scale };
             res.skeleton[1] = new SkeletonBone { name = res.skeleton[1].name, position = res.skeleton[1].position, rotation = res.skeleton[1].rotation, scale = res.skeleton[1].scale };
             return res;

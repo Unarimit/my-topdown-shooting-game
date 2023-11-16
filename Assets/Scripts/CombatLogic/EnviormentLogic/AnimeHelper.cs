@@ -18,7 +18,7 @@ namespace Assets.Scripts.CombatLogic
 
         public void ApplyRagdoll(Transform transform)
         {
-            var prefab = Resources.Load<GameObject>("Effects/RagDoll");
+            var prefab = ResourceManager.Load<GameObject>("Effects/RagDoll");
             var go = Instantiate(prefab, CombatContextManager.Instance.Enviorment);
             go.transform.position = transform.position;
             go.transform.rotation = transform.rotation;
@@ -33,7 +33,7 @@ namespace Assets.Scripts.CombatLogic
             }
             else
             {
-                var prefab = Resources.Load<GameObject>("Effects/DamageTextEffect");
+                var prefab = ResourceManager.Load<GameObject>("Effects/DamageTextEffect");
                 var go = Instantiate(prefab, CombatContextManager.Instance.Enviorment);
                 hitTextDic[hitted] = go.GetComponent<DamageNumEffectController>();
                 hitTextDic[hitted].DamageNum = dmg;
@@ -47,7 +47,7 @@ namespace Assets.Scripts.CombatLogic
         {
             if (gunshotAudioAudioClips == null)
             {
-                gunshotAudioAudioClips = SplitGunSound(Resources.Load<AudioClip>("Sounds/Spray"));
+                gunshotAudioAudioClips = SplitGunSound(ResourceManager.Load<AudioClip>("Sounds/Spray"));
             }
             return gunshotAudioAudioClips;
         }

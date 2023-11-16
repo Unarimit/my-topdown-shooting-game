@@ -187,15 +187,15 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
 
             // TODO: 是否需要手动GC
             _mechaPanels[0].PartName.text = _model.OpInfo.McHead.Name;
-            _mechaPanels[0].PartRawImage.texture = Resources.Load<Texture2D>("Textures/" + _model.OpInfo.McHead.IconUrl);
+            _mechaPanels[0].PartRawImage.texture = ResourceManager.Load<Texture2D>("Textures/" + _model.OpInfo.McHead.IconUrl);
             _mechaPanels[0].PartProperties.text = _model.OpInfo.McHead.ToString();
 
             _mechaPanels[1].PartName.text = _model.OpInfo.McBody.Name;
-            _mechaPanels[1].PartRawImage.texture = Resources.Load<Texture2D>("Textures/" + _model.OpInfo.McBody.IconUrl);
+            _mechaPanels[1].PartRawImage.texture = ResourceManager.Load<Texture2D>("Textures/" + _model.OpInfo.McBody.IconUrl);
             _mechaPanels[1].PartProperties.text = _model.OpInfo.McBody.ToString();
 
             _mechaPanels[2].PartName.text = _model.OpInfo.McLeg.Name;
-            _mechaPanels[2].PartRawImage.texture = Resources.Load<Texture2D>("Textures/" + _model.OpInfo.McLeg.IconUrl);
+            _mechaPanels[2].PartRawImage.texture = ResourceManager.Load<Texture2D>("Textures/" + _model.OpInfo.McLeg.IconUrl);
             _mechaPanels[2].PartProperties.text = _model.OpInfo.McLeg.ToString();
         }
 

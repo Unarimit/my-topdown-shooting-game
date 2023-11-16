@@ -57,7 +57,7 @@ namespace Assets.Scripts.CombatLogic
         private void CastSkill(Transform Caster, CombatSkill skill, Vector3 aim, Vector3 position , Vector3 angles)
         {
             // 初始化技能prefab
-            var prefab = Resources.Load<GameObject>("Skills/" + skill.PrefabResourceUrl);
+            var prefab = ResourceManager.Load<GameObject>("Skills/" + skill.PrefabResourceUrl);
             var skillGo = Instantiate(prefab, _context.Enviorment);
             skillGo.transform.position = position;
             skillGo.transform.eulerAngles = angles;

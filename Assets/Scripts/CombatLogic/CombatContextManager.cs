@@ -201,7 +201,7 @@ namespace Assets.Scripts.CombatLogic
         public Transform GenerateAgent(Operator OpInfo, Vector3 pos, Vector3 angle, int Team, Transform spawnBase)
         {
             // 初始化
-            var prefab = Resources.Load<GameObject>("Characters/Agent");
+            var prefab = ResourceManager.Load<GameObject>("Characters/Agent");
             var go = Instantiate(prefab, _agentsSpawnTrans);
 
             // 挂components
@@ -241,7 +241,7 @@ namespace Assets.Scripts.CombatLogic
         public Transform GeneratePlayer(Operator OpInfo, Vector3 pos, Vector3 angle, Transform spawnBase)
         {
             // 初始化
-            var prefab = Resources.Load<GameObject>("Characters/Player");
+            var prefab = ResourceManager.Load<GameObject>("Characters/Player");
             var go = Instantiate(prefab, _agentsSpawnTrans);
 
             // 挂components

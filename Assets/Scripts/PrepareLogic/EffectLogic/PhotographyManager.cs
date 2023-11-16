@@ -19,7 +19,7 @@ namespace Assets.Scripts.PrepareLogic.EffectLogic
         public Texture GetCharacterPortrait(string modelUrl)
         {
             m_camera.gameObject.SetActive(true);
-            var pref = Resources.Load<GameObject>("Characters/" + modelUrl);
+            var pref = ResourceManager.Load<GameObject>("Characters/" + modelUrl);
             var go = Instantiate(pref, transform);
             go.transform.position = new Vector3(0, 0, 1.2f);
             go.transform.eulerAngles = new Vector3(0, 200, 0);
