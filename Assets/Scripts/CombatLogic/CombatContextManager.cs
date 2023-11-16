@@ -1,6 +1,9 @@
 ﻿using Assets.Scripts.BulletLogic;
 using Assets.Scripts.CombatLogic.CombatEntities;
+using Assets.Scripts.CombatLogic.ComputerControllers;
+using Assets.Scripts.CombatLogic.EnviormentLogic;
 using Assets.Scripts.Entities;
+using Cinemachine;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -23,12 +26,9 @@ namespace Assets.Scripts.CombatLogic
 
         public List<Transform> EnemyTeamTrans;
 
-        public Transform Enviorment;
 
-        /// <summary>
-        /// agent的父trans，方便debug
-        /// </summary>
-        public Transform AgentsSpawnTrans;
+
+        public CinemachineVirtualCamera m_Camera;
 
         // ******************* end inspector *************
 
@@ -37,17 +37,25 @@ namespace Assets.Scripts.CombatLogic
         /// </summary>
         public Dictionary<Transform, CombatOperator> Operators { get; private set; }
 
-        public Transform PlayerTrans => PlayerTeamTrans[0];
+        public Transform PlayerTrans { get; private set; }
 
         private SkillManager _skillContext;
-
+        private Transform _agentsSpawnTrans;
+        [HideInInspector]
+        public Transform Enviorment;
         private void Awake()
         {
             if (Instance == null) Instance = this;
             else Debug.LogWarning(transform.ToString() + " try to load another Manager");
             TeammateStatu = TeammateStatus.Follow;
 
+            // init
             Time.timeScale = 1;
+            PlayerTeamTrans = new List<Transform>();
+            EnemyTeamTrans = new List<Transform>();
+            Operators = new Dictionary<Transform, CombatOperator>();
+            _agentsSpawnTrans = transform.Find("Agents");
+            Enviorment = transform.Find("Effects");
 
         }
 
@@ -57,13 +65,6 @@ namespace Assets.Scripts.CombatLogic
 
             // 队员跟随状态显示
             TeammateText.text = TeammateStatu.ToString();
-
-            AgentsSpawnTrans = Enviorment.Find("Agents");
-            // 所有干员放入Operator列表
-            // TODO: 暂时使用在sence中放置的初始化方式
-            Operators = new Dictionary<Transform, CombatOperator>();
-            TestData.AddTestData(Operators, PlayerTeamTrans, EnemyTeamTrans);
-
         }
         private void FixedUpdate()
         {
@@ -197,11 +198,25 @@ namespace Assets.Scripts.CombatLogic
 
         // ********************* Level logic *********************
 
-        public Transform GenerateAgent(GameObject agnetPrefab, Vector3 pos, Vector3 angle, int Team, Operator OpInfo, Transform spawnBase)
+        public Transform GenerateAgent(Operator OpInfo, Vector3 pos, Vector3 angle, int Team, Transform spawnBase)
         {
-            if(Team == 1)
+            // 初始化
+            var prefab = Resources.Load<GameObject>("Characters/Agent");
+            var go = Instantiate(prefab, _agentsSpawnTrans);
+
+            // 挂components
+            // animator component
+            var res = GetComponent<FbxLoadManager>().LoadModel(OpInfo.ModelResourceUrl, go.transform, true);
+            // gun component
             {
-                var go = Instantiate(agnetPrefab, AgentsSpawnTrans);
+                var gun = go.GetComponent<GunController>();
+                gun.GunFire = res.GunfireEffect;
+                gun.BulletStartTrans = res.GunfireTransform;
+            }
+
+            // 设置队伍并放置到场景
+            if (Team == 1)
+            {
                 go.transform.position = pos;
                 go.transform.eulerAngles = angle;
                 EnemyTeamTrans.Add(go.transform);
@@ -210,7 +225,6 @@ namespace Assets.Scripts.CombatLogic
             }
             else if(Team == 0)
             {
-                var go = Instantiate(agnetPrefab, AgentsSpawnTrans);
                 go.transform.position = pos;
                 go.transform.eulerAngles = angle;
                 PlayerTeamTrans.Add(go.transform);
@@ -221,7 +235,51 @@ namespace Assets.Scripts.CombatLogic
             {
                 Debug.LogWarning("can not match this team");
                 return null;
+            } 
+        }
+
+        public Transform GeneratePlayer(Operator OpInfo, Vector3 pos, Vector3 angle, Transform spawnBase)
+        {
+            // 初始化
+            var prefab = Resources.Load<GameObject>("Characters/Player");
+            var go = Instantiate(prefab, _agentsSpawnTrans);
+
+            // 挂components
+            // animator component
+            var res = GetComponent<FbxLoadManager>().LoadModel(OpInfo.ModelResourceUrl, go.transform, true);
+            // gun component
+            {
+                var gun = go.GetComponent<GunController>();
+                gun.GunFire = res.GunfireEffect;
+                gun.BulletStartTrans = res.GunfireTransform;
             }
+
+            // 挂cinemachine
+            m_Camera.Follow = go.transform.Find("Camera_Flowing");
+
+
+            // 放入场景
+            go.transform.position = pos;
+            go.transform.eulerAngles = angle;
+            PlayerTeamTrans.Add(go.transform);
+            Operators.Add(go.transform, new CombatOperator(OpInfo, 0, spawnBase));
+            // 添加技能
+            Operators[go.transform].CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[0]));
+            Operators[go.transform].CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[1]));
+
+            // 还有驾驶舱
+            GetComponent<FbxLoadManager>().LoadModel(OpInfo.ModelResourceUrl, CockpitManager.Instance.CharacterAnimator.transform, false);
+
+            PlayerTrans = go.transform;
+            return go.transform;
+        }
+
+        public Transform CreateGO(GameObject prefab, Transform parent)
+        {
+            var go = Instantiate(prefab, parent);
+
+            return go.transform;
+
         }
 
         // ********************* UI logic *********************

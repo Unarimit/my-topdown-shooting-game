@@ -24,7 +24,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
         private NavMeshAgent _navMeshAgent;
         private CombatContextManager _context;
         private OperatorAnimatorBaseController _animatorController;
-        public GunController _gunController;
+        private GunController _gunController;
         private new void Awake()
         {
             _navMeshAgent = GetComponent<NavMeshAgent>();
@@ -35,7 +35,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
             _instantiatePosition = transform.position;
             _context = CombatContextManager.Instance;
             _animatorController = GetComponent<OperatorAnimatorBaseController>();
-
+            _gunController = GetComponent<GunController>();
             states.Add(StateType.Idle, new IdleState(this));
             states.Add(StateType.React, new ReactState(this, _context));
             states.Add(StateType.Attack, new AttackState(this));

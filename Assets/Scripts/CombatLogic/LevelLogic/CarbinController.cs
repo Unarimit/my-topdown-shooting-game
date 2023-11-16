@@ -12,12 +12,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
 
 
         private float _innerInterval = 0;
-        private GameObject _agentPrefab;
         private HashSet<Transform> _agents = new HashSet<Transform>();
-        private void Start()
-        {
-            _agentPrefab = Resources.Load<GameObject>("Characters/"+config.AgentPrefabURL);
-        }
         private void FixedUpdate()
         {
             _innerInterval += Time.deltaTime;
@@ -25,8 +20,8 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             {
                 if (!checkCapacity()) return;
                 _innerInterval -= config.SpawnInterval;
-                var trans = CombatContextManager.Instance.GenerateAgent(_agentPrefab, transform.position + transform.forward * 3, new Vector3(), 
-                    config.Team, operatorInfo, transform);
+                var trans = CombatContextManager.Instance.GenerateAgent(operatorInfo, transform.position + transform.forward * 3, new Vector3(), 
+                    config.Team, transform);
                 _agents.Add(trans);
             }
         }

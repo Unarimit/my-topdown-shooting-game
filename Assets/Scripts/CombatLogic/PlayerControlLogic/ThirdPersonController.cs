@@ -59,12 +59,8 @@ namespace StarterAssets
         {
             Move();
             Skill();
-            DoTriggerAction();
-        }
-
-        private void FixedUpdate()
-        {
             AimAndShoot();
+            DoTriggerAction();
         }
 
         private void DoTriggerAction()

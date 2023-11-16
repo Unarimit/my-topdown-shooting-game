@@ -13,7 +13,7 @@ namespace Assets.Scripts.CombatLogic.UILogic
 
         public TextMeshProUGUI MainText;
 
-        private void Start()
+        private void OnEnable()
         {
             GameLevelManager.Instance.AimChangeEvent += ChangeText; 
         }
@@ -23,7 +23,7 @@ namespace Assets.Scripts.CombatLogic.UILogic
             MainText.text = text;
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             GameLevelManager.Instance.AimChangeEvent -= ChangeText;
         }

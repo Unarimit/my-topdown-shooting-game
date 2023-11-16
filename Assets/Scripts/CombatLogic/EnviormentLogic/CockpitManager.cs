@@ -59,6 +59,7 @@ namespace Assets.Scripts.CombatLogic
             if(_state != CockpitWalkState.Idle) QuakeSimulate();
         }
 
+
         public void ChangeState(CockpitWalkState state)
         {
             _state = state;

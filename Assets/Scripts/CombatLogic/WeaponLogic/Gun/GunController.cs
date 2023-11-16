@@ -16,8 +16,6 @@ namespace Assets.Scripts
     {
 
         [Header("Shot")]
-        [Tooltip("Bullet prefab")]
-        public GameObject Bullet;
         [Tooltip("GunFire GameObject")]
         public GameObject GunFire;
         [Tooltip("Bullet start trans")]
@@ -73,11 +71,13 @@ namespace Assets.Scripts
         }
 
         private float LastFireTime = -1; // 最后一次开火时间
+        private GameObject _bullet;
 
         private void Start()
         {
             if (CombatContextManager.Instance.IsPlayer(transform)) IsPlayer = true;
 
+            _bullet = Resources.Load<GameObject>("Effects/bullet");
             gunshotAudioAudioClips = AnimeHelper.Instance.GetGunshot();
         }
 
@@ -98,7 +98,7 @@ namespace Assets.Scripts
             else
             {
                 // 发射逻辑
-                var bullet = Instantiate(Bullet, CombatContextManager.Instance.Enviorment);
+                var bullet = Instantiate(_bullet, CombatContextManager.Instance.Enviorment);
                 bullet.transform.position = BulletStartTrans.position;
                 bullet.SetActive(true);
                 StartCoroutine(DelayForce(bullet, push));

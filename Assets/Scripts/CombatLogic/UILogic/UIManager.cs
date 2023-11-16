@@ -24,14 +24,24 @@ namespace Assets.Scripts.CombatLogic
         private void Start()
         {
             var uis = FindObjectsOfType<SubUIBase>();
-            foreach(var x in uis)
+            foreach (var x in uis)
             {
                 windows.Add(x.name, x);
+                x.SetVisible(false);
+            }
+        }
+
+        public void Init()
+        {
+            foreach(var x in windows.Values)
+            {
+                x.SetVisible(true);
             }
 
-            windows[GameOverPanel].SetVisible(false); 
+            windows[GameOverPanel].SetVisible(false);
             windows[ReviveCountdownPanel].SetVisible(false);
         }
+
         const string GameOverPanel = "GameOverPanel";
         const string ReviveCountdownPanel = "ReviveCountdownPanel";
         const string BreakHUD = "BreakHUDImg";
