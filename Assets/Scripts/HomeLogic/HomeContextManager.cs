@@ -26,7 +26,10 @@ namespace Assets.Scripts.HomeLogic
                 Map = MapGenerator.RandomMiddleMap(),
                 EnemyOperators = TestDB.GetRandomOperator(6),
                 EnemySpawn = new RectInt(25, 25, 5, 5),
-                TeamSpawn = new RectInt(5, 5, 5, 5)
+                TeamSpawn = new RectInt(5, 5, 5, 5),
+                LevelName = "演习作战",
+                WinDesc = "击杀敌方10次",
+                LossDesc = "死亡6次"
             };
 
             SceneManager.LoadScene("Prepare");

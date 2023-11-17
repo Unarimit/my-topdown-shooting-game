@@ -53,7 +53,10 @@ namespace Assets.Scripts.CombatLogic
                     var ops = TestDB.Level.TeamOperators;
                     var spawn = TestDB.Level.TeamSpawn;
 
-                    var spawnTrans = Instantiate(new GameObject(), transform).transform;
+                    var spawnTrans = new GameObject().transform;
+                    spawnTrans.parent = transform;
+                    spawnTrans.gameObject.name = "TeamSpawnGO";
+
                     spawnTrans.position = new Vector3(spawn.x + Random.Range(0, spawn.width), 0, spawn.y + Random.Range(0, spawn.height));
 
                     for (int i = 0; i < ops.Count; i++)
@@ -68,7 +71,10 @@ namespace Assets.Scripts.CombatLogic
                     var ops = TestDB.Level.EnemyOperators;
                     var spawn = TestDB.Level.EnemySpawn;
 
-                    var spawnTrans = Instantiate(new GameObject(), transform).transform;
+                    var spawnTrans = new GameObject().transform;
+                    spawnTrans.parent = transform;
+                    spawnTrans.gameObject.name = "EnemySpawnGO";
+
                     spawnTrans.position = new Vector3(spawn.x + Random.Range(0, spawn.width), 0, spawn.y + Random.Range(0, spawn.height));
 
                     for (int i = 0; i < ops.Count; i++)

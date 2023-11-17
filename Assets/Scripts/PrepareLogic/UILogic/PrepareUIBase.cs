@@ -9,6 +9,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic
 {
     public class PrepareUIBase : MonoBehaviour
     {
+        protected PrepareContextManager _context => PrepareContextManager.Instance;
         public virtual void Enter()
         {
             gameObject.SetActive(true);
