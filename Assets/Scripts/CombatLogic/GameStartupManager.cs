@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.CombatLogic.EnviormentLogic;
 using Assets.Scripts.CombatLogic.LevelLogic;
+using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -27,7 +28,7 @@ namespace Assets.Scripts.CombatLogic
         private void PrepareGameScene()
         {
 
-            if (TestDB.Level == null) // 调试生成
+            if (TestDB.Level == null || TestDB.Level.TeamOperators == null || TestDB.Level.TeamOperators.Count == 0) // 调试生成
             {
                 Debug.Log("DB has no level info, enter test mode");
                 _context.GenerateTerrain(TestData.GetTerrains());
@@ -86,6 +87,8 @@ namespace Assets.Scripts.CombatLogic
 
             }
             //TODO: bake navmap
+            var nm = transform.Find("NavMesh Surface").GetComponent<NavMeshSurface>();
+            
         }
     }
 }

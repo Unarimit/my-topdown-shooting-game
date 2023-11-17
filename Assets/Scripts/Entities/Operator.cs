@@ -37,9 +37,7 @@ namespace Assets.Scripts.Entities
         public int MainSkillId = 1;
 
         // 需要删除的属性
-        public int HP;
-
-        public int RecoverHP;
+        public int RecoverHP => McBody.HPRecover;
 
         public int WeaponType;
 

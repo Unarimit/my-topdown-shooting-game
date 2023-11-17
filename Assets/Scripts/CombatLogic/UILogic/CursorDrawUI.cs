@@ -10,13 +10,17 @@ namespace Assets.Scripts.CombatLogic.UILogic
 {
     public class CursorDrawUI : SubUIBase
     {
-        private void Awake()
+        private void OnEnable()
         {
             Cursor.visible = false;
         }
         private void OnGUI()
         {
             transform.position = Mouse.current.position.ReadValue();
+        }
+        private void OnDisable()
+        {
+            Cursor.visible = true;
         }
     }
 }

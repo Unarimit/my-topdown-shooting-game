@@ -46,8 +46,8 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
         public CombatOperator(Operator op, int team, Transform spawnBase)
         {
             OpInfo = op;
-            CurrentHP = op.HP;
-            MaxHP = op.HP;
+            MaxHP = op.McBody.HP;
+            CurrentHP = MaxHP;
             Team = team;
             SpawnBase = spawnBase;
         }

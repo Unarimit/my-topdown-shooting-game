@@ -27,7 +27,7 @@ namespace Assets.Scripts.CombatLogic.UILogic
         }
         public void ButtonOnClickEvent()
         {
-            CombatContextManager.Instance.RestartScene();
+            CombatContextManager.Instance.QuitScene();
         }
         public void ShowWinText()
         {

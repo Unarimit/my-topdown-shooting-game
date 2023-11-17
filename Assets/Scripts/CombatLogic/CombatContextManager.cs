@@ -308,9 +308,9 @@ namespace Assets.Scripts.CombatLogic
             Time.timeScale = 0;
         }
         
-        public void RestartScene()
+        public void QuitScene()
         {
-            SceneManager.LoadScene("Playground", LoadSceneMode.Single);
+            SceneManager.LoadScene("Home", LoadSceneMode.Single);
         }
 
         // *********** Player Logic *****************

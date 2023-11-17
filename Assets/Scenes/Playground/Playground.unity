@@ -5117,10 +5117,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Replay
+  m_text: "\u8FD4\u56DE"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2b1aeb38224abd840a5d2a180f762e7d, type: 2}
+  m_sharedMaterial: {fileID: -4923270386190075162, guid: 2b1aeb38224abd840a5d2a180f762e7d,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -10530,8 +10531,6 @@ MonoBehaviour:
     PropBlue: 0
     GunSkillId: 0
     MainSkillId: 1
-    HP: 5
-    RecoverHP: 2
     WeaponType: 0
     ReviveTime: 5
     McHead:
@@ -11211,8 +11210,6 @@ MonoBehaviour:
     PropBlue: 0
     GunSkillId: 0
     MainSkillId: 1
-    HP: 5
-    RecoverHP: 2
     WeaponType: 0
     ReviveTime: 5
     McHead:
@@ -11321,10 +11318,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: REVIVE COUNTDOWN
+  m_text: "\u590D\u6D3B\u5012\u8BA1\u65F6"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2b1aeb38224abd840a5d2a180f762e7d, type: 2}
+  m_sharedMaterial: {fileID: -4923270386190075162, guid: 2b1aeb38224abd840a5d2a180f762e7d,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -13965,8 +13963,6 @@ MonoBehaviour:
     PropBlue: 0
     GunSkillId: 0
     MainSkillId: 1
-    HP: 5
-    RecoverHP: 2
     WeaponType: 0
     ReviveTime: 5
     McHead:
