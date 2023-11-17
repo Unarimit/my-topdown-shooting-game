@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterSelector
 {
     /// <summary>
-    /// 叫PortraitsScrollView
+    /// 控制prepareOprators, hierarchy里叫PortraitsScrollView
     /// </summary>
     public class CharacterPortraitScrollViewUI : MonoBehaviour
     {
@@ -20,6 +20,9 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterSelector
         {
             _teammateUI = teammateUI;
         }
+        /// <summary>
+        /// 生成可选项
+        /// </summary>
         public void GeneratePortrait()
         {
             var ops = _context.data;
@@ -35,6 +38,10 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterSelector
                 _characterPortraits.Add(cp);
             }
         }
+        /// <summary>
+        /// 变更到编辑页面或选择页面
+        /// </summary>
+        /// <param name="page"></param>
         public void ChangePage(TeammatePortraitPage page)
         {
             foreach (var cp in _characterPortraits)

@@ -175,9 +175,5 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
             return res;
         }
 
-        private void OnFootstep(AnimationEvent animationEvent)
-        {
-
-        }
     }
 }

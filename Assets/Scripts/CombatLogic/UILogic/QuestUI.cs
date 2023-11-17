@@ -15,6 +15,7 @@ namespace Assets.Scripts.CombatLogic.UILogic
 
         private void OnEnable()
         {
+            if (GameLevelManager.Instance == null) return;
             GameLevelManager.Instance.AimChangeEvent += ChangeText; 
         }
 
@@ -25,6 +26,7 @@ namespace Assets.Scripts.CombatLogic.UILogic
 
         private void OnDisable()
         {
+            if (GameLevelManager.Instance == null) return;
             GameLevelManager.Instance.AimChangeEvent -= ChangeText;
         }
     }

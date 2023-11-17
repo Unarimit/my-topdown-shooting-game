@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.PrepareLogic
 {
@@ -38,6 +39,27 @@ namespace Assets.Scripts.PrepareLogic
         public Texture2D GetSkillIcon(int skillId)
         {
             return ResourceManager.Load<Texture2D>("Skills/" + skillConfig.CombatSkills[skillId].IconUrl);
+        }
+
+        public void GoToCombat()
+        {
+            if(TestDB.Level == null)
+            {
+                Debug.LogError("error: Db levelinfo is null");
+            }
+            else
+            {
+                TestDB.Level.TeamOperators = new List<Operator>();
+                foreach (var x in data)
+                {
+                    if (x.IsChoose) TestDB.Level.TeamOperators.Add(x.OpInfo);
+                }
+                SceneManager.LoadScene("Playground");
+            }
+        }
+        public void ReturnHome()
+        {
+            SceneManager.LoadScene("Home");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.CombatLogic.CombatEntities;
 using Assets.Scripts.CombatLogic.EnviormentLogic;
+using Assets.Scripts.Common;
 using Assets.Scripts.Entities;
 using System;
 using System.Collections.Generic;
@@ -45,7 +46,7 @@ namespace Assets.Scripts.CombatLogic
 
         public static int[][] GetTerrains()
         {
-            return TerrainGenerator.RandomTerrain();
+            return MapGenerator.RandomMap();
         }
     }
 }

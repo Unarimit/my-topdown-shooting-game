@@ -10,24 +10,8 @@ namespace Assets.Scripts.CombatLogic
         CombatContextManager _context => CombatContextManager.Instance;
         public void Start()
         {
-            // 地形生成
-            _context.GenerateTerrain(TerrainGenerator.RandomTerrain());
-            //TODO: bake navmap
 
-            // 我方生成（单位，生成规则）
-            var ops = TestData.GetTeamUnit();
-            Vector3 init = new Vector3(Random.Range(5, 25), 0, Random.Range(5, 25));
-            _context.GeneratePlayer(ops[0], init, Vector3.zero, transform);
-
-            for(int i = 1; i < ops.Count; i++)
-            {
-                _context.GenerateAgent(ops[i], init, Vector3.zero, 0, transform);
-            }
-
-
-            // 敌方生成（单位，生成规则）
-            Vector3 einit = new Vector3(Random.Range(37, 57), 0, Random.Range(37, 57));
-
+            PrepareGameScene();
 
             // 组件注册
             transform.AddComponent<StorageManager>();
@@ -37,5 +21,65 @@ namespace Assets.Scripts.CombatLogic
             UIManager.Instance.Init();
         }
 
+        /// <summary>
+        /// 根据信息放置地形和人物
+        /// </summary>
+        private void PrepareGameScene()
+        {
+
+            if (TestDB.Level == null) // 调试生成
+            {
+                Debug.Log("DB has no level info, enter test mode");
+                _context.GenerateTerrain(TestData.GetTerrains());
+                // 我方生成
+                var ops = TestData.GetTeamUnit();
+                Vector3 init = new Vector3(Random.Range(5, 25), 0, Random.Range(5, 25));
+                _context.GeneratePlayer(ops[0], init, Vector3.zero, transform);
+
+                for (int i = 1; i < ops.Count; i++)
+                {
+                    _context.GenerateAgent(ops[i], init, Vector3.zero, 0, transform);
+                }
+                // 敌方生成
+                Vector3 einit = new Vector3(Random.Range(37, 57), 0, Random.Range(37, 57));
+            }
+            else
+            {
+                // terrain
+                _context.GenerateTerrain(TestDB.Level.Map);
+
+                // team
+                {
+                    var ops = TestDB.Level.TeamOperators;
+                    var spawn = TestDB.Level.TeamSpawn;
+
+                    var spawnTrans = Instantiate(new GameObject(), transform).transform;
+                    spawnTrans.position = new Vector3(spawn.x + Random.Range(0, spawn.width), 0, spawn.y + Random.Range(0, spawn.height));
+
+                    for (int i = 0; i < ops.Count; i++)
+                    {
+                        var v3 = new Vector3(spawn.x + Random.Range(0, spawn.width), 0, spawn.y + Random.Range(0, spawn.height));
+                        if (i == 0) _context.GeneratePlayer(ops[i], v3, Vector3.zero, spawnTrans);
+                        else _context.GenerateAgent(ops[i], v3, Vector3.zero, 0, spawnTrans);
+                    }
+                }
+                // enemy
+                {
+                    var ops = TestDB.Level.EnemyOperators;
+                    var spawn = TestDB.Level.EnemySpawn;
+
+                    var spawnTrans = Instantiate(new GameObject(), transform).transform;
+                    spawnTrans.position = new Vector3(spawn.x + Random.Range(0, spawn.width), 0, spawn.y + Random.Range(0, spawn.height));
+
+                    for (int i = 0; i < ops.Count; i++)
+                    {
+                        var v3 = new Vector3(spawn.x + Random.Range(0, spawn.width), 0, spawn.y + Random.Range(0, spawn.height));
+                        _context.GenerateAgent(ops[i], v3, Vector3.zero, 1, spawnTrans);
+                    }
+                }
+
+            }
+            //TODO: bake navmap
+        }
     }
 }
