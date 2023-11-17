@@ -39,6 +39,8 @@ namespace Assets.Scripts.CombatLogic
 
         public Transform PlayerTrans { get; private set; }
 
+        public ViewModel CombatVM { get; private set; }
+
         private SkillManager _skillContext;
         private Transform _agentsSpawnTrans;
         [HideInInspector]
@@ -54,6 +56,7 @@ namespace Assets.Scripts.CombatLogic
             PlayerTeamTrans = new List<Transform>();
             EnemyTeamTrans = new List<Transform>();
             Operators = new Dictionary<Transform, CombatOperator>();
+            CombatVM = new ViewModel();
             _agentsSpawnTrans = transform.Find("Agents");
             Enviorment = transform.Find("Effects");
 
@@ -316,5 +319,20 @@ namespace Assets.Scripts.CombatLogic
         // *********** Player Logic *****************
         public delegate void PlayerDiedEventHandler(object sender, bool isDied);
         public event PlayerDiedEventHandler PlayerDiedEvent;
+
+        public class ViewModel {
+            public bool IsPlayerAimming { 
+                set { 
+                    if(value == _isPlayerAimming) return;
+                    _isPlayerAimming = value;
+                    IsPlayerAimmingEvent.Invoke(value);
+                } 
+                get { return _isPlayerAimming; } 
+            }
+            public delegate void IsPlayerAimmingEventHandler(bool _isPlayerAimming);
+            public event IsPlayerAimmingEventHandler IsPlayerAimmingEvent;
+            private bool _isPlayerAimming = false;
+        }
+
     }
 }

@@ -95,6 +95,7 @@ namespace StarterAssets
             // 瞄准和射击的动作控制
             if (_input.aim && _animatorController.TryBreakAction(OperatorAnimatorBaseController.ActionName.Aim))
             {
+                _context.CombatVM.IsPlayerAimming = true;
                 _animatorController.SetAim(true);
                 var aim = getMouseAiming();
                 // 枪口朝向鼠标方向
@@ -118,6 +119,7 @@ namespace StarterAssets
             }
             else
             {
+                _context.CombatVM.IsPlayerAimming = false;
                 _animatorController.SetAim(false);
                 _animatorController.SetShoot(false);
             }
