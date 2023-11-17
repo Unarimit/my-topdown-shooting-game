@@ -243,7 +243,6 @@ namespace Assets.Scripts.CombatLogic
             // 初始化
             var prefab = ResourceManager.Load<GameObject>("Characters/Player");
             var go = Instantiate(prefab, _agentsSpawnTrans);
-
             // 挂components
             // animator component
             var res = GetComponent<FbxLoadManager>().LoadModel(OpInfo.ModelResourceUrl, go.transform, true);
@@ -271,6 +270,7 @@ namespace Assets.Scripts.CombatLogic
             GetComponent<FbxLoadManager>().LoadModel(OpInfo.ModelResourceUrl, CockpitManager.Instance.CharacterAnimator.transform, false);
 
             PlayerTrans = go.transform;
+
             return go.transform;
         }
 

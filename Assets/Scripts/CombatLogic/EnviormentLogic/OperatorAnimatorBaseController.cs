@@ -64,7 +64,6 @@ namespace Assets.Scripts.CombatLogic.EnviormentLogic
 
         private Animator _animator;
 
-        private bool _hasAnimator;
         private bool _isSprint;
 
 
@@ -86,14 +85,11 @@ namespace Assets.Scripts.CombatLogic.EnviormentLogic
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
-        }
-        private void Start()
-        {
-            _hasAnimator = TryGetComponent(out _animator);
+
+            _animator = GetComponent<Animator>();
             _controller = GetComponent<CharacterController>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _collider = GetComponent<CapsuleCollider>();
-
 
             // AssignAnimationIDs
             _animIDSpeed = Animator.StringToHash("Speed");

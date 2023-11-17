@@ -88,7 +88,7 @@ namespace Assets.Scripts.CombatLogic
             }
             //TODO: bake navmap
             var nm = transform.Find("NavMesh Surface").GetComponent<NavMeshSurface>();
-            
+            nm.UpdateNavMesh(nm.navMeshData);
         }
     }
 }
