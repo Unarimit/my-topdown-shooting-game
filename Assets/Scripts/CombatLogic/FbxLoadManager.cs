@@ -43,6 +43,7 @@ namespace Assets.Scripts.CombatLogic
                 var temp = go.transform.GetChild(i);
                 if (temp.name.EndsWith("_Shield_Weapon"))
                 {
+                    temp.gameObject.SetActive(false);
                     Destroy(temp.gameObject);
                 }
                 else if (temp.name == "bone_root")

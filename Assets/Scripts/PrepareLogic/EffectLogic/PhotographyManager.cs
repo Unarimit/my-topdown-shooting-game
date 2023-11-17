@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.CombatLogic;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.PrepareLogic.EffectLogic
@@ -19,8 +20,9 @@ namespace Assets.Scripts.PrepareLogic.EffectLogic
         public Texture GetCharacterPortrait(string modelUrl)
         {
             m_camera.gameObject.SetActive(true);
-            var pref = ResourceManager.Load<GameObject>("Characters/" + modelUrl);
-            var go = Instantiate(pref, transform);
+            var prefab = ResourceManager.Load<GameObject>("Characters/Displayer");
+            var go = Instantiate(prefab, transform);
+            PrepareContextManager.Instance.GetComponent<FbxLoadManager>().LoadModel(modelUrl, go.transform, false);
             go.transform.position = new Vector3(0, 0, 1.2f);
             go.transform.eulerAngles = new Vector3(0, 200, 0);
 

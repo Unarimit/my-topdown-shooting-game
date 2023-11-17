@@ -4521,6 +4521,7 @@ GameObject:
   - component: {fileID: 1213201249}
   - component: {fileID: 1213201250}
   - component: {fileID: 1213201251}
+  - component: {fileID: 1213201252}
   m_Layer: 0
   m_Name: GameRoot
   m_TagString: Untagged
@@ -4582,6 +4583,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a915f668f43bc734aa24e30c91297df8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1213201252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1213201247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3ec1bf999e3a7a4e9dd3f8eced9d4a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NormalAvatar: {fileID: 9000000, guid: 88df891a7bbf77b4283e21dd49b30590, type: 3}
 --- !u!1 &1218066614
 GameObject:
   m_ObjectHideFlags: 0

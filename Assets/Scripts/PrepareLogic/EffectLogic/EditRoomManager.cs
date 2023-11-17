@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.CombatLogic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,8 +25,10 @@ namespace Assets.Scripts.PrepareLogic.EffectLogic
             if(_lastGO != null) Destroy(_lastGO);
 
             m_camera.gameObject.SetActive(true);
-            var pref = ResourceManager.Load<GameObject>("Characters/" + modelUrl);
-            var go = Instantiate(pref, transform);
+            var prefab = ResourceManager.Load<GameObject>("Characters/Displayer");
+            var go = Instantiate(prefab, transform);
+            PrepareContextManager.Instance.GetComponent<FbxLoadManager>().LoadModel(modelUrl, go.transform, false);
+
             go.transform.position = new Vector3(-1.4f, 0, 3.2f) + transform.position;
             go.transform.eulerAngles = new Vector3(0, 130, 0);
             _lastGO = go;

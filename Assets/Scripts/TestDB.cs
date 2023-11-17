@@ -16,9 +16,9 @@ namespace Assets.Scripts
             return new List<Operator>() {
                 new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
                 new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "aru", ModelResourceUrl = "Aru", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "akrin", ModelResourceUrl = "Karin", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "mashiro", ModelResourceUrl = "Mashiro", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
                 new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
                 new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
                 new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
@@ -56,7 +56,7 @@ namespace Assets.Scripts
             };
         }
 
-        static List<string> clist = new List<string> { "Hoshino", "Shiroko"};
+        static List<string> clist = new List<string> { "Hoshino", "Shiroko", "Aru", "Karin", "Mashiro"};
         public static Operator GetRandomOperate()
         {
             return new Operator
