@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Entities;
+﻿using Assets.Scripts.Common;
+using Assets.Scripts.Entities;
 using Assets.Scripts.PrepareLogic.PrepareEntities;
 using System;
 using System.Collections.Generic;
@@ -54,6 +55,11 @@ namespace Assets.Scripts.PrepareLogic
                 foreach (var x in data)
                 {
                     if (x.IsChoose) TestDB.Level.TeamOperators.Add(x.OpInfo);
+                }
+                if(TestDB.Level.TeamOperators.Count == 0)
+                {
+                    TipsUI.GenerateNewTips("请至少选择一名干员");
+                    return;
                 }
                 SceneManager.LoadScene("Playground");
             }
