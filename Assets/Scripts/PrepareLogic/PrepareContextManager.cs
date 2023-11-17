@@ -18,6 +18,7 @@ namespace Assets.Scripts.PrepareLogic
         private SkillListConfig skillConfig;
 
         public List<PrepareOperator> data;
+        public LevelInfo Level;
         private void Awake()
         {
             if (Instance == null) Instance = this;

@@ -450,10 +450,10 @@ GameObject:
   - component: {fileID: 8576601570298221682}
   - component: {fileID: 7960545824064801690}
   - component: {fileID: 5474104229863210115}
-  - component: {fileID: 1691259077747102677}
-  - component: {fileID: 7234911862008932760}
+  - component: {fileID: 7420830231447409753}
+  - component: {fileID: 2207168341563543850}
   m_Layer: 5
-  m_Name: CharacterPortraitPanel
+  m_Name: EnemyPortraitPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -519,23 +519,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1691259077747102677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6253301986148533273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b09fd2a1f6825b04ea5ac08311c98ece, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PortraitImage: {fileID: 8429261592246727734}
-  CharacterNameTMP: {fileID: 4850267471173015678}
-  Button: {fileID: 7234911862008932760}
-  CharacterTypeTMP: {fileID: 4426114985983601288}
---- !u!114 &7234911862008932760
+--- !u!114 &7420830231447409753
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -554,7 +538,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -579,3 +563,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2207168341563543850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6253301986148533273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d84f092fabde7874e946b17ebc9e480c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PortraitImage: {fileID: 8429261592246727734}
+  CharacterNameTMP: {fileID: 4850267471173015678}
+  CharacterTypeTMP: {fileID: 4426114985983601288}

@@ -14,7 +14,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterSelector
         public GameObject CharacterPortraitPrefab;
         public Transform PortraitsContentTrans;
         private PrepareContextManager _context => PrepareContextManager.Instance;
-        private List<CharacterPortraitUI> _characterPortraits;
+        private List<CharacterPortraitScrollViewItemUI> _characterPortraits;
         private TeammateUI _teammateUI;
         public void Inject(TeammateUI teammateUI)
         {
@@ -26,13 +26,13 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterSelector
         public void GeneratePortrait()
         {
             var ops = _context.data;
-            _characterPortraits = new List<CharacterPortraitUI>();
+            _characterPortraits = new List<CharacterPortraitScrollViewItemUI>();
             foreach (var op in ops)
             {
                 var go = Instantiate(CharacterPortraitPrefab, PortraitsContentTrans);
 
                 // set content
-                var cp = go.GetComponent<CharacterPortraitUI>();
+                var cp = go.GetComponent<CharacterPortraitScrollViewItemUI>();
                 cp.Inject(op, TeammatePortraitPage.ChoosePage, this);
 
                 _characterPortraits.Add(cp);
@@ -58,7 +58,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterSelector
         /// <summary>
         /// 子组件在显示自己前调用
         /// </summary>
-        public void InEditSelect(CharacterPortraitUI portraitUI, PrepareOperator model)
+        public void InEditSelect(CharacterPortraitScrollViewItemUI portraitUI, PrepareOperator model)
         {
             foreach (var cp in _characterPortraits)
             {

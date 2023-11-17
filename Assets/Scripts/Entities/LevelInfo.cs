@@ -7,8 +7,11 @@ using UnityEngine;
 
 namespace Assets.Scripts.Entities
 {
-    internal class LevelInfo
+    public class LevelInfo
     {
+        public string LevelName;
+        public string WinDesc;
+        public string LossDesc;
         public int[][] Map;
         public List<Operator> EnemyOperators;
         public RectInt EnemySpawn;
