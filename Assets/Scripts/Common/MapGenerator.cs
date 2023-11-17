@@ -37,6 +37,10 @@ namespace Assets.Scripts.Common
             SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
             SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
 
+            // tree
+            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 4);
+            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 4);
+
             return res;
         }
 

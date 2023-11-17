@@ -12,6 +12,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.LevelUIs
     {
         Color grass = new Color(0, 0.5f, 0);
         Color waterBlue = new Color(0, 0.74f, 1);
+        Color treeGreen = new Color(0.133f, 0.545f, 0.133f);
         public void DrawMap(int[][] map, RectInt teamSpawn, RectInt enemySpawn)
         {
             // 根据map的不同值，绘制不同颜色
@@ -40,9 +41,13 @@ namespace Assets.Scripts.PrepareLogic.UILogic.LevelUIs
                     {
                         color = Color.yellow;
                     }
-                    else
+                    else if (map[x][y] == 3)
                     {
                         color = waterBlue;
+                    }
+                    else
+                    {
+                        color = treeGreen;
                     }
 
                     texture.SetPixel(x, y, color);
