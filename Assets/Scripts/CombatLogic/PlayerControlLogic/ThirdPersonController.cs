@@ -7,6 +7,7 @@ using Unity.Burst.Intrinsics;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
 using static Assets.Scripts.GunController;
 #endif
 
@@ -45,6 +46,7 @@ namespace StarterAssets
         {
             _controller = GetComponent<CharacterController>();
             _controller.detectCollisions = false;
+            _controller.enabled = true;
             _animatorController = GetComponent<OperatorAnimatorBaseController>();
             _input = StarterAssetsInputs.Instance;
             _context = CombatContextManager.Instance;

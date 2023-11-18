@@ -7,6 +7,7 @@ namespace Assets.Scripts.PrepareLogic
         private void Awake()
         {
             GetComponent<PrepareContextManager>().Level = TestDB.Level;
+            Time.timeScale = 1; // avoid dotween stop
         }
     }
 }
