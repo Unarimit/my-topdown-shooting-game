@@ -16,6 +16,7 @@ namespace Assets.Scripts.HomeLogic
         {
             if (Instance == null) Instance = this;
             else Debug.LogWarning(transform.ToString() + " try to load another Manager");
+            Time.timeScale = 1;
         }
 
         public void GoToLevel()
