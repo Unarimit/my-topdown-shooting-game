@@ -9,7 +9,7 @@ namespace Assets.Scripts.Common
         public TextMeshProUGUI Text;
         public static void GenerateNewTips(string text)
         {
-            var prefab = ResourceManager.Load<GameObject>("Effects/Tip");
+            var prefab = ResourceManager.Load<GameObject>("UIs/Tip");
             var go = Instantiate(prefab);
             go.GetComponent<TipsUI>().Text.text = text;
         }

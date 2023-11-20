@@ -2,11 +2,13 @@
 using Assets.Scripts.CombatLogic.CombatEntities;
 using Assets.Scripts.CombatLogic.ComputerControllers;
 using Assets.Scripts.CombatLogic.EnviormentLogic;
+using Assets.Scripts.Common.EscMenu;
 using Assets.Scripts.Entities;
 using Cinemachine;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.CombatLogic
@@ -314,6 +316,19 @@ namespace Assets.Scripts.CombatLogic
         public void QuitScene()
         {
             SceneManager.LoadScene("Home", LoadSceneMode.Single);
+        }
+
+        private bool isEscMenu = false;
+        public void OnEscMenu(InputValue value)
+        {
+            if (isEscMenu) return;
+            isEscMenu = true;
+            var ui = EscMenuUI.OpenEscMenuUI();
+            ui.ReturnBtn.onClick.AddListener(() =>
+            {
+                isEscMenu = false;
+                Time.timeScale = 1;
+            });
         }
 
         // *********** Player Logic *****************
