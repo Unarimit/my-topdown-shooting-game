@@ -1,10 +1,12 @@
 ﻿using Assets.Scripts.Common;
+using Assets.Scripts.Common.EscMenu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.HomeLogic
@@ -34,6 +36,18 @@ namespace Assets.Scripts.HomeLogic
             };
 
             SceneManager.LoadScene("Prepare");
+        }
+
+        private bool isEscMenu = false;
+        public void OnEscMenu(InputValue value)
+        {
+            if (isEscMenu) return;
+            isEscMenu = true;
+            var ui = EscMenuUI.OpenEscMenuUI();
+            ui.ReturnBtn.onClick.AddListener(() =>
+            {
+                isEscMenu = false;
+            });
         }
     }
 }

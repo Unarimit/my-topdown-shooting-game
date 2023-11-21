@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Common;
+using Assets.Scripts.Common.EscMenu;
 using Assets.Scripts.Entities;
 using Assets.Scripts.PrepareLogic.PrepareEntities;
 using System;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.PrepareLogic
@@ -67,6 +69,19 @@ namespace Assets.Scripts.PrepareLogic
         public void ReturnHome()
         {
             SceneManager.LoadScene("Home");
+        }
+
+
+        private bool isEscMenu = false;
+        public void OnEscMenu(InputValue value)
+        {
+            if (isEscMenu) return;
+            isEscMenu = true;
+            var ui = EscMenuUI.OpenEscMenuUI();
+            ui.ReturnBtn.onClick.AddListener(() =>
+            {
+                isEscMenu = false;
+            });
         }
     }
 }

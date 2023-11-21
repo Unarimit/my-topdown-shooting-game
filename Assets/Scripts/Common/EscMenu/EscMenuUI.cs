@@ -42,12 +42,12 @@ namespace Assets.Scripts.Common.EscMenu
         }
         private void Start()
         {
-            MenuPanelTrans.DOSizeDelta(sizeDelta, 0.2f);
+            // 菜单出现受timescale影响会出问题
+            MenuPanelTrans.DOSizeDelta(sizeDelta, 0.2f).SetUpdate(UpdateType.Normal, true);
         }
         private void quit()
         {
-            MenuPanelTrans.DOSizeDelta(Vector2.zero, 0.2f);
-            Destroy(gameObject, 0.2f);
+            MenuPanelTrans.DOSizeDelta(Vector2.zero, 0.2f).OnComplete(() => Destroy(gameObject));
         }
         private void quitToStart()
         {

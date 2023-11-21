@@ -323,6 +323,7 @@ namespace Assets.Scripts.CombatLogic
         {
             if (isEscMenu) return;
             isEscMenu = true;
+            Time.timeScale = 0;
             var ui = EscMenuUI.OpenEscMenuUI();
             ui.ReturnBtn.onClick.AddListener(() =>
             {
