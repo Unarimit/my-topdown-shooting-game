@@ -1,14 +1,9 @@
-﻿using Assets.Scripts;
-using Assets.Scripts.BulletLogic;
+﻿using Assets.Scripts.BulletLogic;
 using Assets.Scripts.CombatLogic;
-using Assets.Scripts.CombatLogic.EnviormentLogic;
-using System.Collections;
-using Unity.Burst.Intrinsics;
+using Assets.Scripts.CombatLogic.MyCharacterControllers;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.XR;
-using static Assets.Scripts.GunController;
 #endif
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -16,38 +11,21 @@ using static Assets.Scripts.GunController;
 
 namespace StarterAssets
 {
-    [RequireComponent(typeof(CharacterController))]
+    [RequireComponent(typeof(OperatorController))]
 
     public class ThirdPersonController : MonoBehaviour
     {
-        public GunController GunController;
-
-
         public AudioClip LandingAudioClip;
         public AudioClip[] FootstepAudioClips;
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
 
-
-        [Header("Cinemachine")]
-        [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
-        public GameObject CinemachineCameraTarget;
-
-
-        private OperatorAnimatorBaseController _animatorController;
-        private CharacterController _controller;
+        private OperatorController _controller;
         private StarterAssetsInputs _input;
         private CombatContextManager _context;
-
-
-
-
         private DestructiblePersonController _destructiblePersonController;
         private void Start()
         {
-            _controller = GetComponent<CharacterController>();
-            _controller.detectCollisions = false;
-            _controller.enabled = true;
-            _animatorController = GetComponent<OperatorAnimatorBaseController>();
+            _controller = GetComponent<OperatorController>();
             _input = StarterAssetsInputs.Instance;
             _context = CombatContextManager.Instance;
 
@@ -56,7 +34,6 @@ namespace StarterAssets
 
 
         }
-
         private void Update()
         {
             Move();
@@ -64,81 +41,51 @@ namespace StarterAssets
             AimAndShoot();
             DoTriggerAction();
         }
-
         private void DoTriggerAction()
         {
-            _animatorController.SetSprint(_input.sprint);
-            if (_input.jump && _animatorController.TryBreakAction(OperatorAnimatorBaseController.ActionName.Jump))
+            _controller.SetSprint(_input.sprint);
+            if (_input.jump)
             {
-                _animatorController.DoJump();
+                _controller.Jump();
                 _input.jump = false;
             }
-            if(_input.slide && _animatorController.TryBreakAction(OperatorAnimatorBaseController.ActionName.Slide))
-            {
-                _animatorController.DoSlide();
-            }
-            if(_input.reloading && _animatorController.TryBreakAction(OperatorAnimatorBaseController.ActionName.Reload))
-                _animatorController.DoReload(GunController.Reloading());
+            if(_input.slide) _controller.Slide();
+            if(_input.reloading) _controller.Reload();
             
         }
-        
         private void Move()
         {
-            var moveVec = _animatorController.GetMoveVec(_input.move);
-            _controller.Move(moveVec);
-            _context.Operators[transform].Speed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+            _controller.Move(_input.move);
+            _context.Operators[transform].Speed = _controller.Speed;
         }
         
-        
-
         private float GunLine = 0.95f; // 枪线，应该在准星上
         private void AimAndShoot()
         {
             // 瞄准和射击的动作控制
-            if (_input.aim && _animatorController.TryBreakAction(OperatorAnimatorBaseController.ActionName.Aim))
+            if (_input.aim && _controller.Aim(true, getMouseAiming()))
             {
                 _context.CombatVM.IsPlayerAimming = true;
-                _animatorController.SetAim(true);
-                var aim = getMouseAiming();
-                // 枪口朝向鼠标方向
-                transform.LookAt(new Vector3(aim.x, transform.position.y, aim.z));
-
                 // 开始射击
                 if (_input.shoot)
                 {
-                    if(GunController.Shoot((aim - GunController.BulletStartTrans.position).normalized))
-                    {
-                        _animatorController.SetShoot(true);
-                        _context.Operators[transform].ActAttack();
-                    }
-                    else
-                    {
-                        _animatorController.SetShoot(false);
-                    }
+                    _controller.Shoot(getMouseAiming());
                 }
-
-                //transform.Rotate(new Vector3(0, 45, 0));
             }
             else
             {
                 _context.CombatVM.IsPlayerAimming = false;
-                _animatorController.SetAim(false);
-                _animatorController.SetShoot(false);
+                _controller.Aim(false, Vector3.zero);
             }
         }
-
-
-        //TODO：分离技能逻辑
         private void Skill()
         {
-            if((_input.skill1 || _input.skill2) && _animatorController.TryBreakAction(OperatorAnimatorBaseController.ActionName.Skill))
+            if(_input.skill1 || _input.skill2)
             {
-                if (_input.skill1) _context.UseSkill(transform, 0, getMouseAiming(), Time.time);
-                if (_input.skill2) _context.UseSkill(transform, 1, getMouseAiming(), Time.time);
+                if (_input.skill1) _controller.Skill(0, getMouseAiming());
+                if (_input.skill2) _controller.Skill(1, getMouseAiming());
             }
         }
-
-
 
         private Vector3 getMouseAiming()
         {
@@ -162,14 +109,12 @@ namespace StarterAssets
             return aim;
         }
 
-
         private void HP0Event(object sender)
         {
             // 清空动画
-            _animatorController.StopAll();
+            _controller.Died();
 
         }
-
 
 
         private void OnFootstep(AnimationEvent animationEvent)
@@ -179,7 +124,7 @@ namespace StarterAssets
                 if (FootstepAudioClips.Length > 0)
                 {
                     var index = Random.Range(0, FootstepAudioClips.Length);
-                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(transform.position), FootstepAudioVolume);
                 }
             }
         }
@@ -188,7 +133,7 @@ namespace StarterAssets
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
-                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(transform.position), FootstepAudioVolume);
             }
         }
 

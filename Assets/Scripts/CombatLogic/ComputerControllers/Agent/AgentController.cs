@@ -1,6 +1,5 @@
-﻿using Assets.Scripts.CombatLogic.ComputerControllers.States;
-using Assets.Scripts.CombatLogic.ComputerControllers.States.Agent;
-using Assets.Scripts.CombatLogic.EnviormentLogic;
+﻿using Assets.Scripts.CombatLogic.ComputerControllers.States.Agent;
+using Assets.Scripts.CombatLogic.MyCharacterControllers;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -24,8 +23,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
         private Vector3 _instantiatePosition;
         private NavMeshAgent _navMeshAgent;
         private CombatContextManager _context;
-        private OperatorAnimatorBaseController _animatorController;
-        private GunController _gunController;
+        private OperatorController _controller;
         private new void Awake()
         {
             _navMeshAgent = GetComponent<NavMeshAgent>();
@@ -35,21 +33,12 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
         {
             _instantiatePosition = transform.position;
             _context = CombatContextManager.Instance;
-            _animatorController = GetComponent<OperatorAnimatorBaseController>();
-            _gunController = GetComponent<GunController>();
+            _controller = GetComponent<OperatorController>();
             states.Add(StateType.Idle, new IdleState(this));
             states.Add(StateType.React, new ReactState(this, _context));
             states.Add(StateType.Attack, new AttackState(this));
 
             TranslateState(StateType.Idle);
-
-            if (_gunController != null)
-            {
-                _gunController.gunProperty.MuzzleVelocity = 1200;
-                _gunController.gunProperty.RateOfFile = 300;
-                _gunController.gunProperty.CurrentAmmo = 10;
-                _gunController.gunProperty.MaxAmmo = 10;
-            }
         }
 
         public void TranslateState(StateType state)
@@ -63,8 +52,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
         private void Update()
         {
             currentState.OnUpdate();
-
-            _animatorController.GetMoveVec(new Vector2(_navMeshAgent.velocity.x,  _navMeshAgent.velocity.z));
+            _controller.AnimatorMove(new Vector2(_navMeshAgent.velocity.x, _navMeshAgent.velocity.z), _navMeshAgent.velocity.magnitude);
         }
 
         // ********************** Agent Behavior ********************
@@ -85,7 +73,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
         public void MoveTo(Vector3 location, float MaxSpeed)
         {
             _navMeshAgent.isStopped = false;
-            _navMeshAgent.speed = MaxSpeed / 2;
+            _navMeshAgent.speed = MaxSpeed;
             _navMeshAgent.SetDestination(location);
         }
         public void StopMoving()
@@ -150,30 +138,11 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
 
         public void Aim(Vector3 aim)
         {
-            if(_animatorController.TryBreakAction(OperatorAnimatorBaseController.ActionName.Aim) == false) return;
-            _animatorController.SetAim(true);
-            transform.LookAt(aim);
+            _controller.Aim(true, aim);
         }
-        public bool Shoot(Vector3 aim, float diff_factor)
+        public void Shoot(Vector3 aim, float diff_factor)
         {
-            if (_animatorController.TryBreakAction(OperatorAnimatorBaseController.ActionName.Shoot) == false) return false;
-
-            if (_gunController.gunProperty.CurrentAmmo == 0)
-            {
-                _animatorController.DoReload(_gunController.Reloading());
-                return false;
-            }
-
-            // 子弹偏移
-            System.Random random = new System.Random();
-
-            var push = (aim - _gunController.BulletStartTrans.position).normalized;
-            push.x += ((float)random.NextDouble() - 0.5f) * diff_factor;
-            push.z += ((float)random.NextDouble() - 0.5f) * diff_factor;
-            var res = _gunController.Shoot(push);
-            _animatorController.SetShoot(res);
-
-            return res;
+            _controller.Shoot(aim, diff_factor);
         }
 
     }

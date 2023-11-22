@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 282599055190748582}
   - component: {fileID: 3881446740082572308}
   - component: {fileID: 1296327107998173542}
-  - component: {fileID: 8292393953655079402}
+  - component: {fileID: 2294157056983833325}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -98,7 +98,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GunController: {fileID: 282599055190748582}
   LandingAudioClip: {fileID: 8300000, guid: ff697d3070687ce4583faa0561a145a2, type: 3}
   FootstepAudioClips:
   - {fileID: 8300000, guid: 72f526a6a9890f643a88e85a61c86c8a, type: 3}
@@ -163,7 +162,7 @@ CapsuleCollider:
   m_Height: 1.4
   m_Direction: 1
   m_Center: {x: 0, y: 0.84, z: 0}
---- !u!114 &8292393953655079402
+--- !u!114 &2294157056983833325
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -172,7 +171,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1113227377600581828}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e7bffa3bcd05af4bbf58176fd759584, type: 3}
+  m_Script: {fileID: 11500000, guid: 622b5240459b5e945985557a041a71fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Grounded: 1

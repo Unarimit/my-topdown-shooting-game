@@ -35,7 +35,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers.States.Agent
             else
             {
                 _idleDelta += Time.deltaTime;
-                if (_idleDelta > 1)
+                if (_idleDelta > 3)
                 {
                     _idleDelta = 0;
                     _agent.RandomMove();
