@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Scripts.CombatLogic.ComputerControllers.States.Agent
+namespace Assets.Scripts.CombatLogic.ComputerControllers.Fighter.States
 {
-    public enum StateType
+    internal interface IFighterState
     {
-        Idle, React, Attack
-    }
+        public enum StateType
+        {
+            Idle, Attack, Return
+        }
 
-    public interface IAgentState
-    {
         void OnEnter();
 
         void OnUpdate();

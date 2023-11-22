@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Scripts.CombatLogic.ComputerControllers.States
+namespace Assets.Scripts.CombatLogic.ComputerControllers.States.Agent
 {
     public class ReactState : IAgentState
     {

@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.CombatLogic.EnviormentLogic;
 using Assets.Scripts.CombatLogic.LevelLogic;
+using Assets.Scripts.Common;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -31,9 +32,9 @@ namespace Assets.Scripts.CombatLogic
             if (TestDB.Level == null || TestDB.Level.TeamOperators == null || TestDB.Level.TeamOperators.Count == 0) // 调试生成
             {
                 Debug.Log("DB has no level info, enter test mode");
-                _context.GenerateTerrain(TestData.GetTerrains());
+                _context.GenerateTerrain(MapGenerator.RandomMap());
                 // 我方生成
-                var ops = TestData.GetTeamUnit();
+                var ops = TestDB.GetRandomOperator(5);
                 Vector3 init = new Vector3(Random.Range(5, 25), 0, Random.Range(5, 25));
                 _context.GeneratePlayer(ops[0], init, Vector3.zero, transform);
 

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.CombatLogic.ComputerControllers.States;
+using Assets.Scripts.CombatLogic.ComputerControllers.States.Agent;
 using Assets.Scripts.CombatLogic.EnviormentLogic;
 using System.Collections.Generic;
 using System.Linq;

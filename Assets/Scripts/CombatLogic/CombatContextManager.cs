@@ -1,10 +1,12 @@
 ﻿using Assets.Scripts.BulletLogic;
 using Assets.Scripts.CombatLogic.CombatEntities;
 using Assets.Scripts.CombatLogic.ComputerControllers;
+using Assets.Scripts.CombatLogic.ComputerControllers.Fighter;
 using Assets.Scripts.CombatLogic.EnviormentLogic;
 using Assets.Scripts.Common.EscMenu;
 using Assets.Scripts.Entities;
 using Cinemachine;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -175,6 +177,14 @@ namespace Assets.Scripts.CombatLogic
             return true;
         }
 
+        public bool UseSkill(Transform op, CombatCombatSkill skill, Vector3 aim)
+        {
+            if (skill.IsCoolDowning(Time.time)) return false;
+            skill.CoolDownEndTime = Time.time + skill.SkillInfo.CoolDown;
+            _skillContext.CastSkill(op, skill.SkillInfo, aim);
+            return true;
+        }
+
         public void RecoverShield()
         {
             foreach(var p in Operators.Values)
@@ -219,19 +229,17 @@ namespace Assets.Scripts.CombatLogic
                 gun.BulletStartTrans = res.GunfireTransform;
             }
 
+            go.transform.position = pos;
+            go.transform.eulerAngles = angle;
             // 设置队伍并放置到场景
             if (Team == 1)
             {
-                go.transform.position = pos;
-                go.transform.eulerAngles = angle;
                 EnemyTeamTrans.Add(go.transform);
                 Operators.Add(go.transform, new CombatOperator(OpInfo, Team, spawnBase));
                 return go.transform;
             }
             else if(Team == 0)
             {
-                go.transform.position = pos;
-                go.transform.eulerAngles = angle;
                 PlayerTeamTrans.Add(go.transform);
                 Operators.Add(go.transform, new CombatOperator(OpInfo, Team, spawnBase));
                 return go.transform;
