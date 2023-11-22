@@ -15,6 +15,10 @@ namespace Assets.Scripts.Entities
         /// <summary>
         /// 衍生技能
         /// </summary>
-        Derive
+        Derive,
+        /// <summary>
+        /// 主武器技能
+        /// </summary>
+        Weapon
     }
 }

@@ -22,6 +22,7 @@ MonoBehaviour:
     DamageType: 1
     Damage: 10
     NextSkillId: -1
+    MaxUse: -1
     EffectType: 2
     PrefabResourceUrl: Beam
     IconUrl: 0-img
@@ -35,6 +36,7 @@ MonoBehaviour:
     DamageType: 0
     Damage: 0
     NextSkillId: 2
+    MaxUse: -1
     EffectType: 1
     PrefabResourceUrl: Grenade1
     IconUrl: 1-img
@@ -48,7 +50,22 @@ MonoBehaviour:
     DamageType: 1
     Damage: 5
     NextSkillId: -1
+    MaxUse: -1
     EffectType: 0
     PrefabResourceUrl: Grenade2
     IconUrl: 
+    AffectGroup: 4
+  - Type: 2
+    Name: Gun
+    Id: 3
+    Description: shoot!
+    CoolDown: 0.1
+    Duration: 1.5
+    DamageType: 1
+    Damage: 1
+    NextSkillId: -1
+    MaxUse: 30
+    EffectType: 2
+    PrefabResourceUrl: bullet
+    IconUrl: ar-1
     AffectGroup: 4

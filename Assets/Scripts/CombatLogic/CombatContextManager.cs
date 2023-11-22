@@ -26,11 +26,13 @@ namespace Assets.Scripts.CombatLogic
         /// <summary>
         /// 己方干员列表，0号为玩家位
         /// </summary>
-        public List<Transform> PlayerTeamTrans;
+        public List<Transform> PlayerTeamTrans { get; private set; }
 
-        public List<Transform> EnemyTeamTrans;
+        public List<Transform> EnemyTeamTrans { get; private set; }
 
+        public List<Transform> PlayerTeamFighterTrans { get; private set; }
 
+        public List<Transform> EnemyTeamFighterTrans { get; private set; }
 
         public CinemachineVirtualCamera m_Camera;
 
@@ -59,6 +61,8 @@ namespace Assets.Scripts.CombatLogic
             Time.timeScale = 1;
             PlayerTeamTrans = new List<Transform>();
             EnemyTeamTrans = new List<Transform>();
+            PlayerTeamFighterTrans = new List<Transform>();
+            EnemyTeamFighterTrans = new List<Transform>();
             Operators = new Dictionary<Transform, CombatOperator>();
             CombatVM = new ViewModel();
             _agentsSpawnTrans = transform.Find("Agents");
@@ -285,6 +289,38 @@ namespace Assets.Scripts.CombatLogic
             PlayerTrans = go.transform;
 
             return go.transform;
+        }
+
+        public Transform GenerateFighter(Operator OpInfo, Vector3 pos, Vector3 angle, int Team, Transform cvBase)
+        {
+            // 初始化
+            var prefab = ResourceManager.Load<GameObject>("Characters/Fighter");
+            var go = Instantiate(prefab, _agentsSpawnTrans);
+
+            // 挂components
+            // animator component
+            GetComponent<FbxLoadManager>().LoadModel(OpInfo.ModelResourceUrl, go.transform.Find("modelroot"), go.transform, false);
+            go.GetComponent<FighterController>().CvBase = cvBase;
+
+            go.transform.position = pos;
+            go.transform.eulerAngles = angle;
+
+            // 设置队伍并放置到场景
+            if (Team == 1)
+            {
+                EnemyTeamFighterTrans.Add(go.transform);
+                return go.transform;
+            }
+            else if (Team == 0)
+            {
+                PlayerTeamFighterTrans.Add(go.transform);
+                return go.transform;
+            }
+            else
+            {
+                Debug.LogWarning("can not match this team");
+                return null;
+            }
         }
 
         public Transform CreateGO(GameObject prefab, Transform parent)

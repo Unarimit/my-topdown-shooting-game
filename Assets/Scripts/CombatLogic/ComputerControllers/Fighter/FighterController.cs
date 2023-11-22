@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.CombatLogic.ComputerControllers.Fighter.States;
 using Assets.Scripts.CombatLogic.ComputerControllers.States;
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -17,8 +18,8 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers.Fighter
         internal NavMeshAgent m_NavAgent;
 
         // 属性
-        internal Transform CvBase { get; private set; }
-        internal int Team { get; private set;} // TODO:应该直接获取CvBase的队伍
+        internal Transform CvBase { get; set; }
+        internal int Team => _context.Operators[CvBase].Team;
         internal Transform Aim { get; set; }
         internal CombatCombatSkill _skill { get; private set; }
 
@@ -26,10 +27,16 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers.Fighter
         private Dictionary<IFighterState.StateType, IFighterState> states = new Dictionary<IFighterState.StateType, IFighterState>();
         private IFighterState currentState;
         private CombatContextManager _context => CombatContextManager.Instance;
+
+        // setting
+        private const float CHARACTER_END_Y = 2; // 起飞动画参数
+        private const float CHARACTER_END_SCALE = 0.7f; // 起飞动画参数
+
         private void Awake()
         {
-            m_CharactorTrans = transform.Find("model");
+            m_CharactorTrans = transform.Find("modelroot");
             m_NavAgent = transform.GetComponent<NavMeshAgent>();
+            _skill = new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[1]);
 
             states.Add(IFighterState.StateType.Idle, new IdleState(this));
             states.Add(IFighterState.StateType.Attack, new AttackState(this));
@@ -38,12 +45,12 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers.Fighter
         }
         private void Start()
         {
-            _skill = new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[1]);
-            Team = 0;
+            // 起飞过渡动画
+            m_CharactorTrans.DOLocalMoveY(CHARACTER_END_Y, 2);
+            m_CharactorTrans.DOScale(CHARACTER_END_SCALE, 2);
         }
         private void Update()
         {
-            CvBase = _context.PlayerTrans;
             m_CharactorTrans.position += flyVerticleSimulate();
             currentState.OnUpdate();
         }

@@ -35,9 +35,9 @@ namespace Assets.Scripts.CombatLogic
                 _context.GenerateTerrain(MapGenerator.RandomMap());
                 // 我方生成
                 var ops = TestDB.GetRandomOperator(5);
-                Vector3 init = new Vector3(Random.Range(5, 25), 0, Random.Range(5, 25));
-                _context.GeneratePlayer(ops[0], init, Vector3.zero, transform);
-
+                Vector3 init = new Vector3(Random.Range(5, 15), 0, Random.Range(5, 15));
+                var ptrans = _context.GeneratePlayer(ops[0], init, Vector3.zero, transform);
+                _context.GenerateFighter(ops[0], init, Vector3.zero, 0, ptrans);
                 for (int i = 1; i < ops.Count; i++)
                 {
                     _context.GenerateAgent(ops[i], init, Vector3.zero, 0, transform);

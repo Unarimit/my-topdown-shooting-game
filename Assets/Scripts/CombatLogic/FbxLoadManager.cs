@@ -18,8 +18,11 @@ namespace Assets.Scripts.CombatLogic
         [Tooltip("泛用的，能代表导入角色的avatar")]
         public Avatar NormalAvatar;
 
-
         public LoadModelRes LoadModel(string modelName, Transform parent, bool withGun)
+        {
+            return LoadModel(modelName, parent, parent, withGun);
+        }
+        public LoadModelRes LoadModel(string modelName, Transform parent, Transform animatorTrans, bool withGun)
         {
             // 1.读取模型
             var prefab = ResourceManager.Load<GameObject>($"Fbx/{modelName}");
@@ -67,7 +70,7 @@ namespace Assets.Scripts.CombatLogic
             
             // 2.读取avatar
             Avatar avatar = AvatarBuilder.BuildHumanAvatar(go, GetHumanDesc());
-            parent.GetComponent<Animator>().avatar = avatar;
+            animatorTrans.GetComponent<Animator>().avatar = avatar;
 
             // 3.抢放好
             if (withGun)
