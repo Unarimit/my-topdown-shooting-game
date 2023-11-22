@@ -60,7 +60,7 @@ namespace Assets.Scripts.Entities
         /// <summary>
         /// 最大使用次数，-1表示无限
         /// </summary>
-        public int MaxUse = -1;
+        public int Ammo = -1;
 
         /// <summary>
         /// 技能效果类型

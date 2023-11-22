@@ -182,7 +182,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
             _operatorType.text = _model.OpInfo.Type.ToString();
             _mechaBuffs.text = $"Buffs:\nNO BUFFS";
 
-            _operatorGunImg.texture = _context.GetSkillIcon(_model.OpInfo.GunSkillId);
+            _operatorGunImg.texture = _context.GetSkillIcon(_model.OpInfo.WeaponSkillId);
             _operatorSkillImg.texture = _context.GetSkillIcon(_model.OpInfo.MainSkillId);
 
             // TODO: 是否需要手动GC

@@ -10,12 +10,10 @@ namespace Assets.Scripts
     public class DestructibleObjectController : MonoBehaviour
     {
         public int HP = 10;
-        private void OnCollisionEnter(Collision collision)
+        
+        public void GotDMG(int dmg)
         {
-            if(collision.transform.tag == "Bullet")
-            {
-                HP -= 1;
-            }
+            HP -= dmg;
             if (HP <= 0) Destroy(gameObject);
         }
     }

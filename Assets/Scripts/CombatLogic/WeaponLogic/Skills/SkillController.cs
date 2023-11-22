@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Assets.Scripts.CombatLogic
 {
@@ -41,9 +43,9 @@ namespace Assets.Scripts.CombatLogic
             {
                 GetComponent<ParticleSystem>().Play();
             }
-            else if(CSkill.EffectType == SkillEffectType.Shoot)
+            else if(CSkill.EffectType == SkillEffectType.Shoot || CSkill.EffectType == SkillEffectType.ShootAndFreeze)
             {
-                GetComponent<Rigidbody>().velocity = transform.forward * 20 / 0.2f;
+                GetComponent<Rigidbody>().velocity = (Aim - transform.position).normalized  * 20 / 0.2f;
                 StartCoroutine(DelayStop());
             }
             else if (CSkill.EffectType == SkillEffectType.Throw)
@@ -75,7 +77,24 @@ namespace Assets.Scripts.CombatLogic
         private void OnTriggerEnter(Collider collision)
         {
             _context.DellDamage(Caster, collision.transform, CSkill.Damage);
+            
             //TODO: buffs
+        }
+        
+        private void OnCollisionEnter(Collision collision)
+        {
+            if(collision.gameObject.layer == TestDB.CHARACTER_LAYER || collision.gameObject.layer == TestDB.DOBJECT_LAYER)
+            {
+                _context.DellDamage(Caster, collision.transform, CSkill.Damage);
+            }
+            
+            // 采用碰撞检测的技能体默认为碰到就停
+            if(CSkill.EffectType == SkillEffectType.ShootAndFreeze)
+            {
+                GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+                GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            }
+            
         }
 
         IEnumerator DelayStop()

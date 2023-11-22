@@ -49,26 +49,16 @@ namespace Assets.Scripts.BulletLogic
                 EorTMark = Instantiate(t_prefab, transform);
             }
         }
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (collision.transform.tag == "Bullet")
-            {
-                //HittedEvent.Invoke(transform, collision.transform.GetComponent<BulletController>().InitiatePos);
-                Shield.startColor = new Color(1, 1, 1) * 
-                    (float)_context.GetOperatorCurrentHP(transform) / _context.GetOperatorMaxHP(transform);
-                CombatContextManager.Instance.DellDamage(null, transform, 1);
-
-                Shield.Simulate(1.0f);
-                Shield.Play();
-            }
-            
-        }
         public void DoDied()
         {
             //HP0Event.Invoke(transform);
         }
         public void GotDMG()
         {
+            Shield.startColor = new Color(1, 1, 1) *
+                (float)_context.GetOperatorCurrentHP(transform) / _context.GetOperatorMaxHP(transform);
+            Shield.Simulate(1.0f);
+            Shield.Play();
             if (_context.GetOperatorCurrentHP(transform) == 2) Shield.Stop();
         }
 

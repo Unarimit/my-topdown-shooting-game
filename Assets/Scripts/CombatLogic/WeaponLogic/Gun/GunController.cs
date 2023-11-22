@@ -72,7 +72,11 @@ namespace Assets.Scripts
 
         private float LastFireTime = -1; // 最后一次开火时间
         private GameObject _bullet;
-
+        private CombatContextManager _context => CombatContextManager.Instance;
+        private void Awake()
+        {
+            if(transform.tag == "Player") _context.CombatVM.PlayerGun = this;
+        }
         private void Start()
         {
             if (CombatContextManager.Instance.IsPlayer(transform)) IsPlayer = true;
@@ -85,6 +89,39 @@ namespace Assets.Scripts
         private void Update()
         {
             GunFire.SetActive(Time.time - LastFireTime < 0.2);
+        }
+
+        public CombatCombatSkill Skill { get; private set; }
+        public void InitGun(CombatCombatSkill cskill)
+        {
+            gunProperty.CurrentAmmo = cskill.SkillInfo.Ammo;
+            gunProperty.MaxAmmo = cskill.SkillInfo.Ammo;
+            Skill = cskill;
+        }
+        public bool ShootUseSkill(Vector3 aim)
+        {
+            if (gunProperty.CurrentAmmo == 0) return false;
+            if(_context.UseSkill(transform, Skill, aim, BulletStartTrans.position, BulletStartTrans.eulerAngles))
+            {
+                gunProperty.CurrentAmmo -= 1;
+                if (CombatContextManager.Instance.IsPlayer(transform))
+                {
+                    AudioSource.PlayClipAtPoint(gunshotAudioAudioClips[gunProperty.CurrentAmmo % 15], Camera.main.transform.position + Camera.main.transform.forward * 2, GunshotAudioVolume);
+                }
+                else
+                {
+                    AudioSource.PlayClipAtPoint(gunshotAudioAudioClips[gunProperty.CurrentAmmo % 15], transform.position, GunshotAudioVolume);
+                }
+
+                // UI更新
+                if (IsPlayer) CurrentAmmoChangeEvent.Invoke();
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool Shoot(Vector3 push)
@@ -111,14 +148,13 @@ namespace Assets.Scripts
                 {
                     AudioSource.PlayClipAtPoint(gunshotAudioAudioClips[gunProperty.CurrentAmmo % 15], transform.position, GunshotAudioVolume);
                 }
-                
+
                 // UI更新
-                if (IsPlayer) GunStatuUI.Instance.UpdateCurrentAmmo(gunProperty.CurrentAmmo);
+                if (IsPlayer) CurrentAmmoChangeEvent.Invoke();
 
                 return true;
             }
         }
-
 
 
         /// <summary>
@@ -173,13 +209,15 @@ namespace Assets.Scripts
             // 更新子弹
             gunProperty.CurrentAmmo = gunProperty.MaxAmmo;
             gunProperty.LastReloading = gunProperty.ReloadTime;
-            if (IsPlayer) GunStatuUI.Instance.UpdateCurrentAmmo(gunProperty.CurrentAmmo);
+            if (IsPlayer) CurrentAmmoChangeEvent.Invoke();
         }
         public bool IsReloading()
         {
             return gunProperty.LastReloading != gunProperty.ReloadTime;
         }
 
-        
+        public delegate void GunCurrentAmmoChange();
+        public event GunCurrentAmmoChange CurrentAmmoChangeEvent;
+
     }
 }

@@ -1,38 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.CombatLogic.UILogic
 {
     public class GunStatuUI : SubUIBase
     {
-        public static GunStatuUI Instance;
         public TextMeshProUGUI MaxAmmoText;
         public TextMeshProUGUI CurrentAmmoText;
+        public Image Gunshape;
+        private readonly Color AmmoWarning = new Color(1, 0, 0);
+        private readonly Color AmmoNormal = new Color(1, 1, 1);
 
-        private int maxAmmo = 30;
-
-        private void Awake()
+        private void OnEnable()
         {
-            if (Instance == null) Instance = this;
-            else Debug.LogWarning(transform.ToString() + " try to load another Manager");
+            MaxAmmoText.text = _context.CombatVM.PlayerGun.gunProperty.MaxAmmo.ToString();
+            CurrentAmmoText.text = _context.CombatVM.PlayerGun.gunProperty.CurrentAmmo.ToString();
+            _context.CombatVM.PlayerGun.CurrentAmmoChangeEvent += UpdateCurrentAmmo;
+            Gunshape.sprite = ResourceManager.Load<Sprite>($"Skills/{_context.CombatVM.PlayerGun.Skill.SkillInfo.IconUrl}");
         }
-
-        public readonly Color AmmoWarning = new Color(1, 0, 0);
-        public readonly Color AmmoNormal = new Color(1, 1, 1);
-
+        private void OnDisable()
+        {
+            _context.CombatVM.PlayerGun.CurrentAmmoChangeEvent -= UpdateCurrentAmmo;
+        }
         /// <summary>
         /// 更新当前子弹数量，当数量小于最大子弹的1/5时，颜色变为红色
         /// </summary>
-        /// <param name="k"></param>
-        public void UpdateCurrentAmmo(int k)
+        public void UpdateCurrentAmmo()
         {
-            CurrentAmmoText.text = k.ToString();
-            if (maxAmmo != 0 && maxAmmo > k * 5)
+            int cur = _context.CombatVM.PlayerGun.gunProperty.CurrentAmmo;
+            int max = _context.CombatVM.PlayerGun.gunProperty.MaxAmmo;
+            CurrentAmmoText.text = cur.ToString();
+            if (max != 0 && max > cur * 5)
             {
                 CurrentAmmoText.color = AmmoWarning;
             }
@@ -40,11 +39,6 @@ namespace Assets.Scripts.CombatLogic.UILogic
             {
                 CurrentAmmoText.color = AmmoNormal;
             }
-        }
-        public void UpdateMaxAmmo(int k)
-        {
-            MaxAmmoText.text = k.ToString();
-            maxAmmo = k;
         }
     }
 }

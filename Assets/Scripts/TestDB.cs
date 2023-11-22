@@ -7,7 +7,8 @@ namespace Assets.Scripts
 {
     internal static class TestDB
     {
-
+        public static readonly int CHARACTER_LAYER = LayerMask.NameToLayer("Character");
+        public static readonly int DOBJECT_LAYER = LayerMask.NameToLayer("DestructibleObject");
         public static LevelInfo Level { get; set; }
 
         public static List<Operator> GetOperators()

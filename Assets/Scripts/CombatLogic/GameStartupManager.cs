@@ -13,6 +13,8 @@ namespace Assets.Scripts.CombatLogic
         public void Start()
         {
 
+            transform.GetComponent<SkillManager>().Init();
+
             PrepareGameScene();
 
             // 组件注册
@@ -37,6 +39,7 @@ namespace Assets.Scripts.CombatLogic
                 var ops = TestDB.GetRandomOperator(5);
                 Vector3 init = new Vector3(Random.Range(5, 15), 0, Random.Range(5, 15));
                 var ptrans = _context.GeneratePlayer(ops[0], init, Vector3.zero, transform);
+
                 _context.GenerateFighter(ops[0], init, Vector3.zero, 0, ptrans);
                 for (int i = 1; i < ops.Count; i++)
                 {

@@ -3946,7 +3946,7 @@ GameObject:
   - component: {fileID: 678596217}
   - component: {fileID: 678596216}
   m_Layer: 5
-  m_Name: CurrentAmmo
+  m_Name: CurrentAmmoTMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5106,7 +5106,7 @@ GameObject:
   - component: {fileID: 869999452}
   - component: {fileID: 869999451}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: _AmmoSplitTMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6195,7 +6195,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -59, y: -29.3}
-  m_SizeDelta: {x: 156.1495, y: 100}
+  m_SizeDelta: {x: 150, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1098796533
 MonoBehaviour:
@@ -6217,7 +6217,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d31164c3fc128f0498f17faeba2b2aca, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6548,7 +6548,7 @@ GameObject:
   - component: {fileID: 1128684485}
   - component: {fileID: 1128684484}
   m_Layer: 5
-  m_Name: MaxAmmo
+  m_Name: MaxAmmoTMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7866,6 +7866,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxAmmoText: {fileID: 1128684484}
   CurrentAmmoText: {fileID: 678596216}
+  Gunshape: {fileID: 1098796533}
 --- !u!4 &1271400717 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7667667299490085784, guid: c65df2ca4c250c442925bcdb64911c51,
@@ -10838,7 +10839,7 @@ MonoBehaviour:
     PropRed: 0
     PropGreen: 0
     PropBlue: 0
-    GunSkillId: 0
+    WeaponSkillId: 3
     MainSkillId: 1
     WeaponType: 0
     ReviveTime: 5
@@ -11517,7 +11518,7 @@ MonoBehaviour:
     PropRed: 0
     PropGreen: 0
     PropBlue: 0
-    GunSkillId: 0
+    WeaponSkillId: 3
     MainSkillId: 1
     WeaponType: 0
     ReviveTime: 5
@@ -13610,9 +13611,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bbfb345c07eeb241add6123a09ca3a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerTeamTrans:
-  - {fileID: 8732892459262694115}
-  EnemyTeamTrans: []
   m_Camera: {fileID: 1761574050}
   Enviorment: {fileID: 1327619677}
   updateInterval: 1
@@ -14296,7 +14294,7 @@ MonoBehaviour:
     PropRed: 0
     PropGreen: 0
     PropBlue: 0
-    GunSkillId: 0
+    WeaponSkillId: 3
     MainSkillId: 1
     WeaponType: 0
     ReviveTime: 5
@@ -18970,20 +18968,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e7bffa3bcd05af4bbf58176fd759584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Grounded: 1
-  GroundedOffset: -0.14
-  GroundedRadius: 0.28
-  GroundLayers:
-    serializedVersion: 2
-    m_Bits: 513
-  JumpHeight: 1.2
-  Gravity: -15
-  JumpTimeout: 0.5
-  FallTimeout: 0.15
-  MoveSpeed: 2
-  SprintSpeed: 5.335
-  RotationSmoothTime: 0.12
-  SpeedChangeRate: 10
 --- !u!1 &2376240851792471618
 GameObject:
   m_ObjectHideFlags: 0
@@ -19246,7 +19230,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GunController: {fileID: 5768923414102024311}
   LandingAudioClip: {fileID: 8300000, guid: ff697d3070687ce4583faa0561a145a2, type: 3}
   FootstepAudioClips:
   - {fileID: 8300000, guid: 72f526a6a9890f643a88e85a61c86c8a, type: 3}
@@ -19260,7 +19243,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 274649b0e221539409070ebf6c18918b, type: 3}
   - {fileID: 8300000, guid: a3194b8bbc96ef84fab1f98f4b7dae3e, type: 3}
   FootstepAudioVolume: 0.307
-  CinemachineCameraTarget: {fileID: 7063866711798858507}
 --- !u!1 &2437203422922067737
 GameObject:
   m_ObjectHideFlags: 0
@@ -27716,6 +27698,7 @@ GameObject:
   - component: {fileID: 7365918865630785989}
   - component: {fileID: 4763068646233572535}
   - component: {fileID: 2373444617401535547}
+  - component: {fileID: 8732892459262694116}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -31589,6 +31572,32 @@ Transform:
   - {fileID: 7791368159004477336}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8732892459262694116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6671609467515313429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 622b5240459b5e945985557a041a71fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Grounded: 1
+  GroundedOffset: -0.14
+  GroundedRadius: 0.28
+  GroundLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  JumpHeight: 1.2
+  Gravity: -15
+  JumpTimeout: 0.5
+  FallTimeout: 0.15
+  MoveSpeed: 2
+  SprintSpeed: 5.335
+  RotationSmoothTime: 0.12
+  SpeedChangeRate: 10
 --- !u!1001 &8755697929972731425
 PrefabInstance:
   m_ObjectHideFlags: 0

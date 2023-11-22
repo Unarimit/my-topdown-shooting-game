@@ -20,7 +20,7 @@ namespace Assets.Scripts.CombatLogic
 
         public static SkillManager Instance;
         private HashSet<SkillController> TriggeringSkills;
-        private CombatContextManager _context;
+        private CombatContextManager _context => CombatContextManager.Instance;
         private Dictionary<int, CombatSkill> skills;
 
         private void Awake()
@@ -28,16 +28,14 @@ namespace Assets.Scripts.CombatLogic
             if (Instance == null) Instance = this;
             else Debug.LogWarning(transform.ToString() + " try to load another Manager");
         }
-        private void Start()
+        public void Init()
         {
-            _context = CombatContextManager.Instance;
             TriggeringSkills = new HashSet<SkillController>();
             skills = new Dictionary<int, CombatSkill>();
             foreach(var x in skillConfig.CombatSkills)
             {
                 skills[x.Id] = x;
             }
-
         }
         private void FixedUpdate()
         {
@@ -47,14 +45,7 @@ namespace Assets.Scripts.CombatLogic
         /// <summary>
         /// 释放技能
         /// </summary>
-        /// <param name="controller"></param>
-        /// <param name="data"></param>
-        public void CastSkill(Transform Caster, CombatSkill skill, Vector3 aim)
-        {
-            CastSkill(Caster, skill, aim, Caster.position + new Vector3(0, 0.5f, 0), Caster.eulerAngles);
-        }
-
-        private void CastSkill(Transform Caster, CombatSkill skill, Vector3 aim, Vector3 position , Vector3 angles)
+        public void CastSkill(Transform Caster, CombatSkill skill, Vector3 aim, Vector3 position , Vector3 angles)
         {
             // 初始化技能prefab
             var prefab = ResourceManager.Load<GameObject>("Skills/" + skill.PrefabResourceUrl);
@@ -63,6 +54,7 @@ namespace Assets.Scripts.CombatLogic
             skillGo.transform.eulerAngles = angles;
 
             // 初始化技能控制器
+            skillGo.SetActive(true);
             var controller = skillGo.GetComponent<SkillController>();
             controller.Aim = aim;
             controller.CSkill = skill;

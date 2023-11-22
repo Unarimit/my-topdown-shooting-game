@@ -19,6 +19,10 @@ namespace Assets.Scripts.Entities
         /// <summary>
         /// 射出去（直线，不受重力影响）
         /// </summary>
-        Shoot
+        Shoot,
+        /// <summary>
+        /// 射出去, 碰撞后freeze（直线，不受重力影响）
+        /// </summary>
+        ShootAndFreeze
     }
 }

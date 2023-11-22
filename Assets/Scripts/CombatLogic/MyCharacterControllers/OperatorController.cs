@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -98,10 +99,11 @@ namespace Assets.Scripts.CombatLogic.MyCharacterControllers
             _animIDWSpeed = Animator.StringToHash("WSpeed");
             _animIDSlide = Animator.StringToHash("Slide");
             _animIDReloading = Animator.StringToHash("Reloading");
+
+            initGun();
         }
         private void Start()
         {
-
             if (_controller != null)
             {
                 _controller.detectCollisions = false;
@@ -161,6 +163,13 @@ namespace Assets.Scripts.CombatLogic.MyCharacterControllers
         {
             if (!tryBreakAction(ActionName.Shoot)) return;
             _shootTime = Time.time;
+
+            if (_context.IsPlayer(transform))
+            {
+                _gunController.ShootUseSkill(aim);
+                return;
+            }
+
             if (_gunController.Shoot((aim - _gunController.BulletStartTrans.position).normalized))
             {
                 _animator.SetBool(_animIDShoot, true);
@@ -184,7 +193,7 @@ namespace Assets.Scripts.CombatLogic.MyCharacterControllers
         {
             if (tryBreakAction(ActionName.Skill))
             {
-                 _context.UseSkill(transform, i, aim, Time.time);
+                 _context.UseSkill(transform, _context.Operators[transform].CombatSkillList[i], aim);
             }
         }
         public void Slide()
@@ -407,6 +416,18 @@ namespace Assets.Scripts.CombatLogic.MyCharacterControllers
             yield return wait;
             _animator.SetBool(_animIDReloading, false);
             yield break;
+        }
+        private void initGun()
+        {
+            var gunskill = _context.CombatVM.Player.CombatSkillList.Find(x => x.SkillInfo.Type == Entities.SkillType.Weapon);
+            if (gunskill == null)
+            {
+                return;
+            }
+            else
+            {
+                _gunController.InitGun(gunskill);
+            }
         }
 
         private void closeUnActiveAnimation()

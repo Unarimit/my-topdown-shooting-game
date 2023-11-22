@@ -124,17 +124,22 @@ namespace Assets.Scripts.CombatLogic
 
         public void DellDamage(Transform from, Transform to, int val)
         {
-            if (!Operators.ContainsKey(to))
+            if(to.gameObject.layer == TestDB.CHARACTER_LAYER)
+            {
+                // Process DMG
+                Operators[to].TakeDamage(val);
+                AnimeHelper.Instance.DamageTextEffect(val, to);
+                if (Operators[to].CurrentHP <= 0) OperatorDied(to);
+                else OperatorGotDMG(to);
+            }
+            else if(to.gameObject.layer == TestDB.DOBJECT_LAYER)
+            {
+                to.GetComponent<DestructibleObjectController>().GotDMG(val);
+            }
+            else
             {
                 Debug.Log("aim a unexist target!");
-                return;
             }
-
-            // Process DMG
-            Operators[to].TakeDamage(val);
-            AnimeHelper.Instance.DamageTextEffect(val, to);
-            if (Operators[to].CurrentHP <= 0) OperatorDied(to);
-            else OperatorGotDMG(to);
 
         }
 
@@ -172,20 +177,15 @@ namespace Assets.Scripts.CombatLogic
         /// <summary>
         /// 如果技能正在冷却中返回false；否则进入cd，并返回true
         /// </summary>
-        public bool UseSkill(Transform op, int index, Vector3 aim, float time)
-        {
-            if (Operators[op].CombatSkillList[index].IsCoolDowning(time)) return false;
-            Operators[op].ActAttack();
-            Operators[op].CombatSkillList[index].CoolDownEndTime = time + Operators[op].CombatSkillList[index].SkillInfo.CoolDown;
-            _skillContext.CastSkill(op, Operators[op].CombatSkillList[index].SkillInfo, aim);
-            return true;
-        }
-
         public bool UseSkill(Transform op, CombatCombatSkill skill, Vector3 aim)
+        {
+            return UseSkill(op, skill, aim, op.position + new Vector3(0, 0.5f, 0), op.eulerAngles);
+        }
+        public bool UseSkill(Transform op, CombatCombatSkill skill, Vector3 aim, Vector3 startPos, Vector3 startAngle)
         {
             if (skill.IsCoolDowning(Time.time)) return false;
             skill.CoolDownEndTime = Time.time + skill.SkillInfo.CoolDown;
-            _skillContext.CastSkill(op, skill.SkillInfo, aim);
+            _skillContext.CastSkill(op, skill.SkillInfo, aim, startPos, startAngle);
             return true;
         }
 
@@ -257,6 +257,12 @@ namespace Assets.Scripts.CombatLogic
 
         public Transform GeneratePlayer(Operator OpInfo, Vector3 pos, Vector3 angle, Transform spawnBase)
         {
+            CombatVM.Player = new CombatOperator(OpInfo, 0, spawnBase);
+            // 添加技能
+            CombatVM.Player.CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[0]));
+            CombatVM.Player.CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[1]));
+            CombatVM.Player.CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[OpInfo.WeaponSkillId]));
+
             // 初始化
             var prefab = ResourceManager.Load<GameObject>("Characters/Player");
             var go = Instantiate(prefab, _agentsSpawnTrans);
@@ -278,10 +284,7 @@ namespace Assets.Scripts.CombatLogic
             go.transform.position = pos;
             go.transform.eulerAngles = angle;
             PlayerTeamTrans.Add(go.transform);
-            Operators.Add(go.transform, new CombatOperator(OpInfo, 0, spawnBase));
-            // 添加技能
-            Operators[go.transform].CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[0]));
-            Operators[go.transform].CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[1]));
+            Operators.Add(go.transform, CombatVM.Player);
 
             // 还有驾驶舱
             GetComponent<FbxLoadManager>().LoadModel(OpInfo.ModelResourceUrl, CockpitManager.Instance.CharacterAnimator.transform, false);
@@ -392,6 +395,16 @@ namespace Assets.Scripts.CombatLogic
             public delegate void IsPlayerAimmingEventHandler(bool _isPlayerAimming);
             public event IsPlayerAimmingEventHandler IsPlayerAimmingEvent;
             private bool _isPlayerAimming = false;
+
+            /// <summary>
+            /// 玩家枪属性
+            /// </summary>
+            public GunController PlayerGun { get; set; }
+
+            /// <summary>
+            /// 玩家属性
+            /// </summary>
+            public CombatOperator Player { get; set; }
         }
 
     }

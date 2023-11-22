@@ -20,9 +20,7 @@ namespace Assets.Scripts.CombatLogic
             else Debug.LogWarning(transform.ToString() + " try to load another Manager");
 
             windows = new Dictionary<string, SubUIBase>();
-        }
-        private void Start()
-        {
+
             var uis = FindObjectsOfType<SubUIBase>();
             foreach (var x in uis)
             {
@@ -30,7 +28,6 @@ namespace Assets.Scripts.CombatLogic
                 x.SetVisible(false);
             }
         }
-
         public void Init()
         {
             foreach(var x in windows.Values)
