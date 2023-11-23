@@ -46,9 +46,9 @@ namespace Assets.Scripts.Entities
         public float ReviveTime = 5;
 
         // 对于装备是引用关系
-        public MechaHead McHead;
-        public MechaBody McBody;
-        public MechaLeg McLeg;
+        public MechaHead McHead = MechaHead.DefaultMecha();
+        public MechaBody McBody = MechaBody.DefaultMecha();
+        public MechaLeg McLeg = MechaLeg.DefaultMecha();
 
     }
 }

@@ -107,12 +107,11 @@ namespace Assets.Scripts.CombatLogic.MyCharacterControllers
             _animIDWSpeed = Animator.StringToHash("WSpeed");
             _animIDSlide = Animator.StringToHash("Slide");
             _animIDReloading = Animator.StringToHash("Reloading");
-
-            initGun();
         }
         public void Inject(CombatOperator model)
         {
             _model = model;
+            initGun();
         }
         private void Start()
         {
@@ -423,7 +422,7 @@ namespace Assets.Scripts.CombatLogic.MyCharacterControllers
         }
         private void initGun()
         {
-            _gunController.InitGun(_context.CombatVM.Player.WeaponSkill);
+            _gunController.InitGun(_model.WeaponSkill);
         }
 
         private List<FighterController> fighters = new List<FighterController>();

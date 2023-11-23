@@ -104,17 +104,15 @@ namespace Assets.Scripts
             if(_context.UseSkill(transform, Skill, aim, BulletStartTrans.position, BulletStartTrans.eulerAngles))
             {
                 gunProperty.CurrentAmmo -= 1;
-                if (CombatContextManager.Instance.IsPlayer(transform))
+                if (IsPlayer)
                 {
                     AudioSource.PlayClipAtPoint(gunshotAudioAudioClips[gunProperty.CurrentAmmo % 15], Camera.main.transform.position + Camera.main.transform.forward * 2, GunshotAudioVolume);
+                    CurrentAmmoChangeEvent.Invoke(); // UI更新
                 }
                 else
                 {
                     AudioSource.PlayClipAtPoint(gunshotAudioAudioClips[gunProperty.CurrentAmmo % 15], transform.position, GunshotAudioVolume);
                 }
-
-                // UI更新
-                if (IsPlayer) CurrentAmmoChangeEvent.Invoke();
 
                 return true;
             }

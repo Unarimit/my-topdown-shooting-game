@@ -10839,7 +10839,7 @@ MonoBehaviour:
     PropRed: 0
     PropGreen: 0
     PropBlue: 0
-    WeaponSkillId: 3
+    WeaponSkillId: 4
     MainSkillId: 1
     WeaponType: 0
     ReviveTime: 5
@@ -11518,7 +11518,7 @@ MonoBehaviour:
     PropRed: 0
     PropGreen: 0
     PropBlue: 0
-    WeaponSkillId: 3
+    WeaponSkillId: 4
     MainSkillId: 1
     WeaponType: 0
     ReviveTime: 5
@@ -14294,7 +14294,7 @@ MonoBehaviour:
     PropRed: 0
     PropGreen: 0
     PropBlue: 0
-    WeaponSkillId: 3
+    WeaponSkillId: 4
     MainSkillId: 1
     WeaponType: 0
     ReviveTime: 5

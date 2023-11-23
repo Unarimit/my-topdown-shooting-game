@@ -83,3 +83,17 @@ MonoBehaviour:
     PrefabResourceUrl: Bullet
     IconUrl: ar-1
     AffectGroup: 4
+  - Type: 0
+    Name: FastGrenade
+    Id: 5
+    Description: 
+    CoolDown: 3
+    Duration: 0.5
+    DamageType: 0
+    Damage: 0
+    NextSkillId: 2
+    Ammo: -1
+    EffectType: 1
+    PrefabResourceUrl: Bullet
+    IconUrl: 1-img
+    AffectGroup: 4
