@@ -37,6 +37,7 @@ namespace Assets.Scripts.CombatLogic
                 _context.GenerateTerrain(MapGenerator.RandomMap());
                 // 我方生成
                 var ops = TestDB.GetRandomOperator(5);
+                ops[0].WeaponSkillId = 3;
                 Vector3 init = new Vector3(Random.Range(5, 15), 0, Random.Range(5, 15));
                 var ptrans = _context.GeneratePlayer(ops[0], init, Vector3.zero, transform);
 

@@ -45,6 +45,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile_Water
       objectReference: {fileID: 0}
+    - target: {fileID: 3569279380451398375, guid: 59e97b682ff260d45ba4ad378557aba0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4234351233338361949, guid: 59e97b682ff260d45ba4ad378557aba0,
         type: 3}
       propertyPath: m_LocalScale.x

@@ -124,37 +124,6 @@ namespace Assets.Scripts
             }
         }
 
-        public bool Shoot(Vector3 push)
-        {
-            if(push.magnitude > 100)
-            {
-                Debug.LogWarning("bullet push force is too big, " + push.ToString());
-                return false;
-            }
-            if (!ShootOrWait()) return false;
-            else
-            {
-                // 发射逻辑
-                var bullet = Instantiate(_bullet, CombatContextManager.Instance.Enviorment);
-                bullet.transform.position = BulletStartTrans.position;
-                bullet.SetActive(true);
-                StartCoroutine(DelayForce(bullet, push));
-                gunProperty.CurrentAmmo -= 1;
-                if (CombatContextManager.Instance.IsPlayer(transform))
-                {
-                    AudioSource.PlayClipAtPoint(gunshotAudioAudioClips[gunProperty.CurrentAmmo % 15], Camera.main.transform.position + Camera.main.transform.forward * 2, GunshotAudioVolume);
-                }
-                else
-                {
-                    AudioSource.PlayClipAtPoint(gunshotAudioAudioClips[gunProperty.CurrentAmmo % 15], transform.position, GunshotAudioVolume);
-                }
-
-                // UI更新
-                if (IsPlayer) CurrentAmmoChangeEvent.Invoke();
-
-                return true;
-            }
-        }
 
 
         /// <summary>

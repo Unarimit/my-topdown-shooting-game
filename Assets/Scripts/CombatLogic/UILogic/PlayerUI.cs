@@ -21,21 +21,42 @@ namespace Assets.Scripts.CombatLogic.UILogic
         public RawImage CockpitShow;
 
         private CockpitManager _cockpitManager;
+        private void Awake()
+        {
+            if(_context.CombatVM.Player.CombatSkillList.Count >= 1)
+            {
+                Skill1Icon.texture = ResourceManager.Load<Texture2D>($"Skills/{_context.CombatVM.Player.CombatSkillList[0].SkillInfo.IconUrl}");
+                Skill1Mask.sprite = ResourceManager.Load<Sprite>($"Skills/{_context.CombatVM.Player.CombatSkillList[0].SkillInfo.IconUrl}");
+            }
+            else
+            {
+                Skill1Icon.gameObject.SetActive(false);
+                Skill1Mask.gameObject.SetActive(false);
+            }
 
-        private CombatContextManager _context;
+            if (_context.CombatVM.Player.CombatSkillList.Count >= 2)
+            {
+                Skill2Icon.texture = ResourceManager.Load<Texture2D>($"Skills/{_context.CombatVM.Player.CombatSkillList[1].SkillInfo.IconUrl}");
+                Skill2Mask.sprite = ResourceManager.Load<Sprite>($"Skills/{_context.CombatVM.Player.CombatSkillList[1].SkillInfo.IconUrl}");
+            }
+            else
+            {
+                Skill2Icon.gameObject.SetActive(false);
+                Skill2Mask.gameObject.SetActive(false);
+            }
+
+
+        }
         private void Start()
         {
-            _context = CombatContextManager.Instance;
-
-            // prepare render cockpit
-            // SceneManager.LoadScene("Cockpit 1", LoadSceneMode.Additive);
             _cockpitManager = CockpitManager.Instance;
         }
 
         private void OnGUI()
         {
-            Skill1Mask.fillAmount = _context.GetCoolDownRatio(0, Time.time);
-            Skill2Mask.fillAmount = _context.GetCoolDownRatio(1, Time.time);
+            if (Skill1Mask.gameObject.activeSelf) Skill1Mask.fillAmount = _context.GetCoolDownRatio(0, Time.time);
+            if (Skill2Mask.gameObject.activeSelf) Skill2Mask.fillAmount = _context.GetCoolDownRatio(1, Time.time);
+
             HPSlider.value = (float)_context.Operators[_context.PlayerTrans].CurrentHP / _context.Operators[_context.PlayerTrans].MaxHP;
 
             if (_context.Operators[_context.PlayerTrans].Speed <= 1)

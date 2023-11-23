@@ -32,7 +32,7 @@ namespace Assets.Scripts.Entities
         public int PropBlue;
 
         // 技能id
-        public int WeaponSkillId = 3;
+        public int WeaponSkillId = 4;
 
         public int MainSkillId = 1;
 

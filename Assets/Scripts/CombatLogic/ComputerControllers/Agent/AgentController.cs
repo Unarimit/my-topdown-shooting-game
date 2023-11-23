@@ -142,7 +142,9 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
         }
         public void Shoot(Vector3 aim, float diff_factor)
         {
-            _controller.Shoot(aim, diff_factor);
+            
+            if(_controller.HasAmmon()) _controller.Shoot(aim, diff_factor);
+            else _controller.Reload();
         }
 
     }

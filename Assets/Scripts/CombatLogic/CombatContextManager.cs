@@ -258,10 +258,6 @@ namespace Assets.Scripts.CombatLogic
         public Transform GeneratePlayer(Operator OpInfo, Vector3 pos, Vector3 angle, Transform spawnBase)
         {
             CombatVM.Player = new CombatOperator(OpInfo, 0, spawnBase);
-            // 添加技能
-            CombatVM.Player.CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[0]));
-            CombatVM.Player.CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[1]));
-            CombatVM.Player.CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[OpInfo.WeaponSkillId]));
 
             // 初始化
             var prefab = ResourceManager.Load<GameObject>("Characters/Player");

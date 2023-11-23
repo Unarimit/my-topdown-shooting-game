@@ -15,7 +15,7 @@ namespace Assets.Scripts
         {
             // TODO: these just for test
             return new List<Operator>() {
-                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
+                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha(), WeaponSkillId = 4 },
                 new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
                 new Operator { Name = "aru", ModelResourceUrl = "Aru", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
                 new Operator { Name = "akrin", ModelResourceUrl = "Karin", McBody = MechaBody.DefaultMecha(), McHead = MechaHead.DefaultMecha(), McLeg = MechaLeg.DefaultMecha() },
@@ -64,6 +64,7 @@ namespace Assets.Scripts
             {
                 Name = "random test",
                 ModelResourceUrl = clist[Random.Range(0, clist.Count)],
+                WeaponSkillId = 4,
                 McBody = MechaBody.DefaultMecha(),
                 McHead = MechaHead.DefaultMecha(),
                 McLeg = MechaLeg.DefaultMecha()

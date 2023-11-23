@@ -60,6 +60,9 @@ namespace Assets.Scripts.CombatLogic.MyCharacterControllers
         private float _jumpTimeoutDelta;
         private float _fallTimeoutDelta;
         private float _terminalVelocity = 53.0f;
+        /// <summary>
+        /// 用于复原射击动画
+        /// </summary>
         private float _shootTime = -1f;
         #endregion
 
@@ -163,31 +166,21 @@ namespace Assets.Scripts.CombatLogic.MyCharacterControllers
         {
             if (!tryBreakAction(ActionName.Shoot)) return;
             _shootTime = Time.time;
-
-            if (_context.IsPlayer(transform))
-            {
-                _gunController.ShootUseSkill(aim);
-                return;
-            }
-
-            if (_gunController.Shoot((aim - _gunController.BulletStartTrans.position).normalized))
-            {
-                _animator.SetBool(_animIDShoot, true);
-                _context.Operators[transform].ActAttack();
-            }
-            else
-            {
-                _animator.SetBool(_animIDShoot, false);
-            }
+            _gunController.ShootUseSkill(aim);
         }
+
+        public bool HasAmmon()
+        {
+            return _gunController.gunProperty.CurrentAmmo != 0;
+        }
+
         public void Shoot(Vector3 aim, float diffFactor)
         {
             if (!tryBreakAction(ActionName.Shoot)) return; 
             _shootTime = Time.time;
-            var push = (aim - _gunController.BulletStartTrans.position).normalized;
-            push.x += Random.Range(0, diffFactor);
-            push.z += Random.Range(0, diffFactor);
-            _animator.SetBool(_animIDShoot, _gunController.Shoot(push));
+            aim.x += Random.Range(0, diffFactor);
+            aim.z += Random.Range(0, diffFactor);
+            _animator.SetBool(_animIDShoot, _gunController.ShootUseSkill(aim));
         }
         public void Skill(int i, Vector3 aim)
         {
@@ -222,6 +215,7 @@ namespace Assets.Scripts.CombatLogic.MyCharacterControllers
         public void Reload()
         {
             if (!tryBreakAction(ActionName.Jump)) return;
+            _animator.SetBool(_animIDAim, false);
             StartCoroutine(coroReloading(_gunController.Reloading()));
         }
         public void Died()
@@ -419,20 +413,12 @@ namespace Assets.Scripts.CombatLogic.MyCharacterControllers
         }
         private void initGun()
         {
-            var gunskill = _context.CombatVM.Player.CombatSkillList.Find(x => x.SkillInfo.Type == Entities.SkillType.Weapon);
-            if (gunskill == null)
-            {
-                return;
-            }
-            else
-            {
-                _gunController.InitGun(gunskill);
-            }
+            _gunController.InitGun(_context.CombatVM.Player.WeaponSkill);
         }
 
         private void closeUnActiveAnimation()
         {
-            if (Time.time - _shootTime < 0.2f) _animator.SetBool(_animIDShoot, false);
+            if (Time.time - _shootTime < 0.1f) _animator.SetBool(_animIDShoot, false);
         }
         private void OnDrawGizmosSelected()
         {

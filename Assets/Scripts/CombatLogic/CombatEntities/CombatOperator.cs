@@ -41,7 +41,15 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
 
         //public Transform Transform { get; set; }  //暂时没用，以后有用
 
+        /// <summary>
+        /// 战斗技能
+        /// </summary>
         public List<CombatCombatSkill> CombatSkillList { get; set; } = new List<CombatCombatSkill>();
+
+        /// <summary>
+        /// 武器技能
+        /// </summary>
+        public CombatCombatSkill WeaponSkill { get; private set; }
 
         public CombatOperator(Operator op, int team, Transform spawnBase)
         {
@@ -50,6 +58,8 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
             CurrentHP = MaxHP;
             Team = team;
             SpawnBase = spawnBase;
+            WeaponSkill = new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[op.WeaponSkillId]);
+            CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[op.MainSkillId]));
         }
 
         public void TakeDamage(int dmg)

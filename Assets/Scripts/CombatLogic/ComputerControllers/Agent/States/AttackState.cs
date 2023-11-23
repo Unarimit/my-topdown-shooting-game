@@ -18,7 +18,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers.States.Agent
         public void OnEnter()
         {
             _agent.StopMoving();
-            diff_factor = 0.5f;
+            diff_factor = 2f;
         }
 
         public void OnExit()
@@ -39,7 +39,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers.States.Agent
             }
             if(diff_factor > 0)
             {
-                diff_factor -= 0.5f * Time.deltaTime;
+                diff_factor -= diff_factor * Time.deltaTime * 0.5f; // 2秒后矫正？
             }
             if (diff_factor < 0)
             {
