@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.CombatLogic.EnviormentLogic;
 using Assets.Scripts.CombatLogic.LevelLogic;
 using Assets.Scripts.Common;
+using System.Collections.Generic;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -38,10 +39,11 @@ namespace Assets.Scripts.CombatLogic
                 // 我方生成
                 var ops = TestDB.GetRandomOperator(5);
                 ops[0].WeaponSkillId = 3;
-                Vector3 init = new Vector3(Random.Range(5, 15), 0, Random.Range(5, 15));
-                var ptrans = _context.GeneratePlayer(ops[0], init, Vector3.zero, transform);
+                ops[0].Fighters = new List<Entities.Fighter> { new Entities.Fighter { Operator = TestDB.GetRandomOperate() }, new Entities.Fighter { Operator = TestDB.GetRandomOperate() } };
 
-                _context.GenerateFighter(ops[0], init, Vector3.zero, 0, ptrans);
+
+                Vector3 init = new Vector3(Random.Range(5, 15), 0, Random.Range(5, 15));
+                _context.GeneratePlayer(ops[0], init, Vector3.zero, transform);
                 for (int i = 1; i < ops.Count; i++)
                 {
                     _context.GenerateAgent(ops[i], init, Vector3.zero, 0, transform);

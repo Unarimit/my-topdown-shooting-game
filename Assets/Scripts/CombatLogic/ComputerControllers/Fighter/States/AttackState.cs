@@ -19,7 +19,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers.Fighter.States
         }
         public void OnEnter()
         {
-            if (_controller.Aim == null) _controller.Aim = CombatContextManager.Instance.GetACounter(_controller.Team);
+            if (_controller.Aim == null) _controller.Aim = CombatContextManager.Instance.GetNealyCounter(_controller.transform, _controller.Team);
             _controller.m_NavAgent.autoBraking = false;
             min_mag = 100;
         }

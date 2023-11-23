@@ -3,6 +3,7 @@ using Assets.Scripts.CombatLogic.CombatEntities;
 using Assets.Scripts.CombatLogic.ComputerControllers;
 using Assets.Scripts.CombatLogic.ComputerControllers.Fighter;
 using Assets.Scripts.CombatLogic.EnviormentLogic;
+using Assets.Scripts.CombatLogic.MyCharacterControllers;
 using Assets.Scripts.Common.EscMenu;
 using Assets.Scripts.Entities;
 using Cinemachine;
@@ -232,6 +233,9 @@ namespace Assets.Scripts.CombatLogic
                 gun.GunFire = res.GunfireEffect;
                 gun.BulletStartTrans = res.GunfireTransform;
             }
+            // op component
+            var model = new CombatOperator(OpInfo, Team, spawnBase);
+            go.GetComponent<OperatorController>().Inject(model);
 
             go.transform.position = pos;
             go.transform.eulerAngles = angle;
@@ -239,13 +243,13 @@ namespace Assets.Scripts.CombatLogic
             if (Team == 1)
             {
                 EnemyTeamTrans.Add(go.transform);
-                Operators.Add(go.transform, new CombatOperator(OpInfo, Team, spawnBase));
+                Operators.Add(go.transform, model);
                 return go.transform;
             }
             else if(Team == 0)
             {
                 PlayerTeamTrans.Add(go.transform);
-                Operators.Add(go.transform, new CombatOperator(OpInfo, Team, spawnBase));
+                Operators.Add(go.transform, model);
                 return go.transform;
             }
             else
@@ -271,6 +275,8 @@ namespace Assets.Scripts.CombatLogic
                 gun.GunFire = res.GunfireEffect;
                 gun.BulletStartTrans = res.GunfireTransform;
             }
+            // op component
+            go.GetComponent<OperatorController>().Inject(CombatVM.Player);
 
             // 挂cinemachine
             m_Camera.Follow = go.transform.Find("Camera_Flowing");

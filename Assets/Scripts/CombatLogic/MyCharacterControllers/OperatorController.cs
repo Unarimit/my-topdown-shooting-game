@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.CombatLogic.CombatEntities;
+using Assets.Scripts.CombatLogic.ComputerControllers.Fighter;
+using Assets.Scripts.Entities;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
@@ -73,6 +77,7 @@ namespace Assets.Scripts.CombatLogic.MyCharacterControllers
         private CapsuleCollider _collider;
         private GunController _gunController;
         private CombatContextManager _context => CombatContextManager.Instance;
+        private CombatOperator _model;
         #endregion
 
         public float Speed => _speed;
@@ -105,6 +110,10 @@ namespace Assets.Scripts.CombatLogic.MyCharacterControllers
 
             initGun();
         }
+        public void Inject(CombatOperator model)
+        {
+            _model = model;
+        }
         private void Start()
         {
             if (_controller != null)
@@ -118,6 +127,7 @@ namespace Assets.Scripts.CombatLogic.MyCharacterControllers
             jumpAndGravity();
             groundedCheck();
             closeUnActiveAnimation();
+            prepareFighter();
         }
         /// <summary>
         /// 输入移动偏移量wasd，进行移动
@@ -414,6 +424,26 @@ namespace Assets.Scripts.CombatLogic.MyCharacterControllers
         private void initGun()
         {
             _gunController.InitGun(_context.CombatVM.Player.WeaponSkill);
+        }
+
+        private List<FighterController> fighters = new List<FighterController>();
+        private const float FIGHTER_INTERVAL = 5;
+        private float curFighterInterval = FIGHTER_INTERVAL;
+        private void prepareFighter()
+        {
+            if (_model.OpInfo.Fighters == null) return;
+            if(fighters.Count < _model.OpInfo.Fighters.Count)
+            {
+                curFighterInterval -= Time.deltaTime;
+                if(curFighterInterval < 0)
+                {
+                    var t = _context.GenerateFighter(_model.OpInfo.Fighters[fighters.Count].Operator, 
+                        transform.position, transform.eulerAngles, _model.Team, transform);
+                    fighters.Add(t.GetComponent<FighterController>());
+                    curFighterInterval = FIGHTER_INTERVAL;
+                }
+            }
+
         }
 
         private void closeUnActiveAnimation()

@@ -36,7 +36,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers.Fighter
         {
             m_CharactorTrans = transform.Find("modelroot");
             m_NavAgent = transform.GetComponent<NavMeshAgent>();
-            _skill = new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[1]);
+            _skill = new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[5]);
 
             states.Add(IFighterState.StateType.Idle, new IdleState(this));
             states.Add(IFighterState.StateType.Attack, new AttackState(this));
