@@ -101,13 +101,13 @@ MonoBehaviour:
     Name: Gun
     Id: 6
     Description: shoot!
-    CoolDown: 0.2
+    CoolDown: 0.3
     Duration: 1.5
     DamageType: 1
     Damage: -2
     NextSkillId: -1
     Ammo: 10
     EffectType: 3
-    PrefabResourceUrl: Bullet
+    PrefabResourceUrl: HealBullet
     IconUrl: ar-1
     AffectGroup: 4

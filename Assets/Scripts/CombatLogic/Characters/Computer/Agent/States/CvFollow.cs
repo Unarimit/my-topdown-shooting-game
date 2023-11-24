@@ -16,6 +16,11 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent.States
         public void OnEnter()
         {
             follow = _context.GetAFriend(_agent.transform, _agent.Team);
+            if(follow == null)
+            {
+                _agent.TranslateState(StateType.CvIdle);
+                return;
+            }
             _agent.NavMeshAgent.stoppingDistance = 3;
             _agent.MoveTo(follow.position, 1);
         }
@@ -35,7 +40,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent.States
             }
 
             _idleDelta += Time.deltaTime;
-            if (_idleDelta > 0.5)
+            if (_idleDelta > 0.2)
             {
                 _agent.MoveTo(follow.position, 1);
                 _idleDelta = 0;

@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.CombatLogic.ContextExtends;
+using UnityEngine;
 
 namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent.States
 {
     public class CaIdle : IAgentState
     {
         private AgentController _agent;
+        private CombatContextManager _context = CombatContextManager.Instance;
         public CaIdle(AgentController agent)
         {
             _agent = agent;
@@ -19,22 +21,22 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent.States
             // do nothing
         }
 
-        private float _idleDelta = 0;
+        private float _idleDelta = 4;
+        private float _translateDelta = 1;
         public void OnUpdate()
         {
-            _agent.aimPos = _agent.TryFindAim();
-            if (_agent.aimPos != new Vector3())
+            _idleDelta += Time.deltaTime;
+            _translateDelta += Time.deltaTime;
+
+            if (_idleDelta > 4)
             {
-                _agent.TranslateState(StateType.CaReact);
+                _idleDelta = 0;
+                _agent.RandomMove();
             }
-            else
+            if(_translateDelta > 1)
             {
-                _idleDelta += Time.deltaTime;
-                if (_idleDelta > 3)
-                {
-                    _idleDelta = 0;
-                    _agent.RandomMove();
-                }
+                _translateDelta = 0;
+                _agent.TranslateState(StateType.CaReact);
             }
         }
     }

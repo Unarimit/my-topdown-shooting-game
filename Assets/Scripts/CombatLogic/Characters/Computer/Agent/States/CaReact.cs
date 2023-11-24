@@ -1,4 +1,6 @@
-﻿namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent.States
+﻿using Assets.Scripts.CombatLogic.ContextExtends;
+
+namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent.States
 {
     public class CaReact : IAgentState
     {
@@ -11,7 +13,17 @@
         }
         public void OnEnter()
         {
-            _agent.MoveTo(_agent.aimPos, 1);
+            _agent.aimTran = _context.GetACounter(_agent.Team);
+            if(_agent.aimTran == null)
+            {
+                _agent.TranslateState(StateType.CaIdle);
+            }
+            else
+            {
+                _agent.aimPos = _agent.aimTran.position;
+                _agent.MoveTo(_agent.aimPos, 1);
+            }
+            
         }
 
         public void OnExit()
@@ -30,7 +42,7 @@
                 _agent.aimTran = msg.FoundTrans;
                 _agent.TranslateState(StateType.CaAttack);
             }
-            else if (_agent.isStopped)
+            else if (_context.Operators[_agent.aimTran].IsDead)
             {
                 _agent.TranslateState(StateType.CaIdle);
             }

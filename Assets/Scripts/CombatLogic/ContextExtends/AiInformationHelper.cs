@@ -19,7 +19,9 @@ namespace Assets.Scripts.CombatLogic.ContextExtends
 
             if (CounterGroup == null || CounterGroup.Count == 0) return null;
 
-            return CounterGroup[Random.Range(0, CounterGroup.Count)];
+            var res = CounterGroup[Random.Range(0, CounterGroup.Count)];
+            if (context.Operators[res].IsDead) return CounterGroup[Random.Range(0, CounterGroup.Count)];
+            return res;
         }
         public static Transform GetAFriend(this CombatContextManager context, Transform trans, int belongTeam)
         {
@@ -51,6 +53,7 @@ namespace Assets.Scripts.CombatLogic.ContextExtends
             Transform res = null;
             foreach (var x in CounterGroup)
             {
+                if (context.Operators[x].IsDead) continue;
                 var d = (x.position - trans.position).sqrMagnitude;
                 if (d < distance)
                 {
@@ -72,6 +75,7 @@ namespace Assets.Scripts.CombatLogic.ContextExtends
             foreach (var x in Group)
             {
                 if (x == trans) continue;
+                if (context.Operators[x].IsDead) continue;
                 var d = (x.position - trans.position).sqrMagnitude;
                 if (d < distance)
                 {

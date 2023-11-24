@@ -29,12 +29,13 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent.States
 
             if (_context.Operators[aim].CurrentHP != _context.Operators[aim].MaxHP)
             {
-                _agent.Aim(aim.position);
+                _agent.Aim(true, aim.position);
                 _agent.Shoot(new Vector3(aim.position.x, 0.8f, aim.position.z));
             }
             else
             {
-                _agent.TranslateState(StateType.CvIdle);
+                _agent.Aim(false, Vector3.zero);
+                _agent.TranslateState(StateType.CvFollow);
             }
         }
     }

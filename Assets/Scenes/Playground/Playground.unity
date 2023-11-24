@@ -10856,7 +10856,7 @@ MonoBehaviour:
     McLeg:
       IconUrl: 
       Name: 
-      Speed: 0
+      Speed: 3
       Dodge: 0
 --- !u!114 &1458971852
 MonoBehaviour:
@@ -11535,7 +11535,7 @@ MonoBehaviour:
     McLeg:
       IconUrl: 
       Name: 
-      Speed: 0
+      Speed: 3
       Dodge: 0
 --- !u!114 &1538417420
 MonoBehaviour:
@@ -14311,7 +14311,7 @@ MonoBehaviour:
     McLeg:
       IconUrl: 
       Name: 
-      Speed: 0
+      Speed: 3
       Dodge: 0
 --- !u!114 &2132031952
 MonoBehaviour:

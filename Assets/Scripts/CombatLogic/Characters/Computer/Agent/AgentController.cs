@@ -72,14 +72,9 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
         {
             Vector3 moveVec = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1));
             moveVec = moveVec.normalized * MoveRadius;
-            MoveTo(new Vector3(_instantiatePosition.x, transform.position.y, _instantiatePosition.z) + moveVec, 0.75f);
+            MoveTo(new Vector3(_instantiatePosition.x, transform.position.y, _instantiatePosition.z) + moveVec, 0.5f);
         }
 
-        public Vector3 TryFindAim()
-        {
-            if (_context.Operators[transform].Team == 1) return _context.PlayerTrans.position;
-            else return _context.EnemyTeamTrans.FirstOrDefault() == null ? new Vector3() : _context.EnemyTeamTrans[0].position;
-        }
 
         public void MoveTo(Vector3 location, float factor)
         {
@@ -152,9 +147,9 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
             return false;
         }
 
-        public void Aim(Vector3 aim)
+        public void Aim(bool isAim, Vector3 aim)
         {
-            _controller.Aim(true, aim);
+            _controller.Aim(isAim, aim);
         }
         public void Shoot(Vector3 aim)
         {

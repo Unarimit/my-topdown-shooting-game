@@ -85,8 +85,7 @@ namespace Assets.Scripts
                 Type = OperatorType.CV,
                 Fighters = new List<Fighter>{
                     new Fighter { Operator = new Operator { Name = "r1", ModelResourceUrl = clist[Random.Range(0, clist.Count)] } },
-                    new Fighter { Operator = new Operator { Name = "r2", ModelResourceUrl = clist[Random.Range(0, clist.Count)] } },
-                    new Fighter { Operator = new Operator { Name = "r3", ModelResourceUrl = clist[Random.Range(0, clist.Count)] } }
+                    new Fighter { Operator = new Operator { Name = "r2", ModelResourceUrl = clist[Random.Range(0, clist.Count)] } }
                 }
             };
         }
