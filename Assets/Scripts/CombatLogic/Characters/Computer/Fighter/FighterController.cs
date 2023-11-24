@@ -41,9 +41,22 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Fighter
             states.Add(IFighterState.StateType.Attack, new AttackState(this));
             states.Add(IFighterState.StateType.Return, new ReturnState(this));
             currentState = states[IFighterState.StateType.Idle];
+
         }
         private void Start()
         {
+            // 挂headmark表示
+            GameObject t_prefab;
+            if (Team == 0)
+            {
+                t_prefab = ResourceManager.Load<GameObject>("Effects/TeamFighterMark");
+            }
+            else
+            {
+                t_prefab = ResourceManager.Load<GameObject>("Enemy/EnemyFighterMark");
+            }
+            Instantiate(t_prefab, m_CharactorTrans);
+
             // 起飞过渡动画
             m_CharactorTrans.DOLocalMoveY(CHARACTER_END_Y, 2);
             m_CharactorTrans.DOScale(CHARACTER_END_SCALE, 2);

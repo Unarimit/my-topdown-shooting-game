@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1581999431318134676}
   - component: {fileID: 7317254366002020624}
   m_Layer: 0
-  m_Name: TeammateMark
+  m_Name: EnemyFighterMark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8fac2c88cbef1de43ab40fc5547f2266, type: 2}
+  - {fileID: 2100000, guid: 09e5ccc0592a83c44a3fbf1522b995be, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

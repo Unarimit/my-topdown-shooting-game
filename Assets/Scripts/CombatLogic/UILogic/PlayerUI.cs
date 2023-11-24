@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ namespace Assets.Scripts.CombatLogic.UILogic
 {
     public class PlayerUI : SubUIBase
     {
+        public TextMeshProUGUI CharacterName;
         public RawImage Skill1Icon;
         public RawImage Skill2Icon;
         public Image Skill1Mask;
@@ -23,7 +25,8 @@ namespace Assets.Scripts.CombatLogic.UILogic
         private CockpitManager _cockpitManager;
         private void Awake()
         {
-            if(_context.CombatVM.Player.CombatSkillList.Count >= 1)
+            CharacterName.text = _context.CombatVM.Player.OpInfo.Name;
+            if (_context.CombatVM.Player.CombatSkillList.Count >= 1)
             {
                 Skill1Icon.texture = ResourceManager.Load<Texture2D>($"Skills/{_context.CombatVM.Player.CombatSkillList[0].SkillInfo.IconUrl}");
                 Skill1Mask.sprite = ResourceManager.Load<Sprite>($"Skills/{_context.CombatVM.Player.CombatSkillList[0].SkillInfo.IconUrl}");

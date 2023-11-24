@@ -34,7 +34,7 @@ namespace Assets.Scripts.Entities
         // 技能id
         public int WeaponSkillId = 4;
 
-        public int MainSkillId = 1;
+        public int MainSkillId = 0;
 
         public List<Fighter> Fighters;
 

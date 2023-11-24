@@ -110,6 +110,8 @@ namespace Assets.Scripts.CombatLogic.Characters
         {
             Model = model;
             initGun();
+            initHeadMark();
+
         }
         private void Start()
         {
@@ -422,6 +424,27 @@ namespace Assets.Scripts.CombatLogic.Characters
         private void initGun()
         {
             _gunController.InitGun(Model.WeaponSkill);
+        }
+
+        private void initHeadMark()
+        {
+            // team mark
+            GameObject t_prefab = null;
+            if (Model == _context.CombatVM.Player)
+            {
+                return;
+            }
+            else if (Model.Team == 0)
+            {
+                if (Model.OpInfo.Type == Entities.OperatorType.CA) t_prefab = ResourceManager.Load<GameObject>("Effects/TeamCAMark");
+                if (Model.OpInfo.Type == Entities.OperatorType.CV) t_prefab = ResourceManager.Load<GameObject>("Effects/TeamCVMark");
+            }
+            else if (Model.Team == 1)
+            {
+                if (Model.OpInfo.Type == Entities.OperatorType.CA) t_prefab = ResourceManager.Load<GameObject>("Effects/EnemyCAMark");
+                if (Model.OpInfo.Type == Entities.OperatorType.CV) t_prefab = ResourceManager.Load<GameObject>("Effects/EnemyCVMark");
+            }
+            Instantiate(t_prefab, transform);
         }
 
         private List<FighterController> fighters = new List<FighterController>();

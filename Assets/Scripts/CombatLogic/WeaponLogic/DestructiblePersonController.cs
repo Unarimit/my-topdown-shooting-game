@@ -26,7 +26,6 @@ namespace Assets.Scripts.BulletLogic
 
         // prefab in character
         private ParticleSystem Shield;
-        private GameObject EorTMark;
         private void Start()
         {
             _context = CombatContextManager.Instance;
@@ -37,17 +36,6 @@ namespace Assets.Scripts.BulletLogic
             Shield = Instantiate(s_prefab, transform).GetComponent<ParticleSystem>();
             Shield.Stop();
 
-            // team mark
-            if (_context.Operators[transform].Team == 0 && transform != _context.PlayerTrans)
-            {
-                var t_prefab = ResourceManager.Load<GameObject>("Effects/TeammateMark");
-                EorTMark = Instantiate(t_prefab, transform);
-            }
-            else if(_context.Operators[transform].Team == 1)
-            {
-                var t_prefab = ResourceManager.Load<GameObject>("Effects/EnemyMark");
-                EorTMark = Instantiate(t_prefab, transform);
-            }
         }
         public void DoDied()
         {
