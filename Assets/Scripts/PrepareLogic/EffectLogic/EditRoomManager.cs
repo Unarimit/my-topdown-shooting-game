@@ -14,10 +14,13 @@ namespace Assets.Scripts.PrepareLogic.EffectLogic
 
         public static EditRoomManager Instance;
 
+        private Transform _characterTrans;
         private void Awake()
         {
             if (Instance == null) Instance = this;
             else Debug.LogWarning(transform.ToString() + " try to load another Manager");
+
+            _characterTrans = transform.Find("CharacterTrans");
         }
         private GameObject _lastGO;
         public void SetCharacterModel(string modelUrl)
@@ -26,11 +29,10 @@ namespace Assets.Scripts.PrepareLogic.EffectLogic
 
             m_camera.gameObject.SetActive(true);
             var prefab = ResourceManager.Load<GameObject>("Characters/Displayer");
-            var go = Instantiate(prefab, transform);
+            var go = Instantiate(prefab, _characterTrans);
             PrepareContextManager.Instance.GetComponent<FbxLoadManager>().LoadModel(modelUrl, go.transform, false);
 
-            go.transform.position = new Vector3(-1.4f, 0, 3.2f) + transform.position;
-            go.transform.eulerAngles = new Vector3(0, 130, 0);
+
             _lastGO = go;
         }
     }
