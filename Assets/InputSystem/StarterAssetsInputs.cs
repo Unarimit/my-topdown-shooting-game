@@ -1,5 +1,5 @@
-using Assets.Scripts;
 using Assets.Scripts.CombatLogic;
+using Assets.Scripts.CombatLogic.Characters.Player;
 using System;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED

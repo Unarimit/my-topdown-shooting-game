@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.BulletLogic;
-using Assets.Scripts.CombatLogic;
-using Assets.Scripts.CombatLogic.MyCharacterControllers;
+using StarterAssets;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
@@ -9,11 +8,11 @@ using UnityEngine.InputSystem;
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
  */
 
-namespace StarterAssets
+namespace Assets.Scripts.CombatLogic.Characters.Player
 {
     [RequireComponent(typeof(OperatorController))]
 
-    public class ThirdPersonController : MonoBehaviour
+    public class PlayerController : MonoBehaviour
     {
         public AudioClip LandingAudioClip;
         public AudioClip[] FootstepAudioClips;
@@ -49,16 +48,16 @@ namespace StarterAssets
                 _controller.Jump();
                 _input.jump = false;
             }
-            if(_input.slide) _controller.Slide();
-            if(_input.reloading) _controller.Reload();
-            
+            if (_input.slide) _controller.Slide();
+            if (_input.reloading) _controller.Reload();
+
         }
         private void Move()
         {
             _controller.Move(_input.move);
             _context.Operators[transform].Speed = _controller.Speed;
         }
-        
+
         private float GunLine = 0.95f; // 枪线，应该在准星上
         private void AimAndShoot()
         {
@@ -80,7 +79,7 @@ namespace StarterAssets
         }
         private void Skill()
         {
-            if(_input.skill1 || _input.skill2)
+            if (_input.skill1 || _input.skill2)
             {
                 if (_input.skill1) _controller.Skill(0, getMouseAiming());
                 if (_input.skill2) _controller.Skill(1, getMouseAiming());

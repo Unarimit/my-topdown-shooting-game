@@ -1,11 +1,10 @@
-﻿using Assets.Scripts.CombatLogic.ComputerControllers.States.Agent;
-using Assets.Scripts.CombatLogic.MyCharacterControllers;
+﻿using Assets.Scripts.CombatLogic.Characters.Computer.Agent.States;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Assets.Scripts.CombatLogic.ComputerControllers
+namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
 {
     public class AgentController : MonoBehaviour
     {
@@ -59,7 +58,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
         private float MoveRadius = 2.0f;
         public void RandomMove()
         {
-            Vector3 moveVec = new Vector3(UnityEngine.Random.Range(-1, 1), 0, UnityEngine.Random.Range(-1, 1));
+            Vector3 moveVec = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1));
             moveVec = moveVec.normalized * MoveRadius;
             MoveTo(new Vector3(_instantiatePosition.x, transform.position.y, _instantiatePosition.z) + moveVec, 2.0f);
         }
@@ -142,8 +141,8 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers
         }
         public void Shoot(Vector3 aim, float diff_factor)
         {
-            
-            if(_controller.HasAmmon()) _controller.Shoot(aim, diff_factor);
+
+            if (_controller.HasAmmon()) _controller.Shoot(aim, diff_factor);
             else _controller.Reload();
         }
 

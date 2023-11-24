@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.CombatLogic.ComputerControllers.Fighter.States;
+﻿using Assets.Scripts.CombatLogic.Characters.Computer.Fighter.States;
+using Assets.Scripts.CombatLogic.ComputerControllers.Fighter.States;
 using Assets.Scripts.CombatLogic.ComputerControllers.States;
 using DG.Tweening;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SocialPlatforms;
 
-namespace Assets.Scripts.CombatLogic.ComputerControllers.Fighter
+namespace Assets.Scripts.CombatLogic.Characters.Computer.Fighter
 {
     internal class FighterController : MonoBehaviour
     {

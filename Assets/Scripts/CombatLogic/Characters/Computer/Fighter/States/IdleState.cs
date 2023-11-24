@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.InputSystem.XR;
+﻿using UnityEngine;
 
-namespace Assets.Scripts.CombatLogic.ComputerControllers.Fighter.States
+namespace Assets.Scripts.CombatLogic.Characters.Computer.Fighter.States
 {
     internal class IdleState : IFighterState
     {
@@ -23,7 +17,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers.Fighter.States
 
         public void OnExit()
         {
-            
+
         }
 
         public void OnUpdate()

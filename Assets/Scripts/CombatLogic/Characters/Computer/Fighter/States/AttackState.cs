@@ -1,13 +1,7 @@
 ﻿using Assets.Scripts.CombatLogic.ContextExtends;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.Burst.Intrinsics;
 using UnityEngine;
 
-namespace Assets.Scripts.CombatLogic.ComputerControllers.Fighter.States
+namespace Assets.Scripts.CombatLogic.Characters.Computer.Fighter.States
 {
     internal class AttackState : IFighterState
     {
@@ -35,7 +29,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers.Fighter.States
             {
                 _controller.TranslateState(IFighterState.StateType.Idle);
                 return;
-            } 
+            }
             // 在过程中投炸弹
             _controller.SetDest(_controller.Aim.position + (_controller.Aim.position - _controller.transform.position).normalized * 4);
             var distance = _controller.Aim.position - _controller.transform.position;

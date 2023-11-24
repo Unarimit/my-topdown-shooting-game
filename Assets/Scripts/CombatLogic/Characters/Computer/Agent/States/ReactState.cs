@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace Assets.Scripts.CombatLogic.ComputerControllers.States.Agent
+﻿namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent.States
 {
     public class ReactState : IAgentState
     {
@@ -37,7 +30,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers.States.Agent
                 _agent.aimTran = msg.FoundTrans;
                 _agent.TranslateState(StateType.Attack);
             }
-            else if(_agent.isStopped)
+            else if (_agent.isStopped)
             {
                 _agent.TranslateState(StateType.Idle);
             }

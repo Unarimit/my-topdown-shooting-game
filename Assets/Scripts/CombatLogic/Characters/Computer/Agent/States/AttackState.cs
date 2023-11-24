@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Assets.Scripts.CombatLogic.ComputerControllers.States.Agent
+namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent.States
 {
     public class AttackState : IAgentState
     {
@@ -37,7 +32,7 @@ namespace Assets.Scripts.CombatLogic.ComputerControllers.States.Agent
             {
                 _agent.TranslateState(StateType.React);
             }
-            if(diff_factor > 0)
+            if (diff_factor > 0)
             {
                 diff_factor -= diff_factor * Time.deltaTime * 0.5f; // 2秒后矫正？
             }

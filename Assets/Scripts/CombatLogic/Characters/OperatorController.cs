@@ -1,11 +1,11 @@
-﻿using Assets.Scripts.CombatLogic.CombatEntities;
-using Assets.Scripts.CombatLogic.ComputerControllers.Fighter;
+﻿using Assets.Scripts.CombatLogic.Characters.Computer.Fighter;
+using Assets.Scripts.CombatLogic.CombatEntities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Assets.Scripts.CombatLogic.MyCharacterControllers
+namespace Assets.Scripts.CombatLogic.Characters
 {
     internal class OperatorController : MonoBehaviour
     {

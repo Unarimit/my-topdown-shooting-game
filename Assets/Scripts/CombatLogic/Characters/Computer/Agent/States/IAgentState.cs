@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assets.Scripts.CombatLogic.ComputerControllers.States.Agent
+﻿namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent.States
 {
     public enum StateType
     {
