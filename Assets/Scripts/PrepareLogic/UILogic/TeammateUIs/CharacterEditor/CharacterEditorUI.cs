@@ -152,6 +152,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
             _model = model;
             EditRoomManager.Instance.SetCharacterModel(model.OpInfo.ModelResourceUrl);
             GenerateUIText();
+            generateCvConfigPanel();
         }
 
         public void Enter()
@@ -206,6 +207,24 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
             res.PartName = partPanelTrans.Find("PartNameTMP").GetComponent<TextMeshProUGUI>();
             res.PartProperties = partPanelTrans.Find("PartPropertiesTMP").GetComponent<TextMeshProUGUI>();
             return res;
+        }
+
+        private CarrierScrollViewUI carrierScrollViewUI;
+        private GameObject carrierPanel;
+        private void generateCvConfigPanel()
+        {
+            if (carrierScrollViewUI == null || carrierPanel == null)
+            {
+                carrierScrollViewUI = transform.Find("CarrierPanel").Find("CarrierScrollView").GetComponent<CarrierScrollViewUI>();
+                carrierPanel = transform.Find("CarrierPanel").gameObject;
+            }
+            if (_model.OpInfo.Type != OperatorType.CV)
+            {
+                carrierPanel.SetActive(false);
+                return;
+            }
+            carrierPanel.SetActive(true);
+            carrierScrollViewUI.GenerateHeadIcon(_model.OpInfo.Fighters);
         }
     }
 }
