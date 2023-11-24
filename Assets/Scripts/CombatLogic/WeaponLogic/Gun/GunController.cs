@@ -71,24 +71,24 @@ namespace Assets.Scripts
         }
 
         private float LastFireTime = -1; // 最后一次开火时间
-        private GameObject _bullet;
         private CombatContextManager _context => CombatContextManager.Instance;
         private void Awake()
         {
-            if(transform.tag == "Player") _context.CombatVM.PlayerGun = this;
+            if(transform.tag == "Player")
+            {
+                IsPlayer = true;
+                _context.CombatVM.PlayerGun = this;
+            } 
         }
         private void Start()
         {
-            if (CombatContextManager.Instance.IsPlayer(transform)) IsPlayer = true;
-
-            _bullet = ResourceManager.Load<GameObject>("Effects/bullet");
             gunshotAudioAudioClips = AnimeHelper.Instance.GetGunshot();
         }
 
         // 判断枪口火焰
         private void Update()
         {
-            GunFire.SetActive(Time.time - LastFireTime < 0.2);
+            GunFire.SetActive(Time.time - LastFireTime < 0.1);
         }
 
         public CombatCombatSkill Skill { get; private set; }
@@ -100,10 +100,11 @@ namespace Assets.Scripts
         }
         public bool ShootUseSkill(Vector3 aim)
         {
-            if (gunProperty.CurrentAmmo == 0) return false;
-            if(_context.UseSkill(transform, Skill, aim, BulletStartTrans.position, BulletStartTrans.eulerAngles))
+            if (gunProperty.CurrentAmmo == 0) return false; // 有子弹
+            if(_context.UseSkill(transform, Skill, aim, BulletStartTrans.position, BulletStartTrans.eulerAngles)) // 满足冷却要求
             {
-                gunProperty.CurrentAmmo -= 1;
+                gunProperty.CurrentAmmo -= 1; 
+                LastFireTime = Time.time;
                 if (IsPlayer)
                 {
                     AudioSource.PlayClipAtPoint(gunshotAudioAudioClips[gunProperty.CurrentAmmo % 15], Camera.main.transform.position + Camera.main.transform.forward * 2, GunshotAudioVolume);
@@ -120,40 +121,6 @@ namespace Assets.Scripts
             {
                 return false;
             }
-        }
-
-
-
-        /// <summary>
-        /// 判断是否可以射击
-        /// </summary>
-        /// <param name="bullet"></param>
-        /// <param name="push"></param>
-        /// <returns></returns>
-        public bool ShootOrWait()
-        {
-            if((DateTime.Now - gunProperty.lastShootTime).TotalMilliseconds < 1.0 / gunProperty.RateOfFile * 60 * 1000 || gunProperty.CurrentAmmo <= 0)
-            {   
-                return false;
-            }
-            gunProperty.lastShootTime = DateTime.Now;
-            return true;
-        }
-
-        /// <summary>
-        /// 异步推出子弹，枪焰动画，给拖尾特效加载时间
-        /// </summary>
-        /// <param name="bullet"></param>
-        /// <param name="push"></param>
-        /// <returns></returns>
-        public IEnumerator DelayForce(GameObject bullet, Vector3 push)
-        {
-            LastFireTime = Time.time;
-            
-            yield return new WaitForSeconds(0.05f);
-            bullet.GetComponent<Rigidbody>().AddForce(gunProperty.MuzzleVelocity * push / 10);
-            yield return null;
-                
         }
 
         /// <summary>

@@ -1,9 +1,7 @@
 ﻿using Assets.Scripts.CombatLogic.CombatEntities;
 using Assets.Scripts.CombatLogic.ComputerControllers.Fighter;
-using Assets.Scripts.Entities;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -134,7 +132,8 @@ namespace Assets.Scripts.CombatLogic.MyCharacterControllers
         /// <param name="vec"></param>
         public void Move(Vector2 vec)
         {
-            if (_controller == null) {
+            if (_controller == null)
+            {
                 Debug.LogWarning("do not have CharacterController component");
                 return;
             }
@@ -144,7 +143,7 @@ namespace Assets.Scripts.CombatLogic.MyCharacterControllers
             }
             else
             {
-                normalMove(vec); 
+                normalMove(vec);
             }
             AnimatorMove(vec, _speed);
         }
@@ -185,7 +184,7 @@ namespace Assets.Scripts.CombatLogic.MyCharacterControllers
 
         public void Shoot(Vector3 aim, float diffFactor)
         {
-            if (!tryBreakAction(ActionName.Shoot)) return; 
+            if (!tryBreakAction(ActionName.Shoot)) return;
             _shootTime = Time.time;
             aim.x += Random.Range(0, diffFactor);
             aim.z += Random.Range(0, diffFactor);
@@ -195,7 +194,7 @@ namespace Assets.Scripts.CombatLogic.MyCharacterControllers
         {
             if (tryBreakAction(ActionName.Skill))
             {
-                 _context.UseSkill(transform, _context.Operators[transform].CombatSkillList[i], aim);
+                _context.UseSkill(transform, _context.Operators[transform].CombatSkillList[i], aim);
             }
         }
         public void Slide()
@@ -235,7 +234,7 @@ namespace Assets.Scripts.CombatLogic.MyCharacterControllers
             _animator.SetBool(_animIDShoot, false);
             _animator.SetBool(_animIDSlide, false);
         }
-        
+
         protected virtual void OnFootstep(AnimationEvent animationEvent)
         {
         }
@@ -431,12 +430,12 @@ namespace Assets.Scripts.CombatLogic.MyCharacterControllers
         private void prepareFighter()
         {
             if (_model.OpInfo.Fighters == null) return;
-            if(fighters.Count < _model.OpInfo.Fighters.Count)
+            if (fighters.Count < _model.OpInfo.Fighters.Count)
             {
                 curFighterInterval -= Time.deltaTime;
-                if(curFighterInterval < 0)
+                if (curFighterInterval < 0)
                 {
-                    var t = _context.GenerateFighter(_model.OpInfo.Fighters[fighters.Count].Operator, 
+                    var t = _context.GenerateFighter(_model.OpInfo.Fighters[fighters.Count].Operator,
                         transform.position, transform.eulerAngles, _model.Team, transform);
                     fighters.Add(t.GetComponent<FighterController>());
                     curFighterInterval = FIGHTER_INTERVAL;
