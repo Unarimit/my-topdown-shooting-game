@@ -40,8 +40,7 @@ namespace Assets.Scripts.CombatLogic
                 var ops = TestDB.GetRandomOperator(5);
                 ops[0].WeaponSkillId = 3;
                 ops[0].McBody.HP = 100;
-                ops[0].Fighters = new List<Entities.Fighter> { new Entities.Fighter { Operator = TestDB.GetRandomOperate() }, new Entities.Fighter { Operator = TestDB.GetRandomOperate() } };
-
+                ops[1] = TestDB.GetRandomCV();
 
                 Vector3 init = new Vector3(Random.Range(5, 15), 0, Random.Range(5, 15));
                 _context.GeneratePlayer(ops[0], init, Vector3.zero, transform);

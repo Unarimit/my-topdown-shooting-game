@@ -41,6 +41,8 @@ namespace Assets.Scripts.Entities
         // 需要删除的属性
         public int RecoverHP => McBody.HPRecover;
 
+        public float MaxSpeed => McLeg.Speed;
+
         public int WeaponType;
 
         public float ReviveTime = 5;

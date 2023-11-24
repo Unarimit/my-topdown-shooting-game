@@ -75,9 +75,9 @@ namespace Assets.Scripts.CombatLogic.Characters
         private CapsuleCollider _collider;
         private GunController _gunController;
         private CombatContextManager _context => CombatContextManager.Instance;
-        private CombatOperator _model;
         #endregion
 
+        public CombatOperator Model { get; private set; } 
         public float Speed => _speed;
 
         private void Awake()
@@ -108,7 +108,7 @@ namespace Assets.Scripts.CombatLogic.Characters
         }
         public void Inject(CombatOperator model)
         {
-            _model = model;
+            Model = model;
             initGun();
         }
         private void Start()
@@ -421,7 +421,7 @@ namespace Assets.Scripts.CombatLogic.Characters
         }
         private void initGun()
         {
-            _gunController.InitGun(_model.WeaponSkill);
+            _gunController.InitGun(Model.WeaponSkill);
         }
 
         private List<FighterController> fighters = new List<FighterController>();
@@ -429,14 +429,14 @@ namespace Assets.Scripts.CombatLogic.Characters
         private float curFighterInterval = FIGHTER_INTERVAL;
         private void prepareFighter()
         {
-            if (_model.OpInfo.Fighters == null) return;
-            if (fighters.Count < _model.OpInfo.Fighters.Count)
+            if (Model.OpInfo.Fighters == null) return;
+            if (fighters.Count < Model.OpInfo.Fighters.Count)
             {
                 curFighterInterval -= Time.deltaTime;
                 if (curFighterInterval < 0)
                 {
-                    var t = _context.GenerateFighter(_model.OpInfo.Fighters[fighters.Count].Operator,
-                        transform.position, transform.eulerAngles, _model.Team, transform);
+                    var t = _context.GenerateFighter(Model.OpInfo.Fighters[fighters.Count].Operator,
+                        transform.position, transform.eulerAngles, Model.Team, transform);
                     fighters.Add(t.GetComponent<FighterController>());
                     curFighterInterval = FIGHTER_INTERVAL;
                 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using TMPro.EditorUtilities;
 using UnityEngine;
 
 namespace Assets.Scripts.CombatLogic.ContextExtends
@@ -20,6 +21,22 @@ namespace Assets.Scripts.CombatLogic.ContextExtends
 
             return CounterGroup[Random.Range(0, CounterGroup.Count)];
         }
+        public static Transform GetAFriend(this CombatContextManager context, Transform trans, int belongTeam)
+        {
+            List<Transform> Group;
+            if (belongTeam == 1) Group = context.EnemyTeamTrans;
+            else Group = context.PlayerTeamTrans;
+
+            if (Group == null || Group.Count == 0) return null;
+
+            foreach(var x in Group)
+            {
+                if (x == trans) continue;
+                else if (context.Operators[x].IsDead) continue;
+                else return x; // 应用某种抽样算法? 或者多次随机, 取不到就放弃
+            }
+            return null;
+        }
         /// <summary>
         /// 寻找最近的敌人
         /// </summary>
@@ -34,6 +51,27 @@ namespace Assets.Scripts.CombatLogic.ContextExtends
             Transform res = null;
             foreach (var x in CounterGroup)
             {
+                var d = (x.position - trans.position).sqrMagnitude;
+                if (d < distance)
+                {
+                    distance = d;
+                    res = x;
+                }
+            }
+            return res;
+        }
+
+        public static Transform GetNealyFriend(this CombatContextManager context, Transform trans, int belongTeam)
+        {
+            List<Transform> Group;
+            if (belongTeam == 1) Group = context.EnemyTeamTrans;
+            else Group = context.PlayerTeamTrans;
+
+            float distance = float.MaxValue;
+            Transform res = null;
+            foreach (var x in Group)
+            {
+                if (x == trans) continue;
                 var d = (x.position - trans.position).sqrMagnitude;
                 if (d < distance)
                 {

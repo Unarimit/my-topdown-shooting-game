@@ -17,6 +17,7 @@ namespace Assets.Scripts
             return new List<Operator>() {
                 new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", WeaponSkillId = 4 },
                 new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Type = OperatorType.CV, 
+                    WeaponSkillId = 6,
                     Fighters = new List<Fighter>{ 
                         new Fighter { Operator = new Operator { Name = "ho", ModelResourceUrl = "Hoshino" } },
                         new Fighter { Operator = new Operator { Name = "shi", ModelResourceUrl = "Shiroko" } }
@@ -64,22 +65,35 @@ namespace Assets.Scripts
         }
 
         static List<string> clist = new List<string> { "Hoshino", "Shiroko", "Aru", "Karin", "Mashiro"};
-        public static Operator GetRandomOperate()
+        public static Operator GetRandomCA()
         {
             return new Operator
             {
                 Name = "random test",
                 ModelResourceUrl = clist[Random.Range(0, clist.Count)],
                 WeaponSkillId = 4,
-                McBody = MechaBody.DefaultMecha(),
-                McHead = MechaHead.DefaultMecha(),
-                McLeg = MechaLeg.DefaultMecha()
+                Type = OperatorType.CA
+            };
+        }
+        public static Operator GetRandomCV()
+        {
+            return new Operator
+            {
+                Name = "random test",
+                ModelResourceUrl = clist[Random.Range(0, clist.Count)],
+                WeaponSkillId = 6,
+                Type = OperatorType.CV,
+                Fighters = new List<Fighter>{
+                    new Fighter { Operator = new Operator { Name = "r1", ModelResourceUrl = clist[Random.Range(0, clist.Count)] } },
+                    new Fighter { Operator = new Operator { Name = "r2", ModelResourceUrl = clist[Random.Range(0, clist.Count)] } },
+                    new Fighter { Operator = new Operator { Name = "r3", ModelResourceUrl = clist[Random.Range(0, clist.Count)] } }
+                }
             };
         }
         public static List<Operator> GetRandomOperator(int t)
         {
             var ans = new List<Operator>(t);
-            for(int i = 0; i < t; i++) ans.Add(GetRandomOperate());
+            for(int i = 0; i < t; i++) ans.Add(GetRandomCA());
 
             return ans;
         }

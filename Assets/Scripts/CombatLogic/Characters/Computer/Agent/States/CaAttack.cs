@@ -2,10 +2,10 @@
 
 namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent.States
 {
-    public class AttackState : IAgentState
+    public class CaAttack : IAgentState
     {
         private AgentController _agent;
-        public AttackState(AgentController agent)
+        public CaAttack(AgentController agent)
         {
             _agent = agent;
         }
@@ -30,7 +30,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent.States
             }
             else
             {
-                _agent.TranslateState(StateType.React);
+                _agent.TranslateState(StateType.CaReact);
             }
             if (diff_factor > 0)
             {

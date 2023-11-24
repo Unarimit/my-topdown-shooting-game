@@ -2,10 +2,10 @@
 
 namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent.States
 {
-    public class IdleState : IAgentState
+    public class CaIdle : IAgentState
     {
         private AgentController _agent;
-        public IdleState(AgentController agent)
+        public CaIdle(AgentController agent)
         {
             _agent = agent;
         }
@@ -25,7 +25,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent.States
             _agent.aimPos = _agent.TryFindAim();
             if (_agent.aimPos != new Vector3())
             {
-                _agent.TranslateState(StateType.React);
+                _agent.TranslateState(StateType.CaReact);
             }
             else
             {

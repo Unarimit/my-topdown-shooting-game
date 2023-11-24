@@ -2,7 +2,8 @@
 {
     public enum StateType
     {
-        Idle, React, Attack
+        CaIdle, CaReact, CaAttack,
+        CvIdle, CvFollow, CvHelp
     }
 
     public interface IAgentState

@@ -18,14 +18,15 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
         public Vector3 aimPos;
         [HideInInspector]
         public Transform aimTran;
-        public bool isStopped => _navMeshAgent.velocity == new Vector3();
+        public bool isStopped => NavMeshAgent.velocity == new Vector3();
         private Vector3 _instantiatePosition;
-        private NavMeshAgent _navMeshAgent;
+        public NavMeshAgent NavMeshAgent { get; private set; }
         private CombatContextManager _context;
         private OperatorController _controller;
-        private new void Awake()
+        public int Team => _controller.Model.Team;
+        private void Awake()
         {
-            _navMeshAgent = GetComponent<NavMeshAgent>();
+            NavMeshAgent = GetComponent<NavMeshAgent>();
         }
 
         protected void Start()
@@ -33,11 +34,22 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
             _instantiatePosition = transform.position;
             _context = CombatContextManager.Instance;
             _controller = GetComponent<OperatorController>();
-            states.Add(StateType.Idle, new IdleState(this));
-            states.Add(StateType.React, new ReactState(this, _context));
-            states.Add(StateType.Attack, new AttackState(this));
+            if(_controller.Model.OpInfo.Type == Entities.OperatorType.CA)
+            {
+                states.Add(StateType.CaIdle, new CaIdle(this));
+                states.Add(StateType.CaReact, new CaReact(this, _context));
+                states.Add(StateType.CaAttack, new CaAttack(this));
+                TranslateState(StateType.CaIdle);
+            }
+            else
+            {
+                states.Add(StateType.CvIdle, new CvIdle(this));
+                states.Add(StateType.CvFollow, new CvFollow(this));
+                states.Add(StateType.CvHelp, new CvHelp(this));
+                TranslateState(StateType.CvIdle);
+            }
+            
 
-            TranslateState(StateType.Idle);
         }
 
         public void TranslateState(StateType state)
@@ -51,7 +63,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
         private void Update()
         {
             currentState.OnUpdate();
-            _controller.AnimatorMove(new Vector2(_navMeshAgent.velocity.x, _navMeshAgent.velocity.z), _navMeshAgent.velocity.magnitude);
+            _controller.AnimatorMove(new Vector2(NavMeshAgent.velocity.x, NavMeshAgent.velocity.z), NavMeshAgent.velocity.magnitude);
         }
 
         // ********************** Agent Behavior ********************
@@ -60,7 +72,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
         {
             Vector3 moveVec = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1));
             moveVec = moveVec.normalized * MoveRadius;
-            MoveTo(new Vector3(_instantiatePosition.x, transform.position.y, _instantiatePosition.z) + moveVec, 2.0f);
+            MoveTo(new Vector3(_instantiatePosition.x, transform.position.y, _instantiatePosition.z) + moveVec, 0.75f);
         }
 
         public Vector3 TryFindAim()
@@ -69,15 +81,15 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
             else return _context.EnemyTeamTrans.FirstOrDefault() == null ? new Vector3() : _context.EnemyTeamTrans[0].position;
         }
 
-        public void MoveTo(Vector3 location, float MaxSpeed)
+        public void MoveTo(Vector3 location, float factor)
         {
-            _navMeshAgent.isStopped = false;
-            _navMeshAgent.speed = MaxSpeed;
-            _navMeshAgent.SetDestination(location);
+            NavMeshAgent.isStopped = false;
+            NavMeshAgent.speed = _controller.Model.OpInfo.MaxSpeed * factor;
+            NavMeshAgent.SetDestination(location);
         }
         public void StopMoving()
         {
-            _navMeshAgent.isStopped = true;
+            NavMeshAgent.isStopped = true;
         }
 
         // ************************** normal detect **************************
@@ -118,6 +130,11 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
             return new SeeMsg { Found = false };
         }
 
+        /// <summary>
+        /// 类视锥体检测是否能发现目标
+        /// </summary>
+        /// <param name="trans">值为null,或对应的角色死亡时返回null</param>
+        /// <returns></returns>
         public bool TrySeeAim(Transform trans)
         {
             if (trans == null || _context.Operators[trans].IsDead) return false;
@@ -138,6 +155,12 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
         public void Aim(Vector3 aim)
         {
             _controller.Aim(true, aim);
+        }
+        public void Shoot(Vector3 aim)
+        {
+
+            if (_controller.HasAmmon()) _controller.Shoot(aim);
+            else _controller.Reload();
         }
         public void Shoot(Vector3 aim, float diff_factor)
         {

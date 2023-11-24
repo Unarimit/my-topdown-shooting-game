@@ -97,3 +97,17 @@ MonoBehaviour:
     PrefabResourceUrl: Bullet
     IconUrl: 1-img
     AffectGroup: 4
+  - Type: 2
+    Name: Gun
+    Id: 6
+    Description: shoot!
+    CoolDown: 0.2
+    Duration: 1.5
+    DamageType: 1
+    Damage: -2
+    NextSkillId: -1
+    Ammo: 10
+    EffectType: 3
+    PrefabResourceUrl: Bullet
+    IconUrl: ar-1
+    AffectGroup: 4

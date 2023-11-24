@@ -66,6 +66,7 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
         {
             LastInCombatTime = Time.time;
             CurrentHP -= dmg;
+            if(CurrentHP > MaxHP) CurrentHP = MaxHP;
         }
         public bool TryRecover()
         {

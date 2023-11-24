@@ -1,17 +1,17 @@
 ﻿namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent.States
 {
-    public class ReactState : IAgentState
+    public class CaReact : IAgentState
     {
         private AgentController _agent;
         private CombatContextManager _context;
-        public ReactState(AgentController agent, CombatContextManager context)
+        public CaReact(AgentController agent, CombatContextManager context)
         {
             _agent = agent;
             _context = context;
         }
         public void OnEnter()
         {
-            _agent.MoveTo(_agent.aimPos, 3);
+            _agent.MoveTo(_agent.aimPos, 1);
         }
 
         public void OnExit()
@@ -28,11 +28,11 @@
             {
                 _agent.transform.LookAt(msg.FoundPos);
                 _agent.aimTran = msg.FoundTrans;
-                _agent.TranslateState(StateType.Attack);
+                _agent.TranslateState(StateType.CaAttack);
             }
             else if (_agent.isStopped)
             {
-                _agent.TranslateState(StateType.Idle);
+                _agent.TranslateState(StateType.CaIdle);
             }
         }
     }

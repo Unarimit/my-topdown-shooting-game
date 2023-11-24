@@ -2,8 +2,6 @@
 using Assets.Scripts.CombatLogic.Characters;
 using Assets.Scripts.CombatLogic.Characters.Computer.Fighter;
 using Assets.Scripts.CombatLogic.CombatEntities;
-using Assets.Scripts.CombatLogic.ComputerControllers;
-using Assets.Scripts.CombatLogic.EnviormentLogic;
 using Assets.Scripts.Common.EscMenu;
 using Assets.Scripts.Entities;
 using Cinemachine;
