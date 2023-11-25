@@ -7,6 +7,23 @@ using UnityEngine;
 
 namespace Assets.Scripts.Entities
 {
+    public enum SkillReleaserType
+    {
+        Range, // releaser会绑定在发射物体上
+        Melee // releaser会绑定在角色上
+    }
+    [Serializable]
+    public struct SkillSelector
+    {
+        public string SelectorName; // Self, Trigger
+        public string Data;
+    }
+    [Serializable]
+    public struct SkillImpactor
+    {
+        public string ImpectorName; // Damage, Speedup, FreezeControl
+        public string Data;
+    }
     /// <summary>
     /// 战斗技能
     /// </summary>
@@ -41,6 +58,12 @@ namespace Assets.Scripts.Entities
         /// 技能持续时间
         /// </summary>
         public float Duration;
+
+        public SkillReleaserType ReleaserType; 
+
+        public SkillSelector SkillSelector;
+
+        public List<SkillImpactor> SkillImpectors;
 
         /// <summary>
         /// 伤害类型

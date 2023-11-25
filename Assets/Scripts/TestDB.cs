@@ -7,8 +7,15 @@ namespace Assets.Scripts
 {
     internal static class TestDB
     {
+        #region 常量配置
         public static readonly int CHARACTER_LAYER = LayerMask.NameToLayer("Character");
         public static readonly int DOBJECT_LAYER = LayerMask.NameToLayer("DestructibleObject");
+        public enum SkillSelectorStr
+        {
+            Trigger
+        }
+        #endregion
+
         public static LevelInfo Level { get; set; }
 
         public static List<Operator> GetOperators()

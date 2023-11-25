@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 9106179305903833699}
   - component: {fileID: 7277902751855894887}
   - component: {fileID: 7263761380520787185}
-  - component: {fileID: -7521430322167095528}
   m_Layer: 0
   m_Name: Beam
   m_TagString: Untagged
@@ -82,35 +81,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 1
---- !u!114 &-7521430322167095528
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8249056343577119296}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6cb31733acd96e4bbcd6ed2ee0d3689, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DelayEndTime: 0
-  Aim: {x: 0, y: 0, z: 0}
-  CSkill:
-    Type: 0
-    Name: 
-    Id: 0
-    Description: 
-    CoolDown: 0
-    Duration: 0
-    DamageType: 0
-    Damage: 0
-    NextSkillId: -1
-    EffectType: 0
-    PrefabResourceUrl: 
-    AffectGroup: 0
-  Caster: {fileID: 0}
+  m_CollisionDetection: 3
 --- !u!1 &8371273436656551277
 GameObject:
   m_ObjectHideFlags: 0

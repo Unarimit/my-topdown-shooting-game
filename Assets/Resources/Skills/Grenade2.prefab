@@ -614,10 +614,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5217310775278729265, guid: 5efd19158a849be46af85f592bd58801,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7636451706810332767}
-    - targetCorrespondingSourceObject: {fileID: 5217310775278729265, guid: 5efd19158a849be46af85f592bd58801,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 6025933051476494424}
     - targetCorrespondingSourceObject: {fileID: 5217310775278729265, guid: 5efd19158a849be46af85f592bd58801,
         type: 3}
@@ -630,34 +626,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4598569804148079001}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7636451706810332767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8626357420330516904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6cb31733acd96e4bbcd6ed2ee0d3689, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DelayEndTime: 0
-  Aim: {x: 0, y: 0, z: 0}
-  CSkill:
-    Type: 0
-    Name: 
-    Id: 0
-    Description: 
-    CoolDown: 0
-    Duration: 0
-    DamageType: 0
-    Damage: 0
-    NextSkillId: -1
-    EffectType: 0
-    PrefabResourceUrl: 
-    AffectGroup: 0
-  Caster: {fileID: 0}
 --- !u!135 &6025933051476494424
 SphereCollider:
   m_ObjectHideFlags: 0

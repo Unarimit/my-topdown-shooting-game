@@ -19,6 +19,13 @@ MonoBehaviour:
     Description: sho~
     CoolDown: 20
     Duration: 1
+    ReleaserType: 0
+    SkillSelector:
+      SelectorName: Trigger
+      Data: 
+    SkillImpectors:
+    - ImpectorName: Damage
+      Data: 10
     DamageType: 1
     Damage: 10
     NextSkillId: -1
@@ -33,6 +40,11 @@ MonoBehaviour:
     Description: boom!!
     CoolDown: 5
     Duration: 3
+    ReleaserType: 0
+    SkillSelector:
+      SelectorName: Trigger
+      Data: 
+    SkillImpectors: []
     DamageType: 0
     Damage: 0
     NextSkillId: 2
@@ -47,6 +59,13 @@ MonoBehaviour:
     Description: boom!!
     CoolDown: 0
     Duration: 1
+    ReleaserType: 0
+    SkillSelector:
+      SelectorName: Trigger
+      Data: 
+    SkillImpectors:
+    - ImpectorName: Damage
+      Data: 5
     DamageType: 1
     Damage: 5
     NextSkillId: -1
@@ -61,6 +80,13 @@ MonoBehaviour:
     Description: shoot!
     CoolDown: 0.1
     Duration: 1.5
+    ReleaserType: 0
+    SkillSelector:
+      SelectorName: Trigger
+      Data: 
+    SkillImpectors:
+    - ImpectorName: Damage
+      Data: 2
     DamageType: 1
     Damage: 2
     NextSkillId: -1
@@ -75,6 +101,13 @@ MonoBehaviour:
     Description: shoot!
     CoolDown: 0.2
     Duration: 1.5
+    ReleaserType: 0
+    SkillSelector:
+      SelectorName: Trigger
+      Data: 
+    SkillImpectors:
+    - ImpectorName: Damage
+      Data: 1
     DamageType: 1
     Damage: 1
     NextSkillId: -1
@@ -89,6 +122,11 @@ MonoBehaviour:
     Description: 
     CoolDown: 3
     Duration: 0.5
+    ReleaserType: 0
+    SkillSelector:
+      SelectorName: Trigger
+      Data: 
+    SkillImpectors: []
     DamageType: 0
     Damage: 0
     NextSkillId: 2
@@ -103,6 +141,13 @@ MonoBehaviour:
     Description: shoot!
     CoolDown: 0.3
     Duration: 1.5
+    ReleaserType: 0
+    SkillSelector:
+      SelectorName: Trigger
+      Data: 
+    SkillImpectors:
+    - ImpectorName: Damage
+      Data: -1
     DamageType: 1
     Damage: -2
     NextSkillId: -1

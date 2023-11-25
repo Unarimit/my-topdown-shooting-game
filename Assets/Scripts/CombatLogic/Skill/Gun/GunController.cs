@@ -1,14 +1,8 @@
 ﻿using Assets.Scripts.CombatLogic;
-using Assets.Scripts.CombatLogic.UILogic;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 namespace Assets.Scripts
 {
@@ -74,11 +68,11 @@ namespace Assets.Scripts
         private CombatContextManager _context => CombatContextManager.Instance;
         private void Awake()
         {
-            if(transform.tag == "Player")
+            if (transform.tag == "Player")
             {
                 IsPlayer = true;
                 _context.CombatVM.PlayerGun = this;
-            } 
+            }
         }
         private void Start()
         {
@@ -101,9 +95,9 @@ namespace Assets.Scripts
         public bool ShootUseSkill(Vector3 aim)
         {
             if (gunProperty.CurrentAmmo == 0) return false; // 有子弹
-            if(_context.UseSkill(transform, Skill, aim, BulletStartTrans.position, BulletStartTrans.eulerAngles)) // 满足冷却要求
+            if (_context.UseSkill(transform, Skill, aim, BulletStartTrans.position, BulletStartTrans.eulerAngles)) // 满足冷却要求
             {
-                gunProperty.CurrentAmmo -= 1; 
+                gunProperty.CurrentAmmo -= 1;
                 LastFireTime = Time.time;
                 if (IsPlayer)
                 {
@@ -131,7 +125,7 @@ namespace Assets.Scripts
         {
             if (gunProperty.LastReloading == 0) yield break; // 不需重复换弹
 
-            while(gunProperty.LastReloading != 0)
+            while (gunProperty.LastReloading != 0)
             {
                 gunProperty.LastReloading -= Time.deltaTime;
                 if (gunProperty.LastReloading < 0)

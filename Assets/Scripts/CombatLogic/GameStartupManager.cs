@@ -39,6 +39,7 @@ namespace Assets.Scripts.CombatLogic
                 // 我方生成
                 var ops = TestDB.GetRandomOperator(5);
                 ops[0].WeaponSkillId = 3;
+                ops[0].MainSkillId = 1;
                 ops[0].McBody.HP = 100;
                 ops[1] = TestDB.GetRandomCV();
 
