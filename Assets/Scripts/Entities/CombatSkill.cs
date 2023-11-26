@@ -59,21 +59,24 @@ namespace Assets.Scripts.Entities
         /// </summary>
         public float Duration;
 
+        /// <summary>
+        /// 技能释放类型
+        /// </summary>
         public SkillReleaserType ReleaserType; 
 
+        /// <summary>
+        /// 技能选择器
+        /// </summary>
         public SkillSelector SkillSelector;
+        /// <summary>
+        /// 技能效果类型
+        /// </summary>
+        public SkillEffectType EffectType; // TODO: 删除这个
 
+        /// <summary>
+        /// 技能影响器
+        /// </summary>
         public List<SkillImpactor> SkillImpectors;
-
-        /// <summary>
-        /// 伤害类型
-        /// </summary>
-        public SkillDamageType DamageType;
-
-        /// <summary>
-        /// 技能造成伤害
-        /// </summary>
-        public int Damage;
 
         /// <summary>
         /// 链式技能触发，在持续时间结束后触发。如果没有下一个，设为-1
@@ -85,10 +88,6 @@ namespace Assets.Scripts.Entities
         /// </summary>
         public int Ammo = -1;
 
-        /// <summary>
-        /// 技能效果类型
-        /// </summary>
-        public SkillEffectType EffectType;
 
         /// <summary>
         /// 技能Prefab路径
