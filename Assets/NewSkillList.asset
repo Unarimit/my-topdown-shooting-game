@@ -16,15 +16,15 @@ MonoBehaviour:
   - Type: 0
     Name: Beam
     Id: 0
-    Description: sho~
+    Description: null
     CoolDown: 20
     Duration: 1
     AfterCastTime: 0
-    CharacterAnimeId: 
+    CharacterAnimeId: null
     ReleaserType: 0
     SkillSelector:
       SelectorName: Trigger
-      Data: 
+      Data: null
     EffectType: 2
     SkillImpectors:
     - ImpectorName: Damage
@@ -33,38 +33,36 @@ MonoBehaviour:
     Ammo: -1
     PrefabResourceUrl: Beam
     IconUrl: 0-img
-    AffectGroup: 4
   - Type: 0
     Name: Grenade
     Id: 1
-    Description: boom!!
+    Description: null
     CoolDown: 5
     Duration: 3
     AfterCastTime: 0
-    CharacterAnimeId: 
+    CharacterAnimeId: null
     ReleaserType: 0
     SkillSelector:
       SelectorName: Trigger
-      Data: 
+      Data: null
     EffectType: 1
     SkillImpectors: []
     NextSkillId: 2
     Ammo: -1
     PrefabResourceUrl: Grenade1
     IconUrl: 1-img
-    AffectGroup: 0
   - Type: 1
-    Name: Grenade 2
+    Name: Grenade2
     Id: 2
-    Description: boom!!
+    Description: null
     CoolDown: 0
     Duration: 1
     AfterCastTime: 0
-    CharacterAnimeId: 
+    CharacterAnimeId: null
     ReleaserType: 0
     SkillSelector:
       SelectorName: Trigger
-      Data: 
+      Data: null
     EffectType: 0
     SkillImpectors:
     - ImpectorName: Damage
@@ -72,20 +70,19 @@ MonoBehaviour:
     NextSkillId: -1
     Ammo: -1
     PrefabResourceUrl: Grenade2
-    IconUrl: 
-    AffectGroup: 4
+    IconUrl: null
   - Type: 2
     Name: Gun
     Id: 3
-    Description: shoot!
+    Description: null
     CoolDown: 0.1
     Duration: 1.5
     AfterCastTime: 0
-    CharacterAnimeId: 
+    CharacterAnimeId: null
     ReleaserType: 0
     SkillSelector:
       SelectorName: Trigger
-      Data: 
+      Data: null
     EffectType: 3
     SkillImpectors:
     - ImpectorName: Damage
@@ -94,19 +91,18 @@ MonoBehaviour:
     Ammo: 30
     PrefabResourceUrl: Bullet
     IconUrl: ar-1
-    AffectGroup: 4
   - Type: 2
     Name: Gun
     Id: 4
-    Description: shoot!
+    Description: null
     CoolDown: 0.2
     Duration: 1.5
     AfterCastTime: 0
-    CharacterAnimeId: 
+    CharacterAnimeId: null
     ReleaserType: 0
     SkillSelector:
       SelectorName: Trigger
-      Data: 
+      Data: null
     EffectType: 3
     SkillImpectors:
     - ImpectorName: Damage
@@ -115,38 +111,36 @@ MonoBehaviour:
     Ammo: 10
     PrefabResourceUrl: Bullet
     IconUrl: ar-1
-    AffectGroup: 4
   - Type: 0
     Name: FastGrenade
     Id: 5
-    Description: 
-    CoolDown: 3
+    Description: null
+    CoolDown: 5
     Duration: 0.5
     AfterCastTime: 0
-    CharacterAnimeId: 
+    CharacterAnimeId: null
     ReleaserType: 0
     SkillSelector:
       SelectorName: Trigger
-      Data: 
+      Data: null
     EffectType: 1
     SkillImpectors: []
     NextSkillId: 2
     Ammo: -1
-    PrefabResourceUrl: Bullet
+    PrefabResourceUrl: Grenade1
     IconUrl: 1-img
-    AffectGroup: 4
   - Type: 2
-    Name: Gun
+    Name: HealthGun
     Id: 6
-    Description: shoot!
+    Description: null
     CoolDown: 0.3
     Duration: 1.5
     AfterCastTime: 0
-    CharacterAnimeId: 
+    CharacterAnimeId: null
     ReleaserType: 0
     SkillSelector:
       SelectorName: Trigger
-      Data: 
+      Data: null
     EffectType: 3
     SkillImpectors:
     - ImpectorName: Damage
@@ -155,11 +149,10 @@ MonoBehaviour:
     Ammo: 10
     PrefabResourceUrl: HealBullet
     IconUrl: ar-1
-    AffectGroup: 4
   - Type: 0
     Name: Slide
     Id: 7
-    Description: 
+    Description: null
     CoolDown: 5
     Duration: 1
     AfterCastTime: 1
@@ -167,15 +160,14 @@ MonoBehaviour:
     ReleaserType: 1
     SkillSelector:
       SelectorName: Self
-      Data: 
-    EffectType: 0
+      Data: null
+    EffectType: 2
     SkillImpectors:
     - ImpectorName: Slide
-      Data: 1
+      Data: null
     - ImpectorName: Defend
-      Data: 1
+      Data: null
     NextSkillId: -1
     Ammo: -1
-    PrefabResourceUrl: 
-    IconUrl: ar-1
-    AffectGroup: 0
+    PrefabResourceUrl: null
+    IconUrl: null

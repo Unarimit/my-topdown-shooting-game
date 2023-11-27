@@ -30,11 +30,15 @@ namespace Assets.Scripts.CombatLogic.Skill.Releaser
 
             // 配置impector
             var impactors = new List<IImpactor>();
-            foreach(var im in skill.SkillImpectors)
+            if(skill.SkillImpectors != null)
             {
-                impactors.Add(createImpactor(im.ImpectorName));
-                impactors[impactors.Count-1].Init(im, caster);
+                foreach (var im in skill.SkillImpectors)
+                {
+                    impactors.Add(createImpactor(im.ImpectorName));
+                    impactors[impactors.Count - 1].Init(im, caster);
+                }
             }
+            
 
 
             selector.Init(impactors, caster, skill, aim);

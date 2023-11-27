@@ -106,11 +106,6 @@ namespace Assets.Scripts.Entities
         /// </summary>
         public string IconUrl;
 
-        /// <summary>
-        /// 技能影响组
-        /// </summary>
-        public SkillAffectGroup AffectGroup;
-
         public bool IsHaveNextSkill  => NextSkillId != -1;
     }
 }

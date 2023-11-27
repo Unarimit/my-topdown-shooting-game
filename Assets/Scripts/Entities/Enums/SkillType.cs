@@ -11,7 +11,7 @@ namespace Assets.Scripts.Entities
         /// <summary>
         /// 普通技能
         /// </summary>
-        Nomral,
+        Normal,
         /// <summary>
         /// 衍生技能
         /// </summary>
