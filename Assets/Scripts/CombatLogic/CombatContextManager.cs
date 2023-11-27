@@ -126,7 +126,7 @@ namespace Assets.Scripts.CombatLogic
             if(to.gameObject.layer == TestDB.CHARACTER_LAYER)
             {
                 // Process DMG
-                Operators[to].TakeDamage(val);
+                val = Operators[to].TakeDamage(val);
                 AnimeHelper.Instance.DamageTextEffect(val, to);
                 if (Operators[to].CurrentHP <= 0) OperatorDied(to);
                 else OperatorGotDMG(to);

@@ -60,6 +60,13 @@ namespace Assets.Scripts.Entities
         public float Duration;
 
         /// <summary>
+        /// 技能后摇，在这段时间内，角色不能做任何事
+        /// </summary>
+        public float AfterCastTime = 0;
+
+        public string CharacterAnimeId;
+
+        /// <summary>
         /// 技能释放类型
         /// </summary>
         public SkillReleaserType ReleaserType; 

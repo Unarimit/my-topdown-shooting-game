@@ -36,6 +36,8 @@ namespace Assets.Scripts.Entities
 
         public int MainSkillId = 0;
 
+        public int SlideSkillId = 7;
+
         public List<Fighter> Fighters;
 
         // 需要删除的属性

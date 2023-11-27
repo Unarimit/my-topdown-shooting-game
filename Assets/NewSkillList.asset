@@ -19,18 +19,18 @@ MonoBehaviour:
     Description: sho~
     CoolDown: 20
     Duration: 1
+    AfterCastTime: 0
+    CharacterAnimeId: 
     ReleaserType: 0
     SkillSelector:
       SelectorName: Trigger
       Data: 
+    EffectType: 2
     SkillImpectors:
     - ImpectorName: Damage
       Data: 10
-    DamageType: 1
-    Damage: 10
     NextSkillId: -1
     Ammo: -1
-    EffectType: 2
     PrefabResourceUrl: Beam
     IconUrl: 0-img
     AffectGroup: 4
@@ -40,16 +40,16 @@ MonoBehaviour:
     Description: boom!!
     CoolDown: 5
     Duration: 3
+    AfterCastTime: 0
+    CharacterAnimeId: 
     ReleaserType: 0
     SkillSelector:
       SelectorName: Trigger
       Data: 
+    EffectType: 1
     SkillImpectors: []
-    DamageType: 0
-    Damage: 0
     NextSkillId: 2
     Ammo: -1
-    EffectType: 1
     PrefabResourceUrl: Grenade1
     IconUrl: 1-img
     AffectGroup: 0
@@ -59,18 +59,18 @@ MonoBehaviour:
     Description: boom!!
     CoolDown: 0
     Duration: 1
+    AfterCastTime: 0
+    CharacterAnimeId: 
     ReleaserType: 0
     SkillSelector:
       SelectorName: Trigger
       Data: 
+    EffectType: 0
     SkillImpectors:
     - ImpectorName: Damage
       Data: 5
-    DamageType: 1
-    Damage: 5
     NextSkillId: -1
     Ammo: -1
-    EffectType: 0
     PrefabResourceUrl: Grenade2
     IconUrl: 
     AffectGroup: 4
@@ -80,18 +80,18 @@ MonoBehaviour:
     Description: shoot!
     CoolDown: 0.1
     Duration: 1.5
+    AfterCastTime: 0
+    CharacterAnimeId: 
     ReleaserType: 0
     SkillSelector:
       SelectorName: Trigger
       Data: 
+    EffectType: 3
     SkillImpectors:
     - ImpectorName: Damage
       Data: 2
-    DamageType: 1
-    Damage: 2
     NextSkillId: -1
     Ammo: 30
-    EffectType: 3
     PrefabResourceUrl: Bullet
     IconUrl: ar-1
     AffectGroup: 4
@@ -101,18 +101,18 @@ MonoBehaviour:
     Description: shoot!
     CoolDown: 0.2
     Duration: 1.5
+    AfterCastTime: 0
+    CharacterAnimeId: 
     ReleaserType: 0
     SkillSelector:
       SelectorName: Trigger
       Data: 
+    EffectType: 3
     SkillImpectors:
     - ImpectorName: Damage
       Data: 1
-    DamageType: 1
-    Damage: 1
     NextSkillId: -1
     Ammo: 10
-    EffectType: 3
     PrefabResourceUrl: Bullet
     IconUrl: ar-1
     AffectGroup: 4
@@ -122,16 +122,16 @@ MonoBehaviour:
     Description: 
     CoolDown: 3
     Duration: 0.5
+    AfterCastTime: 0
+    CharacterAnimeId: 
     ReleaserType: 0
     SkillSelector:
       SelectorName: Trigger
       Data: 
+    EffectType: 1
     SkillImpectors: []
-    DamageType: 0
-    Damage: 0
     NextSkillId: 2
     Ammo: -1
-    EffectType: 1
     PrefabResourceUrl: Bullet
     IconUrl: 1-img
     AffectGroup: 4
@@ -141,18 +141,41 @@ MonoBehaviour:
     Description: shoot!
     CoolDown: 0.3
     Duration: 1.5
+    AfterCastTime: 0
+    CharacterAnimeId: 
     ReleaserType: 0
     SkillSelector:
       SelectorName: Trigger
       Data: 
+    EffectType: 3
     SkillImpectors:
     - ImpectorName: Damage
       Data: -1
-    DamageType: 1
-    Damage: -2
     NextSkillId: -1
     Ammo: 10
-    EffectType: 3
     PrefabResourceUrl: HealBullet
     IconUrl: ar-1
     AffectGroup: 4
+  - Type: 0
+    Name: Slide
+    Id: 7
+    Description: 
+    CoolDown: 5
+    Duration: 1
+    AfterCastTime: 1
+    CharacterAnimeId: Slide
+    ReleaserType: 1
+    SkillSelector:
+      SelectorName: Self
+      Data: 
+    EffectType: 0
+    SkillImpectors:
+    - ImpectorName: Slide
+      Data: 1
+    - ImpectorName: Defend
+      Data: 1
+    NextSkillId: -1
+    Ammo: -1
+    PrefabResourceUrl: 
+    IconUrl: ar-1
+    AffectGroup: 0

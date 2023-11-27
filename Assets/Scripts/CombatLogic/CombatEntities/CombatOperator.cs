@@ -1,9 +1,6 @@
 ﻿using Assets.Scripts.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Scripts.CombatLogic.CombatEntities
@@ -50,6 +47,14 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
         /// 武器技能
         /// </summary>
         public CombatCombatSkill WeaponSkill { get; private set; }
+        /// <summary>
+        /// 按c键时的技能
+        /// </summary>
+        public CombatCombatSkill SlideSkill { get; private set; }
+
+        #region 战斗Buffs
+        public float DefendFactor { get; set; } = 0;
+        #endregion
 
         public CombatOperator(Operator op, int team, Transform spawnBase)
         {
@@ -59,14 +64,21 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
             Team = team;
             SpawnBase = spawnBase;
             WeaponSkill = new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[op.WeaponSkillId]);
+            SlideSkill = new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[op.SlideSkillId]);
             CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[op.MainSkillId]));
         }
 
-        public void TakeDamage(int dmg)
+        public int TakeDamage(int dmg)
         {
             LastInCombatTime = Time.time;
-            CurrentHP -= dmg;
-            if(CurrentHP > MaxHP) CurrentHP = MaxHP;
+            int realDmg = (int)Mathf.Ceil(dmg * (1 - DefendFactor));
+            if (CurrentHP - realDmg > MaxHP)
+            {
+                CurrentHP = MaxHP;
+                realDmg = CurrentHP - MaxHP;
+            }
+            CurrentHP -= realDmg;
+            return realDmg;
         }
         public bool TryRecover()
         {

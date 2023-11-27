@@ -1,7 +1,9 @@
 ﻿using Assets.Scripts.CombatLogic.Characters.Computer.Fighter;
 using Assets.Scripts.CombatLogic.CombatEntities;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.Intrinsics;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -66,7 +68,13 @@ namespace Assets.Scripts.CombatLogic.Characters
         /// 用于复原射击动画
         /// </summary>
         private float _shootTime = -1f;
+        /// <summary>
+        /// 角色处于不可控制状态
+        /// </summary>
+        private float _freezeTime = 0;
         #endregion
+
+
 
         #region component
         private GameObject _mainCamera;
@@ -79,6 +87,11 @@ namespace Assets.Scripts.CombatLogic.Characters
 
         public CombatOperator Model { get; private set; } 
         public float Speed => _speed;
+        
+        /// <summary>
+        /// 外部作用力
+        /// </summary>
+        public Vector3 OutForce { get; set; }
 
         private void Awake()
         {
@@ -94,25 +107,18 @@ namespace Assets.Scripts.CombatLogic.Characters
             _gunController = GetComponent<GunController>();
 
             // AssignAnimationIDs
-            _animIDSpeed = Animator.StringToHash("Speed");
-            _animIDGrounded = Animator.StringToHash("Grounded");
-            _animIDJump = Animator.StringToHash("Jump");
-            _animIDFreeFall = Animator.StringToHash("FreeFall");
-            _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
-            _animIDAim = Animator.StringToHash("Aim");
-            _animIDShoot = Animator.StringToHash("Shoot");
-            _animIDASpeed = Animator.StringToHash("ASpeed");
-            _animIDWSpeed = Animator.StringToHash("WSpeed");
-            _animIDSlide = Animator.StringToHash("Slide");
-            _animIDReloading = Animator.StringToHash("Reloading");
+            
         }
         public void Inject(CombatOperator model)
         {
             Model = model;
             initGun();
             initHeadMark();
+            initAnimeId();
 
         }
+
+
         private void Start()
         {
             if (_controller != null)
@@ -127,6 +133,12 @@ namespace Assets.Scripts.CombatLogic.Characters
             groundedCheck();
             closeUnActiveAnimation();
             prepareFighter();
+
+            if(_freezeTime > 0)
+            {
+                _freezeTime -= Time.deltaTime;
+                _controller.Move(OutForce * Time.deltaTime); // TODO：CC的Move方法会互相覆盖，如果想更泛用一些，使用分量替换
+            } 
         }
         /// <summary>
         /// 输入移动偏移量wasd，进行移动
@@ -134,6 +146,7 @@ namespace Assets.Scripts.CombatLogic.Characters
         /// <param name="vec"></param>
         public void Move(Vector2 vec)
         {
+            if (_freezeTime > 0) return;
             if (_controller == null)
             {
                 Debug.LogWarning("do not have CharacterController component");
@@ -196,14 +209,15 @@ namespace Assets.Scripts.CombatLogic.Characters
         {
             if (tryBreakAction(ActionName.Skill))
             {
-                _context.UseSkill(transform, _context.Operators[transform].CombatSkillList[i], aim);
+                _context.UseSkill(transform, Model.CombatSkillList[i], aim);
             }
         }
         public void Slide()
         {
             if (!tryBreakAction(ActionName.Slide)) return;
+            if (!_context.UseSkill(transform, Model.SlideSkill, Vector3.zero)) return;
             _animator.SetBool(_animIDSlide, true);
-            changeCollider(true);
+            _freezeTime += Model.SlideSkill.SkillInfo.AfterCastTime;
             StartCoroutine(delayCloseSlide());
         }
         public void Jump()
@@ -236,6 +250,7 @@ namespace Assets.Scripts.CombatLogic.Characters
             _animator.SetBool(_animIDShoot, false);
             _animator.SetBool(_animIDSlide, false);
         }
+
 
         protected virtual void OnFootstep(AnimationEvent animationEvent)
         {
@@ -381,35 +396,18 @@ namespace Assets.Scripts.CombatLogic.Characters
         }
         private IEnumerator delayCloseSlide()
         {
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForSeconds(Model.SlideSkill.SkillInfo.AfterCastTime);
             _animator.SetBool(_animIDSlide, false);
-            yield return new WaitForSeconds(2f);
-            changeCollider(false);
         }
-        /// <summary>
-        /// 用于下蹲时切换Collider的范围
-        /// </summary>
-        private void changeCollider(bool isSquat)
-        {
-            if (isSquat)
-            {
-                _collider.center = new Vector3(0, 0.475f, 0);
-                _collider.height = 0.75f;
-            }
-            else
-            {
-                _collider.center = new Vector3(0, 0.8f, 0);
-                _collider.height = 1.4f;
-            }
-
-        }
+        
         private enum ActionName
         {
             Slide, Jump, Aim, Shoot, Skill, Reload
         }
         private bool tryBreakAction(ActionName action)
         {
-            if (_animator.GetBool(_animIDJump)) return false;
+            if (_freezeTime > 0) return false;
+            else if (_animator.GetBool(_animIDJump)) return false;
             else if (_animator.GetBool(_animIDReloading)) return false;
             else if (_animator.GetBool(_animIDSlide)) return false;
             return true;
@@ -445,6 +443,21 @@ namespace Assets.Scripts.CombatLogic.Characters
                 if (Model.OpInfo.Type == Entities.OperatorType.CV) t_prefab = ResourceManager.Load<GameObject>("Effects/EnemyCVMark");
             }
             Instantiate(t_prefab, transform);
+        }
+
+        private void initAnimeId()
+        {
+            _animIDSpeed = Animator.StringToHash("Speed");
+            _animIDGrounded = Animator.StringToHash("Grounded");
+            _animIDJump = Animator.StringToHash("Jump");
+            _animIDFreeFall = Animator.StringToHash("FreeFall");
+            _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+            _animIDAim = Animator.StringToHash("Aim");
+            _animIDShoot = Animator.StringToHash("Shoot");
+            _animIDASpeed = Animator.StringToHash("ASpeed");
+            _animIDWSpeed = Animator.StringToHash("WSpeed");
+            _animIDSlide = Animator.StringToHash(Model.SlideSkill.SkillInfo.CharacterAnimeId);
+            _animIDReloading = Animator.StringToHash("Reloading");
         }
 
         private List<FighterController> fighters = new List<FighterController>();
