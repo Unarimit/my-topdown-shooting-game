@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3086615545227190066}
   - component: {fileID: 274288500620238397}
+  - component: {fileID: 718453266620399028}
   m_Layer: 8
   m_Name: Displayer
   m_TagString: Player
@@ -42,7 +43,7 @@ Animator:
   m_GameObject: {fileID: 1113227377600581828}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 40db3173a05ae3242b1c182a09b0a183, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2cd21c5811bea1a4588a3a92df4f1b52, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -53,3 +54,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &718453266620399028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1113227377600581828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6590b603be6ab1488d97b5880c3b21a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
