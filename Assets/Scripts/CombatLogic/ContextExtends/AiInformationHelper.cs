@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.CombatLogic.LevelLogic;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro.EditorUtilities;
 using UnityEngine;
+using static Assets.Scripts.CombatLogic.Characters.Computer.Agent.AgentController;
 
 namespace Assets.Scripts.CombatLogic.ContextExtends
 {
@@ -90,6 +92,43 @@ namespace Assets.Scripts.CombatLogic.ContextExtends
         {
             if (belongTeam == 0) return context.EnemyTeamTrans;
             else return context.PlayerTeamTrans;
+        }
+
+        /// <summary>
+        /// 是否允许自动索敌
+        /// </summary>
+        public static bool CanReact(this CombatContextManager context, int belongTeam)
+        {
+            if(belongTeam == 1)
+            {
+                return GameLevelManager.Instance.IsEnemyCanReact();
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public static Transform TrySeeCounters(this CombatContextManager context, Transform trans, int belongTeam, float findAngle, float findDistance)
+        {
+            var counterGroup = context.GetCounterGroup(belongTeam);
+            var forward = trans.forward;
+            foreach (var x in counterGroup)
+            {
+                if (x == null || context.Operators[x].IsDead) continue;
+                var vec = x.position - trans.position;
+                if (Vector3.Angle(forward, vec) < findAngle && vec.magnitude < findDistance) // in my eyes
+                {
+                    // 确保没有遮挡
+                    Ray ray = new Ray(trans.position, vec);
+                    var hits = Physics.RaycastAll(ray, vec.magnitude, LayerMask.GetMask(new string[] { "Obstacle" }));
+                    if (hits.Length == 0)
+                    {
+                        return x;
+                    }
+                }
+            }
+            return null;
         }
     }
 }

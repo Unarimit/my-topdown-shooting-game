@@ -2,6 +2,7 @@
 using Assets.Scripts.CombatLogic.LevelLogic;
 using Assets.Scripts.Common;
 using System.Collections.Generic;
+using System.Data;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -35,6 +36,7 @@ namespace Assets.Scripts.CombatLogic
             if (TestDB.Level == null || TestDB.Level.TeamOperators == null || TestDB.Level.TeamOperators.Count == 0) // 调试生成
             {
                 Debug.Log("DB has no level info, enter test mode");
+                TestDB.Level = LevelGenerator.GeneratorLevelInfo(TestDB.LevelRules[0]);
                 _context.GenerateTerrain(MapGenerator.RandomMap());
                 // 我方生成
                 var ops = TestDB.GetRandomOperator(5);

@@ -44,6 +44,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent.States
             }
             else if (_context.Operators[_agent.aimTran].IsDead)
             {
+                _agent.StopMoving();
                 _agent.TranslateState(StateType.CaIdle);
             }
         }

@@ -10,6 +10,10 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
     public class GameLevelManager : MonoBehaviour
     {
         public static GameLevelManager Instance;
+        /// <summary>
+        /// 敌方索敌系数
+        /// </summary>
+        public float EnemyAttackFactor { get; private set; }
         private LevelRule _rule;
         /// <summary>
         /// 掉落
@@ -29,10 +33,35 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             CheckAimAndAction();
         }
 
+        /// <summary>
+        /// 超时逻辑
+        /// </summary>
+        private float _time;
+        private void Update()
+        {
+            _time += Time.deltaTime;
+            if(_time > 1)
+            {
+                _time -= 1;
+                addDropout(TestDB.DropoutTable.Time.ToString(), 1);
+            }
+        }
+
+        public bool IsEnemyCanReact()
+        {
+            return EnemyAttackFactor >= _rule.EnemyAttackThreshold;
+        }
+
+
+        #region 掉落和检测相关
         public void CalculateDropout(CombatOperator cOperator)
         {
             if (cOperator.Team == 0) addDropout(TestDB.DropoutTable.KillTeam.ToString(), 1);
-            else if (cOperator.Team == 1) addDropout(TestDB.DropoutTable.KillEnemy.ToString(), 1);
+            else if (cOperator.Team == 1)
+            {
+                addDropout(TestDB.DropoutTable.KillEnemy.ToString(), 1);
+                EnemyAttackFactor += 0.2f;
+            }
         }
         private void addDropout(string key, int value)
         {
@@ -98,5 +127,6 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             }
             return sb.ToString();
         }
+        #endregion
     }
 }

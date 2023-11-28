@@ -70,6 +70,9 @@ namespace Assets.Scripts.Entities
         /// 关卡描述
         /// </summary>
         public string Description;
+        /// <summary>
+        /// 地图大小类型
+        /// </summary>
         public MapSize MapSize;
         /// <summary>
         /// 敌方原型
@@ -87,5 +90,13 @@ namespace Assets.Scripts.Entities
         /// 是否允许复活
         /// </summary>
         public bool AllowRespawn;
+        /// <summary>
+        /// 友方索敌阈值
+        /// </summary>
+        public float TeamAttackThreshold;
+        /// <summary>
+        /// 敌方索敌阈值
+        /// </summary>
+        public float EnemyAttackThreshold;
     }
 }

@@ -19,9 +19,9 @@ namespace Assets.Scripts.Entities
         public string GetWinDesc()
         {
             var sb = new StringBuilder();
-            foreach(var winc in LevelRule.WinCondition)
+            foreach(var con in LevelRule.WinCondition)
             {
-                sb.Append(winc.Description.Replace("{0}", winc.Amount.ToString()));
+                sb.Append(string.Format(con.Description,con.Amount.ToString()));
             }
             return sb.ToString();
         }
@@ -29,9 +29,9 @@ namespace Assets.Scripts.Entities
         public string GetLossDesc()
         {
             var sb = new StringBuilder();
-            foreach (var winc in LevelRule.LossCondition)
+            foreach (var con in LevelRule.LossCondition)
             {
-                sb.Append(winc.Description.Replace("{0}", winc.Amount.ToString()));
+                sb.Append(string.Format(con.Description, con.Amount.ToString()));
             }
             return sb.ToString();
         }

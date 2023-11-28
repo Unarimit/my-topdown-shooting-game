@@ -36,7 +36,15 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent.States
             if(_translateDelta > 1)
             {
                 _translateDelta = 0;
-                _agent.TranslateState(StateType.CaReact);
+                if(_context.CanReact(_agent.Team)) _agent.TranslateState(StateType.CaReact);
+                else
+                {
+                    var aim = _context.GetNealyCounter(_agent.transform, _agent.Team);
+                    if (aim != null && (aim.position - _agent.transform.position).sqrMagnitude < 36)
+                    {
+                        _agent.TranslateState(StateType.CaReact);
+                    }
+                }
             }
         }
     }

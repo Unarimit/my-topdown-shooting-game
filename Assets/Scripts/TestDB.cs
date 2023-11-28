@@ -22,12 +22,14 @@ namespace Assets.Scripts
         public enum DropoutTable
         {
             KillEnemy,
-            KillTeam
+            KillTeam,
+            Time
         }
         #endregion
 
         static TestDB()
         {
+            // 演习作战（聚集分布敌人，进攻性强）、攻城作战（互动单位，中范围聚集分布敌人，进攻性弱）、三角定位（互动单位，和随机位置分布敌人，进攻性弱）
             LevelRules = new List<LevelRule>()
             {
                 new LevelRule
@@ -56,7 +58,7 @@ namespace Assets.Scripts
                             AiAgressive = true,
                         }
                     },
-                    WinCondition = new Condition[]{ 
+                    WinCondition = new Condition[]{
                         new Condition
                         {
                             ItemName =  DropoutTable.KillEnemy.ToString(),
@@ -64,7 +66,7 @@ namespace Assets.Scripts
                             Description = "击杀{0}个敌人"
                         }
                     },
-                    LossCondition = new Condition[]{ 
+                    LossCondition = new Condition[]{
                         new Condition
                         {
                             ItemName =  DropoutTable.KillTeam.ToString(),
@@ -72,7 +74,55 @@ namespace Assets.Scripts
                             Description = "被击杀{0}个队友"
                         }
                     },
-                    AllowRespawn = true
+                    AllowRespawn = true,
+                    TeamAttackThreshold = 0,
+                    EnemyAttackThreshold = 0
+                },
+                new LevelRule
+                {
+                    LevelName = "攻城作战",
+                    Description = "破坏敌人重军防守的主要目标！可能会出现12-14个水平相当的敌人",
+                    MapSize = MapSize.Middle,
+                    OperatorPrefabs = new OperatorPrefab[]
+                    {
+                        new OperatorPrefab
+                        {
+                            OpInfo = GetRandomCA(),
+                            MinAmount = 5,
+                            MaxAmount = 8,
+                            UseRandomCModel = true,
+                            MechaRandomUpgradeFactor = 0,
+                            AiAgressive = true,
+                        },
+                        new OperatorPrefab
+                        {
+                            OpInfo = GetRandomCV(),
+                            MinAmount = 1,
+                            MaxAmount = 2,
+                            UseRandomCModel = true,
+                            MechaRandomUpgradeFactor = 0,
+                            AiAgressive = true,
+                        }
+                    },
+                    WinCondition = new Condition[]{
+                        new Condition
+                        {
+                            ItemName =  DropoutTable.KillEnemy.ToString(),
+                            Amount = 15,
+                            Description = "击杀{0}个敌人"
+                        }
+                    },
+                    LossCondition = new Condition[]{
+                        new Condition
+                        {
+                            ItemName =  DropoutTable.Time.ToString(),
+                            Amount = 120,
+                            Description = "时间经过{0}秒"
+                        }
+                    },
+                    AllowRespawn = true,
+                    TeamAttackThreshold = 0.5f,
+                    EnemyAttackThreshold = 0.5f
                 }
             };
         }
