@@ -51,6 +51,7 @@ namespace Assets.Scripts.Common.EscMenu
         }
         private void quitToStart()
         {
+            SlideUI.CreateSlideUI();
             SceneManager.LoadScene("Start");
         }
     }

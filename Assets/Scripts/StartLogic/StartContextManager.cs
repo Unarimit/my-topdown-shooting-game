@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,7 @@ namespace Assets.Scripts.StartLogic
 
         public void StartGame()
         {
+            SlideUI.CreateSlideUI();
             SceneManager.LoadScene("home");
         }
     }
