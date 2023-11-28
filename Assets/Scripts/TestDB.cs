@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Entities;
 using Assets.Scripts.Entities.Mechas;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -16,6 +17,67 @@ namespace Assets.Scripts
         }
         #endregion
 
+        #region 全局信息（如关卡、仓库状态）
+        public static List<LevelRule> LevelRules { get; private set; }
+        public enum DropoutTable
+        {
+            KillEnemy,
+            KillTeam
+        }
+        #endregion
+
+        static TestDB()
+        {
+            LevelRules = new List<LevelRule>()
+            {
+                new LevelRule
+                {
+                    LevelName = "演习作战",
+                    Description = "达到击杀数就是胜利！可能会出现8-10个水平相当的敌人",
+                    MapSize = MapSize.Middle,
+                    OperatorPrefabs = new OperatorPrefab[]
+                    {
+                        new OperatorPrefab
+                        {
+                            OpInfo = GetRandomCA(),
+                            MinAmount = 5,
+                            MaxAmount = 8,
+                            UseRandomCModel = true,
+                            MechaRandomUpgradeFactor = 0,
+                            AiAgressive = true,
+                        },
+                        new OperatorPrefab
+                        {
+                            OpInfo = GetRandomCV(),
+                            MinAmount = 1,
+                            MaxAmount = 2,
+                            UseRandomCModel = true,
+                            MechaRandomUpgradeFactor = 0,
+                            AiAgressive = true,
+                        }
+                    },
+                    WinCondition = new Condition[]{ 
+                        new Condition
+                        {
+                            ItemName =  DropoutTable.KillEnemy.ToString(),
+                            Amount = 15,
+                            Description = "击杀{0}个敌人"
+                        }
+                    },
+                    LossCondition = new Condition[]{ 
+                        new Condition
+                        {
+                            ItemName =  DropoutTable.KillTeam.ToString(),
+                            Amount = 15,
+                            Description = "被击杀{0}个队友"
+                        }
+                    },
+                    AllowRespawn = true
+                }
+            };
+        }
+
+        // 临时存储，传递到下一个场景的信息
         public static LevelInfo Level { get; set; }
 
         public static List<Operator> GetOperators()
@@ -72,6 +134,10 @@ namespace Assets.Scripts
         }
 
         static List<string> clist = new List<string> { "Hoshino", "Shiroko", "Aru", "Karin", "Mashiro"};
+        public static string GetRandomModelUrl()
+        {
+            return clist[Random.Range(0, clist.Count)];
+        }
         public static Operator GetRandomCA()
         {
             return new Operator

@@ -27,9 +27,9 @@ namespace Assets.Scripts.PrepareLogic.UILogic.LevelUIs
             _levelLossAimTMP = transform.Find("LevelLossAimTMP").GetComponent<TextMeshProUGUI>();
             _levelMapUI = transform.Find("MiniMapRawImage").GetComponent<LevelMapUI>();
 
-            _levelNameTMP.text = _context.Level.LevelName;
-            _levelWinAimTMP.text = $"胜利条件：\n{_context.Level.WinDesc}";
-            _levelLossAimTMP.text = $"失败条件：\n{_context.Level.LossDesc}";
+            _levelNameTMP.text = _context.Level.LevelRule.LevelName;
+            _levelWinAimTMP.text = $"胜利条件：\n{_context.Level.GetWinDesc()}";
+            _levelLossAimTMP.text = $"失败条件：\n{_context.Level.GetLossDesc()}";
             _levelMapUI.DrawMap(_context.Level.Map, _context.Level.TeamSpawn, _context.Level.EnemySpawn);
 
         }

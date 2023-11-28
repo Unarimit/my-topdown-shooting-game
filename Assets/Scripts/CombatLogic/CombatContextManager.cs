@@ -2,6 +2,7 @@
 using Assets.Scripts.CombatLogic.Characters;
 using Assets.Scripts.CombatLogic.Characters.Computer.Fighter;
 using Assets.Scripts.CombatLogic.CombatEntities;
+using Assets.Scripts.CombatLogic.LevelLogic;
 using Assets.Scripts.Common.EscMenu;
 using Assets.Scripts.Entities;
 using Cinemachine;
@@ -147,8 +148,7 @@ namespace Assets.Scripts.CombatLogic
         private void OperatorDied(Transform aim)
         {
             Operators[aim].DoDied();
-            if (Operators[aim].Team == 1) StorageManager.Instance.AddObject("win");
-            if (Operators[aim].Team == 0) StorageManager.Instance.AddObject("loss");
+            GameLevelManager.Instance.CalculateDropout(Operators[aim]);
             aim.GetComponent<DestructiblePersonController>().DoDied();
             if (aim == PlayerTrans)
             {

@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.CombatLogic.CombatEntities;
+using Assets.Scripts.Entities;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace Assets.Scripts.CombatLogic.LevelLogic
@@ -6,57 +10,93 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
     public class GameLevelManager : MonoBehaviour
     {
         public static GameLevelManager Instance;
-        private StorageManager _storageContext;
-
-        const string WIN_OBJECT = "win";
-        const string LOSS_OBJECT = "loss";
-        private int winob_aim = 10;
-        private int lossob_aim = 6;
+        private LevelRule _rule;
+        /// <summary>
+        /// 掉落
+        /// </summary>
+        private Dictionary<string, int> Dropouts = new Dictionary<string, int>();
         private void Awake()
         {
             if (Instance == null) Instance = this;
             else Debug.LogWarning(transform.ToString() + " try to load another Manager");
         }
+        public void Init(LevelRule rule)
+        {
+            _rule = rule;
+        }
         private void Start()
         {
-            _storageContext = StorageManager.Instance;
-            StartCoroutine(DelayOneFrame());
-            
-        }
-        IEnumerator DelayOneFrame()
-        {
-            yield return new WaitForEndOfFrame();
-            AimChangeEvent.Invoke(generateText());
+            CheckAimAndAction();
         }
 
+        public void CalculateDropout(CombatOperator cOperator)
+        {
+            if (cOperator.Team == 0) addDropout(TestDB.DropoutTable.KillTeam.ToString(), 1);
+            else if (cOperator.Team == 1) addDropout(TestDB.DropoutTable.KillEnemy.ToString(), 1);
+        }
+        private void addDropout(string key, int value)
+        {
+            if (!Dropouts.ContainsKey(key)) Dropouts.Add(key, 0);
+            Dropouts[key] += value;
+            CheckAimAndAction();
+        }
+        private int getDropout(string key)
+        {
+            if (Dropouts.ContainsKey(key)) return Dropouts[key];
+            else return 0;
+        }
         public delegate void AimChangeEventHandler(string text);
         public event AimChangeEventHandler AimChangeEvent;
-        public void CheckAim(string key)
+        public void CheckAimAndAction()
         {
 
-            if (key == WIN_OBJECT)
+            if (isMatchWinCondition())
             {
-                if (_storageContext.GetValue(key) >= winob_aim)
-                {
-                    UIManager.Instance.ShowFinish(true);
-                    CombatContextManager.Instance.GameFinish();
-                }
+                UIManager.Instance.ShowFinish(true);
+                CombatContextManager.Instance.GameFinish();
             }
-            if (key == LOSS_OBJECT)  
+            if (isMatchLossCondition())  
             {
-                if (_storageContext.GetValue(key) >= lossob_aim)
-                {
-                    UIManager.Instance.ShowFinish(false);
-                    CombatContextManager.Instance.GameFinish();
-                }
+                UIManager.Instance.ShowFinish(false);
+                CombatContextManager.Instance.GameFinish();
             }
+            
             AimChangeEvent.Invoke(generateText());
 
+        }
+
+        private bool isMatchWinCondition()
+        {
+            foreach (var x in _rule.WinCondition)
+            {
+                if(x.Amount > getDropout(x.ItemName)) return false;
+            }
+            return true;
+        }
+        public bool isMatchLossCondition()
+        {
+            foreach (var x in _rule.LossCondition)
+            {
+                if (x.Amount > getDropout(x.ItemName)) return false;
+            }
+            return true;
         }
         private string generateText()
         {
-            return $"Win: Kill enemy ({_storageContext.GetValue(WIN_OBJECT)}/{winob_aim}) \n" +
-                $"Loss: Team be killed ({_storageContext.GetValue(LOSS_OBJECT)}/{lossob_aim})";
+            var sb = new StringBuilder();
+            sb.Append("胜利条件\n");
+            foreach (var x in _rule.WinCondition)
+            {
+                sb.Append(string.Format(x.Description, $"{getDropout(x.ItemName)}/{x.Amount}"));
+                sb.Append("\n");
+            }
+            sb.Append("失败条件\n");
+            foreach (var x in _rule.LossCondition)
+            {
+                sb.Append(string.Format(x.Description, $"{getDropout(x.ItemName)}/{x.Amount}"));
+                sb.Append("\n");
+            }
+            return sb.ToString();
         }
     }
 }

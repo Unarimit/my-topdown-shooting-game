@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Common
 {
+    /// <summary>
+    /// 弹窗tip
+    /// </summary>
     internal class TipsUI : MonoBehaviour
     {
         public TextMeshProUGUI Text;

@@ -19,11 +19,11 @@ namespace Assets.Scripts.CombatLogic
             PrepareGameScene();
 
             // 组件注册
-            transform.AddComponent<StorageManager>();
-            transform.AddComponent<GameLevelManager>();
             transform.AddComponent<AnimeHelper>();
+            transform.AddComponent<GameLevelManager>().Init(TestDB.Level.LevelRule);
 
             UIManager.Instance.Init();
+
         }
 
         /// <summary>

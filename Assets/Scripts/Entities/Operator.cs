@@ -17,7 +17,7 @@ namespace Assets.Scripts.Entities
     /// 要存入数据库的信息
     /// </summary>
     [Serializable]
-    public class Operator
+    public class Operator : ICloneable
     {
         public OperatorType Type = OperatorType.CA;
         public string Name = "empty";
@@ -54,5 +54,10 @@ namespace Assets.Scripts.Entities
         public MechaBody McBody = MechaBody.DefaultMecha();
         public MechaLeg McLeg = MechaLeg.DefaultMecha();
 
+        //TODO: 使用次数较少，优化这个方案
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

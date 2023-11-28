@@ -53,7 +53,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Fighter
             }
             else
             {
-                t_prefab = ResourceManager.Load<GameObject>("Enemy/EnemyFighterMark");
+                t_prefab = ResourceManager.Load<GameObject>("Effects/EnemyFighterMark");
             }
             Instantiate(t_prefab, m_CharactorTrans);
 

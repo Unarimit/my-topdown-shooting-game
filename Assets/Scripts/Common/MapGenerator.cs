@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Entities;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,6 +43,14 @@ namespace Assets.Scripts.Common
             SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 4);
 
             return res;
+        }
+
+        public static int[][] RandomMap(MapSize mapSize)
+        {
+            // TODO：finish small map and big map generation
+            if (mapSize == MapSize.Big) return RandomMap();
+            else if (mapSize == MapSize.Middle) return RandomMiddleMap();
+            else return RandomMap();
         }
 
         /// <summary>

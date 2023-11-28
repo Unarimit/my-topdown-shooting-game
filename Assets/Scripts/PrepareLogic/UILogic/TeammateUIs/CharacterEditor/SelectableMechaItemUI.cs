@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Entities.Mechas;
+﻿using Assets.Scripts.Common;
+using Assets.Scripts.Entities.Mechas;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
 {
-    internal class SelectableMechaItemUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    internal class SelectableMechaItemUI : MonoBehaviour
     {
         public bool IsSelect
         {
@@ -51,35 +52,11 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
         }
 
 
-        // Tip Panel Logic
-        private GameObject _tipGo;
-        private RectTransform _tipPanel;
-        private TextMeshProUGUI _tipText;
         private void Start()
         {
-            _tipGo = Instantiate(ResourceManager.Load<GameObject>("UIs/TipPanel"), UIManager.Instance.CanvasRoot);
-            _tipPanel = _tipGo.GetComponent<RectTransform>();
-            _tipText = _tipGo.transform.Find("TextTMP").GetComponent<TextMeshProUGUI>();
-            _tipGo.SetActive(false);
-
-            _tipText.text = GenerateText();
-            StartCoroutine(setSizeDelay());
-        }
-        IEnumerator setSizeDelay() // 等待布局计算
-        {
-            yield return new WaitForEndOfFrame();
-            _tipPanel.position = new Vector2(transform.position.x, transform.position.y);
-            _tipPanel.sizeDelta = new Vector2(_tipText.preferredWidth, _tipText.preferredHeight);
+            // add tip panel
+            HoverToolTipUI.CreateHoverToolTip(transform, GenerateText(), 0);
         }
 
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            _tipGo.SetActive(true);
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            _tipGo.SetActive(false);
-        }
     }
 }
