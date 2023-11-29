@@ -11,6 +11,7 @@ namespace Assets.Scripts
         #region 常量配置
         public static readonly int CHARACTER_LAYER = LayerMask.NameToLayer("Character");
         public static readonly int DOBJECT_LAYER = LayerMask.NameToLayer("DestructibleObject");
+        public static readonly string PLAYER_TAG = "Player";
         public enum SkillSelectorStr
         {
             Trigger

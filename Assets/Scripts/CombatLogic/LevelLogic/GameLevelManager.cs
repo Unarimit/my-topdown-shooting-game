@@ -52,6 +52,11 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             return EnemyAttackFactor >= _rule.EnemyAttackThreshold;
         }
 
+        public void FinishInteract(string interId)
+        {
+
+        }
+
 
         #region 掉落和检测相关
         public void CalculateDropout(CombatOperator cOperator)

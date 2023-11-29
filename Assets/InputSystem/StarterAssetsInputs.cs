@@ -25,6 +25,7 @@ namespace StarterAssets
         public bool reloading;
 		public bool skill1;
 		public bool skill2;
+		public bool interact;
 
         [Header("Movement Settings")]
 		public bool analogMovement;
@@ -123,7 +124,10 @@ namespace StarterAssets
 		{
 			ViewChangeManager.Instance.ChangeVew();
 		}
-
+		public void OnInteract(InputValue value)
+        {
+            interact = value.isPressed;
+        }
 
 
 #endif

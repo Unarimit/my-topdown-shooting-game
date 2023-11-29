@@ -1,9 +1,11 @@
 ﻿using Assets.Scripts.BulletLogic;
 using StarterAssets;
+using System;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
 #endif
+using Random = UnityEngine.Random;
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
  */
@@ -18,10 +20,15 @@ namespace Assets.Scripts.CombatLogic.Characters.Player
         public AudioClip[] FootstepAudioClips;
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
 
+        public delegate void InteractEvent();
+        public event InteractEvent InteractEventHandler;
+
+        #region component
         private OperatorController _controller;
         private StarterAssetsInputs _input;
         private CombatContextManager _context;
         private DestructiblePersonController _destructiblePersonController;
+        #endregion
         private void Start()
         {
             _controller = GetComponent<OperatorController>();
@@ -48,8 +55,12 @@ namespace Assets.Scripts.CombatLogic.Characters.Player
                 _controller.Jump();
                 _input.jump = false;
             }
-            if (_input.slide) _controller.Slide();
-            if (_input.reloading) _controller.Reload();
+            else if (_input.slide) _controller.Slide();
+            else if (_input.reloading) _controller.Reload();
+            else if (_input.interact)
+            {
+                if(InteractEventHandler != null) InteractEventHandler.Invoke();
+            }
 
         }
         private void Move()
