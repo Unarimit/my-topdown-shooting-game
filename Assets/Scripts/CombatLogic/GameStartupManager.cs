@@ -1,11 +1,12 @@
 ﻿using Assets.Scripts.CombatLogic.EnviormentLogic;
 using Assets.Scripts.CombatLogic.LevelLogic;
 using Assets.Scripts.Common;
-using System.Collections.Generic;
-using System.Data;
+using Assets.Scripts.Entities;
+using System;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.CombatLogic
 {
@@ -17,11 +18,24 @@ namespace Assets.Scripts.CombatLogic
 
             transform.GetComponent<SkillManager>().Init();
 
-            PrepareGameScene();
+            LevelInfo level;
+            if (TestDB.Level == null || TestDB.Level.TeamOperators == null || TestDB.Level.TeamOperators.Count == 0) // 调试生成
+            {
+                Debug.Log("DB has no level info, enter test mode");
+                level = LevelGenerator.GeneratorLevelInfo(TestDB.LevelRules[0]);
+                level.TeamOperators = TestDB.GetRandomOperator(5);
+            }
+            else
+            {
+                level = TestDB.Level;
+            }
+            level.TeamOperators[0].McBody.HP = 100;
+
+            prepareGameScene(level);
 
             // 组件注册
             transform.AddComponent<AnimeHelper>();
-            transform.AddComponent<GameLevelManager>().Init(TestDB.Level.LevelRule);
+            transform.AddComponent<GameLevelManager>().Init(level.LevelRule);
 
             UIManager.Instance.Init();
 
@@ -30,75 +44,90 @@ namespace Assets.Scripts.CombatLogic
         /// <summary>
         /// 根据信息放置地形和人物
         /// </summary>
-        private void PrepareGameScene()
+        private void prepareGameScene(LevelInfo level)
         {
+            // terrain
+            _context.GenerateTerrain(level.Map);
 
-            if (TestDB.Level == null || TestDB.Level.TeamOperators == null || TestDB.Level.TeamOperators.Count == 0) // 调试生成
+            // team
             {
-                Debug.Log("DB has no level info, enter test mode");
-                TestDB.Level = LevelGenerator.GeneratorLevelInfo(TestDB.LevelRules[0]);
-                _context.GenerateTerrain(MapGenerator.RandomMap());
-                // 我方生成
-                var ops = TestDB.GetRandomOperator(5);
-                ops[0].WeaponSkillId = 3;
-                ops[0].MainSkillId = 1;
-                ops[0].McBody.HP = 100;
-                ops[1] = TestDB.GetRandomCV();
+                var ops = level.TeamOperators;
+                var spawn = level.LevelRule.TeamSpawn;
 
-                Vector3 init = new Vector3(Random.Range(5, 15), 0, Random.Range(5, 15));
-                _context.GeneratePlayer(ops[0], init, Vector3.zero, transform);
-                for (int i = 1; i < ops.Count; i++)
+                var spawnTrans = new GameObject().transform;
+                spawnTrans.parent = transform;
+                spawnTrans.gameObject.name = "TeamSpawnGO";
+
+                spawnTrans.position = new Vector3(spawn.x + Random.Range(0, spawn.width), 0, spawn.y + Random.Range(0, spawn.height));
+
+                for (int i = 0; i < ops.Count; i++)
                 {
-                    _context.GenerateAgent(ops[i], init, Vector3.zero, 0, transform);
+                    var v3 = new Vector3(spawn.x + Random.Range(0, spawn.width), 0, spawn.y + Random.Range(0, spawn.height));
+                    if (i == 0) _context.GeneratePlayer(ops[i], v3, Vector3.zero, spawnTrans);
+                    else _context.GenerateAgent(ops[i], v3, Vector3.zero, 0, spawnTrans);
                 }
-                // 敌方生成
-                Vector3 einit = new Vector3(Random.Range(37, 57), 0, Random.Range(37, 57));
             }
-            else
+            // enemy
             {
-                // terrain
-                _context.GenerateTerrain(TestDB.Level.Map);
+                var ops = level.EnemyOperators;
+                var spawn = level.LevelRule.EnemySpawn;
 
-                // team
+                var spawnTrans = new GameObject().transform;
+                spawnTrans.parent = transform;
+                spawnTrans.gameObject.name = "EnemySpawnGO";
+
+                spawnTrans.position = new Vector3(spawn.x + Random.Range(0, spawn.width), 0, spawn.y + Random.Range(0, spawn.height));
+
+                for (int i = 0; i < ops.Count; i++) // 位置
                 {
-                    var ops = TestDB.Level.TeamOperators;
-                    var spawn = TestDB.Level.TeamSpawn;
+                    _context.GenerateAgent(ops[i], GetPosByInitMethod(level, level.EnemyOperatorsBy[i].InitPosition), Vector3.zero, 1, spawnTrans);
+                }
+            }
 
-                    var spawnTrans = new GameObject().transform;
-                    spawnTrans.parent = transform;
-                    spawnTrans.gameObject.name = "TeamSpawnGO";
-
-                    spawnTrans.position = new Vector3(spawn.x + Random.Range(0, spawn.width), 0, spawn.y + Random.Range(0, spawn.height));
-
-                    for (int i = 0; i < ops.Count; i++)
+            // interactable object
+            if(level.LevelRule.InteractablePrefabs != null)
+            {
+                foreach (var inter in level.LevelRule.InteractablePrefabs)
+                {
+                    int len = Random.Range(inter.MinAmount, inter.MaxAmount);
+                    for (int _ = 0; _ < len; _++)
                     {
-                        var v3 = new Vector3(spawn.x + Random.Range(0, spawn.width), 0, spawn.y + Random.Range(0, spawn.height));
-                        if (i == 0) _context.GeneratePlayer(ops[i], v3, Vector3.zero, spawnTrans);
-                        else _context.GenerateAgent(ops[i], v3, Vector3.zero, 0, spawnTrans);
+                        var trans = InteractableObjectController.CreateInteractableObject(inter);
+                        var p = ResourceManager.Load<GameObject>(inter.ModelUrl);
+                        Instantiate(p, trans);
+                        trans.position = GetPosByInitMethod(level, inter.InitPosition);
                     }
                 }
-                // enemy
-                {
-                    var ops = TestDB.Level.EnemyOperators;
-                    var spawn = TestDB.Level.EnemySpawn;
-
-                    var spawnTrans = new GameObject().transform;
-                    spawnTrans.parent = transform;
-                    spawnTrans.gameObject.name = "EnemySpawnGO";
-
-                    spawnTrans.position = new Vector3(spawn.x + Random.Range(0, spawn.width), 0, spawn.y + Random.Range(0, spawn.height));
-
-                    for (int i = 0; i < ops.Count; i++)
-                    {
-                        var v3 = new Vector3(spawn.x + Random.Range(0, spawn.width), 0, spawn.y + Random.Range(0, spawn.height));
-                        _context.GenerateAgent(ops[i], v3, Vector3.zero, 1, spawnTrans);
-                    }
-                }
-
             }
+            
+
             //TODO: bake navmap
             var nm = transform.Find("NavMesh Surface").GetComponent<NavMeshSurface>();
             nm.UpdateNavMesh(nm.navMeshData);
         }
+
+        
+        private Vector3 GetPosByInitMethod(LevelInfo level, InitPosition method)
+        {
+            if(method == InitPosition.EnemySpawnCenter)
+            {
+                return new Vector3(level.LevelRule.EnemySpawn.center.x, 0, level.LevelRule.EnemySpawn.center.y);
+            }
+            else if(method == InitPosition.EnemySpawnScatter)
+            {
+                var spawn = level.LevelRule.EnemySpawn;
+                return new Vector3(spawn.x + Random.Range(0, spawn.width), 0, spawn.y + Random.Range(0, spawn.height));
+            }
+            else if(method == InitPosition.MapScatter)
+            {
+                return new Vector3(Random.Range(0, level.Map.Length), 0, Random.Range(0, level.Map[0].Length));
+            }
+            else
+            {
+                Debug.LogWarning("cannot match a init type");
+                return Vector3.zero;
+            }
+        }
+
     }
 }

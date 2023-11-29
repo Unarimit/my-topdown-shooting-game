@@ -52,13 +52,16 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             return EnemyAttackFactor >= _rule.EnemyAttackThreshold;
         }
 
-        public void FinishInteract(string interId)
-        {
-
-        }
 
 
         #region 掉落和检测相关
+        public void FinishInteract(InteractablePrefab interactable)
+        {
+            foreach(var pair in interactable.Dropouts)
+            {
+                addDropout(pair.Key, pair.Value);
+            }
+        }
         public void CalculateDropout(CombatOperator cOperator)
         {
             if (cOperator.Team == 0) addDropout(TestDB.DropoutTable.KillTeam.ToString(), 1);

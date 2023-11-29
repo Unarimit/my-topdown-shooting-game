@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.CombatLogic.Characters.Player;
+using Assets.Scripts.Entities;
 using DG.Tweening;
 using JetBrains.Annotations;
 using TMPro;
@@ -16,9 +17,8 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         GameObject _tipsGO;
 
         // field
-        private float _duration = 1;
+        private InteractablePrefab _model;
         private float _curDuration = 0;
-        private string _interId;
 
         /// <summary>
         /// 创建一个互动物体
@@ -26,19 +26,18 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         /// <param name="interText">互动提示词</param>
         /// <param name="duration">互动需要持续时间</param>
         /// <returns></returns>
-        public static Transform CreateInteractableObject(string interText, float duration, string interId)
+        public static Transform CreateInteractableObject(InteractablePrefab model)
         {
             var prefab = ResourceManager.Load<GameObject>("Characters/InteractableObject");
             var go = Instantiate(prefab, CombatContextManager.Instance.Enviorment);
-            go.GetComponent<InteractableObjectController>().Init(interText, duration, interId);
+            go.GetComponent<InteractableObjectController>().Init(model);
             return go.transform;
         }
 
-        public void Init(string interText, float duration, string interId)
+        public void Init(InteractablePrefab model)
         {
-            _duration = duration;
-            _interId = interId;
-            if (interText != null) _tipsGO.transform.Find("TextTMP").GetComponent<TextMeshProUGUI>().text = interText;
+            _model = model;
+            if (model.InteractTip != null) _tipsGO.transform.Find("TextTMP").GetComponent<TextMeshProUGUI>().text = model.InteractTip;
         }
 
         private void Awake()
@@ -82,23 +81,25 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         }
         private void doInteract()
         {
+            if (!this.enabled) return;
             _tipsGO.SetActive(false);
             _slider.gameObject.SetActive(true);
-            if(_curDuration > _duration)
+            if(_curDuration > _model.Duration)
             {
                 finishInteract();
             }
-            if (_duration != 0)
+            else if (_model.Duration != 0)
             {
                 _curDuration += Time.deltaTime;
-                _slider.value = _curDuration / _duration;
+                _slider.value = _curDuration / _model.Duration;
             }
             
         }
         private void finishInteract()
         {
             gameObject.SetActive(false);
-            GameLevelManager.Instance.FinishInteract(_interId);
+            this.enabled = false;
+            GameLevelManager.Instance.FinishInteract(_model);
         }
     }
 }

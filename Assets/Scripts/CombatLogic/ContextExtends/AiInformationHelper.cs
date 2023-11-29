@@ -1,9 +1,6 @@
 ﻿using Assets.Scripts.CombatLogic.LevelLogic;
 using System.Collections.Generic;
-using System.Linq;
-using TMPro.EditorUtilities;
 using UnityEngine;
-using static Assets.Scripts.CombatLogic.Characters.Computer.Agent.AgentController;
 
 namespace Assets.Scripts.CombatLogic.ContextExtends
 {

@@ -3,6 +3,8 @@ using Assets.Scripts.Entities.Mechas;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using static Cinemachine.DocumentationSortingAttribute;
 
 namespace Assets.Scripts
 {
@@ -24,7 +26,8 @@ namespace Assets.Scripts
         {
             KillEnemy,
             KillTeam,
-            Time
+            Time,
+            Key
         }
         #endregion
 
@@ -38,6 +41,8 @@ namespace Assets.Scripts
                     LevelName = "演习作战",
                     Description = "达到击杀数就是胜利！可能会出现8-10个水平相当的敌人",
                     MapSize = MapSize.Middle,
+                    TeamSpawn = new RectInt(5, 5, 5, 5),
+                    EnemySpawn = new RectInt(25, 25, 5, 5),
                     OperatorPrefabs = new OperatorPrefab[]
                     {
                         new OperatorPrefab
@@ -48,6 +53,7 @@ namespace Assets.Scripts
                             UseRandomCModel = true,
                             MechaRandomUpgradeFactor = 0,
                             AiAgressive = true,
+                            InitPosition = InitPosition.EnemySpawnScatter,
                         },
                         new OperatorPrefab
                         {
@@ -57,6 +63,7 @@ namespace Assets.Scripts
                             UseRandomCModel = true,
                             MechaRandomUpgradeFactor = 0,
                             AiAgressive = true,
+                            InitPosition = InitPosition.EnemySpawnScatter,
                         }
                     },
                     WinCondition = new Condition[]{
@@ -82,8 +89,10 @@ namespace Assets.Scripts
                 new LevelRule
                 {
                     LevelName = "攻城作战",
-                    Description = "破坏敌人重军防守的主要目标！可能会出现12-14个水平相当的敌人",
+                    Description = "深入敌营，破坏敌人重军防守的主要目标！可能会出现12-14个水平相当的敌人",
                     MapSize = MapSize.Middle,
+                    TeamSpawn = new RectInt(5, 5, 5, 5),
+                    EnemySpawn = new RectInt(25, 25, 5, 5),
                     OperatorPrefabs = new OperatorPrefab[]
                     {
                         new OperatorPrefab
@@ -94,6 +103,7 @@ namespace Assets.Scripts
                             UseRandomCModel = true,
                             MechaRandomUpgradeFactor = 0,
                             AiAgressive = true,
+                            InitPosition = InitPosition.EnemySpawnScatter,
                         },
                         new OperatorPrefab
                         {
@@ -103,14 +113,97 @@ namespace Assets.Scripts
                             UseRandomCModel = true,
                             MechaRandomUpgradeFactor = 0,
                             AiAgressive = true,
+                            InitPosition = InitPosition.EnemySpawnScatter,
+                        }
+                    },
+                    InteractablePrefabs = new InteractablePrefab[]
+                    {
+                        new InteractablePrefab
+                        {
+                            ObjectId = "secret",
+                            InteractTip = "破坏",
+                            Duration = 3,
+                            MinAmount = 1,
+                            MaxAmount = 1,
+                            InitPosition = InitPosition.EnemySpawnCenter,
+                            Dropouts = new KeyValuePair<string, int>[] {
+                                new KeyValuePair<string, int>(DropoutTable.Key.ToString(), 1),
+                            },
+                            ModelUrl = "Objects/Key",
                         }
                     },
                     WinCondition = new Condition[]{
                         new Condition
                         {
-                            ItemName =  DropoutTable.KillEnemy.ToString(),
-                            Amount = 15,
-                            Description = "击杀{0}个敌人"
+                            ItemName =  DropoutTable.Key.ToString(),
+                            Amount = 1,
+                            Description = "摧毁{0}个红色方块"
+                        }
+                    },
+                    LossCondition = new Condition[]{
+                        new Condition
+                        {
+                            ItemName =  DropoutTable.Time.ToString(),
+                            Amount = 120,
+                            Description = "时间经过{0}秒"
+                        }
+                    },
+                    AllowRespawn = true,
+                    TeamAttackThreshold = 0.5f,
+                    EnemyAttackThreshold = 0.5f
+                },
+                new LevelRule
+                {
+                    LevelName = "三角定位",
+                    Description = "激活地图上的三个红色方块！小心散落在地图上的敌人",
+                    MapSize = MapSize.Middle,
+                    TeamSpawn = new RectInt(5, 5, 5, 5),
+                    EnemySpawn = new RectInt(15, 15, 5, 5),
+                    OperatorPrefabs = new OperatorPrefab[]
+                    {
+                        new OperatorPrefab
+                        {
+                            OpInfo = GetRandomCA(),
+                            MinAmount = 5,
+                            MaxAmount = 8,
+                            UseRandomCModel = true,
+                            MechaRandomUpgradeFactor = 0,
+                            AiAgressive = true,
+                            InitPosition = InitPosition.MapScatter,
+                        },
+                        new OperatorPrefab
+                        {
+                            OpInfo = GetRandomCV(),
+                            MinAmount = 1,
+                            MaxAmount = 2,
+                            UseRandomCModel = true,
+                            MechaRandomUpgradeFactor = 0,
+                            AiAgressive = true,
+                            InitPosition = InitPosition.MapScatter,
+                        }
+                    },
+                    InteractablePrefabs = new InteractablePrefab[]
+                    {
+                        new InteractablePrefab
+                        {
+                            ObjectId = "secret",
+                            InteractTip = "激活",
+                            Duration = 3,
+                            MinAmount = 3,
+                            MaxAmount = 3,
+                            InitPosition = InitPosition.MapScatter,
+                            Dropouts = new KeyValuePair<string, int>[] {
+                                new KeyValuePair<string, int>(DropoutTable.Key.ToString(), 1),
+                            },
+                            ModelUrl = "Objects/Key",
+                        }
+                    },
+                    WinCondition = new Condition[]{
+                        new Condition
+                        {
+                            ItemName =  DropoutTable.Key.ToString(),
+                            Amount = 3,
+                            Description = "激活{0}个红色方块"
                         }
                     },
                     LossCondition = new Condition[]{

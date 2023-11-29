@@ -10,7 +10,7 @@ namespace Assets.Scripts.HomeLogic.UILogic.ActionUIs
 {
     internal class ActionUI : MonoBehaviour
     {
-        private HomeContextManager _context = HomeContextManager.Instance;
+        private HomeContextManager _context => HomeContextManager.Instance;
         public void Enter()
         {
             ((RectTransform)transform).sizeDelta = new Vector2(800, 0);

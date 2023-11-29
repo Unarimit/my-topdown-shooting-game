@@ -30,7 +30,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.LevelUIs
             _levelNameTMP.text = _context.Level.LevelRule.LevelName;
             _levelWinAimTMP.text = $"胜利条件：\n{_context.Level.GetWinDesc()}";
             _levelLossAimTMP.text = $"失败条件：\n{_context.Level.GetLossDesc()}";
-            _levelMapUI.DrawMap(_context.Level.Map, _context.Level.TeamSpawn, _context.Level.EnemySpawn);
+            _levelMapUI.DrawMap(_context.Level.Map, _context.Level.LevelRule.TeamSpawn, _context.Level.LevelRule.EnemySpawn);
 
         }
     }

@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.Scripts.Entities
 {
     public enum MapSize
     {
         Small,Middle,Big
+    }
+    public enum InitPosition
+    {
+        EnemySpawnCenter, EnemySpawnScatter, MapScatter
     }
     public struct OperatorPrefab
     {
@@ -40,7 +45,45 @@ namespace Assets.Scripts.Entities
         /// AI进攻性
         /// </summary>
         public bool AiAgressive;
-        //TODO: 摆放位置
+        /// <summary>
+        /// 初始化位置
+        /// </summary>
+        public InitPosition InitPosition;
+    }
+    public class InteractablePrefab
+    {
+        /// <summary>
+        /// 物体Id
+        /// </summary>
+        public string ObjectId;
+        /// <summary>
+        /// 互动提示词
+        /// </summary>
+        public string InteractTip;
+        /// <summary>
+        /// 互动时间
+        /// </summary>
+        public float Duration;
+        /// <summary>
+        /// 最小数量
+        /// </summary>
+        public int MinAmount;
+        /// <summary>
+        /// 最大数量
+        /// </summary>
+        public int MaxAmount;
+        /// <summary>
+        /// 物体模型路径
+        /// </summary>
+        public string ModelUrl;
+        /// <summary>
+        /// 掉落
+        /// </summary>
+        public KeyValuePair<string, int>[] Dropouts;
+        /// <summary>
+        /// 初始化位置
+        /// </summary>
+        public InitPosition InitPosition;
     }
     public struct Condition
     {
@@ -57,6 +100,7 @@ namespace Assets.Scripts.Entities
         /// </summary>
         public string Description;
     }
+
     /// <summary>
     /// 关卡生成规则
     /// </summary>
@@ -79,6 +123,10 @@ namespace Assets.Scripts.Entities
         /// </summary>
         public OperatorPrefab[] OperatorPrefabs;
         /// <summary>
+        /// 可互动物品原型
+        /// </summary>
+        public InteractablePrefab[] InteractablePrefabs;
+        /// <summary>
         /// 获胜条件
         /// </summary>
         public Condition[] WinCondition;
@@ -98,5 +146,13 @@ namespace Assets.Scripts.Entities
         /// 敌方索敌阈值
         /// </summary>
         public float EnemyAttackThreshold;
+        /// <summary>
+        /// 敌方出生点
+        /// </summary>
+        public RectInt EnemySpawn;
+        /// <summary>
+        /// 我出生点
+        /// </summary>
+        public RectInt TeamSpawn;
     }
 }

@@ -11,10 +11,8 @@ namespace Assets.Scripts.Entities
         public LevelRule LevelRule;
         public int[][] Map;
         public List<Operator> EnemyOperators;
-        public RectInt EnemySpawn;
-
+        public List<OperatorPrefab> EnemyOperatorsBy;
         public List<Operator> TeamOperators;
-        public RectInt TeamSpawn;
 
         public string GetWinDesc()
         {
