@@ -1,7 +1,11 @@
 ﻿using DG.Tweening;
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
+using static UnityEngine.Rendering.HDROutputUtils;
 
 namespace Assets.Scripts.Common.EscMenu
 {
@@ -52,7 +56,7 @@ namespace Assets.Scripts.Common.EscMenu
         private void quitToStart()
         {
             SlideUI.CreateSlideUI();
-            SceneManager.LoadScene("Start");
+            SceneManager.LoadSceneAsync("Start", LoadSceneMode.Single);
         }
     }
 }

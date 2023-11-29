@@ -20,10 +20,24 @@ namespace Assets.Scripts.Common
             DontDestroyOnLoad(go);
             return go.AddComponent<SlideUI>();
         }
+        RectTransform _panelRect;
         private void Start()
         {
-            var pt = transform.Find("Panel").GetComponent<RectTransform>();
-            pt.DOSizeDelta(new Vector2(0, pt.rect.height), 0.5f).OnComplete(() =>
+            _panelRect = transform.Find("Panel").GetComponent<RectTransform>();
+            var cg = GetComponent<CanvasGroup>();
+            cg.alpha = 0;
+            cg.DOFade(1, 0.2f).SetUpdate(UpdateType.Normal, true).OnComplete(() =>
+            {
+                End();
+            });
+        }
+
+        /// <summary>
+        /// TODO: 传入异步加载的参数
+        /// </summary>
+        private void End()
+        {
+            _panelRect.DOSizeDelta(new Vector2(0, _panelRect.rect.height), 0.5f).OnComplete(() =>
             {
                 Destroy(gameObject);
             });
