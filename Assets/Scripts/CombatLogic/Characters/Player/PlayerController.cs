@@ -20,7 +20,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Player
         public AudioClip[] FootstepAudioClips;
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
 
-        public delegate void InteractEvent();
+        public delegate void InteractEvent(Transform trans);
         public event InteractEvent InteractEventHandler;
 
         #region component
@@ -59,7 +59,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Player
             else if (_input.reloading) _controller.Reload();
             else if (_input.interact)
             {
-                if(InteractEventHandler != null) InteractEventHandler.Invoke();
+                if(InteractEventHandler != null) InteractEventHandler.Invoke(transform);
             }
 
         }

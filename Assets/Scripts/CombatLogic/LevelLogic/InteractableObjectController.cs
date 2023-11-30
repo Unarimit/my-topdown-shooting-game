@@ -79,9 +79,13 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             });
 
         }
-        private void doInteract()
+        private void doInteract(Transform trans)
         {
-            if (!this.enabled) return;
+            if (!this.enabled)
+            {
+                trans.GetComponent<PlayerController>().InteractEventHandler -= doInteract;
+                return;
+            }
             _tipsGO.SetActive(false);
             _slider.gameObject.SetActive(true);
             if(_curDuration > _model.Duration)
