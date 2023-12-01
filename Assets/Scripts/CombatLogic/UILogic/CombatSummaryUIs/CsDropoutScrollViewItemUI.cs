@@ -6,7 +6,7 @@ namespace Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs
     /// <summary>
     /// 结算界面的掉落物UI，主要是动画显示
     /// </summary>
-    internal class DropoutScrollViewItemUI : MonoBehaviour
+    internal class CsDropoutScrollViewItemUI : MonoBehaviour
     {
         private void Start()
         {

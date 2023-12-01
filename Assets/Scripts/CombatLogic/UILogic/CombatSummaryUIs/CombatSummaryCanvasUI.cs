@@ -39,7 +39,7 @@ namespace Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs
 
             // anime
             tweenResultText();
-            tweenRankPanel();
+            tweenRankPanel(sortedOperators);
             tweenResoucePanel();
 
         }
@@ -47,12 +47,13 @@ namespace Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs
         RectTransform resultTextWarp;
         RectTransform rankPanel;
         RectTransform resourcePanel;
+        CsRankScrollViewUI rankPanelScrollView;
         private void Awake()
         {
             // panels
             rankPanel = transform.Find("RankPanel").GetComponent<RectTransform>();
             resourcePanel = transform.Find("ResourcePanel").GetComponent<RectTransform>();
-
+            rankPanelScrollView = rankPanel.Find("Scroll View").GetComponent<CsRankScrollViewUI>();
             // button
             transform.Find("ConfirmButton").GetComponent<Button>().onClick.AddListener(() =>
             {
@@ -66,12 +67,13 @@ namespace Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs
             resultTextWarp.sizeDelta = new Vector2(0, resultTextWarp.rect.height);
             resultTextWarp.DOSizeDelta(initSize, 0.5f);
         }
-        private void tweenRankPanel()
+        private void tweenRankPanel(List<CombatOperator> sortedOperators)
         {
             var rankCg = rankPanel.GetComponent<CanvasGroup>();
             rankCg.alpha = 0;
             DOVirtual.DelayedCall(2, () =>
             {
+                rankPanelScrollView.Inject(sortedOperators);
                 rankCg.DOFade(1, 0.5f);
             });
         }

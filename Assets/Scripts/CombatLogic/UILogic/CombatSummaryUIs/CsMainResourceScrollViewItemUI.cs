@@ -8,7 +8,7 @@ namespace Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs
     /// <summary>
     /// 结算界面的资源项变动UI，主要是动画显示
     /// </summary>
-    internal class MainResourceScrollViewItemUI : MonoBehaviour
+    internal class CsMainResourceScrollViewItemUI : MonoBehaviour
     {
         // WIP，inspector中使用
         public string ItemName;
