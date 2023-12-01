@@ -88,7 +88,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Fighter
         /// </summary>
         public void DiveBombing(Vector3 aim)
         {
-            _context.UseSkill(m_CharactorTrans, _skill, aim);
+            _context.UseSkill(transform, _skill, aim, m_CharactorTrans.position + new Vector3(0, 0.5f, 0), m_CharactorTrans.eulerAngles);
         }
 
 

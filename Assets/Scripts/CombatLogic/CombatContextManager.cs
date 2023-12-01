@@ -5,6 +5,7 @@ using Assets.Scripts.CombatLogic.CombatEntities;
 using Assets.Scripts.CombatLogic.LevelLogic;
 using Assets.Scripts.Common.EscMenu;
 using Assets.Scripts.Entities;
+using Assets.Scripts.PrepareLogic;
 using Cinemachine;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,7 @@ namespace Assets.Scripts.CombatLogic
         /// 所有干员列表，在start初始化
         /// </summary>
         public Dictionary<Transform, CombatOperator> Operators { get; private set; }
+        internal Dictionary<Transform, FighterController> Fighters { get; private set; } = new Dictionary<Transform, FighterController>();
 
         public Transform PlayerTrans { get; private set; }
 
@@ -128,6 +130,12 @@ namespace Assets.Scripts.CombatLogic
             {
                 // Process DMG
                 val = Operators[to].TakeDamage(val);
+                // statistic
+                if (Operators.ContainsKey(from)) Operators[from].ActAttack(val);
+                else if (Fighters.ContainsKey(from)) Operators[Fighters[from].CvBase].ActAttack(val);
+                else Debug.LogWarning($"{from.gameObject.name}: can not be search in combat dic");
+                
+                // effect
                 AnimeHelper.Instance.DamageTextEffect(val, to);
                 if (Operators[to].CurrentHP <= 0) OperatorDied(to);
                 else OperatorGotDMG(to);
@@ -299,11 +307,17 @@ namespace Assets.Scripts.CombatLogic
             // 初始化
             var prefab = ResourceManager.Load<GameObject>("Characters/Fighter");
             var go = Instantiate(prefab, _agentsSpawnTrans);
-
+            
             // 挂components
             // animator component
             GetComponent<FbxLoadManager>().LoadModel(OpInfo.ModelResourceUrl, go.transform.Find("modelroot"), go.transform, false);
-            go.GetComponent<FighterController>().CvBase = cvBase;
+
+            // Add FighterController, set cvBase and add to dictionary
+            {
+                var con = go.GetComponent<FighterController>();
+                con.CvBase = cvBase;
+                Fighters.Add(go.transform, con);
+            }
 
             go.transform.position = pos;
             go.transform.eulerAngles = angle;
@@ -332,6 +346,17 @@ namespace Assets.Scripts.CombatLogic
 
             return go.transform;
 
+        }
+
+        public Transform GenerateMvpDisplayer(Operator opInfo, Vector3 pos, Vector3 angle)
+        {
+            var prefab = ResourceManager.Load<GameObject>("Characters/MvpDisplayer");
+            var go = Instantiate(prefab, _agentsSpawnTrans);
+            GetComponent<FbxLoadManager>().LoadModel(opInfo.ModelResourceUrl, go.transform.Find("modelroot"), go.transform.Find("modelroot"), false);
+            go.transform.position = pos;
+            go.transform.eulerAngles = angle;
+
+            return go.transform;
         }
 
         // ********************* UI logic *********************

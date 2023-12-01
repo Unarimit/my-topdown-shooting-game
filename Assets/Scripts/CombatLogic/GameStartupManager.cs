@@ -2,10 +2,10 @@
 using Assets.Scripts.CombatLogic.LevelLogic;
 using Assets.Scripts.Common;
 using Assets.Scripts.Entities;
-using System;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.CombatLogic
@@ -13,6 +13,12 @@ namespace Assets.Scripts.CombatLogic
     internal class GameStartupManager : MonoBehaviour
     {
         CombatContextManager _context => CombatContextManager.Instance;
+
+        public void OnTestKey(InputValue value)
+        {
+            GameLevelManager.Instance.TestFunction();
+        }
+
         public void Start()
         {
 

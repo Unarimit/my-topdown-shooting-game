@@ -1,29 +1,70 @@
-﻿using DG.Tweening;
+﻿using Assets.Scripts.CombatLogic.CombatEntities;
+using DG.Tweening;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs
 {
     internal class CombatSummaryCanvasUI : MonoBehaviour
     {
+
+        public static CombatSummaryCanvasUI CreateAndShowCombatSummaryCanvasUI(List<CombatOperator> sortedOperators, bool isWin)
+        {
+            var prefab = ResourceManager.Load<GameObject>("UIs/CombatSummaryCanvas");
+            var go = Instantiate(prefab);
+            var con = go.GetComponent<CombatSummaryCanvasUI>();
+            con.Inject(sortedOperators, isWin);
+
+            return con;
+        }
+
+        public void Inject(List<CombatOperator> sortedOperators, bool isWin)
+        {
+            // result
+            if(isWin is true)
+            {
+                var temp = transform.Find("ResultPanel").Find("Win");
+                temp.gameObject.SetActive(true);
+                resultTextWarp = temp.Find("ResultWrapPanel").GetComponent<RectTransform>();
+            }
+            else
+            {
+                var temp = transform.Find("ResultPanel").Find("Loss");
+                temp.gameObject.SetActive(true);
+                resultTextWarp = temp.Find("ResultWrapPanel").GetComponent<RectTransform>();
+            }
+            // rank
+
+
+            // anime
+            tweenResultText();
+            tweenRankPanel();
+            tweenResoucePanel();
+
+        }
+
         RectTransform resultTextWarp;
         RectTransform rankPanel;
         RectTransform resourcePanel;
         private void Awake()
         {
-            resultTextWarp = transform.Find("ResultPanel").Find("ResultWrapPanel").GetComponent<RectTransform>();
+            // panels
             rankPanel = transform.Find("RankPanel").GetComponent<RectTransform>();
             resourcePanel = transform.Find("ResourcePanel").GetComponent<RectTransform>();
 
-            tweenResultText();
-            tweenRankPanel();
-            tweenResoucePanel();
+            // button
+            transform.Find("ConfirmButton").GetComponent<Button>().onClick.AddListener(() =>
+            {
+                CombatContextManager.Instance.QuitScene();
+            });
 
         }
         private void tweenResultText()
         {
             var initSize = resultTextWarp.rect.size;
             resultTextWarp.sizeDelta = new Vector2(0, resultTextWarp.rect.height);
-            resultTextWarp.DOSizeDelta(initSize, 0.2f);
+            resultTextWarp.DOSizeDelta(initSize, 0.5f);
         }
         private void tweenRankPanel()
         {

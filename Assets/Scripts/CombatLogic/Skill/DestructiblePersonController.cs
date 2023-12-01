@@ -10,18 +10,6 @@ namespace Assets.Scripts.BulletLogic
 {
     public class DestructiblePersonController : MonoBehaviour
     {
-        /// <summary>
-        /// 用于检测敌方来源
-        /// </summary>
-        public delegate void HittedEventHandler(object sender, Vector3 hitSourcePos);
-        public event HittedEventHandler HittedEvent;
-
-
-        /// <summary>
-        /// 用于检测敌方来源
-        /// </summary>
-        public delegate void HP0EventHandler(object sender);
-        public event HP0EventHandler HP0Event;
         private CombatContextManager _context;
 
         // prefab in character

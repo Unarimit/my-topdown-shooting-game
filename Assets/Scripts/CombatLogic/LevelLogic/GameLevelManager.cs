@@ -1,4 +1,6 @@
 ﻿using Assets.Scripts.CombatLogic.CombatEntities;
+using Assets.Scripts.CombatLogic.ContextExtends;
+using Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs;
 using Assets.Scripts.Entities;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +12,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
     public class GameLevelManager : MonoBehaviour
     {
         public static GameLevelManager Instance;
+        private CombatContextManager _context => CombatContextManager.Instance;
         /// <summary>
         /// 敌方索敌系数
         /// </summary>
@@ -19,6 +22,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         /// 掉落
         /// </summary>
         private Dictionary<string, int> Dropouts = new Dictionary<string, int>();
+
         private void Awake()
         {
             if (Instance == null) Instance = this;
@@ -52,8 +56,38 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             return EnemyAttackFactor >= _rule.EnemyAttackThreshold;
         }
 
+        public void TestFunction()
+        {
+            levelAccomplish(true);
+        }
 
 
+        private bool isAccomplish = false;
+        /// <summary>
+        /// 关卡目标达成
+        /// </summary>
+        private void levelAccomplish(bool isWin)
+        {
+            if (isAccomplish is true) return;
+            else isAccomplish = true;
+
+            // 0. stop game
+            _context.FreezeAllCharacter();
+
+            // 1. get player operators and sort
+            var cops = _context.FindCombatOperators(x => x.Team == 0);
+            cops.Sort((x, y) => { return (y.StatCauseDamage + y.StatReceiveDamage) - (x.StatCauseDamage + x.StatReceiveDamage); });
+
+            // 2. transform camera to mvp or svp
+            //// tip: 角色死亡不重要，反正都是原地替换
+            var trans = _context.GetTransformByCop(cops[0]);
+            trans.gameObject.SetActive(false);
+            _context.GenerateMvpDisplayer(cops[0].OpInfo, trans.position, Vector3.zero);
+
+            // 3. call ui
+            UIManager.Instance.CombatUIFinish();
+            CombatSummaryCanvasUI.CreateAndShowCombatSummaryCanvasUI(cops, isWin);
+        }
         #region 掉落和检测相关
         public void FinishInteract(InteractablePrefab interactable)
         {
@@ -86,18 +120,15 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         public event AimChangeEventHandler AimChangeEvent;
         public void CheckAimAndAction()
         {
-
+            if (isAccomplish is true) return;
             if (isMatchWinCondition())
             {
-                UIManager.Instance.ShowFinish(true);
-                CombatContextManager.Instance.GameFinish();
+                levelAccomplish(true);
             }
-            if (isMatchLossCondition())  
+            if (isMatchLossCondition())
             {
-                UIManager.Instance.ShowFinish(false);
-                CombatContextManager.Instance.GameFinish();
+                levelAccomplish(false);
             }
-            
             AimChangeEvent.Invoke(generateText());
 
         }

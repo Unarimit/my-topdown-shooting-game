@@ -242,13 +242,14 @@ namespace Assets.Scripts.CombatLogic.Characters
             _animator.SetBool(_animIDAim, false);
             StartCoroutine(coroReloading(_gunController.Reloading()));
         }
-        public void Died()
+        public void ClearAnimate()
         {
             // 清空动画
             _animator.SetBool(_animIDJump, false);
             _animator.SetBool(_animIDAim, false);
             _animator.SetBool(_animIDShoot, false);
             _animator.SetBool(_animIDSlide, false);
+            _animator.SetFloat(_animIDSpeed, 0);
         }
 
 

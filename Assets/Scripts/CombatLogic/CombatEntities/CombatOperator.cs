@@ -9,6 +9,8 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
     {
         public Operator OpInfo { get; }
 
+        //public Transform Transform { get; set; }  //暂时没用
+
         /// <summary>
         /// 出生点
         /// </summary>
@@ -36,7 +38,6 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
         /// </summary>
         public float LastInCombatTime { get; private set; }
 
-        //public Transform Transform { get; set; }  //暂时没用，以后有用
 
         /// <summary>
         /// 战斗技能
@@ -55,6 +56,13 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
         #region 战斗Buffs
         public float DefendFactor { get; set; } = 0;
         #endregion
+
+        #region 战斗统计信息
+        public int StatCauseDamage { get; private set; } = 0;
+        public int StatReceiveDamage { get; private set; } = 0;
+
+        #endregion
+
 
         public CombatOperator(Operator op, int team, Transform spawnBase)
         {
@@ -78,6 +86,7 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
                 realDmg = CurrentHP - MaxHP;
             }
             CurrentHP -= realDmg;
+            StatReceiveDamage += realDmg;
             return realDmg;
         }
         public bool TryRecover()
@@ -119,9 +128,10 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
         /// <summary>
         /// 发生主动战斗行为
         /// </summary>
-        public void ActAttack()
+        public void ActAttack(int val)
         {
             LastInCombatTime = Time.time;
+            StatCauseDamage += val;
         }
     }
 }

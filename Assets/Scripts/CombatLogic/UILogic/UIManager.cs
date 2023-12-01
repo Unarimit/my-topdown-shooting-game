@@ -35,21 +35,24 @@ namespace Assets.Scripts.CombatLogic
                 x.SetVisible(true);
             }
 
-            windows[GameOverPanel].SetVisible(false);
             windows[ReviveCountdownPanel].SetVisible(false);
         }
 
-        const string GameOverPanel = "GameOverPanel";
         const string ReviveCountdownPanel = "ReviveCountdownPanel";
         const string BreakHUD = "BreakHUDImg";
-        public void ShowFinish(bool isWin)
-        {
-            if(isWin) GameOverUI.Instance.ShowWinText();
-            else GameOverUI.Instance.ShowLossText();
-        }
         public void ShowReviveCountdown()
         {
             windows[ReviveCountdownPanel].SetVisible(true);
+        }
+        /// <summary>
+        /// 结束战斗UI
+        /// </summary>
+        public void CombatUIFinish()
+        {
+            foreach (var x in windows.Values)
+            {
+                x.SetVisible(false);
+            }
         }
 
         private void OnGUI()

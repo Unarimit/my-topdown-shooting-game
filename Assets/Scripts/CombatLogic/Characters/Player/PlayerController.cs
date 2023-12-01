@@ -36,8 +36,6 @@ namespace Assets.Scripts.CombatLogic.Characters.Player
             _context = CombatContextManager.Instance;
 
             _destructiblePersonController = GetComponent<DestructiblePersonController>();
-            _destructiblePersonController.HP0Event += HP0Event;
-
 
         }
         private void Update()
@@ -122,7 +120,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Player
         private void HP0Event(object sender)
         {
             // 清空动画
-            _controller.Died();
+            _controller.ClearAnimate();
 
         }
 

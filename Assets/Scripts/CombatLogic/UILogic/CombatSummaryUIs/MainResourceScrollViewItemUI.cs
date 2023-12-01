@@ -66,7 +66,6 @@ namespace Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs
                 showDelta();
                 DOTween.To(() => LastValue, x => _itemValueTMP.text = x.ToString(), LastValue + DeltaValue, 0.5f);
             });
-            
 
             
         }
