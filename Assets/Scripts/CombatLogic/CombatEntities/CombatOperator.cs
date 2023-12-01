@@ -86,7 +86,7 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
                 realDmg = CurrentHP - MaxHP;
             }
             CurrentHP -= realDmg;
-            StatReceiveDamage += realDmg;
+            StatReceiveDamage += Math.Abs(realDmg);
             return realDmg;
         }
         public bool TryRecover()
@@ -131,7 +131,7 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
         public void ActAttack(int val)
         {
             LastInCombatTime = Time.time;
-            StatCauseDamage += val;
+            StatCauseDamage += Math.Abs(val);
         }
     }
 }

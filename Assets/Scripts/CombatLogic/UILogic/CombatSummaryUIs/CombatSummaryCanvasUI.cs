@@ -55,7 +55,7 @@ namespace Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs
             resourcePanel = transform.Find("ResourcePanel").GetComponent<RectTransform>();
             rankPanelScrollView = rankPanel.Find("Scroll View").GetComponent<CsRankScrollViewUI>();
             // button
-            transform.Find("ConfirmButton").GetComponent<Button>().onClick.AddListener(() =>
+            resourcePanel.Find("ConfirmButton").GetComponent<Button>().onClick.AddListener(() =>
             {
                 CombatContextManager.Instance.QuitScene();
             });

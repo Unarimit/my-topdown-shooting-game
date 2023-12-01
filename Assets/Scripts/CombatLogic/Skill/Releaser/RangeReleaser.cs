@@ -16,7 +16,9 @@ namespace Assets.Scripts.CombatLogic.Skill.Releaser
         private Vector3 _aim;
         public override void Release(Transform caster, CombatSkill skill, Vector3 aim)
         {
+            _caster = caster;
             _skill = skill;
+            _aim = aim;
             // 配置selector
             ISelector selector = null;
             if (skill.SkillSelector.SelectorName == TestDB.SkillSelectorStr.Trigger.ToString())

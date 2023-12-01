@@ -76,7 +76,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
 
             // 1. get player operators and sort
             var cops = _context.FindCombatOperators(x => x.Team == 0);
-            cops.Sort((x, y) => { return (y.StatCauseDamage + y.StatReceiveDamage) - (x.StatCauseDamage + x.StatReceiveDamage); });
+            cops.Sort((x, y) => { return (y.StatCauseDamage * 2 + y.StatReceiveDamage) - (x.StatCauseDamage * 2 + x.StatReceiveDamage); });
 
             // 2. transform camera to mvp or svp
             //// tip: 角色死亡不重要，反正都是原地替换
@@ -121,6 +121,10 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         public void CheckAimAndAction()
         {
             if (isAccomplish is true) return;
+
+            AimChangeEvent.Invoke(generateText());
+
+            // 最后执行物体控制指令（
             if (isMatchWinCondition())
             {
                 levelAccomplish(true);
@@ -129,7 +133,6 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             {
                 levelAccomplish(false);
             }
-            AimChangeEvent.Invoke(generateText());
 
         }
 
