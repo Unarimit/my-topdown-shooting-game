@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Assets.Scripts.CombatLogic.UILogic;
 using System.Text;
-using System.Threading.Tasks;
 using TMPro;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Assets.Scripts.CombatLogic.UILogic
+namespace Assets.Scripts.Common.EscMenu
 {
     public class KeyTipsUI : SubUIBase
     {
@@ -31,7 +27,7 @@ namespace Assets.Scripts.CombatLogic.UILogic
                     // 忽略不是按键类型的操作
                     if (!action.bindings[0].isPartOfComposite)
                     {
-                        if (action.bindings[0].effectivePath.Contains("/"))  sb.Append($"{action.name}: " +
+                        if (action.bindings[0].effectivePath.Contains("/")) sb.Append($"{action.name}: " +
                             $"{action.bindings[0].effectivePath.Split("/")[1]} \n");
                         else sb.Append($"{action.name}: {action.bindings[0].effectivePath} \n");
 

@@ -1,11 +1,7 @@
 ﻿using DG.Tweening;
-using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static System.Net.Mime.MediaTypeNames;
-using static UnityEngine.Rendering.HDROutputUtils;
 
 namespace Assets.Scripts.Common.EscMenu
 {
@@ -14,14 +10,11 @@ namespace Assets.Scripts.Common.EscMenu
         // 退出时会销毁这些button对象和他们的事件监听吗？
         [HideInInspector]
         public Button ReturnBtn;
-        [HideInInspector]
-        public Button EnviormentBtn;
-        [HideInInspector]
-        public Button QuitCombatBtn;
-        [HideInInspector]
-        public Button ReturnStartBtn;
-        [HideInInspector]
-        public RectTransform MenuPanelTrans;
+        Button enviormentBtn;
+        Button quitCombatBtn;
+        Button returnStartBtn;
+        RectTransform menuPanelTrans;
+        RectTransform enviorSettingPanelTrans;
         internal static EscMenuUI OpenEscMenuUI()
         {
             var prefab = ResourceManager.Load<GameObject>("UIs/EscMenuCanvas");
@@ -33,30 +26,36 @@ namespace Assets.Scripts.Common.EscMenu
         private void Awake()
         {
             ReturnBtn = transform.Find("MenuPanel").Find("ReturnBtn").GetComponent<Button>();
-            QuitCombatBtn = transform.Find("MenuPanel").Find("QuitCombatBtn").GetComponent<Button>();
-            EnviormentBtn = transform.Find("MenuPanel").Find("EnviormentBtn").GetComponent<Button>();
-            ReturnStartBtn = transform.Find("MenuPanel").Find("ReturnStartBtn").GetComponent<Button>();
-            MenuPanelTrans = transform.Find("MenuPanel").GetComponent<RectTransform>();
+            quitCombatBtn = transform.Find("MenuPanel").Find("QuitCombatBtn").GetComponent<Button>();
+            enviormentBtn = transform.Find("MenuPanel").Find("EnviormentBtn").GetComponent<Button>();
+            returnStartBtn = transform.Find("MenuPanel").Find("ReturnStartBtn").GetComponent<Button>();
+            menuPanelTrans = transform.Find("MenuPanel").GetComponent<RectTransform>();
+            enviorSettingPanelTrans = transform.Find("EnviorSettingPanel").GetComponent<RectTransform>();
 
-            sizeDelta = MenuPanelTrans.sizeDelta;
-            MenuPanelTrans.sizeDelta = Vector2.zero;
+            sizeDelta = menuPanelTrans.sizeDelta;
+            menuPanelTrans.sizeDelta = Vector2.zero;
 
             ReturnBtn.onClick.AddListener(quit);
-            ReturnStartBtn.onClick.AddListener(quitToStart);
+            returnStartBtn.onClick.AddListener(quitToStart);
+            enviormentBtn.onClick.AddListener(openEnviormentSettingPanel);
         }
         private void Start()
         {
             // 菜单出现受timescale影响会出问题
-            MenuPanelTrans.DOSizeDelta(sizeDelta, 0.2f).SetUpdate(UpdateType.Normal, true);
+            menuPanelTrans.DOSizeDelta(sizeDelta, 0.2f).SetUpdate(UpdateType.Normal, true);
         }
         private void quit()
         {
-            MenuPanelTrans.DOSizeDelta(Vector2.zero, 0.2f).OnComplete(() => Destroy(gameObject));
+            menuPanelTrans.DOSizeDelta(Vector2.zero, 0.2f).OnComplete(() => Destroy(gameObject));
         }
         private void quitToStart()
         {
             SlideUI.CreateSlideUI();
             SceneManager.LoadSceneAsync("Start", LoadSceneMode.Single);
+        }
+        private void openEnviormentSettingPanel()
+        {
+            enviorSettingPanelTrans.gameObject.SetActive(true);
         }
     }
 }
