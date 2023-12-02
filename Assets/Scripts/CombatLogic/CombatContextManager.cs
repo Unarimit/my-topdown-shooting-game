@@ -352,9 +352,10 @@ namespace Assets.Scripts.CombatLogic
         {
             var prefab = ResourceManager.Load<GameObject>("Characters/MvpDisplayer");
             var go = Instantiate(prefab, _agentsSpawnTrans);
-            GetComponent<FbxLoadManager>().LoadModel(opInfo.ModelResourceUrl, go.transform.Find("modelroot"), go.transform.Find("modelroot"), false);
+            var modelRoot = go.transform.Find("modelroot");
+            GetComponent<FbxLoadManager>().LoadModel(opInfo.ModelResourceUrl, modelRoot, modelRoot, false);
             go.transform.position = pos;
-            go.transform.eulerAngles = angle;
+            modelRoot.eulerAngles = angle;
 
             return go.transform;
         }

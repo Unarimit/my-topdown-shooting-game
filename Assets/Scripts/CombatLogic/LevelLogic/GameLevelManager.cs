@@ -82,7 +82,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             //// tip: 角色死亡不重要，反正都是原地替换
             var trans = _context.GetTransformByCop(cops[0]);
             trans.gameObject.SetActive(false);
-            _context.GenerateMvpDisplayer(cops[0].OpInfo, trans.position, Vector3.zero);
+            _context.GenerateMvpDisplayer(cops[0].OpInfo, trans.position, trans.eulerAngles);
 
             // 3. call ui
             UIManager.Instance.CombatUIFinish();
