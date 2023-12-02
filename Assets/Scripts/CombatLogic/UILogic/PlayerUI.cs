@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -74,6 +75,14 @@ namespace Assets.Scripts.CombatLogic.UILogic
             {
                 _cockpitManager.ChangeState(CockpitWalkState.Running);
             }
+        }
+
+        public override void TweenQuit(float duration)
+        {
+            
+            var rect = GetComponent<RectTransform>();
+            rect.DOAnchorPos(rect.anchoredPosition - new Vector2(rect.rect.width, 0), duration)
+                .OnComplete(() => base.TweenQuit(duration));
         }
     }
 }

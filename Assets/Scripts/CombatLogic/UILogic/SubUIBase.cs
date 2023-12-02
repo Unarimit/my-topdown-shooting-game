@@ -18,5 +18,10 @@ namespace Assets.Scripts.CombatLogic.UILogic
         {
             gameObject.SetActive(isVisible);
         }
+
+        public virtual void TweenQuit(float duration) 
+        {
+            SetVisible(false);
+        }
     }
 }

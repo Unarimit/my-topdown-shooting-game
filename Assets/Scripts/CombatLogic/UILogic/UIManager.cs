@@ -51,7 +51,7 @@ namespace Assets.Scripts.CombatLogic
         {
             foreach (var x in windows.Values)
             {
-                x.SetVisible(false);
+                x.TweenQuit(0.5f);
             }
         }
 

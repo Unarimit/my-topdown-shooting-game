@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,6 +40,13 @@ namespace Assets.Scripts.CombatLogic.UILogic
             {
                 CurrentAmmoText.color = AmmoNormal;
             }
+        }
+
+        public override void TweenQuit(float duration)
+        {
+            var rect = GetComponent<RectTransform>();
+            rect.DOAnchorPos(rect.anchoredPosition + new Vector2(rect.rect.width, 0), duration)
+                .OnComplete(() => base.TweenQuit(duration));
         }
     }
 }
