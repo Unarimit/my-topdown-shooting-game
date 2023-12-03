@@ -90,7 +90,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             _slider.gameObject.SetActive(true);
             if(_curDuration > _model.Duration)
             {
-                finishInteract();
+                finishInteract(trans);
             }
             else if (_model.Duration != 0)
             {
@@ -99,11 +99,13 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             }
             
         }
-        private void finishInteract()
+        private void finishInteract(Transform trans)
         {
             gameObject.SetActive(false);
             this.enabled = false;
             GameLevelManager.Instance.FinishInteract(_model);
+            trans.GetComponent<PlayerController>().InteractEventHandler -= doInteract;
+            Destroy(gameObject);
         }
     }
 }

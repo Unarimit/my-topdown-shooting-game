@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.CombatLogic.Characters.Computer.Fighter;
 using Assets.Scripts.CombatLogic.CombatEntities;
+using Assets.Scripts.CombatLogic.UILogic.MiniMap;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -114,6 +115,7 @@ namespace Assets.Scripts.CombatLogic.Characters
             Model = model;
             initGun();
             initHeadMark();
+            initMiniMapMark();
             initAnimeId();
 
         }
@@ -444,6 +446,17 @@ namespace Assets.Scripts.CombatLogic.Characters
                 if (Model.OpInfo.Type == Entities.OperatorType.CV) t_prefab = ResourceManager.Load<GameObject>("Effects/EnemyCVMark");
             }
             Instantiate(t_prefab, transform);
+        }
+
+        private void initMiniMapMark()
+        {
+            if (Model == _context.CombatVM.Player)
+            {
+                return;
+            }
+            var mapmark = transform.Find("MiniMapMark").GetComponent<MiniMapMarkUI>();
+
+            mapmark.Inject(Model.Team, Model.OpInfo.Type);
         }
 
         private void initAnimeId()

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.CombatLogic.Characters.Computer.Fighter.States;
+using Assets.Scripts.CombatLogic.UILogic.MiniMap;
 using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
@@ -46,16 +47,8 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Fighter
         private void Start()
         {
             // 挂headmark表示
-            GameObject t_prefab;
-            if (Team == 0)
-            {
-                t_prefab = ResourceManager.Load<GameObject>("Effects/TeamFighterMark");
-            }
-            else
-            {
-                t_prefab = ResourceManager.Load<GameObject>("Effects/EnemyFighterMark");
-            }
-            Instantiate(t_prefab, m_CharactorTrans);
+            initHeadMark();
+            initMiniMapMark();
 
             // 起飞过渡动画
             m_CharactorTrans.DOLocalMoveY(CHARACTER_END_Y, 2);
@@ -98,6 +91,25 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Fighter
         private Vector3 flyVerticleSimulate()
         {
             return new Vector3(0, Mathf.Sin(Time.time * 2) * Time.deltaTime * 0.3f, 0);
+        }
+
+        private void initHeadMark()
+        {
+            GameObject t_prefab;
+            if (Team == 0)
+            {
+                t_prefab = ResourceManager.Load<GameObject>("Effects/TeamFighterMark");
+            }
+            else
+            {
+                t_prefab = ResourceManager.Load<GameObject>("Effects/EnemyFighterMark");
+            }
+            Instantiate(t_prefab, m_CharactorTrans);
+        }
+
+        private void initMiniMapMark()
+        {
+            transform.Find("MiniMapMark").GetComponent<MiniMapMarkUI>().FighterInject(Team);
         }
     }
 }

@@ -267,11 +267,17 @@ namespace Assets.Scripts.CombatLogic
 
         public Transform GeneratePlayer(Operator OpInfo, Vector3 pos, Vector3 angle, Transform spawnBase)
         {
-            CombatVM.Player = new CombatOperator(OpInfo, 0, spawnBase);
+            var pInfo = new CombatOperator(OpInfo, 0, spawnBase);
 
             // 初始化
             var prefab = ResourceManager.Load<GameObject>("Characters/Player");
             var go = Instantiate(prefab, _agentsSpawnTrans);
+
+            // 加入context
+            PlayerTeamTrans.Add(go.transform);
+            Operators.Add(go.transform, pInfo);
+            CombatVM.PlayerTrans = go.transform;
+
             // 挂components
             // animator component
             var res = GetComponent<FbxLoadManager>().LoadModel(OpInfo.ModelResourceUrl, go.transform, true);
@@ -282,17 +288,15 @@ namespace Assets.Scripts.CombatLogic
                 gun.BulletStartTrans = res.GunfireTransform;
             }
             // op component
-            go.GetComponent<OperatorController>().Inject(CombatVM.Player);
+            go.GetComponent<OperatorController>().Inject(pInfo);
 
             // 挂cinemachine
             m_Camera.Follow = go.transform.Find("Camera_Flowing");
 
 
-            // 放入场景
+            // 确认位置
             go.transform.position = pos;
             go.transform.eulerAngles = angle;
-            PlayerTeamTrans.Add(go.transform);
-            Operators.Add(go.transform, CombatVM.Player);
 
             // 还有驾驶舱
             GetComponent<FbxLoadManager>().LoadModel(OpInfo.ModelResourceUrl, CockpitManager.Instance.CharacterAnimator.transform, false);
@@ -428,9 +432,23 @@ namespace Assets.Scripts.CombatLogic
             public GunController PlayerGun { get; set; }
 
             /// <summary>
+            /// 玩家坐标
+            /// </summary>
+            public Transform PlayerTrans { 
+                get { return _playerTrans; }
+                set {
+                    _playerTrans = value;
+                    Player = Instance.Operators[_playerTrans];
+                    if(PlayerChangeEvent != null) PlayerChangeEvent.Invoke();
+                } }
+            private Transform _playerTrans;
+            public delegate void PlayerChangeEventHandler();
+            public event PlayerChangeEventHandler PlayerChangeEvent;
+
+            /// <summary>
             /// 玩家属性
             /// </summary>
-            public CombatOperator Player { get; set; }
+            public CombatOperator Player { get; private set; }
         }
 
     }

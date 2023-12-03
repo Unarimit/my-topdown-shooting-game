@@ -70,6 +70,8 @@ crashlytics-build.properties
 # avoid copyright issues
 Assets/Resources/Fbx/
 Assets/Character/Models/
+Assets/Plugins/UGUIMiniMap/
+Assets/Plugins/UGUIMiniMap.meta
 
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta

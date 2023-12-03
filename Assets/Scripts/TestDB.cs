@@ -14,6 +14,8 @@ namespace Assets.Scripts
         public static readonly int CHARACTER_LAYER = LayerMask.NameToLayer("Character");
         public static readonly int DOBJECT_LAYER = LayerMask.NameToLayer("DestructibleObject");
         public static readonly string PLAYER_TAG = "Player";
+        public static readonly Color TeamColor = new Color32(124, 208, 255, 255);
+        public static readonly Color EnemyColor = new Color32(255, 100, 100, 255);
         public enum SkillSelectorStr
         {
             Trigger
