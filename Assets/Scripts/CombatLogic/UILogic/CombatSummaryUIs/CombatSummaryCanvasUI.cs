@@ -44,6 +44,7 @@ namespace Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs
 
         }
 
+        // awake 注册组件
         RectTransform resultTextWarp;
         RectTransform rankPanel;
         RectTransform resourcePanel;
@@ -61,12 +62,18 @@ namespace Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs
             });
 
         }
+        /// <summary>
+        /// result过渡动画
+        /// </summary>
         private void tweenResultText()
         {
             var initSize = resultTextWarp.rect.size;
             resultTextWarp.sizeDelta = new Vector2(0, resultTextWarp.rect.height);
             resultTextWarp.DOSizeDelta(initSize, 0.5f);
         }
+        /// <summary>
+        /// 排名过渡动画
+        /// </summary>
         private void tweenRankPanel(List<CombatOperator> sortedOperators)
         {
             var rankCg = rankPanel.GetComponent<CanvasGroup>();
@@ -77,6 +84,9 @@ namespace Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs
                 rankCg.DOFade(1, 0.5f);
             });
         }
+        /// <summary>
+        /// 资源栏过渡动画
+        /// </summary>
         private void tweenResoucePanel()
         {
             var initAnchor = resourcePanel.anchoredPosition;
