@@ -124,8 +124,17 @@
                 },
                 {
                     "name": "Interact",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "6879f44b-bceb-4a3d-8f30-d940ce2b4e7b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "StrategyMap",
+                    "type": "Button",
+                    "id": "2fea577f-c799-4d2d-bc71-09a321f02864",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -436,6 +445,17 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "TestKey",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4363132f-27e9-4d9c-ad7e-60d4a383e86d",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "StrategyMap",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

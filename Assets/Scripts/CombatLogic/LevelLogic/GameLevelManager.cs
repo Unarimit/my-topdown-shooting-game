@@ -85,7 +85,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             _context.GenerateMvpDisplayer(cops[0].OpInfo, trans.position, trans.eulerAngles);
 
             // 3. call ui
-            UIManager.Instance.CombatUIFinish();
+            UIManager.Instance.TweenQuit();
             CombatSummaryCanvasUI.CreateAndShowCombatSummaryCanvasUI(cops, isWin);
         }
         #region 掉落和检测相关
@@ -122,7 +122,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         {
             if (isAccomplish is true) return;
 
-            AimChangeEvent.Invoke(generateText());
+            if(AimChangeEvent != null) AimChangeEvent.Invoke(generateText());
 
             // 最后执行物体控制指令（
             if (isMatchWinCondition())

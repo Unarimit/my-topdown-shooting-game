@@ -26,5 +26,10 @@ namespace Assets.Scripts.CombatLogic.UILogic
             yield return new WaitForSeconds(1);
             SetVisible(false);
         }
+
+        public override void TweenEnter(float duration)
+        {
+            if (_context.Operators[_context.PlayerTrans].CurrentReviveTime != 0)  SetVisible(true);
+        }
     }
 }

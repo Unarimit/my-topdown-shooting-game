@@ -31,11 +31,19 @@ namespace Assets.Scripts.CombatLogic.UILogic
             if (GameLevelManager.Instance == null) return;
             GameLevelManager.Instance.AimChangeEvent -= ChangeText;
         }
+        private Vector2 initPos;
         public override void TweenQuit(float duration)
         {
             var rect = GetComponent<RectTransform>();
+            initPos = rect.anchoredPosition;
             rect.DOAnchorPos(rect.anchoredPosition + new Vector2(rect.rect.width, 0), duration)
                 .OnComplete(() => base.TweenQuit(duration));
+        }
+        public override void TweenEnter(float duration)
+        {
+            base.TweenEnter(duration);
+            var rect = GetComponent<RectTransform>();
+            rect.DOAnchorPos(initPos, duration);
         }
     }
 }

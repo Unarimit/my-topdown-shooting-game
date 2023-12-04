@@ -23,5 +23,9 @@ namespace Assets.Scripts.CombatLogic.UILogic
         {
             SetVisible(false);
         }
+        public virtual void TweenEnter(float duration)
+        {
+            SetVisible(true);
+        }
     }
 }

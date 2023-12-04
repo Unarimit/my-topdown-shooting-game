@@ -44,6 +44,7 @@ namespace Assets.Scripts.CombatLogic.ContextExtends
             foreach(var x in context.Fighters.Values)
             {
                 x.enabled = false;
+                x.GetComponent<NavMeshAgent>().enabled = false;
             }
         }
         /// <summary>

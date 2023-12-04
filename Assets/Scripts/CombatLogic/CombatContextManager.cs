@@ -395,20 +395,6 @@ namespace Assets.Scripts.CombatLogic
             SceneManager.LoadScene("Home", LoadSceneMode.Single);
         }
 
-        private bool isEscMenu = false;
-        public void OnEscMenu(InputValue value)
-        {
-            if (isEscMenu) return;
-            isEscMenu = true;
-            Time.timeScale = 0;
-            var ui = EscMenuUI.OpenEscMenuUI();
-            ui.ReturnBtn.onClick.AddListener(() =>
-            {
-                isEscMenu = false;
-                Time.timeScale = 1;
-            });
-        }
-
         // *********** Player Logic *****************
         public delegate void PlayerDiedEventHandler(object sender, bool isDied);
         public event PlayerDiedEventHandler PlayerDiedEvent;

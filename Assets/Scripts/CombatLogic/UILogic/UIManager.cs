@@ -47,11 +47,18 @@ namespace Assets.Scripts.CombatLogic
         /// <summary>
         /// 结束战斗UI
         /// </summary>
-        public void CombatUIFinish()
+        public void TweenQuit()
         {
             foreach (var x in windows.Values)
             {
                 x.TweenQuit(0.5f);
+            }
+        }
+        public void TweenEnter()
+        {
+            foreach (var x in windows.Values)
+            {
+                x.TweenEnter(0.5f);
             }
         }
 

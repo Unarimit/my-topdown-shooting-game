@@ -48,7 +48,8 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
         }
         private void OnDisable()
         {
-            mapEntity.HideItem();
+            // 有可能他还没准备好
+            if (mapEntity.IconInstance != null) mapEntity.HideItem();
         }
     }
 }
