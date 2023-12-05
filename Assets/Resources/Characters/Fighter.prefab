@@ -63,7 +63,8 @@ MonoBehaviour:
   BorderOffScreen: 0.01
   RenderDelay: 0
   m_Effect: 2
-  CustomIconPrefab: {fileID: 0}
+  CustomIconPrefab: {fileID: 319276762427598254, guid: d4de67e1a0511b3489abe08a5852f8be,
+    type: 3}
 --- !u!114 &4852239932411355696
 MonoBehaviour:
   m_ObjectHideFlags: 0
