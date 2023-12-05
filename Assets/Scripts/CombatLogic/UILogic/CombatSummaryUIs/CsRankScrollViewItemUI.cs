@@ -10,17 +10,22 @@ namespace Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs
     internal class CsRankScrollViewItemUI : MonoBehaviour
     {
         TextMeshProUGUI nameTMP;
+        TextMeshProUGUI typeNameTMP;
+        RawImage HeadIconRawImg;
+
         Slider shieldSlider;
         TextMeshProUGUI shieldValTMP;
         Slider dmgSlider;
         TextMeshProUGUI dmgValTMP;
-        RawImage HeadIconRawImg;
         private void Awake()
         {
             nameTMP = transform.Find("CNameTMP").GetComponent<TextMeshProUGUI>();
+            HeadIconRawImg = transform.Find("HeadIconRawImage").GetComponent<RawImage>();
+            typeNameTMP = transform.Find("HeadIconRawImage").Find("Panel").Find("CharacterTypeTMP").GetComponent<TextMeshProUGUI>();
+
             shieldSlider = transform.Find("ShieldSlider").GetComponent<Slider>();
             dmgSlider = transform.Find("DamageSlider").GetComponent<Slider>();
-            HeadIconRawImg = transform.Find("HeadIconRawImage").GetComponent<RawImage>();
+
 
             shieldValTMP = shieldSlider.transform.Find("Fill Area").Find("Fill").Find("ValTMP").GetComponent<TextMeshProUGUI>();
             dmgValTMP = dmgSlider.transform.Find("Fill Area").Find("Fill").Find("ValTMP").GetComponent<TextMeshProUGUI>();
@@ -32,6 +37,7 @@ namespace Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs
             {
                 gameObject.SetActive(true);
                 nameTMP.text = cop.OpInfo.Name;
+                typeNameTMP.text = cop.OpInfo.Type.ToString();
                 shieldSlider.value = 0;
                 dmgSlider.value = 0;
                 shieldValTMP.text = cop.StatReceiveDamage.ToString();
