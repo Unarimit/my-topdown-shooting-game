@@ -24,22 +24,32 @@ namespace Assets.Scripts.CombatLogic.EnviormentLogic
         {
             IsDestory = true;
             m_VirtualCamera.Priority = 0;
+
+            _context.CombatVM.PlayerChangeEvent -= setPlayer;
+
             m_MiniMap.SetActive(false);
             Destroy(gameObject, 1);
+
         }
 
         Camera mapCam;
         private void Awake()
         {
             mapCam = Camera.main.transform.Find("UICamera").GetComponent<Camera>();
-            m_MiniMap.Target = _context.CombatVM.PlayerTrans;
+            setPlayer();
             m_MiniMap.minimapRig.position = new Vector3(_context.CombatVM.Level.Map.Length/2, 0, _context.CombatVM.Level.Map[0].Length / 2);;
             m_MiniMap.SetAsActiveMiniMap();
+
+            _context.CombatVM.PlayerChangeEvent += setPlayer;
         }
         private void Start()
         {
             m_MapRenderCanvas.worldCamera = mapCam;
             m_MiniMap.SetToFullscreenSize();
+        }
+        private void setPlayer()
+        {
+            m_MiniMap.Target = _context.CombatVM.PlayerTrans;
         }
 
     }

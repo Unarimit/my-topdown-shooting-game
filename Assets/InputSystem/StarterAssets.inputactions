@@ -124,7 +124,7 @@
                 },
                 {
                     "name": "Interact",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "6879f44b-bceb-4a3d-8f30-d940ce2b4e7b",
                     "expectedControlType": "Button",
                     "processors": "",

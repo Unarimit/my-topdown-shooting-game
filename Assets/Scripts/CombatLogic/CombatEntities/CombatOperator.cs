@@ -38,7 +38,7 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
         /// </summary>
         public float LastInCombatTime { get; private set; }
 
-
+        public bool IsPlayer { get; set; }
         /// <summary>
         /// 战斗技能
         /// </summary>
@@ -64,7 +64,7 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
         #endregion
 
 
-        public CombatOperator(Operator op, int team, Transform spawnBase)
+        public CombatOperator(Operator op, int team, Transform spawnBase, bool isPlayer)
         {
             OpInfo = op;
             MaxHP = op.McBody.HP;
@@ -74,6 +74,7 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
             WeaponSkill = new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[op.WeaponSkillId]);
             SlideSkill = new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[op.SlideSkillId]);
             CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[op.MainSkillId]));
+            IsPlayer = isPlayer;
         }
 
         public int TakeDamage(int dmg)

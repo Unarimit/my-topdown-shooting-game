@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.CombatLogic.CombatEntities;
+using Assets.Scripts.CombatLogic.ContextExtends;
 using Assets.Scripts.Entities;
 using DG.Tweening;
 using Lovatto.MiniMap;
@@ -79,17 +80,20 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
             panel = m_VerticleCanvas.transform.Find("Panel").GetComponent<RectTransform>();
             panelInitSize = panel.sizeDelta;
 
-            if (_context.Operators.ContainsKey(trans)) inject(_context.Operators[trans]);
+            if (_context.Operators.ContainsKey(trans))
+            {
+                opTrans = trans;
+                inject(_context.Operators[trans]);
+            }
             else if (_context.Fighters.ContainsKey(trans)) inject(_context.Fighters[trans].Model, _context.Fighters[trans].Team);
 
             m_VerticleCanvas.gameObject.SetActive(false);
         }
 
-        CombatOperator _cop;
+        Transform opTrans;
         Slider hpSlider;
         private void inject(CombatOperator cop)
         {
-            _cop = cop;
             var ptrans = m_VerticleCanvas.transform.Find("Panel");
             if (cop.Team == 0)
             {
@@ -143,18 +147,17 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
             panel.DOSizeDelta(panelInitSize, 0.3f);
 
             m_VerticleCanvas.transform.position = TargetGraphic.transform.position;
-            if (_cop != null) hpSlider.value = (float)_cop.CurrentHP / _cop.MaxHP;
+            if (opTrans != null) hpSlider.value = (float)_context.Operators[opTrans].CurrentHP / _context.Operators[opTrans].MaxHP;
 
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
             if (miniMapItem == null) return;
-            if(_cop != null)
+            if(opTrans != null)
             {
-
+                _context.SwithAgentWithPlayer(opTrans);
             }
-            Debug.Log("click");
             if (!miniMapItem.IsInteractable || miniMapItem.InteractAction != bl_MiniMapEntityBase.InteracableAction.OnTouch) return;
         }
 

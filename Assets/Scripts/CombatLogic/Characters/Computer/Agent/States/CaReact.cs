@@ -42,7 +42,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent.States
                 _agent.aimTran = msg.FoundTrans;
                 _agent.TranslateState(StateType.CaAttack);
             }
-            else if (_context.Operators[_agent.aimTran].IsDead)
+            else if (_agent.aimTran == null ||  _context.Operators[_agent.aimTran].IsDead)
             {
                 _agent.StopMoving();
                 _agent.TranslateState(StateType.CaIdle);

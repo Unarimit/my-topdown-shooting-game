@@ -47,6 +47,31 @@ namespace Assets.Scripts.CombatLogic.ContextExtends
                 x.GetComponent<NavMeshAgent>().enabled = isActive;
             }
         }
+        public static void ActiveCharacter(this CombatContextManager context, Transform trans, bool isActive)
+        {
+            if (context.Operators.ContainsKey(trans))
+            {
+                MonoBehaviour temp = trans.GetComponent<AgentController>();
+                // clear update
+                trans.GetComponent<OperatorController>().enabled = isActive;
+                if (temp == null) temp = trans.GetComponent<PlayerController>();
+                else
+                {
+                    trans.GetComponent<NavMeshAgent>().isStopped = !isActive;
+                }
+                temp.enabled = isActive;
+
+                // clear anime
+                trans.GetComponent<OperatorController>().ClearAnimate();
+            }
+            else if(context.Fighters.ContainsKey(trans))
+            {
+                context.Fighters[trans].enabled = isActive;
+                context.Fighters[trans].GetComponent<NavMeshAgent>().enabled = isActive;
+            }
+        }
+
+
 
         /// <summary>
         /// 根据CombatOperator获取Transform，TODO:这只是个临时方法！

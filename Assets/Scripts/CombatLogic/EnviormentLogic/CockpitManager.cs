@@ -21,7 +21,8 @@ namespace Assets.Scripts.CombatLogic
         public GameObject BlueDisplay;
         public GameObject RedDisplay;
 
-        public Animator CharacterAnimator;
+        public Transform CockpitPos;
+        public Animator CharacterAnimator { get; private set; }
 
         // ************ inspector end **********************
 
@@ -42,9 +43,8 @@ namespace Assets.Scripts.CombatLogic
         private void Start()
         {
             Cam = Camera.main;
-            cockpitInitPos = Cockpit.position;
+            cockpitInitPos = Cockpit.position; 
             CombatContextManager.Instance.PlayerDiedEvent += ChangeDiedStatu;
-
             _animIDAngry = Animator.StringToHash("Angry");
         }
 
@@ -97,6 +97,20 @@ namespace Assets.Scripts.CombatLogic
                 //pass
             }
         }
-       
+        void createDisplayer()
+        {
+            var prefab = ResourceManager.Load<GameObject>("Characters/CockpitDisplayer");
+            var go = Instantiate(prefab, CockpitPos);
+            CharacterAnimator = go.GetComponent<Animator>();
+        }
+        internal void ResetAnimator()
+        {
+            if(CharacterAnimator != null)
+            {
+                CharacterAnimator.gameObject.SetActive(false);
+                Destroy(CharacterAnimator.gameObject);
+            }
+            createDisplayer();
+        }
     }
 }

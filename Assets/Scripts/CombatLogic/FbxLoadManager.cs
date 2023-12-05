@@ -96,6 +96,34 @@ namespace Assets.Scripts.CombatLogic
             }
         }
 
+        /// <summary>
+        /// 获取已经配置过的模型的枪械信息
+        /// </summary>
+        /// <param name="modelRoot"></param>
+        /// <param name="withGun"></param>
+        /// <returns></returns>
+        public LoadModelRes GetModelConfig(Transform modelRoot, bool withGun)
+        {
+            Transform boneRoot = modelRoot;
+            while (boneRoot.childCount == 1)
+            {
+                boneRoot = boneRoot.GetChild(0);
+            }
+            boneRoot = boneRoot.Find("bone_root");
+            if (withGun)
+            {
+                var weaponBone = boneRoot.Find("Bip001").Find("Bip001 Pelvis").Find("Bip001 Spine").Find("Bip001 Spine1").Find("Bip001 R Clavicle")
+                    .Find("Bip001 R UpperArm").Find("Bip001 R Forearm").Find("Bip001 R Hand").Find("Bip001_Weapon"); ;
+
+                // 不用配置，直接找
+                var fireStart = weaponBone.Find("fire_01");
+                var gf = fireStart.Find("Gunfire(Clone)").gameObject;
+                return new LoadModelRes { ModelTransform = modelRoot, GunfireEffect = gf, GunfireTransform = fireStart };
+
+            }
+            else return new LoadModelRes { ModelTransform = modelRoot };
+        }
+
         private HumanDescription GetHumanDesc()
         {
             var res = NormalAvatar.humanDescription;

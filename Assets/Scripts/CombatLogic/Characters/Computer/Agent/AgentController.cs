@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.CombatLogic.Characters.Computer.Agent.States;
+using Assets.Scripts.CombatLogic.UILogic.MiniMap;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -20,20 +21,34 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
         public Transform aimTran;
         public bool isStopped => NavMeshAgent.velocity == new Vector3();
         private Vector3 _instantiatePosition;
-        public NavMeshAgent NavMeshAgent { get; private set; }
+
+        #region component
         private CombatContextManager _context;
         private OperatorController _controller;
+        public NavMeshAgent NavMeshAgent { get; private set; }
+        #endregion
+
         public int Team => _controller.Model.Team;
+        private GameObject mapMarkUI;
         private void Awake()
         {
+            _controller = GetComponent<OperatorController>();
+            _context = CombatContextManager.Instance;
+            // 注册其他组件
             NavMeshAgent = GetComponent<NavMeshAgent>();
+            NavMeshAgent.enabled = true;
+            mapMarkUI = initMiniMapMark();
+        }
+        private void OnDestroy()
+        {
+            // 注销组件
+            NavMeshAgent.enabled = false;
+            if(mapMarkUI != null) Destroy(mapMarkUI);
         }
 
         protected void Start()
         {
             _instantiatePosition = transform.position;
-            _context = CombatContextManager.Instance;
-            _controller = GetComponent<OperatorController>();
             if(_controller.Model.OpInfo.Type == Entities.OperatorType.CA)
             {
                 states.Add(StateType.CaIdle, new CaIdle(this));
@@ -162,6 +177,15 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
 
             if (_controller.HasAmmon()) _controller.Shoot(aim, diff_factor);
             else _controller.Reload();
+        }
+
+        private GameObject initMiniMapMark()
+        {
+            var go = Instantiate(ResourceManager.Load<GameObject>("Characters/MiniMapMark"), transform);
+            var mapmark = go.transform.GetComponent<MiniMapMarkUI>();
+
+            mapmark.Inject(_controller.Model.Team, _controller.Model.OpInfo.Type);
+            return go;
         }
 
     }

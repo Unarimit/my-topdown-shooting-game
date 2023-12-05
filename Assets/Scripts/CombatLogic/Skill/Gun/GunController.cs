@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.CombatLogic;
+using Assets.Scripts.CombatLogic.Characters;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -66,14 +67,6 @@ namespace Assets.Scripts
 
         private float LastFireTime = -1; // 最后一次开火时间
         private CombatContextManager _context => CombatContextManager.Instance;
-        private void Awake()
-        {
-            if (transform.tag == "Player")
-            {
-                IsPlayer = true;
-                _context.CombatVM.PlayerGun = this;
-            }
-        }
         private void Start()
         {
             gunshotAudioAudioClips = AnimeHelper.Instance.GetGunshot();
@@ -88,6 +81,11 @@ namespace Assets.Scripts
         public CombatCombatSkill Skill { get; private set; }
         public void InitGun(CombatCombatSkill cskill)
         {
+            if (GetComponent<OperatorController>().Model.IsPlayer)
+            {
+                IsPlayer = true;
+                _context.CombatVM.PlayerGun = this;
+            }
             gunProperty.CurrentAmmo = cskill.SkillInfo.Ammo;
             gunProperty.MaxAmmo = cskill.SkillInfo.Ammo;
             Skill = cskill;

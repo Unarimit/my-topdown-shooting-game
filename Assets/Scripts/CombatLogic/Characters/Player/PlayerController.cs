@@ -16,9 +16,6 @@ namespace Assets.Scripts.CombatLogic.Characters.Player
 
     public class PlayerController : MonoBehaviour
     {
-        public AudioClip LandingAudioClip;
-        public AudioClip[] FootstepAudioClips;
-        [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
 
         public delegate void InteractEvent(Transform trans);
         public event InteractEvent InteractEventHandler;
@@ -26,15 +23,28 @@ namespace Assets.Scripts.CombatLogic.Characters.Player
         #region component
         private OperatorController _controller;
         private StarterAssetsInputs _input;
-        private CombatContextManager _context;
+        private CombatContextManager _context => CombatContextManager.Instance;
         private DestructiblePersonController _destructiblePersonController;
         #endregion
+
+        private GameObject _cameraFlowing;
+        private void Awake()
+        {
+            // 注册其他组件
+            // 相机追踪
+            _cameraFlowing = Instantiate(ResourceManager.Load<GameObject>("Characters/CameraFlowing"), transform);
+            _context.m_Camera.Follow = _cameraFlowing.transform;
+            _context.CombatVM.PlayerTrans = transform;
+        }
+        private void OnDestroy()
+        {
+            // 注销组件
+            Destroy(_cameraFlowing);
+        }
         private void Start()
         {
             _controller = GetComponent<OperatorController>();
             _input = StarterAssetsInputs.Instance;
-            _context = CombatContextManager.Instance;
-
             _destructiblePersonController = GetComponent<DestructiblePersonController>();
 
         }
@@ -59,8 +69,8 @@ namespace Assets.Scripts.CombatLogic.Characters.Player
             {
                 if(InteractEventHandler != null) InteractEventHandler.Invoke(transform);
             }
-
         }
+        #region 按键逻辑
         private void Move()
         {
             _controller.Move(_input.move);
@@ -116,34 +126,6 @@ namespace Assets.Scripts.CombatLogic.Characters.Player
             }
             return aim;
         }
-
-        private void HP0Event(object sender)
-        {
-            // 清空动画
-            _controller.ClearAnimate();
-
-        }
-
-
-        private void OnFootstep(AnimationEvent animationEvent)
-        {
-            if (animationEvent.animatorClipInfo.weight > 0.5f)
-            {
-                if (FootstepAudioClips.Length > 0)
-                {
-                    var index = Random.Range(0, FootstepAudioClips.Length);
-                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(transform.position), FootstepAudioVolume);
-                }
-            }
-        }
-
-        private void OnLand(AnimationEvent animationEvent)
-        {
-            if (animationEvent.animatorClipInfo.weight > 0.5f)
-            {
-                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(transform.position), FootstepAudioVolume);
-            }
-        }
-
+        #endregion
     }
 }

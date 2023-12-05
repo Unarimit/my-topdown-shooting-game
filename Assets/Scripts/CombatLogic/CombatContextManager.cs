@@ -1,17 +1,17 @@
 ﻿using Assets.Scripts.BulletLogic;
 using Assets.Scripts.CombatLogic.Characters;
+using Assets.Scripts.CombatLogic.Characters.Computer.Agent;
 using Assets.Scripts.CombatLogic.Characters.Computer.Fighter;
+using Assets.Scripts.CombatLogic.Characters.Player;
 using Assets.Scripts.CombatLogic.CombatEntities;
+using Assets.Scripts.CombatLogic.ContextExtends;
 using Assets.Scripts.CombatLogic.LevelLogic;
-using Assets.Scripts.Common.EscMenu;
 using Assets.Scripts.Entities;
-using Assets.Scripts.PrepareLogic;
 using Cinemachine;
-using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.CombatLogic
@@ -45,7 +45,7 @@ namespace Assets.Scripts.CombatLogic
         public Dictionary<Transform, CombatOperator> Operators { get; private set; }
         internal Dictionary<Transform, FighterController> Fighters { get; private set; } = new Dictionary<Transform, FighterController>();
 
-        public Transform PlayerTrans { get; private set; }
+        public Transform PlayerTrans => CombatVM.PlayerTrans;
 
         public ViewModel CombatVM { get; private set; }
 
@@ -119,11 +119,6 @@ namespace Assets.Scripts.CombatLogic
 
 
         // ************ Game logic ******************
-        public bool IsPlayer(Transform transform)
-        {
-            return transform == PlayerTeamTrans[0];
-        }
-
         public void DellDamage(Transform from, Transform to, int val)
         {
             if(to.gameObject.layer == TestDB.CHARACTER_LAYER)
@@ -224,39 +219,24 @@ namespace Assets.Scripts.CombatLogic
 
         // ********************* Level logic *********************
 
-        public Transform GenerateAgent(Operator OpInfo, Vector3 pos, Vector3 angle, int Team, Transform spawnBase)
+        public Transform GenerateAgent(Operator OpInfo, Vector3 pos, Vector3 angle, int team, Transform spawnBase)
         {
             // 初始化
-            var prefab = ResourceManager.Load<GameObject>("Characters/Agent");
-            var go = Instantiate(prefab, _agentsSpawnTrans);
+            var model = new CombatOperator(OpInfo, team, spawnBase, false);
 
-            // 挂components
-            // animator component
-            var res = GetComponent<FbxLoadManager>().LoadModel(OpInfo.ModelResourceUrl, go.transform, true);
-            // gun component
-            {
-                var gun = go.GetComponent<GunController>();
-                gun.GunFire = res.GunfireEffect;
-                gun.BulletStartTrans = res.GunfireTransform;
-            }
-            // op component
-            var model = new CombatOperator(OpInfo, Team, spawnBase);
-            go.GetComponent<OperatorController>().Inject(model);
+            var trans = GenerateCharacter(model, pos, angle, spawnBase);
+            trans.AddComponent<AgentController>();
 
-            go.transform.position = pos;
-            go.transform.eulerAngles = angle;
             // 设置队伍并放置到场景
-            if (Team == 1)
+            if (team == 1)
             {
-                EnemyTeamTrans.Add(go.transform);
-                Operators.Add(go.transform, model);
-                return go.transform;
+                EnemyTeamTrans.Add(trans);
+                return trans;
             }
-            else if(Team == 0)
+            else if(team == 0)
             {
-                PlayerTeamTrans.Add(go.transform);
-                Operators.Add(go.transform, model);
-                return go.transform;
+                PlayerTeamTrans.Add(trans);
+                return trans;
             }
             else
             {
@@ -267,20 +247,30 @@ namespace Assets.Scripts.CombatLogic
 
         public Transform GeneratePlayer(Operator OpInfo, Vector3 pos, Vector3 angle, Transform spawnBase)
         {
-            var pInfo = new CombatOperator(OpInfo, 0, spawnBase);
+            var pInfo = new CombatOperator(OpInfo, 0, spawnBase, true);
+
+            var trans = GenerateCharacter(pInfo, pos, angle, spawnBase);
+            trans.AddComponent<PlayerController>();
+
+            // 还有驾驶舱
+            CockpitManager.Instance.ResetAnimator();
+            GetComponent<FbxLoadManager>().LoadModel(OpInfo.ModelResourceUrl, CockpitManager.Instance.CharacterAnimator.transform, false);
+
+            return trans;
+        }
+
+        public Transform GenerateCharacter(CombatOperator cop, Vector3 pos, Vector3 angle, Transform spawnBase)
+        {
 
             // 初始化
-            var prefab = ResourceManager.Load<GameObject>("Characters/Player");
+            var prefab = ResourceManager.Load<GameObject>("Characters/Character");
             var go = Instantiate(prefab, _agentsSpawnTrans);
 
-            // 加入context
-            PlayerTeamTrans.Add(go.transform);
-            Operators.Add(go.transform, pInfo);
-            CombatVM.PlayerTrans = go.transform;
+            Operators.Add(go.transform, cop);
 
             // 挂components
             // animator component
-            var res = GetComponent<FbxLoadManager>().LoadModel(OpInfo.ModelResourceUrl, go.transform, true);
+            var res = GetComponent<FbxLoadManager>().LoadModel(cop.OpInfo.ModelResourceUrl, go.transform.Find("ModelRoot"), true);
             // gun component
             {
                 var gun = go.GetComponent<GunController>();
@@ -288,22 +278,35 @@ namespace Assets.Scripts.CombatLogic
                 gun.BulletStartTrans = res.GunfireTransform;
             }
             // op component
-            go.GetComponent<OperatorController>().Inject(pInfo);
-
-            // 挂cinemachine
-            m_Camera.Follow = go.transform.Find("Camera_Flowing");
-
+            go.GetComponent<OperatorController>().Inject(cop);
 
             // 确认位置
             go.transform.position = pos;
             go.transform.eulerAngles = angle;
 
-            // 还有驾驶舱
-            GetComponent<FbxLoadManager>().LoadModel(OpInfo.ModelResourceUrl, CockpitManager.Instance.CharacterAnimator.transform, false);
-
-            PlayerTrans = go.transform;
-
             return go.transform;
+        }
+
+        public void SwithAgentWithPlayer(Transform agent)
+        {
+            if (Operators[agent].Team != 0) return;
+
+            var oldOpTrans = CombatVM.PlayerTrans;
+            Operators[agent].IsPlayer = true;
+            Operators[oldOpTrans].IsPlayer = false;
+
+            Destroy(oldOpTrans.transform.GetComponent<PlayerController>());
+            Destroy(agent.transform.GetComponent<AgentController>());
+            agent.transform.AddComponent<PlayerController>();
+            oldOpTrans.transform.AddComponent<AgentController>();
+
+
+            // 还有驾驶舱
+            CockpitManager.Instance.ResetAnimator();
+            GetComponent<FbxLoadManager>().LoadModel(Operators[agent].OpInfo.ModelResourceUrl, CockpitManager.Instance.CharacterAnimator.transform, false);
+
+            TransformHelper.ActiveCharacter(this, agent, false);
+            TransformHelper.ActiveCharacter(this, oldOpTrans, false);
         }
 
         public Transform GenerateFighter(Fighter fighter, Vector3 pos, Vector3 angle, int Team, Transform cvBase)
@@ -424,7 +427,6 @@ namespace Assets.Scripts.CombatLogic
                 get { return _playerTrans; }
                 set {
                     _playerTrans = value;
-                    Player = Instance.Operators[_playerTrans];
                     if(PlayerChangeEvent != null) PlayerChangeEvent.Invoke();
                 } }
             private Transform _playerTrans;
@@ -434,7 +436,7 @@ namespace Assets.Scripts.CombatLogic
             /// <summary>
             /// 玩家属性
             /// </summary>
-            public CombatOperator Player { get; private set; }
+            public CombatOperator Player => Instance.Operators[_playerTrans];
 
             public LevelInfo Level { get; set; }
         }

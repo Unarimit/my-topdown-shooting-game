@@ -101,7 +101,6 @@ namespace Assets.Scripts.CombatLogic.Characters
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
 
-            _animator = GetComponent<Animator>();
             _controller = GetComponent<CharacterController>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _collider = GetComponent<CapsuleCollider>();
@@ -112,12 +111,16 @@ namespace Assets.Scripts.CombatLogic.Characters
         }
         public void Inject(CombatOperator model)
         {
+            _animator = transform.Find("ModelRoot").GetComponent<Animator>();
             Model = model;
             initGun();
             initHeadMark();
-            initMiniMapMark();
             initAnimeId();
 
+        }
+        public void RefershModelRef()
+        {
+            _animator = transform.Find("ModelRoot").GetComponent<Animator>();
         }
 
 
@@ -431,7 +434,7 @@ namespace Assets.Scripts.CombatLogic.Characters
         {
             // team mark
             GameObject t_prefab = null;
-            if (Model == _context.CombatVM.Player)
+            if (Model.IsPlayer is true)
             {
                 return;
             }
@@ -446,17 +449,6 @@ namespace Assets.Scripts.CombatLogic.Characters
                 if (Model.OpInfo.Type == Entities.OperatorType.CV) t_prefab = ResourceManager.Load<GameObject>("Effects/EnemyCVMark");
             }
             Instantiate(t_prefab, transform);
-        }
-
-        private void initMiniMapMark()
-        {
-            if (Model == _context.CombatVM.Player)
-            {
-                return;
-            }
-            var mapmark = transform.Find("MiniMapMark").GetComponent<MiniMapMarkUI>();
-
-            mapmark.Inject(Model.Team, Model.OpInfo.Type);
         }
 
         private void initAnimeId()

@@ -10,14 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 825511355781587780}
   - component: {fileID: 8231799037964896028}
-  - component: {fileID: 843860719573977713}
   - component: {fileID: 7311292694273499746}
   - component: {fileID: 6337639950017943097}
   - component: {fileID: 2121058534408725762}
   - component: {fileID: 1090978849389811532}
   - component: {fileID: -7169606508133544718}
   m_Layer: 8
-  m_Name: Agent
+  m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,21 +61,6 @@ CapsuleCollider:
   m_Height: 1.4
   m_Direction: 1
   m_Center: {x: 0, y: 0.8, z: 0}
---- !u!114 &843860719573977713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3241017931548518818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fe768a1a27670248b7a53dd6717e6b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  aimPos: {x: 0, y: 0, z: 0}
-  aimTran: {fileID: 0}
 --- !u!114 &7311292694273499746
 MonoBehaviour:
   m_ObjectHideFlags: 0
