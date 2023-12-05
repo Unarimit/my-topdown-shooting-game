@@ -48,22 +48,22 @@ namespace Assets.Scripts.CombatLogic.EnviormentLogic
             {
                 var nCollider = colliderRoot.Find("NCollider");
                 nCollider.localScale = new Vector3(arr[0].Length, nCollider.localScale.y, nCollider.localScale.z);
-                nCollider.localPosition = new Vector3(arr[0].Length / 2, nCollider.localScale.y, arr.Length);
+                nCollider.localPosition = new Vector3(arr[0].Length / 2, nCollider.localPosition.y, arr.Length);
             }
             {
                 var sCollider = colliderRoot.Find("SCollider");
                 sCollider.localScale = new Vector3(arr[0].Length, sCollider.localScale.y, sCollider.localScale.z);
-                sCollider.localPosition = new Vector3(arr[0].Length / 2, sCollider.localScale.y, 0);
+                sCollider.localPosition = new Vector3(arr[0].Length / 2, sCollider.localPosition.y, 0);
             }
             {
                 var eCollider = colliderRoot.Find("ECollider");
                 eCollider.localScale = new Vector3(arr.Length, eCollider.localScale.y, eCollider.localScale.z);
-                eCollider.localPosition = new Vector3(arr.Length, eCollider.localScale.y, arr[0].Length/2);
+                eCollider.localPosition = new Vector3(arr.Length, eCollider.localPosition.y, arr[0].Length/2);
             }
             {
                 var wCollider = colliderRoot.Find("WCollider");
                 wCollider.localScale = new Vector3(arr.Length, wCollider.localScale.y, wCollider.localScale.z);
-                wCollider.localPosition = new Vector3(0, wCollider.localScale.y, arr[0].Length/2);
+                wCollider.localPosition = new Vector3(0, wCollider.localPosition.y, arr[0].Length/2);
             }
 
 
