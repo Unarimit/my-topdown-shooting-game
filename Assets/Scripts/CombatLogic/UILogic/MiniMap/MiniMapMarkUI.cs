@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
 {
@@ -38,6 +39,15 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
             else if (team == 1)
             {
                 mapEntity.IconColor = TestDB.EnemyColor;
+            }
+        }
+        private void Start()
+        {
+            StartCoroutine(waitAFrame());
+            IEnumerator waitAFrame()
+            {
+                yield return null;
+                ((MyMinimapIcon)mapEntity.IconInstance).Inject(transform.parent);
             }
         }
 

@@ -1,10 +1,9 @@
-﻿using Lovatto.MiniMap;
-using System;
+﻿using Assets.Scripts.CombatLogic.CombatEntities;
+using Assets.Scripts.Entities;
+using DG.Tweening;
+using Lovatto.MiniMap;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -72,10 +71,111 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
             m_CanvasGroup.alpha = 0;
             if (CircleAreaRect != null) { CircleAreaRect.gameObject.SetActive(false); }
         }
+        private CombatContextManager _context => CombatContextManager.Instance;
+        RectTransform panel;
+        Vector2 panelInitSize;
+        public void Inject(Transform trans)
+        {
+            panel = m_VerticleCanvas.transform.Find("Panel").GetComponent<RectTransform>();
+            panelInitSize = panel.sizeDelta;
+
+            if (_context.Operators.ContainsKey(trans)) inject(_context.Operators[trans]);
+            else if (_context.Fighters.ContainsKey(trans)) inject(_context.Fighters[trans].Model, _context.Fighters[trans].Team);
+
+            m_VerticleCanvas.gameObject.SetActive(false);
+        }
+
+        CombatOperator _cop;
+        Slider hpSlider;
+        private void inject(CombatOperator cop)
+        {
+            _cop = cop;
+            var ptrans = m_VerticleCanvas.transform.Find("Panel");
+            if (cop.Team == 0)
+            {
+                ptrans.Find("enemyHDRPanel").gameObject.SetActive(false);
+            }
+            else
+            {
+                ptrans.Find("teamHDRPanel").gameObject.SetActive(false);
+            }
+            hpSlider = ptrans.Find("CHPSlider").GetComponent<Slider>();
+            var nameTMP = ptrans.Find("CNameTMP").GetComponent<TextMeshProUGUI>();
+            var HeadIconRawImg = ptrans.Find("CHeadIconRawImg").GetComponent<RawImage>();
+            var typeNameTMP = ptrans.Find("CHeadIconRawImg").Find("Panel").Find("CharacterTypeTMP").GetComponent<TextMeshProUGUI>();
+
+            hpSlider.value = cop.CurrentHP / cop.MaxHP;
+            nameTMP.text = cop.OpInfo.Name;
+            var texture = ResourceManager.LoadModelHeadIcon(cop.OpInfo.ModelResourceUrl);
+            if (texture != null) HeadIconRawImg.texture = texture;
+            typeNameTMP.text = cop.OpInfo.Type.ToString();
+        }
+        private void inject(Fighter fighter, int team)
+        {
+            var ptrans = m_VerticleCanvas.transform.Find("Panel");
+            if (team == 0)
+            {
+                ptrans.Find("enemyHDRPanel").gameObject.SetActive(false);
+            }
+            else
+            {
+                ptrans.Find("teamHDRPanel").gameObject.SetActive(false);
+            }
+            var hpSlider = ptrans.Find("CHPSlider").GetComponent<Slider>();
+            var nameTMP = ptrans.Find("CNameTMP").GetComponent<TextMeshProUGUI>();
+            var HeadIconRawImg = ptrans.Find("CHeadIconRawImg").GetComponent<RawImage>();
+            var typeNameTMP = ptrans.Find("CHeadIconRawImg").Find("Panel").Find("CharacterTypeTMP").GetComponent<TextMeshProUGUI>();
+
+            hpSlider.value = 1;
+            nameTMP.text = fighter.Operator.Name;
+            var texture = ResourceManager.LoadModelHeadIcon(fighter.Operator.ModelResourceUrl);
+            if (texture != null) HeadIconRawImg.texture = texture;
+            typeNameTMP.text = fighter.Type.To2WordsString();
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            if (miniMapItem == null) return;
+            if (!miniMapItem.IsInteractable || miniMapItem.InteractAction != bl_MiniMapEntityBase.InteracableAction.OnHover) return;
+
+            m_VerticleCanvas.gameObject.SetActive(true);
+            panel.sizeDelta = new Vector2(0, panelInitSize.y);
+            panel.DOSizeDelta(panelInitSize, 0.3f);
+
+            m_VerticleCanvas.transform.position = TargetGraphic.transform.position;
+            if (_cop != null) hpSlider.value = (float)_cop.CurrentHP / _cop.MaxHP;
+
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (miniMapItem == null) return;
+            if(_cop != null)
+            {
+
+            }
+            Debug.Log("click");
+            if (!miniMapItem.IsInteractable || miniMapItem.InteractAction != bl_MiniMapEntityBase.InteracableAction.OnTouch) return;
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            m_VerticleCanvas.gameObject.SetActive(false);
+            
+            if (miniMapItem == null) return;
+            if (!miniMapItem.IsInteractable || miniMapItem.InteractAction != bl_MiniMapEntityBase.InteracableAction.OnHover) return;
+        }
+
+
         private void Update()
         {
-            m_VerticleCanvas.transform.position = TargetGraphic.transform.position;
+            if (m_VerticleCanvas.enabled)
+            {
+                m_VerticleCanvas.transform.position += new Vector3(0, 0.001f, 0) * Mathf.Sin(Time.time) * Time.deltaTime;
+            }
         }
+
+        #region default logic
         /// <summary>
         /// 
         /// </summary>
@@ -233,44 +333,8 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
             if (Anim != null) { Anim.enabled = true; }
         }
 
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            if (miniMapItem == null) return;
-            if (!miniMapItem.IsInteractable || miniMapItem.InteractAction != bl_MiniMapEntityBase.InteracableAction.OnHover) return;
-            OnInteract(true);
-        }
 
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            if (miniMapItem == null) return;
-            if (!miniMapItem.IsInteractable || miniMapItem.InteractAction != bl_MiniMapEntityBase.InteracableAction.OnTouch) return;
-            OnInteract();
-        }
 
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            if (miniMapItem == null) return;
-            if (!miniMapItem.IsInteractable || miniMapItem.InteractAction != bl_MiniMapEntityBase.InteracableAction.OnHover) return;
-            OnInteract(false);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void OnInteract()
-        {
-            isTextOpen = !isTextOpen;
-            OnInteract(isTextOpen);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void OnInteract(bool open)
-        {
-            StopCoroutine("FadeInfo");
-            StartCoroutine("FadeInfo", !open);
-        }
 
         /// <summary>
         /// 
@@ -296,5 +360,6 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
         }
 
         public override void SpawnedDelayed(float v) { delay = v; StartCoroutine(FadeIcon()); }
+        #endregion
     }
 }
