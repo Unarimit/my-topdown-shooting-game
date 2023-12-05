@@ -1,10 +1,12 @@
 ﻿using Assets.Scripts.CombatLogic.Characters.Computer.Fighter.States;
 using Assets.Scripts.CombatLogic.UILogic.MiniMap;
+using Assets.Scripts.Entities;
 using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SocialPlatforms;
+using AFighter = Assets.Scripts.Entities.Fighter;
 
 namespace Assets.Scripts.CombatLogic.Characters.Computer.Fighter
 {
@@ -18,10 +20,11 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Fighter
         internal NavMeshAgent m_NavAgent;
 
         // 属性
-        internal Transform CvBase { get; set; }
+        internal Transform CvBase { get; private set; }
         internal int Team => _context.Operators[CvBase].Team;
         internal Transform Aim { get; set; }
         internal CombatCombatSkill _skill { get; private set; }
+        internal AFighter Model { get; private set; }
 
 
         private Dictionary<IFighterState.StateType, IFighterState> states = new Dictionary<IFighterState.StateType, IFighterState>();
@@ -31,6 +34,12 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Fighter
         // setting
         private const float CHARACTER_END_Y = 2; // 起飞动画参数
         private const float CHARACTER_END_SCALE = 0.7f; // 起飞动画参数
+
+        public void Inject(AFighter model, Transform cvBase)
+        {
+            Model = model;
+            CvBase = cvBase;
+        }
 
         private void Awake()
         {

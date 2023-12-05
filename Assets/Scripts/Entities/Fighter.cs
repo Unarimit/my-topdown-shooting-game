@@ -10,6 +10,16 @@ namespace Assets.Scripts.Entities
     {
         Bomber,
         AirFighter,
+        
+    }
+    public static class FighterTypeExtension
+    {
+        public static string To2WordsString(this FighterType type)
+        {
+            if (type == FighterType.Bomber) return "BM";
+            else if (type == FighterType.AirFighter) return "AF";
+            else return "NL";
+        }
     }
     public class Fighter
     {

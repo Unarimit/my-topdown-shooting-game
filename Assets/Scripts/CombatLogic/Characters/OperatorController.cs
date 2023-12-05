@@ -485,7 +485,7 @@ namespace Assets.Scripts.CombatLogic.Characters
                 curFighterInterval -= Time.deltaTime;
                 if (curFighterInterval < 0)
                 {
-                    var t = _context.GenerateFighter(Model.OpInfo.Fighters[fighters.Count].Operator,
+                    var t = _context.GenerateFighter(Model.OpInfo.Fighters[fighters.Count],
                         transform.position, transform.eulerAngles, Model.Team, transform);
                     fighters.Add(t.GetComponent<FighterController>());
                     curFighterInterval = FIGHTER_INTERVAL;

@@ -306,7 +306,7 @@ namespace Assets.Scripts.CombatLogic
             return go.transform;
         }
 
-        public Transform GenerateFighter(Operator OpInfo, Vector3 pos, Vector3 angle, int Team, Transform cvBase)
+        public Transform GenerateFighter(Fighter fighter, Vector3 pos, Vector3 angle, int Team, Transform cvBase)
         {
             // 初始化
             var prefab = ResourceManager.Load<GameObject>("Characters/Fighter");
@@ -314,12 +314,12 @@ namespace Assets.Scripts.CombatLogic
             
             // 挂components
             // animator component
-            GetComponent<FbxLoadManager>().LoadModel(OpInfo.ModelResourceUrl, go.transform.Find("modelroot"), go.transform, false);
+            GetComponent<FbxLoadManager>().LoadModel(fighter.Operator.ModelResourceUrl, go.transform.Find("modelroot"), go.transform, false);
 
             // Add FighterController, set cvBase and add to dictionary
             {
                 var con = go.GetComponent<FighterController>();
-                con.CvBase = cvBase;
+                con.Inject(fighter, cvBase);
                 Fighters.Add(go.transform, con);
             }
 
