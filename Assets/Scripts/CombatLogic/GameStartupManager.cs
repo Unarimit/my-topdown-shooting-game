@@ -35,6 +35,8 @@ namespace Assets.Scripts.CombatLogic
             {
                 level = TestDB.Level;
             }
+            _context.CombatVM.Level = level;
+
             level.TeamOperators[0].McBody.HP = 100;
 
             prepareGameScene(level);

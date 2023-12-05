@@ -1,4 +1,5 @@
 ﻿using Cinemachine;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace Assets.Scripts.CombatLogic.EnviormentLogic
@@ -8,7 +9,10 @@ namespace Assets.Scripts.CombatLogic.EnviormentLogic
         public Canvas m_MapRenderCanvas;
         public bl_MiniMap m_MiniMap;
         public CinemachineVirtualCamera m_VirtualCamera;
-        public bool IsDestory = false;
+        public bool IsDestory { get; private set; } = false;
+
+        private CombatContextManager _context = CombatContextManager.Instance;
+
         public static StrategyMapController CreateStrategyMap()
         {
             var pre = ResourceManager.Load<GameObject>("UIs/StrategyMap");
@@ -21,7 +25,6 @@ namespace Assets.Scripts.CombatLogic.EnviormentLogic
             IsDestory = true;
             m_VirtualCamera.Priority = 0;
             m_MiniMap.SetActive(false);
-            Destroy(m_MiniMap.gameObject);
             Destroy(gameObject, 1);
         }
 
@@ -29,6 +32,9 @@ namespace Assets.Scripts.CombatLogic.EnviormentLogic
         private void Awake()
         {
             mapCam = Camera.main.transform.Find("UICamera").GetComponent<Camera>();
+            m_MiniMap.Target = _context.CombatVM.PlayerTrans;
+            m_MiniMap.minimapRig.position = new Vector3(_context.CombatVM.Level.Map.Length/2, 0, _context.CombatVM.Level.Map[0].Length / 2);;
+            m_MiniMap.SetAsActiveMiniMap();
         }
         private void Start()
         {

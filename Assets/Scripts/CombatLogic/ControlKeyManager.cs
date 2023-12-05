@@ -17,6 +17,12 @@ namespace Assets.Scripts.CombatLogic
     internal class ControlKeyManager : MonoBehaviour
     {
         private bool isEscMenu = false;
+        private CombatContextManager _context;
+        private void Awake()
+        {
+            _context = GetComponent<CombatContextManager>();
+        }
+
         public void OnEscMenu(InputValue value)
         {
             if (isEscMenu) return;
@@ -37,14 +43,14 @@ namespace Assets.Scripts.CombatLogic
             if (strategyMapController != null && strategyMapController.IsDestory) return;
             if (isStrategyMap is true)
             {
+                isStrategyMap = false;
                 GetComponent<UIManager>().TweenEnter();
                 strategyMapController.Destroy();
-                isStrategyMap = false;
             }
             else
             {
-                GetComponent<UIManager>().TweenQuit();
                 isStrategyMap = true;
+                GetComponent<UIManager>().TweenQuit();
                 strategyMapController = StrategyMapController.CreateStrategyMap();
             }
             

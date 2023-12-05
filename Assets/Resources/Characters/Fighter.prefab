@@ -61,7 +61,7 @@ MonoBehaviour:
   iconFaceDirection: 0
   DestroyWithObject: 1
   BorderOffScreen: 0.01
-  RenderDelay: 0.3
+  RenderDelay: 0
   m_Effect: 2
   CustomIconPrefab: {fileID: 0}
 --- !u!114 &4852239932411355696

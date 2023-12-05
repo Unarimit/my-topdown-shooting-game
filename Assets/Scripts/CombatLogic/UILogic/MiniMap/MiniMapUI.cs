@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
 {
@@ -10,6 +11,15 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
         {
             bl_MiniMap = GetComponent<bl_MiniMap>();
             _context.CombatVM.PlayerChangeEvent += setPlayer;
+        }
+        private void OnEnable()
+        {
+            StartCoroutine(waitToActive());
+            IEnumerator waitToActive()
+            {
+                yield return null;
+                bl_MiniMap.SetAsActiveMiniMap();
+            }
         }
         private void Start()
         {

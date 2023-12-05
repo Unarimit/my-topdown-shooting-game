@@ -435,6 +435,8 @@ namespace Assets.Scripts.CombatLogic
             /// 玩家属性
             /// </summary>
             public CombatOperator Player { get; private set; }
+
+            public LevelInfo Level { get; set; }
         }
 
     }
