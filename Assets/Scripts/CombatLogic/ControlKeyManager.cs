@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.CombatLogic.EnviormentLogic;
+﻿using Assets.Scripts.CombatLogic.ContextExtends;
+using Assets.Scripts.CombatLogic.EnviormentLogic;
 using Assets.Scripts.Common.EscMenu;
 using Newtonsoft.Json.Bson;
 using System;
@@ -44,6 +45,7 @@ namespace Assets.Scripts.CombatLogic
             if (isStrategyMap is true)
             {
                 isStrategyMap = false;
+                _context.ActiveAllCharacter(true);
                 GetComponent<UIManager>().TweenEnter();
                 strategyMapController.Destroy();
             }
@@ -51,6 +53,7 @@ namespace Assets.Scripts.CombatLogic
             {
                 isStrategyMap = true;
                 GetComponent<UIManager>().TweenQuit();
+                _context.ActiveAllCharacter(false);
                 strategyMapController = StrategyMapController.CreateStrategyMap();
             }
             

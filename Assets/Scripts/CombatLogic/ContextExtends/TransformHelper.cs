@@ -24,29 +24,30 @@ namespace Assets.Scripts.CombatLogic.ContextExtends
         /// 通过停止战斗角色更新的方式停止游戏
         /// </summary>
         /// <param name="context"></param>
-        public static void FreezeAllCharacter(this CombatContextManager context)
+        public static void ActiveAllCharacter(this CombatContextManager context, bool isActive)
         {
             foreach(var x in context.Operators.Keys)
             {
                 MonoBehaviour temp = x.GetComponent<AgentController>();
                 // clear update
-                x.GetComponent<OperatorController>().enabled = false;
+                x.GetComponent<OperatorController>().enabled = isActive;
                 if (temp == null) temp = x.GetComponent<PlayerController>();
                 else
                 {
-                    x.GetComponent<NavMeshAgent>().enabled = false;
+                    x.GetComponent<NavMeshAgent>().isStopped = !isActive;
                 }
-                temp.enabled = false;
+                temp.enabled = isActive;
 
                 // clear anime
                 x.GetComponent<OperatorController>().ClearAnimate();
             }
             foreach(var x in context.Fighters.Values)
             {
-                x.enabled = false;
-                x.GetComponent<NavMeshAgent>().enabled = false;
+                x.enabled = isActive;
+                x.GetComponent<NavMeshAgent>().enabled = isActive;
             }
         }
+
         /// <summary>
         /// 根据CombatOperator获取Transform，TODO:这只是个临时方法！
         /// </summary>

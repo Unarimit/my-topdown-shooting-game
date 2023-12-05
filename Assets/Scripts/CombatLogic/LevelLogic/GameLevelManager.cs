@@ -72,7 +72,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             else isAccomplish = true;
 
             // 0. stop game
-            _context.FreezeAllCharacter();
+            _context.ActiveAllCharacter(false);
 
             // 1. get player operators and sort
             var cops = _context.FindCombatOperators(x => x.Team == 0);
