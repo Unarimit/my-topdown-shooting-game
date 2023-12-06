@@ -34,7 +34,8 @@ namespace Assets.Scripts.CombatLogic.ContextExtends
                 if (temp == null) temp = x.GetComponent<PlayerController>();
                 else
                 {
-                    x.GetComponent<NavMeshAgent>().isStopped = !isActive;
+                    if (context.Operators[x].IsDead is false) // disable的时候设置stop会报错
+                        x.GetComponent<NavMeshAgent>().isStopped = !isActive;
                 }
                 temp.enabled = isActive;
 
