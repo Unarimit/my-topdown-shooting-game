@@ -77,3 +77,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6b3a8445e9e77643a73b50712ee7955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_CvIcon: {fileID: 21300000, guid: 5c78f8e1fcec00148a418570029246cc, type: 3}
+  m_CaIcon: {fileID: 21300000, guid: 5a3db7fd1ba6f2849a042d5644a8d6fd, type: 3}
+  m_DdIcon: {fileID: 21300000, guid: 0978546c59085d54abd8aad452b1003e, type: 3}

@@ -6,6 +6,9 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
     [RequireComponent(typeof(bl_MiniMapEntity))]
     internal class MiniMapMarkUI : MonoBehaviour
     {
+        public Sprite m_CvIcon;
+        public Sprite m_CaIcon;
+        public Sprite m_DdIcon;
         bl_MiniMapEntity mapEntity;
         private void Awake()
         {
@@ -29,11 +32,11 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
             }
             if (type == Entities.OperatorType.CA)
             {
-
+                mapEntity.Icon = m_CaIcon;
             }
             else if (type == Entities.OperatorType.CV)
             {
-
+                mapEntity.Icon = m_CvIcon;
             }
         }
         public void FighterInject(int team)
