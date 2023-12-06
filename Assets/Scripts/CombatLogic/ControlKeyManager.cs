@@ -1,12 +1,6 @@
 ﻿using Assets.Scripts.CombatLogic.ContextExtends;
-using Assets.Scripts.CombatLogic.EnviormentLogic;
+using Assets.Scripts.CombatLogic.UILogic.StrategyMap;
 using Assets.Scripts.Common.EscMenu;
-using Newtonsoft.Json.Bson;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
