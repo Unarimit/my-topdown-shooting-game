@@ -15,22 +15,25 @@ namespace Assets.Scripts.CombatLogic.UILogic
 
         private void OnEnable()
         {
-            MaxAmmoText.text = _context.CombatVM.PlayerGun.gunProperty.MaxAmmo.ToString();
-            CurrentAmmoText.text = _context.CombatVM.PlayerGun.gunProperty.CurrentAmmo.ToString();
-            _context.CombatVM.PlayerGun.CurrentAmmoChangeEvent += UpdateCurrentAmmo;
-            Gunshape.sprite = ResourceManager.Load<Sprite>($"Skills/{_context.CombatVM.PlayerGun.Skill.SkillInfo.IconUrl}");
+            _context.CombatVM.PlayerGunStatuChangeEvent += UpdateCurrentAmmo;
+            if(_context.CombatVM.InvokePlayerGunStatuChangeEventLastMsg != null)
+            {
+                UpdateCurrentAmmo(_context.CombatVM.InvokePlayerGunStatuChangeEventLastMsg);
+                _context.CombatVM.InvokePlayerGunStatuChangeEventLastMsg = null;
+            }
         }
         private void OnDisable()
         {
-            _context.CombatVM.PlayerGun.CurrentAmmoChangeEvent -= UpdateCurrentAmmo;
+            _context.CombatVM.PlayerGunStatuChangeEvent -= UpdateCurrentAmmo;
         }
+        GunController _gun = null;
         /// <summary>
         /// 更新当前子弹数量，当数量小于最大子弹的1/5时，颜色变为红色
         /// </summary>
-        public void UpdateCurrentAmmo()
+        internal void UpdateCurrentAmmo(GunController gun)
         {
-            int cur = _context.CombatVM.PlayerGun.gunProperty.CurrentAmmo;
-            int max = _context.CombatVM.PlayerGun.gunProperty.MaxAmmo;
+            int cur = gun.gunProperty.CurrentAmmo;
+            int max = gun.gunProperty.MaxAmmo;
             CurrentAmmoText.text = cur.ToString();
             if (max != 0 && max > cur * 5)
             {
@@ -40,6 +43,13 @@ namespace Assets.Scripts.CombatLogic.UILogic
             {
                 CurrentAmmoText.color = AmmoNormal;
             }
+            if(_gun == null || _gun != gun)
+            {
+                MaxAmmoText.text = gun.gunProperty.MaxAmmo.ToString();
+                Gunshape.sprite = ResourceManager.Load<Sprite>($"Skills/{gun.Skill.SkillInfo.IconUrl}");
+                _gun = gun;
+            }
+            
         }
 
         private Vector2 initPos;

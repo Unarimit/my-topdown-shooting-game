@@ -111,18 +111,17 @@ namespace Assets.Scripts.CombatLogic.Characters
         }
         public void Inject(CombatOperator model)
         {
-            _animator = transform.Find("ModelRoot").GetComponent<Animator>();
             Model = model;
-            initGun();
+            _animator = transform.Find("ModelRoot").GetComponent<Animator>();
+            _gunController.InitGun(this);
             initHeadMark();
             initAnimeId();
 
         }
-        public void RefershModelRef()
+        public void RefreshPlayerUIRef()
         {
-            _animator = transform.Find("ModelRoot").GetComponent<Animator>();
+            _gunController.Refresh();
         }
-
 
         private void Start()
         {
@@ -424,10 +423,6 @@ namespace Assets.Scripts.CombatLogic.Characters
             yield return wait;
             _animator.SetBool(_animIDReloading, false);
             yield break;
-        }
-        private void initGun()
-        {
-            _gunController.InitGun(Model.WeaponSkill);
         }
 
         private void initHeadMark()

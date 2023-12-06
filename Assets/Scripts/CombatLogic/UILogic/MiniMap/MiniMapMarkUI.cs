@@ -11,9 +11,15 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
         {
             mapEntity = GetComponent<bl_MiniMapEntity>();
         }
-        public void Inject(int team, Entities.OperatorType type)
+        private bool _isPlayer = false;
+        public void Inject(int team, Entities.OperatorType type, bool isPlayer = false)
         {
-            if (team == 0)
+            if (isPlayer)
+            {
+                mapEntity.IconColor = TestDB.PlayerColor;
+                _isPlayer = true;
+            }
+            else if (team == 0)
             {
                 mapEntity.IconColor = TestDB.TeamColor;
             }
@@ -47,7 +53,7 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
             IEnumerator waitAFrame()
             {
                 yield return null;
-                ((MyMinimapIcon)mapEntity.IconInstance).Inject(transform.parent);
+                ((MyMinimapIcon)mapEntity.IconInstance).Inject(transform.parent, _isPlayer);
             }
         }
 

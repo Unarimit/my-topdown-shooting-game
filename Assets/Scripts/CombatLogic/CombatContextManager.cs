@@ -290,6 +290,7 @@ namespace Assets.Scripts.CombatLogic
         public void SwithAgentWithPlayer(Transform agent)
         {
             if (Operators[agent].Team != 0) return;
+            if (Operators[agent].IsPlayer is true) return;
 
             var oldOpTrans = CombatVM.PlayerTrans;
             Operators[agent].IsPlayer = true;
@@ -300,6 +301,7 @@ namespace Assets.Scripts.CombatLogic
             agent.transform.AddComponent<PlayerController>();
             oldOpTrans.transform.AddComponent<AgentController>();
 
+            agent.GetComponent<OperatorController>().RefreshPlayerUIRef();
 
             // 还有驾驶舱
             CockpitManager.Instance.ResetAnimator();
@@ -418,7 +420,14 @@ namespace Assets.Scripts.CombatLogic
             /// <summary>
             /// 玩家枪属性
             /// </summary>
-            public GunController PlayerGun { get; set; }
+            internal delegate void PlayerGunStatuChangeEventHandler(GunController gun);
+            internal event PlayerGunStatuChangeEventHandler PlayerGunStatuChangeEvent;
+            internal GunController InvokePlayerGunStatuChangeEventLastMsg = null;
+            internal void InvokePlayerGunStatuChangeEvent(GunController gun)
+            {
+                if (PlayerGunStatuChangeEvent != null) PlayerGunStatuChangeEvent.Invoke(gun);
+                else InvokePlayerGunStatuChangeEventLastMsg = gun;
+            }
 
             /// <summary>
             /// 玩家坐标

@@ -36,9 +36,9 @@ namespace Assets.Scripts.CombatLogic.EnviormentLogic
         private void Awake()
         {
             mapCam = Camera.main.transform.Find("UICamera").GetComponent<Camera>();
-            setPlayer();
             m_MiniMap.minimapRig.position = new Vector3(_context.CombatVM.Level.Map.Length/2, 0, _context.CombatVM.Level.Map[0].Length / 2);;
             m_MiniMap.SetAsActiveMiniMap();
+            setPlayer();
 
             _context.CombatVM.PlayerChangeEvent += setPlayer;
         }

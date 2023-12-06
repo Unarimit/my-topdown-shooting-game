@@ -12584,6 +12584,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 16
       objectReference: {fileID: 0}
+    - target: {fileID: 604728848702049914, guid: 02b9f8c1f9c54ff4984a34f784a3e63c,
+        type: 3}
+      propertyPath: m_Alpha
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 604728848702828822, guid: 02b9f8c1f9c54ff4984a34f784a3e63c,
         type: 3}
       propertyPath: m_Pivot.x
@@ -12718,6 +12723,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 604728848714091154, guid: 02b9f8c1f9c54ff4984a34f784a3e63c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 604728848714094566, guid: 02b9f8c1f9c54ff4984a34f784a3e63c,
         type: 3}
@@ -12881,6 +12891,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 842101733322362495, guid: 02b9f8c1f9c54ff4984a34f784a3e63c,
         type: 3}
+      propertyPath: playerColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 842101733322362495, guid: 02b9f8c1f9c54ff4984a34f784a3e63c,
+        type: 3}
       propertyPath: fullScreenMode
       value: 0
       objectReference: {fileID: 0}
@@ -12888,6 +12903,11 @@ PrefabInstance:
         type: 3}
       propertyPath: nonRenderLayer
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 842101733322362495, guid: 02b9f8c1f9c54ff4984a34f784a3e63c,
+        type: 3}
+      propertyPath: overallOpacity
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 842101733322362495, guid: 02b9f8c1f9c54ff4984a34f784a3e63c,
         type: 3}
@@ -12949,13 +12969,19 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8081685031304182767, guid: 02b9f8c1f9c54ff4984a34f784a3e63c,
+        type: 3}
+      propertyPath: playerIcon
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8509999956041009175, guid: 02b9f8c1f9c54ff4984a34f784a3e63c,
         type: 3}
       propertyPath: m_Layer
       value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 604728848714091154, guid: 02b9f8c1f9c54ff4984a34f784a3e63c, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 604728848714261406, guid: 02b9f8c1f9c54ff4984a34f784a3e63c,

@@ -253,6 +253,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 710603236029099008, guid: 1143e94b592ad6449a8d76dbc3cc58ea,
+        type: 3}
+      propertyPath: playerIcon
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 710603236029099015, guid: 1143e94b592ad6449a8d76dbc3cc58ea,
         type: 3}
       propertyPath: m_Layer
@@ -487,6 +492,7 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 710603236029046891, guid: 1143e94b592ad6449a8d76dbc3cc58ea, type: 3}
     - {fileID: 710603236286550251, guid: 1143e94b592ad6449a8d76dbc3cc58ea, type: 3}
+    - {fileID: 710603236029123321, guid: 1143e94b592ad6449a8d76dbc3cc58ea, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 710603236029102717, guid: 1143e94b592ad6449a8d76dbc3cc58ea,

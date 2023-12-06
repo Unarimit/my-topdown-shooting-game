@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.BulletLogic;
+using Assets.Scripts.CombatLogic.UILogic.MiniMap;
 using StarterAssets;
 using System;
 using UnityEngine;
@@ -27,27 +28,41 @@ namespace Assets.Scripts.CombatLogic.Characters.Player
         private DestructiblePersonController _destructiblePersonController;
         #endregion
 
+        #region 伴随生命周期注册和销毁的组件
         private GameObject _cameraFlowing;
+        private GameObject mapMarkUI;
         private void Awake()
         {
+            _controller = GetComponent<OperatorController>();
             // 注册其他组件
             // 相机追踪
             _cameraFlowing = Instantiate(ResourceManager.Load<GameObject>("Characters/CameraFlowing"), transform);
             _context.m_Camera.Follow = _cameraFlowing.transform;
             _context.CombatVM.PlayerTrans = transform;
+            mapMarkUI = initMiniMapMark();
         }
         private void OnDestroy()
         {
             // 注销组件
-            Destroy(_cameraFlowing);
+            if (_cameraFlowing != null) Destroy(_cameraFlowing);
+            if (mapMarkUI != null) Destroy(mapMarkUI);
         }
+        #endregion
         private void Start()
         {
-            _controller = GetComponent<OperatorController>();
             _input = StarterAssetsInputs.Instance;
             _destructiblePersonController = GetComponent<DestructiblePersonController>();
 
         }
+        private GameObject initMiniMapMark()
+        {
+            var go = Instantiate(ResourceManager.Load<GameObject>("Characters/MiniMapMark"), transform);
+            var mapmark = go.transform.GetComponent<MiniMapMarkUI>();
+
+            mapmark.Inject(_controller.Model.Team, _controller.Model.OpInfo.Type, true);
+            return go;
+        }
+
         private void Update()
         {
             Move();

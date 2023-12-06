@@ -75,8 +75,9 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
         private CombatContextManager _context => CombatContextManager.Instance;
         RectTransform panel;
         Vector2 panelInitSize;
-        public void Inject(Transform trans)
+        public void Inject(Transform trans, bool isPlayer)
         {
+            if(isPlayer)  transform.Find("CanvasIcon").Find("Vision").gameObject.SetActive(true);
             panel = m_VerticleCanvas.transform.Find("Panel").GetComponent<RectTransform>();
             panelInitSize = panel.sizeDelta;
 
