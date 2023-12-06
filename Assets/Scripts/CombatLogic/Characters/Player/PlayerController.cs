@@ -40,9 +40,11 @@ namespace Assets.Scripts.CombatLogic.Characters.Player
             _context.m_Camera.Follow = _cameraFlowing.transform;
             _context.CombatVM.PlayerTrans = transform;
             mapMarkUI = initMiniMapMark();
+            transform.tag = TestDB.PLAYER_TAG;
         }
         private void OnDestroy()
         {
+            transform.tag = TestDB.UNTAGED_TAG;
             // 注销组件
             if (_cameraFlowing != null) Destroy(_cameraFlowing);
             if (mapMarkUI != null) Destroy(mapMarkUI);
