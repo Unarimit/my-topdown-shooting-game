@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Entities
@@ -40,7 +36,7 @@ namespace Assets.Scripts.Entities
         /// <summary>
         /// 掉落
         /// </summary>
-        public KeyValuePair<string, int>[] Dropouts;
+        public Dropout[] Dropouts;
         /// <summary>
         /// AI进攻性
         /// </summary>
@@ -79,7 +75,7 @@ namespace Assets.Scripts.Entities
         /// <summary>
         /// 掉落
         /// </summary>
-        public KeyValuePair<string, int>[] Dropouts;
+        public Dropout[] Dropouts;
         /// <summary>
         /// 初始化位置
         /// </summary>
@@ -100,7 +96,36 @@ namespace Assets.Scripts.Entities
         /// </summary>
         public string Description;
     }
+    public struct Dropout
+    {
+        /// <summary>
+        /// 掉落物体
+        /// </summary>
+        public readonly GameItem DropItem;
+        /// <summary>
+        /// 掉落最小数量 计算公式为 if(Possible > Random(0, 1)) Random.Range(AmountMin, AmountMax)
+        /// </summary>
+        public readonly int AmountMin;
+        public readonly int AmountMax;
+        public readonly float Possible;
 
+        public Dropout(GameItem dropItem, int amountMin = 1, int amountMax = 1, float possible = 1)
+        {
+            DropItem = dropItem;
+            AmountMin = amountMin;
+            AmountMax = amountMax;
+            Possible = possible;
+        }
+
+        public int GetDropoutAmount()
+        {
+            if(Possible > Random.Range(0f, 1.0f))
+            {
+                return Random.Range(AmountMin, AmountMax);
+            }
+            else return 0;
+        }
+    }
     /// <summary>
     /// 关卡生成规则
     /// </summary>

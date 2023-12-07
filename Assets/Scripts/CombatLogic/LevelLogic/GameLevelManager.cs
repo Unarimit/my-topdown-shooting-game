@@ -91,9 +91,9 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         #region 掉落和检测相关
         public void FinishInteract(InteractablePrefab interactable)
         {
-            foreach(var pair in interactable.Dropouts)
+            foreach(var x in interactable.Dropouts)
             {
-                addDropout(pair.Key, pair.Value);
+                addDropout(x.DropItem.ItemId, x.GetDropoutAmount());
             }
         }
         public void CalculateDropout(CombatOperator cOperator)

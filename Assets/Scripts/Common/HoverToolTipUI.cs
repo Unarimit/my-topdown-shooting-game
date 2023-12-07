@@ -21,6 +21,9 @@ namespace Assets.Scripts.Common
         private GameObject _tipGo;
         private RectTransform _tipPanel;
         private TextMeshProUGUI _tipText;
+        /// <summary>
+        /// 在物体上添加HoverTip控制器，会在root生成提示go
+        /// </summary>
         public static HoverToolTipUI CreateHoverToolTip(Transform transform, string toolTiptext, float enterDelay)
         {
             var res = transform.AddComponent<HoverToolTipUI>();
@@ -37,7 +40,10 @@ namespace Assets.Scripts.Common
 
             _tipText.text = ToolTipText;
             StartCoroutine(setSizeDelay());
-
+        }
+        private void OnDestroy()
+        {
+            Destroy(_tipGo);
         }
         bool enter = false;
         public void OnPointerEnter(PointerEventData eventData)

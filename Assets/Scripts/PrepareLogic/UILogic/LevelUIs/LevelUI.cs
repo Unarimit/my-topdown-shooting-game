@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Assets.Scripts.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TMPro;
+using Unity.VisualScripting;
 
 namespace Assets.Scripts.PrepareLogic.UILogic.LevelUIs
 {
@@ -32,6 +30,18 @@ namespace Assets.Scripts.PrepareLogic.UILogic.LevelUIs
             _levelLossAimTMP.text = $"失败条件：\n{_context.Level.GetLossDesc()}";
             _levelMapUI.DrawMap(_context.Level.Map, _context.Level.LevelRule.TeamSpawn, _context.Level.LevelRule.EnemySpawn);
 
+            // drop outs
+            var dropouts = new List<GameItem>();
+            foreach(var enemy in _context.Level.LevelRule.OperatorPrefabs)
+            {
+                if (enemy.Dropouts == null) continue;
+                foreach(var x in enemy.Dropouts)
+                {
+                    dropouts.Add(x.DropItem);
+                }
+            }
+            dropouts.DistinctBy(x => x.ItemId);
+            transform.Find("LevelDropoutPanel").Find("Scroll View").GetComponent<LevelDropoutScrollViewUI>().Inject(dropouts);
         }
     }
 }

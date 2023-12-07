@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Entities;
+﻿using Assets.Scripts.Common;
+using Assets.Scripts.Entities;
 using Assets.Scripts.Entities.Mechas;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -31,7 +32,10 @@ namespace Assets.Scripts
             KillEnemy,
             KillTeam,
             Time,
-            Key
+            Key,
+            Red, //测试道具1号
+            Purple, //测试道具2号
+            Sphere //测试道具3号
         }
         #endregion
 
@@ -58,6 +62,9 @@ namespace Assets.Scripts
                             MechaRandomUpgradeFactor = 0,
                             AiAgressive = true,
                             InitPosition = InitPosition.EnemySpawnScatter,
+                            Dropouts = new Dropout[]{ 
+                                new Dropout(ItemHelper.GetItem(DropoutTable.Sphere.ToString()))
+                            }
                         },
                         new OperatorPrefab
                         {
@@ -68,6 +75,10 @@ namespace Assets.Scripts
                             MechaRandomUpgradeFactor = 0,
                             AiAgressive = true,
                             InitPosition = InitPosition.EnemySpawnScatter,
+                            Dropouts = new Dropout[]{
+                                new Dropout(ItemHelper.GetItem(DropoutTable.Red.ToString())),
+                                new Dropout(ItemHelper.GetItem(DropoutTable.Purple.ToString()))
+                            }
                         }
                     },
                     WinCondition = new Condition[]{
@@ -130,8 +141,8 @@ namespace Assets.Scripts
                             MinAmount = 1,
                             MaxAmount = 1,
                             InitPosition = InitPosition.EnemySpawnCenter,
-                            Dropouts = new KeyValuePair<string, int>[] {
-                                new KeyValuePair<string, int>(DropoutTable.Key.ToString(), 1),
+                            Dropouts = new Dropout[]{ 
+                                new Dropout(ItemHelper.GetItem(DropoutTable.Key.ToString()))
                             },
                             ModelUrl = "Objects/Key",
                         }
@@ -196,8 +207,9 @@ namespace Assets.Scripts
                             MinAmount = 3,
                             MaxAmount = 3,
                             InitPosition = InitPosition.MapScatter,
-                            Dropouts = new KeyValuePair<string, int>[] {
-                                new KeyValuePair<string, int>(DropoutTable.Key.ToString(), 1),
+                            Dropouts = new Dropout[]
+                            {
+                                new Dropout(ItemHelper.GetItem(DropoutTable.Key.ToString()))
                             },
                             ModelUrl = "Objects/Key",
                         }
