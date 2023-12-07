@@ -2,6 +2,7 @@
 using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.CombatLogic.UILogic.StrategyMap
 {
@@ -11,7 +12,9 @@ namespace Assets.Scripts.CombatLogic.UILogic.StrategyMap
         public Canvas m_MapRenderCanvas;
         public bl_MiniMap m_MiniMap;
         public CinemachineVirtualCamera m_VirtualCamera;
+        public Image m_FadeCanvas;
         #endregion
+
         public bool IsDestory { get; private set; } = false;
 
         private CombatContextManager _context = CombatContextManager.Instance;
@@ -48,6 +51,7 @@ namespace Assets.Scripts.CombatLogic.UILogic.StrategyMap
             m_MiniMap.SetAsActiveMiniMap();
             setPlayer();
             _context.CombatVM.PlayerChangeEvent += setPlayer;
+            m_FadeCanvas.DOFade(0.8f, 0.5f);
 
             // team Panel
             transform.Find("OpStatusCanvas").GetComponent<Canvas>().worldCamera = mapCam;

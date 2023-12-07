@@ -256,6 +256,8 @@ namespace Assets.Scripts.CombatLogic
             CockpitManager.Instance.ResetAnimator();
             GetComponent<FbxLoadManager>().LoadModel(OpInfo.ModelResourceUrl, CockpitManager.Instance.CharacterAnimator.transform, false);
 
+            PlayerTeamTrans.Add(trans);
+
             return trans;
         }
 
