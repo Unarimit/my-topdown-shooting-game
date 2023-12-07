@@ -86,7 +86,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
 
             // 3. call ui
             UIManager.Instance.TweenQuit();
-            CombatSummaryCanvasUI.CreateAndShowCombatSummaryCanvasUI(cops, isWin);
+            CombatSummaryCanvasUI.CreateAndShowCombatSummaryCanvasUI(cops, isWin, Dropouts);
         }
         #region 掉落和检测相关
         public void FinishInteract(InteractablePrefab interactable)
@@ -101,7 +101,21 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             if (cOperator.Team == 0) addDropout(TestDB.DropoutTable.KillTeam.ToString(), 1);
             else if (cOperator.Team == 1)
             {
+                // 自带掉落
+                foreach(var ePrab in _rule.OperatorPrefabs)
+                {
+                    if(ePrab.OpInfo.Id == cOperator.OpInfo.Id)
+                    {
+                        foreach(var dp in ePrab.Dropouts)
+                        {
+                            addDropout(dp.DropItem.ItemId, dp.GetDropoutAmount());
+                        }
+                        break;
+                    }
+                }
+                // 敌人指示物
                 addDropout(TestDB.DropoutTable.KillEnemy.ToString(), 1);
+                // AI相关
                 EnemyAttackFactor += 0.2f;
             }
         }

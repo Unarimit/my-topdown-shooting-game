@@ -240,46 +240,44 @@ namespace Assets.Scripts
         // 临时存储，传递到下一个场景的信息
         public static LevelInfo Level { get; set; }
 
+        static int opId = 0;
         public static List<Operator> GetOperators()
         {
             // TODO: these just for test
             return new List<Operator>() {
-                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", WeaponSkillId = 4 },
+                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", WeaponSkillId = 4, Id = (++opId).ToString() },
                 new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Type = OperatorType.CV, 
                     WeaponSkillId = 6,
                     Fighters = new List<Fighter>{ 
-                        new Fighter { Operator = new Operator { Name = "ho", ModelResourceUrl = "Hoshino" } },
-                        new Fighter { Operator = new Operator { Name = "shi", ModelResourceUrl = "Shiroko" } }
-                    } 
+                        new Fighter { Operator = new Operator { Name = "ho", ModelResourceUrl = "Hoshino", Id = (++opId).ToString() } },
+                        new Fighter { Operator = new Operator { Name = "shi", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() } }
+                    }, 
+                    Id = (++opId).ToString()
                 },
 
-                new Operator { Name = "aru", ModelResourceUrl = "Aru",  },
-                new Operator { Name = "akrin", ModelResourceUrl = "Karin",  },
-                new Operator { Name = "mashiro", ModelResourceUrl = "Mashiro",  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko",  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko",  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko",  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko",  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko",  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko",  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko",  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko",  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko",  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko",  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko",  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko",  },
-                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino",  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko",  },
-                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino",  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko",  },
-                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino",  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko",  },
-                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino",  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko",  },
-                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino",  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko",  },
-                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino",  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko",  },
+                new Operator { Name = "aru", ModelResourceUrl = "Aru",Id = (++opId).ToString()  },
+                new Operator { Name = "akrin", ModelResourceUrl = "Karin", Id = (++opId).ToString() },
+                new Operator { Name = "mashiro", ModelResourceUrl = "Mashiro",Id = (++opId).ToString()  },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString()},
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
             };
         }
 
@@ -305,7 +303,8 @@ namespace Assets.Scripts
                 Name = "random test",
                 ModelResourceUrl = clist[Random.Range(0, clist.Count)],
                 WeaponSkillId = 4,
-                Type = OperatorType.CA
+                Type = OperatorType.CA,
+                Id = (++opId).ToString()
             };
         }
         public static Operator GetRandomCV()
@@ -319,7 +318,8 @@ namespace Assets.Scripts
                 Fighters = new List<Fighter>{
                     new Fighter { Operator = new Operator { Name = "r1", ModelResourceUrl = clist[Random.Range(0, clist.Count)] } },
                     new Fighter { Operator = new Operator { Name = "r2", ModelResourceUrl = clist[Random.Range(0, clist.Count)] } }
-                }
+                },
+                Id = (++opId).ToString()
             };
         }
         public static List<Operator> GetRandomOperator(int t)

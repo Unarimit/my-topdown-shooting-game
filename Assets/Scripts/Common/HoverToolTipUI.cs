@@ -17,18 +17,20 @@ namespace Assets.Scripts.Common
     {
         public string ToolTipText;
         public float EnterDelay = 0.5f;
+        public float WaitTime = 0f;
 
         private GameObject _tipGo;
         private RectTransform _tipPanel;
         private TextMeshProUGUI _tipText;
         /// <summary>
-        /// 在物体上添加HoverTip控制器，会在root生成提示go
+        /// 在物体上添加HoverTip控制器，会在root生成提示go。如果父组件带进场动画，设定waitTime
         /// </summary>
-        public static HoverToolTipUI CreateHoverToolTip(Transform transform, string toolTiptext, float enterDelay)
+        public static HoverToolTipUI CreateHoverToolTip(Transform transform, string toolTiptext, float enterDelay, float waitTime = 0f)
         {
             var res = transform.AddComponent<HoverToolTipUI>();
             res.ToolTipText = toolTiptext;
             res.EnterDelay = enterDelay;
+            res.WaitTime = waitTime;
             return res;
         }
         private void Start()
@@ -56,7 +58,8 @@ namespace Assets.Scripts.Common
         }
         IEnumerator setSizeDelay() // 等待布局计算
         {
-            yield return new WaitForEndOfFrame();
+            yield return null;
+            yield return new WaitForSeconds(WaitTime);
             _tipPanel.position = new Vector2(transform.position.x, transform.position.y);
             _tipPanel.sizeDelta = new Vector2(_tipPanel.rect.width, _tipText.preferredHeight + 20f);
         }

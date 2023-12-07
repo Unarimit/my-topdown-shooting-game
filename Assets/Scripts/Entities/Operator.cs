@@ -19,6 +19,10 @@ namespace Assets.Scripts.Entities
     [Serializable]
     public class Operator : ICloneable
     {
+        /// <summary>
+        /// 人物Id
+        /// </summary>
+        public string Id;
         public OperatorType Type = OperatorType.CA;
         public string Name = "empty";
 

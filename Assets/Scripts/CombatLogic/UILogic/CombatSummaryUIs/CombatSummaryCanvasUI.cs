@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.CombatLogic.CombatEntities;
+using Assets.Scripts.CombatLogic.LevelLogic;
 using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,17 +10,18 @@ namespace Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs
     internal class CombatSummaryCanvasUI : MonoBehaviour
     {
 
-        public static CombatSummaryCanvasUI CreateAndShowCombatSummaryCanvasUI(List<CombatOperator> sortedOperators, bool isWin)
+        public static CombatSummaryCanvasUI CreateAndShowCombatSummaryCanvasUI(List<CombatOperator> sortedOperators,
+            bool isWin, Dictionary<string, int> dropouts)
         {
             var prefab = ResourceManager.Load<GameObject>("UIs/CombatSummaryCanvas");
             var go = Instantiate(prefab);
             var con = go.GetComponent<CombatSummaryCanvasUI>();
-            con.Inject(sortedOperators, isWin);
+            con.Inject(sortedOperators, isWin, dropouts);
 
             return con;
         }
 
-        public void Inject(List<CombatOperator> sortedOperators, bool isWin)
+        public void Inject(List<CombatOperator> sortedOperators, bool isWin, Dictionary<string, int> dropouts)
         {
             // result
             if(isWin is true)
@@ -34,13 +36,11 @@ namespace Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs
                 temp.gameObject.SetActive(true);
                 resultTextWarp = temp.Find("ResultWrapPanel").GetComponent<RectTransform>();
             }
-            // rank
 
-
-            // anime
+            // data and anime anime
             tweenResultText();
             tweenRankPanel(sortedOperators);
-            tweenResoucePanel();
+            tweenResoucePanel(dropouts);
 
         }
 
@@ -87,7 +87,7 @@ namespace Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs
         /// <summary>
         /// 资源栏过渡动画
         /// </summary>
-        private void tweenResoucePanel()
+        private void tweenResoucePanel(Dictionary<string, int> dropouts)
         {
             var initAnchor = resourcePanel.anchoredPosition;
             resourcePanel.anchoredPosition = new Vector2(initAnchor.x+resourcePanel.rect.width, initAnchor.y);
@@ -95,6 +95,8 @@ namespace Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs
             {
                 resourcePanel.DOAnchorPos(initAnchor, 0.2f);
             });
+
+            resourcePanel.Find("DropoutSPanel").Find("Scroll View").GetComponent<CsDropoutScrollViewUI>().Inject(dropouts);
         }
     }
 }
