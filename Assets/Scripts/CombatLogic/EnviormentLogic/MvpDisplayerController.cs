@@ -24,7 +24,7 @@ namespace Assets.Scripts.CombatLogic.EnviormentLogic
         {
             animator.SetTrigger(_animeInitID);
             var angle = modelRootTrans.eulerAngles;
-            angle.y = vcTrans.eulerAngles.y + 180;
+            angle.y = vcTrans.eulerAngles.y + 90;
             modelRootTrans.DORotate(angle, 0.5f);
         }
     }
