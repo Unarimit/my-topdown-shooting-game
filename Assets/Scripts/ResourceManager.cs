@@ -16,16 +16,16 @@ namespace Assets.Scripts
         }
 
         // TODO: 在数据未持久化之前的临时措施
-        public static Dictionary<string, Texture> HeadIconMap = new Dictionary<string, Texture>();
-        public static Texture LoadModelHeadIcon(string modelUrl)
+        public static Dictionary<string, Texture> IconMap = new Dictionary<string, Texture>();
+        public static Texture LoadIcon(string modelUrl)
         {
-            if (HeadIconMap.ContainsKey(modelUrl)) return HeadIconMap[modelUrl];
+            if (IconMap.ContainsKey(modelUrl)) return IconMap[modelUrl];
             else return null;
         }
-        public static void AddModelHeadIcon(string modelUrl, Texture texture)
+        public static void AddIcon(string modelUrl, Texture texture)
         {
-            if (HeadIconMap.ContainsKey(modelUrl)) return;
-            else HeadIconMap.Add(modelUrl, texture);
+            if (IconMap.ContainsKey(modelUrl)) return;
+            else IconMap.Add(modelUrl, texture);
         }
     }
 }

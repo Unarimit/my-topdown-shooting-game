@@ -38,7 +38,7 @@ namespace Assets.Scripts.CombatLogic.UILogic.StrategyMap
             // 基础信息
             nameTMP.text = cop.OpInfo.Name;
             typeNameTMP.text = cop.OpInfo.Type.ToString();
-            var texture = ResourceManager.LoadModelHeadIcon(cop.OpInfo.ModelResourceUrl);
+            var texture = ResourceManager.LoadIcon(cop.OpInfo.ModelResourceUrl);
             if (texture != null) HeadIconRawImg.texture = texture;
 
             // 血条

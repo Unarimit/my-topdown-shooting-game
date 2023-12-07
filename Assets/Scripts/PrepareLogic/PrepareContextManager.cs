@@ -67,7 +67,7 @@ namespace Assets.Scripts.PrepareLogic
                 else
                 {
                     foreach (var x in TestDB.Level.TeamOperators)
-                        ResourceManager.AddModelHeadIcon(x.ModelResourceUrl, PhotographyManager.Instance.GetCharacterHeadIcon(x.ModelResourceUrl));
+                        ResourceManager.AddIcon(x.ModelResourceUrl, PhotographyManager.Instance.GetCharacterHeadIcon(x.ModelResourceUrl));
                 }
                 SlideUI.CreateSlideUI();
                 SceneManager.LoadScene("Playground");

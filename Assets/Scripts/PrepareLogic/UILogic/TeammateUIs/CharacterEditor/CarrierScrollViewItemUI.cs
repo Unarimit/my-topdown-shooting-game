@@ -18,7 +18,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
             _model = fi;
             PortraitImage.texture = PhotographyManager.Instance.GetCharacterHeadIcon(_model.Operator.ModelResourceUrl);
             CharacterNameTMP.text = _model.Operator.Name;
-            CharacterTypeTMP.text = _model.Type.ToString();
+            CharacterTypeTMP.text = _model.Type.To2WordsString();
         }
         public void OnPointerExit(PointerEventData eventData)
         {

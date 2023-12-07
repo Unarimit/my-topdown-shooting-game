@@ -111,7 +111,7 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
 
             hpSlider.value = cop.CurrentHP / cop.MaxHP;
             nameTMP.text = cop.OpInfo.Name;
-            var texture = ResourceManager.LoadModelHeadIcon(cop.OpInfo.ModelResourceUrl);
+            var texture = ResourceManager.LoadIcon(cop.OpInfo.ModelResourceUrl);
             if (texture != null) HeadIconRawImg.texture = texture;
             typeNameTMP.text = cop.OpInfo.Type.ToString();
         }
@@ -133,7 +133,7 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
 
             hpSlider.value = 1;
             nameTMP.text = fighter.Operator.Name;
-            var texture = ResourceManager.LoadModelHeadIcon(fighter.Operator.ModelResourceUrl);
+            var texture = ResourceManager.LoadIcon(fighter.Operator.ModelResourceUrl);
             if (texture != null) HeadIconRawImg.texture = texture;
             typeNameTMP.text = fighter.Type.To2WordsString();
         }
