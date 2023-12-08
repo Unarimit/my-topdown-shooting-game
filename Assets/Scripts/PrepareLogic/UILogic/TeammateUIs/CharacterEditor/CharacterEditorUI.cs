@@ -186,14 +186,22 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
                 _mechaSelectPanel.SelectPanelEnter(m_SelectableMechaPrefab, _model);
             });
         }
-
+        private void OnDestroy()
+        {
+            if (_model is not null) _model.OpInfo.MechaChangeEventHandler -= ChangeDisplayMecha;
+        }
         public void ChooseCharacter(PrepareOperator model)
         {
+            // 处理model的监听事件
+            if(_model is not null) _model.OpInfo.MechaChangeEventHandler -= ChangeDisplayMecha;
             _model = model;
-            EditRoomManager.Instance.SetCharacterModel(model.OpInfo.ModelResourceUrl);
+            _model.OpInfo.MechaChangeEventHandler += ChangeDisplayMecha;
+
+            EditRoomManager.Instance.SetCharacterModel(model.OpInfo);
             GenerateUIText();
             generateCvConfigPanel();
         }
+        
 
         public void Enter()
         {
@@ -227,7 +235,6 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
             _operatorSkillImg.texture = _context.GetSkillIcon(_model.OpInfo.MainSkillId);
 
             // TODO: 是否需要手动GC
-            _model.OpInfo.MechaChangeEventHandler += ChangeDisplayMecha;
             _mechaPanels[0].PartName.text = _model.OpInfo.McHead.Name;
             _mechaPanels[0].PartRawImage.texture = ResourceManager.Load<Texture2D>("Textures/" + _model.OpInfo.McHead.IconUrl);
             _mechaPanels[0].PartProperties.text = _model.OpInfo.McHead.ToString();
