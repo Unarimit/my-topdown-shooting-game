@@ -48,7 +48,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
         }
         private string GenerateText()
         {
-            return Mecha.GetMechaType().ToString() + "\n" + Mecha.ToString();
+            return Mecha.Name + "\n" + Mecha.ToString();
         }
 
 

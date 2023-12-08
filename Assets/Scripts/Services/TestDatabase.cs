@@ -26,6 +26,7 @@ namespace Assets.Scripts.Services
             LevelRules = generateTestLevel();
             Operators = generateTestOperators();
             Mechas = generateTestMechas();
+            registerDatabind();
         }
 
         private List<LevelRule> generateTestLevel()
@@ -44,7 +45,7 @@ namespace Assets.Scripts.Services
                     {
                         new OperatorPrefab
                         {
-                            OpInfo = GetRandomCA(),
+                            OpInfo = getRandomCA(),
                             MinAmount = 5,
                             MaxAmount = 8,
                             UseRandomCModel = true,
@@ -57,7 +58,7 @@ namespace Assets.Scripts.Services
                         },
                         new OperatorPrefab
                         {
-                            OpInfo = GetRandomCV(),
+                            OpInfo = getRandomCV(),
                             MinAmount = 1,
                             MaxAmount = 2,
                             UseRandomCModel = true,
@@ -101,7 +102,7 @@ namespace Assets.Scripts.Services
                     {
                         new OperatorPrefab
                         {
-                            OpInfo = GetRandomCA(),
+                            OpInfo = getRandomCA(),
                             MinAmount = 5,
                             MaxAmount = 8,
                             UseRandomCModel = true,
@@ -111,7 +112,7 @@ namespace Assets.Scripts.Services
                         },
                         new OperatorPrefab
                         {
-                            OpInfo = GetRandomCV(),
+                            OpInfo = getRandomCV(),
                             MinAmount = 1,
                             MaxAmount = 2,
                             UseRandomCModel = true,
@@ -167,7 +168,7 @@ namespace Assets.Scripts.Services
                     {
                         new OperatorPrefab
                         {
-                            OpInfo = GetRandomCA(),
+                            OpInfo = getRandomCA(),
                             MinAmount = 5,
                             MaxAmount = 8,
                             UseRandomCModel = true,
@@ -177,7 +178,7 @@ namespace Assets.Scripts.Services
                         },
                         new OperatorPrefab
                         {
-                            OpInfo = GetRandomCV(),
+                            OpInfo = getRandomCV(),
                             MinAmount = 1,
                             MaxAmount = 2,
                             UseRandomCModel = true,
@@ -272,10 +273,13 @@ namespace Assets.Scripts.Services
             {
                 MechaBody.DefaultMecha(),
                 MechaHead.DefaultMecha(),
-                MechaLeg.DefaultMecha()
+                MechaLeg.DefaultMecha(),
+                new MechaHead("Head II", "head2", 10, 10),
+                new MechaBody("Body II", "body2", 15, 2),
+                new MechaLeg(name: "Leg II", "leg2", 4, 10),
             };
         }
-        private Operator GetRandomCA()
+        private Operator getRandomCA()
         {
             return new Operator
             {
@@ -286,7 +290,7 @@ namespace Assets.Scripts.Services
                 Id = (++opId).ToString()
             };
         }
-        private Operator GetRandomCV()
+        private Operator getRandomCV()
         {
             return new Operator
             {
@@ -300,6 +304,23 @@ namespace Assets.Scripts.Services
                 },
                 Id = (++opId).ToString()
             };
+        }
+
+        /// <summary>
+        /// 注册数据绑定，面向1对1或1对多关系
+        /// </summary>
+        private void registerDatabind()
+        {
+            foreach(var op in Operators)
+            {
+                op.MechaChangeEventHandler += opMechaChangeEventHandler;
+            }
+        }
+
+        private void opMechaChangeEventHandler(Operator @this, MechaBase oldMehca, MechaBase newMehca)
+        {
+            if (oldMehca.IsDefaultMecha() is false) oldMehca.DataBind(null);
+            newMehca.DataBind(@this);
         }
     }
 }

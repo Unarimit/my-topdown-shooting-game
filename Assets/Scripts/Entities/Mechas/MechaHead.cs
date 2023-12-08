@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditor.ShaderGraph;
 
 namespace Assets.Scripts.Entities.Mechas
 {
@@ -19,14 +20,24 @@ namespace Assets.Scripts.Entities.Mechas
         /// </summary>
         public int Accurate;
 
+        public MechaHead(string name, string iconUrl, int critical, int accurate, int id = -1, string desc = "null")
+        {
+            IconUrl = iconUrl;
+            Name = name;
+            Critical = critical;
+            Accurate = accurate;
+            Id = id;
+            Description = desc;
+        }
+
         public static MechaHead DefaultMecha()
         {
-            return new MechaHead { IconUrl = "head", Name = "default head" , Critical = 5 , Accurate = 5 };
+            return new MechaHead (name : "Head I" , iconUrl: "head", critical: 5 , accurate : 5, desc:"default mecha");
         }
         public override string ToString()
         {
-            return $"ACC:\t{Accurate}%\n" +
-                $"Crt:\t{Critical}%";
+            return  $"ACC:\t{Accurate}%\n" +
+                $"CRT:\t{Critical}%";
         }
 
     }

@@ -11,10 +11,19 @@ namespace Assets.Scripts.Entities.Mechas
     {
         public int HP;
         public int HPRecover;
+        public MechaBody(string name, string iconUrl,  int hp, int hpRecover, int id = -1, string desc = "null")
+        {
+            IconUrl = iconUrl;
+            Name = name;
+            HP = hp;
+            HPRecover = hpRecover;
+            Id = id;
+            Description = desc;
+        }
 
         public static MechaBody DefaultMecha()
         {
-            return new MechaBody { IconUrl = "body", Name = "default body" , HP = 10 , HPRecover = 1 };
+            return new MechaBody ("Body I" , "body", 10, 1, -1, "default mecha");
         }
         public override string ToString()
         {

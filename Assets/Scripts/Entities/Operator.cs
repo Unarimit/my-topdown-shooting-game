@@ -49,14 +49,44 @@ namespace Assets.Scripts.Entities
 
         public float MaxSpeed => McLeg.Speed;
 
-        public int WeaponType;
-
         public float ReviveTime = 5;
 
-        // 对于装备是引用关系
-        public MechaHead McHead = MechaHead.DefaultMecha();
-        public MechaBody McBody = MechaBody.DefaultMecha();
-        public MechaLeg McLeg = MechaLeg.DefaultMecha();
+        // 对于装备是引用关系，绑定事件方便数据库响应
+        public MechaHead McHead { 
+            get {
+                return _mcHead;
+            } 
+            set {
+                MechaChangeEventHandler.Invoke(this, _mcHead, value);
+                _mcHead = value;
+            }
+        }
+        public MechaBody McBody
+        {
+            get{
+                return _mcBody;
+            }
+            set{
+                MechaChangeEventHandler.Invoke(this, _mcBody, value);
+                _mcBody = value;
+            }
+        }
+        public MechaLeg McLeg {
+            get{
+                return _mcLeg;
+            }
+            set{
+                MechaChangeEventHandler.Invoke(this, _mcLeg, value);
+                _mcLeg = value;
+            }
+        }
+
+        private MechaHead _mcHead = MechaHead.DefaultMecha();
+        private MechaBody _mcBody = MechaBody.DefaultMecha();
+        private MechaLeg _mcLeg = MechaLeg.DefaultMecha();
+
+        public delegate void MechaChangeEvent(Operator @this, MechaBase oldMehca, MechaBase newMehca);
+        public event MechaChangeEvent MechaChangeEventHandler;
 
         //TODO: 使用次数较少，优化这个方案
         public object Clone()

@@ -23,10 +23,19 @@ namespace Assets.Scripts.Entities.Mechas
             return $"SPD:\t{Speed.ToString("0.00")}\n" +
             $"DOG:\t{Dodge}%";
         }
+        public MechaLeg(string name, string iconUrl,  float speed, int dodge, int id = -1, string desc = "null")
+        {
+            Name = name;
+            IconUrl = iconUrl;
+            Speed = speed;
+            Dodge = dodge;
+            Id = id;
+            Description = desc;
+        }
 
         public static MechaLeg DefaultMecha()
         {
-            return new MechaLeg { IconUrl = "leg" , Name = "default leg" , Speed = 3f , Dodge = 5 };
+            return new MechaLeg (name: "Leg I", iconUrl: "leg",  speed:3f , dodge: 5, id: -1, desc:"default mecha" );
         }
 
         
