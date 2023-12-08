@@ -10835,6 +10835,7 @@ MonoBehaviour:
     SpawnInterval: 5
     AgentPrefabURL: SimpleEnemy
   operatorInfo:
+    Id: 
     Type: 0
     Name: empty
     ModelResourceUrl: Shiroko
@@ -11515,6 +11516,7 @@ MonoBehaviour:
     SpawnInterval: 5
     AgentPrefabURL: SimpleEnemy
   operatorInfo:
+    Id: 
     Type: 0
     Name: empty
     ModelResourceUrl: Shiroko
@@ -14931,6 +14933,7 @@ MonoBehaviour:
     SpawnInterval: 5
     AgentPrefabURL: SimpleEnemy
   operatorInfo:
+    Id: 
     Type: 0
     Name: empty
     ModelResourceUrl: Shiroko

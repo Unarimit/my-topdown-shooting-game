@@ -2572,6 +2572,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ToolTipText: This is a minimap
   EnterDelay: 0
+  WaitTime: 0
 --- !u!114 &488140229
 MonoBehaviour:
   m_ObjectHideFlags: 0
