@@ -15,6 +15,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
 {
     internal class SelectableMechaItemUI : MonoBehaviour
     {
+        public MechaBase Mecha { get; private set; }
         public bool IsSelect
         {
             get => _isSelect;
@@ -22,11 +23,22 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
             {
                 _isSelect = value;
                 if (_selectRim == null) return;
-                _selectRim.color = value ? Color.yellow : new Color(0, 0, 0, 0);
+                _selectRim.color = value ? Color.yellow : Color.white;
             }
         }
-        public MechaBase Mecha { get; private set; }
+        public bool CanSelete
+        {
+            get => _canSelect;
+            set
+            {
+                _canSelect = value;
+                _selectRim.color = value ? Color.white : Color.gray;
+            }
+        }
+
+
         private bool _isSelect;
+        private bool _canSelect;
         private int _index;
         private Image _selectRim;
         private CharacterEditorUI.MechaSelectPanel _panel;
@@ -40,11 +52,12 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
             IsSelect = false;
             _index = i;
             _panel = panel;
+            CanSelete = true;
         }
         private void OnClick()
         {
-            _panel.ItemOnClick(_index);
-            // TODO：通过事件丢给上一层去判断
+            if(_canSelect is true) _panel.ItemOnClick(_index);
+            else TipsUI.GenerateNewTips("不可以选择已经被选择的Mecha");
         }
         private string GenerateText()
         {

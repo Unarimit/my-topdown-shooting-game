@@ -10,6 +10,7 @@ using Assets.Scripts.PrepareLogic.UILogic.TeammateUIs;
 using Assets.Scripts.Entities.Mechas;
 using Assets.Scripts.Entities;
 using Assets.Scripts.Services;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
 {
@@ -47,6 +48,9 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
             public TextMeshProUGUI PartProperties;
         }
 
+        /// <summary>
+        /// 机甲选择面板
+        /// </summary>
         public class MechaSelectPanel
         {
             private Transform Transform;
@@ -54,7 +58,8 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
             private Transform ContentTrans;
             private Button OKButton;
             private List<SelectableMechaItemUI> SelectableMechas = new List<SelectableMechaItemUI>();
-            private List<int> ActiveMechas = new List<int> { 0, 1, 2 }; // TODO：返回时保存该设置
+            private List<int> ActiveMechas;
+            private PrepareOperator owner;
             public MechaSelectPanel(Transform MechaSelectPanel)
             {
                 Transform = MechaSelectPanel;
@@ -65,6 +70,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
             }
             public void SelectPanelEnter(GameObject selectableMechaPrefab, PrepareOperator model)
             {
+                owner = model;
                 Transform.gameObject.SetActive(true);
                 CanvasGroup.alpha = 0;
                 CanvasGroup.DOFade(1, 0.2f);
@@ -73,10 +79,23 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
 
             public void ItemOnClick(int index)
             {
-                int aimPos = 0;
-                if (SelectableMechas[index].Mecha.GetMechaType() == MechaType.Head) aimPos = 0;
-                else if(SelectableMechas[index].Mecha.GetMechaType() == MechaType.Body) aimPos = 1;
-                else aimPos = 2;
+                int aimPos;
+                // 选择后改变数据
+                if (SelectableMechas[index].Mecha.GetMechaType() == MechaType.Head)
+                {
+                    owner.OpInfo.McHead = (MechaHead)SelectableMechas[index].Mecha;
+                    aimPos = 0;
+                }
+                else if (SelectableMechas[index].Mecha.GetMechaType() == MechaType.Body)
+                {
+                    owner.OpInfo.McBody = (MechaBody)SelectableMechas[index].Mecha;
+                    aimPos = 1;
+                }
+                else
+                {
+                    owner.OpInfo.McLeg = (MechaLeg)SelectableMechas[index].Mecha;
+                    aimPos = 2;
+                }
 
                 // change ui and statu
                 SelectableMechas[ActiveMechas[aimPos]].IsSelect = false;
@@ -86,23 +105,48 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
 
             private void InitContent(GameObject selectableMechaPrefab, PrepareOperator model)
             {
+                // 清除旧数据
                 SelectableMechas.Clear();
                 int len = ContentTrans.childCount;
                 for (int i = 0; i < len; i++)
                 {
                     Destroy(ContentTrans.GetChild(i).gameObject);  
                 }
+                ActiveMechas = new List<int> { 0, 1, 2 };
 
+                // 新数据
+                // 1. 前三位player 目前装备选项
                 SelectableMechas.Add(CreateItem(selectableMechaPrefab, model.OpInfo.McHead, SelectableMechas.Count));
                 SelectableMechas.Add(CreateItem(selectableMechaPrefab, model.OpInfo.McBody, SelectableMechas.Count));
                 SelectableMechas.Add(CreateItem(selectableMechaPrefab, model.OpInfo.McLeg, SelectableMechas.Count));
-
                 for (int i = 0; i < 3; i++) SelectableMechas[i].IsSelect = true;
 
+                // 2. 这里是没有被装备的装备
                 foreach (var x in MyServices.Database.Mechas)
                 {
-                    SelectableMechas.Add(CreateItem(selectableMechaPrefab, x, SelectableMechas.Count));
+                    if(x.Operator is null)
+                        SelectableMechas.Add(CreateItem(selectableMechaPrefab, x, SelectableMechas.Count));
                 }
+
+                // 3. 这里是default选项
+                if (SelectableMechas[0].Mecha.IsDefaultMecha() is false) 
+                    SelectableMechas.Add(CreateItem(selectableMechaPrefab, MechaHead.DefaultMecha(), SelectableMechas.Count));
+                if (SelectableMechas[1].Mecha.IsDefaultMecha() is false)
+                    SelectableMechas.Add(CreateItem(selectableMechaPrefab, MechaBody.DefaultMecha(), SelectableMechas.Count));
+                if (SelectableMechas[2].Mecha.IsDefaultMecha() is false)
+                    SelectableMechas.Add(CreateItem(selectableMechaPrefab, MechaLeg.DefaultMecha(), SelectableMechas.Count));
+
+                // 4. 这里是已装备的装备，注意不要包括owner自己的装备
+                foreach (var x in MyServices.Database.Mechas)
+                {
+                    if (x.Operator is not null && x.Operator != owner.OpInfo)
+                    {
+                        SelectableMechas.Add(CreateItem(selectableMechaPrefab, x, SelectableMechas.Count));
+                        SelectableMechas[^1].CanSelete = false;
+                    }
+                }
+
+                
             }
             private SelectableMechaItemUI CreateItem(GameObject selectableMechaPrefab, MechaBase mecha, int i)
             {
@@ -119,8 +163,6 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
         }
 
         
-
-
         private void Awake()
         {
             _operatorName = transform.Find("InfoPanel").Find("OperatorPanel").Find("OperatorNameTMP").GetComponent<TextMeshProUGUI>();
@@ -144,9 +186,6 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
                 _mechaSelectPanel.SelectPanelEnter(m_SelectableMechaPrefab, _model);
             });
         }
-
-
-
 
         public void ChooseCharacter(PrepareOperator model)
         {
@@ -188,17 +227,43 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
             _operatorSkillImg.texture = _context.GetSkillIcon(_model.OpInfo.MainSkillId);
 
             // TODO: 是否需要手动GC
+            _model.OpInfo.MechaChangeEventHandler += ChangeDisplayMecha;
             _mechaPanels[0].PartName.text = _model.OpInfo.McHead.Name;
             _mechaPanels[0].PartRawImage.texture = ResourceManager.Load<Texture2D>("Textures/" + _model.OpInfo.McHead.IconUrl);
             _mechaPanels[0].PartProperties.text = _model.OpInfo.McHead.ToString();
+            EditRoomManager.Instance.LoadMechaPart(_model.OpInfo.McHead);
 
             _mechaPanels[1].PartName.text = _model.OpInfo.McBody.Name;
             _mechaPanels[1].PartRawImage.texture = ResourceManager.Load<Texture2D>("Textures/" + _model.OpInfo.McBody.IconUrl);
             _mechaPanels[1].PartProperties.text = _model.OpInfo.McBody.ToString();
+            EditRoomManager.Instance.LoadMechaPart(_model.OpInfo.McBody);
 
             _mechaPanels[2].PartName.text = _model.OpInfo.McLeg.Name;
             _mechaPanels[2].PartRawImage.texture = ResourceManager.Load<Texture2D>("Textures/" + _model.OpInfo.McLeg.IconUrl);
             _mechaPanels[2].PartProperties.text = _model.OpInfo.McLeg.ToString();
+            EditRoomManager.Instance.LoadMechaPart(_model.OpInfo.McLeg);
+        }
+        private void ChangeDisplayMecha(Operator @this, MechaBase oldMecha, MechaBase newMecha)
+        {
+            if(newMecha is MechaHead)
+            {
+                _mechaPanels[0].PartName.text = newMecha.Name;
+                _mechaPanels[0].PartRawImage.texture = ResourceManager.Load<Texture2D>("Textures/" + newMecha.IconUrl);
+                _mechaPanels[0].PartProperties.text = newMecha.ToString();
+            }
+            else if(newMecha is MechaBody)
+            {
+                _mechaPanels[1].PartName.text = newMecha.Name;
+                _mechaPanels[1].PartRawImage.texture = ResourceManager.Load<Texture2D>("Textures/" + newMecha.IconUrl);
+                _mechaPanels[1].PartProperties.text = newMecha.ToString();
+            }
+            else
+            {
+                _mechaPanels[2].PartName.text = newMecha.Name;
+                _mechaPanels[2].PartRawImage.texture = ResourceManager.Load<Texture2D>("Textures/" + newMecha.IconUrl);
+                _mechaPanels[2].PartProperties.text = newMecha.ToString();
+            }
+            EditRoomManager.Instance.LoadMechaPart(newMecha);
         }
 
         private MechaPanel FindMechaPart(Transform partPanelTrans)

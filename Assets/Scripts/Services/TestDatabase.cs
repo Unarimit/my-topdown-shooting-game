@@ -27,6 +27,10 @@ namespace Assets.Scripts.Services
             Operators = generateTestOperators();
             Mechas = generateTestMechas();
             registerDatabind();
+
+            Operators[0].McHead = (MechaHead)Mechas[0];
+            Operators[0].McBody = (MechaBody)Mechas[1];
+            Operators[0].McLeg = (MechaLeg)Mechas[2];
         }
 
         private List<LevelRule> generateTestLevel()
@@ -267,16 +271,18 @@ namespace Assets.Scripts.Services
                 new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
             };
         }
+
+        int mechaId = 0;
         private List<MechaBase> generateTestMechas()
         {
             return new List<MechaBase>
             {
-                MechaBody.DefaultMecha(),
-                MechaHead.DefaultMecha(),
-                MechaLeg.DefaultMecha(),
-                new MechaHead("Head II", "head2", 10, 10),
-                new MechaBody("Body II", "body2", 15, 2),
-                new MechaLeg(name: "Leg II", "leg2", 4, 10),
+                new MechaHead("Head II", "head2", 10, 10, ++mechaId),
+                new MechaBody("Body II", "body2", 15, 2, ++mechaId),
+                new MechaLeg(name: "Leg II", "leg2", 4, 10, ++mechaId),
+                new MechaHead("Head II", "head2", 10, 10, ++mechaId),
+                new MechaBody("Body II", "body2", 15, 2, ++mechaId),
+                new MechaLeg(name: "Leg II", "leg2", 4, 10, ++mechaId),
             };
         }
         private Operator getRandomCA()
