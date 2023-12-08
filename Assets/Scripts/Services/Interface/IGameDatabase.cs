@@ -22,11 +22,17 @@ namespace Assets.Scripts.Services.Interface
         /// </summary>
         public List<LevelRule> LevelRules { get; }
 
+        // skill 和 item
+
+
         /// <summary>
         /// 当前关卡信息
         /// </summary>
         public LevelInfo CurLevel { get; set; }
 
+        /// <summary>
+        /// 当前加载的模型信息
+        /// </summary>
         public List<string> ModelList { get; }
 
     }
