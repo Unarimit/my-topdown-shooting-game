@@ -13,6 +13,9 @@ namespace Assets.Scripts.CombatLogic
         public Transform GunfireTransform;
         public GameObject GunfireEffect;
     }
+    /// <summary>
+    /// TODO: 做成静态类，实例放到DontDestroyOnLoad
+    /// </summary>
     internal class FbxLoadManager : MonoBehaviour
     {
         [Tooltip("泛用的，能代表导入角色的avatar")]
