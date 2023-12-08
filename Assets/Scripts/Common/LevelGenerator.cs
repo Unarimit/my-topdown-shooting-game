@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Entities;
+using Assets.Scripts.Services;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,7 +21,7 @@ namespace Assets.Scripts.Common
                     level.EnemyOperators.Add((Operator)ops.OpInfo.Clone());
                     if (ops.UseRandomCModel)
                     {
-                        level.EnemyOperators[^1].ModelResourceUrl = TestDB.GetRandomModelUrl();
+                        level.EnemyOperators[^1].ModelResourceUrl = MyServices.Database.ModelList[Random.Range(0, MyServices.Database.ModelList.Count)];
                     }
                     level.EnemyOperatorsBy.Add(ops);
                 }

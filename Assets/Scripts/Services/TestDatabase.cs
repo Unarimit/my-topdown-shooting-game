@@ -1,48 +1,37 @@
 ﻿using Assets.Scripts.Common;
 using Assets.Scripts.Entities;
 using Assets.Scripts.Entities.Mechas;
+using Assets.Scripts.Services.Interface;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using static Cinemachine.DocumentationSortingAttribute;
+using static Assets.Scripts.Services.MyConfig;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Services
 {
-    internal static class TestDB
+    internal class TestDatabase : IGameDatabase
     {
-        #region 常量配置
-        public static readonly int CHARACTER_LAYER = LayerMask.NameToLayer("Character");
-        public static readonly int DOBJECT_LAYER = LayerMask.NameToLayer("DestructibleObject");
-        public static readonly string PLAYER_TAG = "Player";
-        public static readonly string UNTAGED_TAG = "Untagged";
-        public static readonly Color TeamColor = new Color32(124, 208, 255, 255);
-        public static readonly Color EnemyColor = new Color32(255, 100, 100, 255);
-        public static readonly Color PlayerColor = new Color32(248, 255, 13, 255);
-        public enum SkillSelectorStr
-        {
-            Trigger
-        }
-        #endregion
+        public List<Operator> Operators { get; private set; }
 
-        #region 全局信息（如关卡、仓库状态）
-        public static List<LevelRule> LevelRules { get; private set; }
-        public enum DropoutTable
-        {
-            KillEnemy,
-            KillTeam,
-            Time,
-            Key,
-            Red, //测试道具1号
-            Purple, //测试道具2号
-            Sphere //测试道具3号
-        }
-        #endregion
+        public List<MechaBase> Mechas { get; private set; }
 
-        static TestDB()
+        public List<LevelRule> LevelRules { get; private set; }
+
+        public LevelInfo CurLevel { get; set; }
+
+        public List<string> ModelList { get; private set; }
+
+        public TestDatabase()
+        {
+            ModelList = new List<string> { "Hoshino", "Shiroko", "Aru", "Karin", "Mashiro" };
+            LevelRules = generateTestLevel();
+            Operators = generateTestOperators();
+            Mechas = generateTestMechas();
+        }
+
+        private List<LevelRule> generateTestLevel()
         {
             // 演习作战（聚集分布敌人，进攻性强）、攻城作战（互动单位，中范围聚集分布敌人，进攻性弱）、三角定位（互动单位，和随机位置分布敌人，进攻性弱）
-            LevelRules = new List<LevelRule>()
+            return new List<LevelRule>()
             {
                 new LevelRule
                 {
@@ -62,7 +51,7 @@ namespace Assets.Scripts
                             MechaRandomUpgradeFactor = 0,
                             AiAgressive = true,
                             InitPosition = InitPosition.EnemySpawnScatter,
-                            Dropouts = new Dropout[]{ 
+                            Dropouts = new Dropout[]{
                                 new Dropout(ItemHelper.GetItem(DropoutTable.Sphere.ToString()))
                             }
                         },
@@ -141,7 +130,7 @@ namespace Assets.Scripts
                             MinAmount = 1,
                             MaxAmount = 1,
                             InitPosition = InitPosition.EnemySpawnCenter,
-                            Dropouts = new Dropout[]{ 
+                            Dropouts = new Dropout[]{
                                 new Dropout(ItemHelper.GetItem(DropoutTable.Key.ToString()))
                             },
                             ModelUrl = "Objects/Key",
@@ -237,24 +226,21 @@ namespace Assets.Scripts
             };
         }
 
-        // 临时存储，传递到下一个场景的信息
-        public static LevelInfo Level { get; set; }
+        int opId = 0;
 
-        static int opId = 0;
-        public static List<Operator> GetOperators()
+        private List<Operator> generateTestOperators()
         {
             // TODO: these just for test
             return new List<Operator>() {
                 new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", WeaponSkillId = 4, Id = (++opId).ToString() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Type = OperatorType.CV, 
+                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Type = OperatorType.CV,
                     WeaponSkillId = 6,
-                    Fighters = new List<Fighter>{ 
+                    Fighters = new List<Fighter>{
                         new Fighter { Operator = new Operator { Name = "ho", ModelResourceUrl = "Hoshino", Id = (++opId).ToString() } },
                         new Fighter { Operator = new Operator { Name = "shi", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() } }
-                    }, 
+                    },
                     Id = (++opId).ToString()
                 },
-
                 new Operator { Name = "aru", ModelResourceUrl = "Aru",Id = (++opId).ToString()  },
                 new Operator { Name = "akrin", ModelResourceUrl = "Karin", Id = (++opId).ToString() },
                 new Operator { Name = "mashiro", ModelResourceUrl = "Mashiro",Id = (++opId).ToString()  },
@@ -280,8 +266,7 @@ namespace Assets.Scripts
                 new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
             };
         }
-
-        public static List<MechaBase> GetMechas()
+        private List<MechaBase> generateTestMechas()
         {
             return new List<MechaBase>
             {
@@ -290,44 +275,31 @@ namespace Assets.Scripts
                 MechaLeg.DefaultMecha()
             };
         }
-
-        static List<string> clist = new List<string> { "Hoshino", "Shiroko", "Aru", "Karin", "Mashiro"};
-        public static string GetRandomModelUrl()
-        {
-            return clist[Random.Range(0, clist.Count)];
-        }
-        public static Operator GetRandomCA()
+        private Operator GetRandomCA()
         {
             return new Operator
             {
                 Name = "random test",
-                ModelResourceUrl = clist[Random.Range(0, clist.Count)],
+                ModelResourceUrl = ModelList[Random.Range(0, ModelList.Count)],
                 WeaponSkillId = 4,
                 Type = OperatorType.CA,
                 Id = (++opId).ToString()
             };
         }
-        public static Operator GetRandomCV()
+        private Operator GetRandomCV()
         {
             return new Operator
             {
                 Name = "random test",
-                ModelResourceUrl = clist[Random.Range(0, clist.Count)],
+                ModelResourceUrl = ModelList[Random.Range(0, ModelList.Count)],
                 WeaponSkillId = 6,
                 Type = OperatorType.CV,
                 Fighters = new List<Fighter>{
-                    new Fighter { Operator = new Operator { Name = "r1", ModelResourceUrl = clist[Random.Range(0, clist.Count)] } },
-                    new Fighter { Operator = new Operator { Name = "r2", ModelResourceUrl = clist[Random.Range(0, clist.Count)] } }
+                    new Fighter { Operator = new Operator { Name = "r1", ModelResourceUrl = ModelList[Random.Range(0, ModelList.Count)] } },
+                    new Fighter { Operator = new Operator { Name = "r2", ModelResourceUrl = ModelList[Random.Range(0, ModelList.Count)] } }
                 },
                 Id = (++opId).ToString()
             };
-        }
-        public static List<Operator> GetRandomOperator(int t)
-        {
-            var ans = new List<Operator>(t);
-            for(int i = 0; i < t; i++) ans.Add(GetRandomCA());
-
-            return ans;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Common;
 using Assets.Scripts.Common.EscMenu;
 using Assets.Scripts.Entities;
+using Assets.Scripts.Services;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -21,13 +22,13 @@ namespace Assets.Scripts.HomeLogic
 
         public List<LevelRule> GetLevelRules()
         {
-            return TestDB.LevelRules;
+            return MyServices.Database.LevelRules;
         }
 
         public void GoToLevel(LevelRule rule)
         {
-            
-            TestDB.Level = LevelGenerator.GeneratorLevelInfo(rule);
+
+            MyServices.Database.CurLevel = LevelGenerator.GeneratorLevelInfo(rule);
             SlideUI.CreateSlideUI();
             SceneManager.LoadScene("Prepare");
         }

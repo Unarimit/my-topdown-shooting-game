@@ -7,6 +7,7 @@ using Assets.Scripts.CombatLogic.CombatEntities;
 using Assets.Scripts.CombatLogic.ContextExtends;
 using Assets.Scripts.CombatLogic.LevelLogic;
 using Assets.Scripts.Entities;
+using Assets.Scripts.Services;
 using Cinemachine;
 using System.Collections.Generic;
 using TMPro;
@@ -121,7 +122,7 @@ namespace Assets.Scripts.CombatLogic
         // ************ Game logic ******************
         public void DellDamage(Transform from, Transform to, int val)
         {
-            if(to.gameObject.layer == TestDB.CHARACTER_LAYER)
+            if(to.gameObject.layer == MyConfig.CHARACTER_LAYER)
             {
                 // Process DMG
                 val = Operators[to].TakeDamage(val);
@@ -135,7 +136,7 @@ namespace Assets.Scripts.CombatLogic
                 if (Operators[to].CurrentHP <= 0) OperatorDied(to);
                 else OperatorGotDMG(to);
             }
-            else if(to.gameObject.layer == TestDB.DOBJECT_LAYER)
+            else if(to.gameObject.layer == MyConfig.DOBJECT_LAYER)
             {
                 to.GetComponent<DestructibleObjectController>().GotDMG(val);
             }

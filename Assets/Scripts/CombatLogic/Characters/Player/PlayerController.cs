@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.BulletLogic;
 using Assets.Scripts.CombatLogic.UILogic.MiniMap;
+using Assets.Scripts.Services;
 using StarterAssets;
 using System;
 using UnityEngine;
@@ -40,11 +41,11 @@ namespace Assets.Scripts.CombatLogic.Characters.Player
             _context.m_Camera.Follow = _cameraFlowing.transform;
             _context.CombatVM.PlayerTrans = transform;
             mapMarkUI = initMiniMapMark();
-            transform.tag = TestDB.PLAYER_TAG;
+            transform.tag = MyConfig.PLAYER_TAG;
         }
         private void OnDestroy()
         {
-            transform.tag = TestDB.UNTAGED_TAG;
+            transform.tag = MyConfig.UNTAGED_TAG;
             // 注销组件
             if (_cameraFlowing != null) Destroy(_cameraFlowing);
             if (mapMarkUI != null) Destroy(mapMarkUI);

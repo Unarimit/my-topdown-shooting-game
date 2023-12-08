@@ -9,6 +9,7 @@ using Assets.Scripts.PrepareLogic.EffectLogic;
 using Assets.Scripts.PrepareLogic.UILogic.TeammateUIs;
 using Assets.Scripts.Entities.Mechas;
 using Assets.Scripts.Entities;
+using Assets.Scripts.Services;
 
 namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
 {
@@ -98,7 +99,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
 
                 for (int i = 0; i < 3; i++) SelectableMechas[i].IsSelect = true;
 
-                foreach (var x in TestDB.GetMechas())
+                foreach (var x in MyServices.Database.Mechas)
                 {
                     SelectableMechas.Add(CreateItem(selectableMechaPrefab, x, SelectableMechas.Count));
                 }

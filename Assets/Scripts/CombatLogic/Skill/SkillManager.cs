@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.CombatLogic.Skill.Releaser;
 using Assets.Scripts.Entities;
+using Assets.Scripts.Services;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace Assets.Scripts.CombatLogic
 
         public static bool IsValidCollision(Collider collision)
         {
-            return collision.gameObject.layer == TestDB.CHARACTER_LAYER || collision.gameObject.layer == TestDB.DOBJECT_LAYER;
+            return collision.gameObject.layer == MyConfig.CHARACTER_LAYER || collision.gameObject.layer == MyConfig.DOBJECT_LAYER;
         }
         private void Awake()
         {

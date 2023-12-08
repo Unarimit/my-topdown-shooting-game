@@ -2,6 +2,7 @@
 using Assets.Scripts.CombatLogic.ContextExtends;
 using Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs;
 using Assets.Scripts.Entities;
+using Assets.Scripts.Services;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -47,7 +48,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             if(_time > 1)
             {
                 _time -= 1;
-                addDropout(TestDB.DropoutTable.Time.ToString(), 1);
+                addDropout(MyConfig.DropoutTable.Time.ToString(), 1);
             }
         }
 
@@ -98,7 +99,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         }
         public void CalculateDropout(CombatOperator cOperator)
         {
-            if (cOperator.Team == 0) addDropout(TestDB.DropoutTable.KillTeam.ToString(), 1);
+            if (cOperator.Team == 0) addDropout(MyConfig.DropoutTable.KillTeam.ToString(), 1);
             else if (cOperator.Team == 1)
             {
                 // 自带掉落
@@ -106,15 +107,18 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
                 {
                     if(ePrab.OpInfo.Id == cOperator.OpInfo.Id)
                     {
-                        foreach(var dp in ePrab.Dropouts)
+                        if(ePrab.Dropouts != null)
                         {
-                            addDropout(dp.DropItem.ItemId, dp.GetDropoutAmount());
+                            foreach (var dp in ePrab.Dropouts)
+                            {
+                                addDropout(dp.DropItem.ItemId, dp.GetDropoutAmount());
+                            }
                         }
                         break;
                     }
                 }
                 // 敌人指示物
-                addDropout(TestDB.DropoutTable.KillEnemy.ToString(), 1);
+                addDropout(MyConfig.DropoutTable.KillEnemy.ToString(), 1);
                 // AI相关
                 EnemyAttackFactor += 0.2f;
             }

@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.CombatLogic.Skill.Impactor;
 using Assets.Scripts.CombatLogic.Skill.Selector;
 using Assets.Scripts.Entities;
+using Assets.Scripts.Services;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace Assets.Scripts.CombatLogic.Skill.Releaser
             _aim = aim;
             // 配置selector
             ISelector selector = null;
-            if (skill.SkillSelector.SelectorName == TestDB.SkillSelectorStr.Trigger.ToString())
+            if (skill.SkillSelector.SelectorName == MyConfig.SkillSelectorStr.Trigger.ToString())
             {
                 selector = gameObject.AddComponent<TriggerSelector>();
             }

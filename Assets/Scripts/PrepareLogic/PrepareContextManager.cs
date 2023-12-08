@@ -3,11 +3,7 @@ using Assets.Scripts.Common.EscMenu;
 using Assets.Scripts.Entities;
 using Assets.Scripts.PrepareLogic.EffectLogic;
 using Assets.Scripts.PrepareLogic.PrepareEntities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -16,28 +12,34 @@ namespace Assets.Scripts.PrepareLogic
 {
     public class PrepareContextManager : MonoBehaviour
     {
+        // singleton
         public static PrepareContextManager Instance;
 
+        // inspector
         [SerializeField]
         private SkillListConfig skillConfig;
 
-        public List<PrepareOperator> data;
-        public LevelInfo Level;
+        // prop
+        public LevelInfo Level { get; private set; }
+        public List<PrepareOperator> PrepareOps { get; private set; }
         private void Awake()
         {
             if (Instance == null) Instance = this;
             else Debug.LogWarning(transform.ToString() + " try to load another Manager");
 
+        }
+        public void Inject(LevelInfo level)
+        {
+            Level = level;
             dataInit();
         }
-
         private void dataInit()
         {
-            data = new List<PrepareOperator>();
-            var ops = TestDB.GetOperators();
+            PrepareOps = new List<PrepareOperator>();
+            var ops = MyServices.Database.Operators;
             foreach(var op in ops)
             {
-                data.Add(new PrepareOperator(op));
+                PrepareOps.Add(new PrepareOperator(op));
             }
         }
 
@@ -48,30 +50,23 @@ namespace Assets.Scripts.PrepareLogic
 
         public void GoToCombat()
         {
-            if(TestDB.Level == null)
+            Level.TeamOperators = new List<Operator>();
+            foreach (var x in PrepareOps)
             {
-                Debug.LogError("error: Db levelinfo is null");
+                if (x.IsChoose) Level.TeamOperators.Add(x.OpInfo);
+            }
+            if(Level.TeamOperators.Count == 0)
+            {
+                TipsUI.GenerateNewTips("请至少选择一名干员");
+                return;
             }
             else
             {
-                TestDB.Level.TeamOperators = new List<Operator>();
-                foreach (var x in data)
-                {
-                    if (x.IsChoose) TestDB.Level.TeamOperators.Add(x.OpInfo);
-                }
-                if(TestDB.Level.TeamOperators.Count == 0)
-                {
-                    TipsUI.GenerateNewTips("请至少选择一名干员");
-                    return;
-                }
-                else
-                {
-                    foreach (var x in TestDB.Level.TeamOperators)
-                        ResourceManager.AddIcon(x.ModelResourceUrl, PhotographyManager.Instance.GetCharacterHeadIcon(x.ModelResourceUrl));
-                }
-                SlideUI.CreateSlideUI();
-                SceneManager.LoadScene("Playground");
+                foreach (var x in Level.TeamOperators)
+                    ResourceManager.AddIcon(x.ModelResourceUrl, PhotographyManager.Instance.GetCharacterHeadIcon(x.ModelResourceUrl));
             }
+            SlideUI.CreateSlideUI();
+            SceneManager.LoadScene("Playground");
         }
         public void ReturnHome()
         {

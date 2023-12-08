@@ -25,7 +25,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterSelector
         /// </summary>
         public void GeneratePortrait()
         {
-            var ops = _context.data;
+            var ops = _context.PrepareOps;
             _characterPortraits = new List<CharacterPortraitScrollViewItemUI>();
             foreach (var op in ops)
             {
@@ -50,7 +50,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterSelector
             }
             if(page == TeammatePortraitPage.EditPage) // 默认选中第一个角色
             {
-                InEditSelect(_characterPortraits[0], _context.data[0]);
+                InEditSelect(_characterPortraits[0], _context.PrepareOps[0]);
                 _characterPortraits[0].SetChoose(true);
             }
         }

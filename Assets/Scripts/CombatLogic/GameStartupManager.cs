@@ -2,6 +2,8 @@
 using Assets.Scripts.CombatLogic.LevelLogic;
 using Assets.Scripts.Common;
 using Assets.Scripts.Entities;
+using Assets.Scripts.Services;
+using System.Linq;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -25,15 +27,15 @@ namespace Assets.Scripts.CombatLogic
             transform.GetComponent<SkillManager>().Init();
 
             LevelInfo level;
-            if (TestDB.Level == null || TestDB.Level.TeamOperators == null || TestDB.Level.TeamOperators.Count == 0) // 调试生成
+            if (MyServices.Database.CurLevel == null) // 调试生成
             {
                 Debug.Log("DB has no level info, enter test mode");
-                level = LevelGenerator.GeneratorLevelInfo(TestDB.LevelRules[0]);
-                level.TeamOperators = TestDB.GetRandomOperator(5);
+                level = LevelGenerator.GeneratorLevelInfo(MyServices.Database.LevelRules[0]);
+                level.TeamOperators = MyServices.Database.Operators.Take(5).ToList();
             }
             else
             {
-                level = TestDB.Level;
+                level = MyServices.Database.CurLevel;
             }
             _context.CombatVM.Level = level;
 

@@ -13,13 +13,6 @@ namespace Assets.Scripts.PrepareLogic.UILogic.LevelUIs
         private LevelMapUI _levelMapUI;
         private void Start()
         {
-#if UNITY_EDITOR
-            if(_context.Level == null)
-            {
-                // TODO: 可能处于debug模式下
-                return;
-            }
-#endif
             _levelNameTMP = transform.Find("LevelNameTMP").GetComponent<TextMeshProUGUI>();
             _levelWinAimTMP = transform.Find("LevelWinAimTMP").GetComponent<TextMeshProUGUI>();
             _levelLossAimTMP = transform.Find("LevelLossAimTMP").GetComponent<TextMeshProUGUI>();

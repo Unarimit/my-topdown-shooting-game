@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.CombatLogic.Characters.Player;
 using Assets.Scripts.Entities;
+using Assets.Scripts.Services;
 using DG.Tweening;
 using JetBrains.Annotations;
 using TMPro;
@@ -51,7 +52,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         }
         private void OnTriggerEnter(Collider other)
         {
-            if (other.tag == TestDB.PLAYER_TAG)
+            if (other.tag == MyConfig.PLAYER_TAG)
             {
                 showInteractTip();
                 other.gameObject.GetComponent<PlayerController>().InteractEventHandler += doInteract;
@@ -59,7 +60,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         }
         private void OnTriggerExit(Collider other)
         {
-            if (other.tag == TestDB.PLAYER_TAG)
+            if (other.tag == MyConfig.PLAYER_TAG)
             {
                 closeInteractTip();
                 other.gameObject.GetComponent<PlayerController>().InteractEventHandler -= doInteract;

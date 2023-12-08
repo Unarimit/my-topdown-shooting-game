@@ -25,11 +25,10 @@ namespace Assets.Scripts.PrepareLogic
         {
             if (Instance == null) Instance = this;
             else Debug.LogWarning(transform.ToString() + " try to load another Manager");
-
-            windows = new Dictionary<string, PrepareUIBase>();
         }
         private void Start()
         {
+            windows = new Dictionary<string, PrepareUIBase>();
             var uis = FindObjectsOfType<PrepareUIBase>();
             foreach (var x in uis)
             {

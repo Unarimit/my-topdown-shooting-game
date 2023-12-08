@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Services;
+using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
@@ -19,16 +20,16 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
         {
             if (isPlayer)
             {
-                mapEntity.IconColor = TestDB.PlayerColor;
+                mapEntity.IconColor = MyConfig.PlayerColor;
                 _isPlayer = true;
             }
             else if (team == 0)
             {
-                mapEntity.IconColor = TestDB.TeamColor;
+                mapEntity.IconColor = MyConfig.TeamColor;
             }
             else if (team == 1)
             {
-                mapEntity.IconColor = TestDB.EnemyColor;
+                mapEntity.IconColor = MyConfig.EnemyColor;
             }
             if (type == Entities.OperatorType.CA)
             {
@@ -43,11 +44,11 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
         {
             if (team == 0)
             {
-                mapEntity.IconColor = TestDB.TeamColor;
+                mapEntity.IconColor = MyConfig.TeamColor;
             }
             else if (team == 1)
             {
-                mapEntity.IconColor = TestDB.EnemyColor;
+                mapEntity.IconColor = MyConfig.EnemyColor;
             }
         }
         private void Start()
