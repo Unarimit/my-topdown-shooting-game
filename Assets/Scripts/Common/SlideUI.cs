@@ -15,19 +15,22 @@ namespace Assets.Scripts.Common
     {
         public static SlideUI CreateSlideUI()
         {
+            Time.timeScale = 1;
             var prefab = ResourceManager.Load<GameObject>("UIs/SlideCanvas");
             var go = Instantiate(prefab);
             DontDestroyOnLoad(go);
             return go.AddComponent<SlideUI>();
         }
         RectTransform _panelRect;
+        public bool IsFinish { get; private set; } = false;
         private void Start()
         {
             _panelRect = transform.Find("Panel").GetComponent<RectTransform>();
             var cg = GetComponent<CanvasGroup>();
             cg.alpha = 0;
-            cg.DOFade(1, 0.2f).SetUpdate(UpdateType.Normal, true).OnComplete(() =>
+            cg.DOFade(1, 0.2f).OnComplete(() =>
             {
+                IsFinish = true;
                 End();
             });
         }
@@ -37,7 +40,7 @@ namespace Assets.Scripts.Common
         /// </summary>
         private void End()
         {
-            _panelRect.DOSizeDelta(new Vector2(0, _panelRect.rect.height), 0.5f).OnComplete(() =>
+            _panelRect.DOSizeDelta(new Vector2(0, _panelRect.rect.height), 0.3f).OnComplete(() =>
             {
                 Destroy(gameObject);
             });

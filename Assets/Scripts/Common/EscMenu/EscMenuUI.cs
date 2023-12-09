@@ -50,8 +50,7 @@ namespace Assets.Scripts.Common.EscMenu
         }
         private void quitToStart()
         {
-            SlideUI.CreateSlideUI();
-            SceneManager.LoadSceneAsync("Start", LoadSceneMode.Single);
+            StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Start"));
         }
         private void openEnviormentSettingPanel()
         {

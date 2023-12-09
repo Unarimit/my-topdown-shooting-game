@@ -53,7 +53,7 @@ namespace Assets.Scripts.Common
             enter = true;
             DOVirtual.DelayedCall(EnterDelay, () =>
             {
-                _tipGo.SetActive(enter);
+                if(_tipGo != null) _tipGo.SetActive(enter);
             });
         }
         IEnumerator setSizeDelay() // 等待布局计算

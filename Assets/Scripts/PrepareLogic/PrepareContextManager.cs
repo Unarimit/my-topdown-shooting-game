@@ -66,12 +66,12 @@ namespace Assets.Scripts.PrepareLogic
                     ResourceManager.AddIcon(x.ModelResourceUrl, PhotographyManager.Instance.GetCharacterHeadIcon(x.ModelResourceUrl));
             }
             SlideUI.CreateSlideUI();
-            SceneManager.LoadScene("Playground");
+            StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Playground"));
         }
         public void ReturnHome()
         {
             SlideUI.CreateSlideUI();
-            SceneManager.LoadScene("Home");
+            StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Home"));
         }
 
 

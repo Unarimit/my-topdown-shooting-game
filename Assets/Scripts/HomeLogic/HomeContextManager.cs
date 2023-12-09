@@ -1,9 +1,8 @@
 ﻿using Assets.Scripts.Common;
 using Assets.Scripts.Common.EscMenu;
 using Assets.Scripts.Entities;
-using Assets.Scripts.Services;
+using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -27,10 +26,10 @@ namespace Assets.Scripts.HomeLogic
 
         public void GoToLevel(LevelRule rule)
         {
-
             MyServices.Database.CurLevel = LevelGenerator.GeneratorLevelInfo(rule);
-            SlideUI.CreateSlideUI();
-            SceneManager.LoadScene("Prepare");
+            
+            StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Prepare"));
+            
         }
 
         private bool isEscMenu = false;
