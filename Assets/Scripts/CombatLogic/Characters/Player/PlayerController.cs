@@ -9,13 +9,13 @@ using UnityEngine.InputSystem;
 #endif
 using Random = UnityEngine.Random;
 
-/* Note: animations are called via the controller for both the character and capsule using animator null checks
- */
 
 namespace Assets.Scripts.CombatLogic.Characters.Player
 {
+    /// <summary>
+    /// 玩家控制类
+    /// </summary>
     [RequireComponent(typeof(OperatorController))]
-
     public class PlayerController : MonoBehaviour
     {
 
@@ -30,24 +30,27 @@ namespace Assets.Scripts.CombatLogic.Characters.Player
         #endregion
 
         #region 伴随生命周期注册和销毁的组件
-        private GameObject _cameraFlowing;
+        private GameObject cameraFlowing;
         private GameObject mapMarkUI;
         private void Awake()
         {
             _controller = GetComponent<OperatorController>();
             // 注册其他组件
             // 相机追踪
-            _cameraFlowing = Instantiate(ResourceManager.Load<GameObject>("Characters/CameraFlowing"), transform);
-            _context.m_Camera.Follow = _cameraFlowing.transform;
+            cameraFlowing = Instantiate(ResourceManager.Load<GameObject>("Characters/CameraFlowing"), transform);
+            _context.m_Camera.Follow = cameraFlowing.transform;
             _context.CombatVM.PlayerTrans = transform;
+            // 小地图
             mapMarkUI = initMiniMapMark();
+            // 玩家标识
             transform.tag = MyConfig.PLAYER_TAG;
         }
         private void OnDestroy()
         {
+            // 玩家标识
             transform.tag = MyConfig.UNTAGED_TAG;
             // 注销组件
-            if (_cameraFlowing != null) Destroy(_cameraFlowing);
+            if (cameraFlowing != null) Destroy(cameraFlowing);
             if (mapMarkUI != null) Destroy(mapMarkUI);
         }
         #endregion

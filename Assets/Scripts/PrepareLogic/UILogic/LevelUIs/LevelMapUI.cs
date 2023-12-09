@@ -10,7 +10,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.LevelUIs
 {
     internal class LevelMapUI : MonoBehaviour
     {
-        Color grass = new Color(0, 0.5f, 0);
+        Color grass = new Color32(0, 0, 0, 255);
         Color waterBlue = new Color(0, 0.74f, 1);
         Color treeGreen = new Color(0.133f, 0.545f, 0.133f);
         public void DrawMap(int[][] map, RectInt teamSpawn, RectInt enemySpawn)

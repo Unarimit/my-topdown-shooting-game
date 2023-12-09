@@ -10,10 +10,16 @@ a easy cartoon top down shooting game framework
 
 开发环境：Unity 2022.3 + URP
 
-# 使用项目
+## 分支说明
+
+- `dev`(default)分支: 开发中的分支
+- `main`分支：最新的稳定版
+- `ver0.x`分支: 特定版本
+
+## 使用项目
 
 FernNPR
 
-# 运行注意
+## 运行注意
 
 由于项目使用了非开源的外部资源（模型，收费assets等），这些资源目录都添加到了`.gitIgnore`中，避免被DMCA。
