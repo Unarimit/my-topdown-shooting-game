@@ -28,16 +28,18 @@ namespace Assets.Scripts.CombatLogic.ContextExtends
         {
             foreach(var x in context.Operators.Keys)
             {
-                MonoBehaviour temp = x.GetComponent<AgentController>();
-                // clear update
+                // set update
                 x.GetComponent<OperatorController>().enabled = isActive;
-                if (temp == null) temp = x.GetComponent<PlayerController>();
+                if (context.Operators[x].IsPlayer)
+                {
+                    x.GetComponent<PlayerController>().enabled = isActive;
+                }
                 else
                 {
+                    x.GetComponent<AgentController>().enabled = isActive;
                     if (context.Operators[x].IsDead is false) // disable的时候设置stop会报错
                         x.GetComponent<NavMeshAgent>().isStopped = !isActive;
                 }
-                temp.enabled = isActive;
 
                 // clear anime
                 x.GetComponent<OperatorController>().ClearAnimate();
@@ -47,20 +49,24 @@ namespace Assets.Scripts.CombatLogic.ContextExtends
                 x.enabled = isActive;
                 x.GetComponent<NavMeshAgent>().enabled = isActive;
             }
+            context.enabled = isActive;
         }
         public static void ActiveCharacter(this CombatContextManager context, Transform trans, bool isActive)
         {
             if (context.Operators.ContainsKey(trans))
             {
-                MonoBehaviour temp = trans.GetComponent<AgentController>();
-                // clear update
+                // set update
                 trans.GetComponent<OperatorController>().enabled = isActive;
-                if (temp == null) temp = trans.GetComponent<PlayerController>();
+                if (context.Operators[trans].IsPlayer)
+                {
+                    trans.GetComponent<PlayerController>().enabled = isActive;
+                }
                 else
                 {
-                    trans.GetComponent<NavMeshAgent>().isStopped = !isActive;
+                    trans.GetComponent<AgentController>().enabled = isActive;
+                    if (context.Operators[trans].IsDead is false) // disable的时候设置stop会报错
+                        trans.GetComponent<NavMeshAgent>().isStopped = !isActive;
                 }
-                temp.enabled = isActive;
 
                 // clear anime
                 trans.GetComponent<OperatorController>().ClearAnimate();

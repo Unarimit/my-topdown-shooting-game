@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.CombatLogic.Skill.Impactor;
 using Assets.Scripts.Entities;
+using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,14 @@ namespace Assets.Scripts.CombatLogic.Skill.Selector
         List<IImpactor> _impactors;
         CombatSkill _skill;
         Vector3 _aim;
+        float _time; // -1代表不销毁，0表示碰到就销毁(暂时未对trigger实现)，除此之外表示按时销毁
         public void Init(List<IImpactor> impectors, Transform caster, CombatSkill skill, Vector3 aim)
         {
             _impactors = impectors;
             _skill = skill;
             _aim = aim;
+            _time = float.Parse(skill.SkillSelector.Data);
+            if (_time > 0) DOVirtual.DelayedCall(_time, () => GetComponent<Collider>().enabled = false);
 
             if (_skill.EffectType == SkillEffectType.PaticalPrefab)
             {
@@ -52,6 +56,7 @@ namespace Assets.Scripts.CombatLogic.Skill.Selector
             {
                 GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
                 GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                GetComponent<Collider>().enabled = false;
             }
             if (SkillManager.IsValidCollision(collision.collider))
             {

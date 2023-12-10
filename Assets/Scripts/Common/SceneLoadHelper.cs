@@ -18,6 +18,7 @@ namespace Assets.Scripts.Common
             {
                 yield return null;
             }
+            // 如果非要卡主线程，那就在黑屏的时候再卡吧
             task.allowSceneActivation = true;
         }
     }

@@ -177,6 +177,7 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
             {
                 m_VerticleCanvas.transform.position += new Vector3(0, 0.001f, 0) * Mathf.Sin(Time.time) * Time.deltaTime;
             }
+            if(_context.enabled) m_VerticleCanvas.gameObject.SetActive(false);
         }
 
         #region default logic

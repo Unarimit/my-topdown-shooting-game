@@ -1,9 +1,9 @@
 Id,Type,Name,Description,CoolDown,Duration,AfterCastTime,CharacterAnimeId,ReleaserType,SkillSelector,EffectType,SkillImpactors,NextSkillId,Ammo,PrefabResourceUrl,IconUrl
-0,Normal,Beam,null,20,1,0,null,Range,Trigger:null,Shoot,Damage:10,-1,-1,Beam,0-img
-1,Normal,Grenade,null,5,3,0,null,Range,Trigger:null,Throw,,2,-1,Grenade1,1-img
-2,Derive,Grenade2,null,0,1,0,null,Range,Trigger:null,PaticalPrefab,Damage:5,-1,-1,Grenade2,null
-3,Weapon,Gun,null,0.1,1.5,0,null,Range,Trigger:null,ShootAndFreeze,Damage:2,-1,30,Bullet,ar-1
-4,Weapon,Gun,null,0.2,1.5,0,null,Range,Trigger:null,ShootAndFreeze,Damage:1,-1,10,Bullet,ar-1
-5,Normal,FastGrenade,null,5,0.5,0,null,Range,Trigger:null,Throw,,2,-1,Grenade1,1-img
-6,Weapon,HealthGun,null,0.3,1.5,0,null,Range,Trigger:null,ShootAndFreeze,Damage:-1,-1,10,HealBullet,ar-1
+0,Normal,Beam,null,20,1,0,null,Range,Trigger:-1,Shoot,Damage:10,-1,-1,Beam,0-img
+1,Normal,Grenade,null,5,3,0,null,Range,Trigger:-1,Throw,,2,-1,Grenade1,1-img
+2,Derive,Grenade2,null,0,1,0,null,Range,Trigger:0.5,PaticalPrefab,Damage:5,-1,-1,Grenade2,null
+3,Weapon,Gun,null,0.1,1.5,0,null,Range,Trigger:0,ShootAndFreeze,Damage:2,-1,30,Bullet,ar-1
+4,Weapon,Gun,null,0.2,1.5,0,null,Range,Trigger:0,ShootAndFreeze,Damage:1,-1,10,Bullet,ar-1
+5,Normal,FastGrenade,null,5,0.5,0,null,Range,Trigger:-1,Throw,,2,-1,Grenade1,1-img
+6,Weapon,HealthGun,null,0.3,1.5,0,null,Range,Trigger:0,ShootAndFreeze,Damage:-1,-1,10,HealBullet,ar-1
 7,Normal,Slide,null,5,1,1,Slide,Melee,Self:null,Shoot,Slide:null;Defend:null,-1,-1,null,null
