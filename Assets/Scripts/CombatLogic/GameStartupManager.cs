@@ -27,8 +27,10 @@ namespace Assets.Scripts.CombatLogic
             transform.GetComponent<SkillManager>().Init();
 
             LevelInfo level;
-            if (MyServices.Database.CurLevel == null) // 调试生成
-            {
+            if (MyServices.Database.CurLevel == null 
+                || MyServices.Database.CurLevel.TeamOperators == null 
+                || MyServices.Database.CurLevel.TeamOperators.Count == 0)
+            {   // 调试生成，第二个判断是因为可能进入了prepare页面，但没有选择角色，保存了不完整的生成信息
                 Debug.Log("DB has no level info, enter test mode");
                 level = LevelGenerator.GeneratorLevelInfo(MyServices.Database.LevelRules[0]);
                 level.TeamOperators = MyServices.Database.Operators.Take(5).ToList();
@@ -39,7 +41,7 @@ namespace Assets.Scripts.CombatLogic
             }
             _context.CombatVM.Level = level;
 
-            level.TeamOperators[0].McBody.HP = 100;
+            //level.TeamOperators[0].McBody.HP = 100;
 
             prepareGameScene(level);
 
