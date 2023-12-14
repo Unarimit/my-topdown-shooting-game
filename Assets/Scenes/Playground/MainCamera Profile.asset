@@ -154,7 +154,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.767
+    m_Value: 0.7
   thickness:
     m_OverrideState: 1
     m_Value: 0.26
