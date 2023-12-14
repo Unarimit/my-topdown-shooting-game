@@ -69,7 +69,8 @@ namespace Assets.Scripts.CombatLogic
 
         private void CheckBreakHUD()
         {
-            windows[BreakHUD].SetVisible(_context.IsPlayerNoShield());
+            windows[BreakHUD].SetVisible( // 当生命小于50%时，显示生命量少效果的HUD
+                (float)_context.CombatVM.Player.CurrentHP / _context.CombatVM.Player.MaxHP < 0.5);
         }
         
     }

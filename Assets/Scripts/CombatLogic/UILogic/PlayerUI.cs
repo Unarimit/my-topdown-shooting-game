@@ -58,8 +58,8 @@ namespace Assets.Scripts.CombatLogic.UILogic
 
         private void OnGUI()
         {
-            if (Skill1Mask.gameObject.activeSelf) Skill1Mask.fillAmount = _context.GetCoolDownRatio(0, Time.time);
-            if (Skill2Mask.gameObject.activeSelf) Skill2Mask.fillAmount = _context.GetCoolDownRatio(1, Time.time);
+            if (Skill1Mask.gameObject.activeSelf) Skill1Mask.fillAmount = getCoolDownRatio(0, Time.time);
+            if (Skill2Mask.gameObject.activeSelf) Skill2Mask.fillAmount = getCoolDownRatio(1, Time.time);
 
             HPSlider.value = (float)_context.Operators[_context.PlayerTrans].CurrentHP / _context.Operators[_context.PlayerTrans].MaxHP;
 
@@ -74,6 +74,20 @@ namespace Assets.Scripts.CombatLogic.UILogic
             else
             {
                 _cockpitManager.ChangeState(CockpitWalkState.Running);
+            }
+        }
+        /// <summary>
+        /// 获得UI显示用的冷却比值
+        /// </summary>
+        private float getCoolDownRatio(int index, float time)
+        {
+            if (_context.CombatVM.Player.CombatSkillList[index].IsCoolDowning(time))
+            {
+                return (_context.CombatVM.Player.CombatSkillList[index].CoolDownEndTime - time) / _context.CombatVM.Player.CombatSkillList[index].SkillInfo.CoolDown;
+            }
+            else
+            {
+                return 0f;
             }
         }
 

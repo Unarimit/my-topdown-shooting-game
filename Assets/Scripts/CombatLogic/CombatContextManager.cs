@@ -372,32 +372,7 @@ namespace Assets.Scripts.CombatLogic
             return go.transform;
         }
 
-        // ********************* UI logic *********************
 
-        /// <summary>
-        /// 获得UI显示用的冷却比值
-        /// </summary>
-        public float GetCoolDownRatio(int index, float time)
-        {
-            if (Operators[PlayerTrans].CombatSkillList[index].IsCoolDowning(time))
-            {
-                return (Operators[PlayerTrans].CombatSkillList[index].CoolDownEndTime - time) / Operators[PlayerTrans].CombatSkillList[index].SkillInfo.CoolDown;
-            }
-            else
-            {
-                return 0f;
-            }
-        }
-
-        public bool IsPlayerNoShield()
-        {
-            return (float)Operators[PlayerTrans].CurrentHP / Operators[PlayerTrans].MaxHP < 0.5;
-        }
-        public void GameFinish()
-        {
-            Time.timeScale = 0;
-        }
-        
         public void QuitScene()
         {
             SceneManager.LoadScene("Home", LoadSceneMode.Single);
