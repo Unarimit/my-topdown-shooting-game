@@ -12,7 +12,7 @@ namespace Assets.Scripts.HomeLogic.UILogic.ActionUIs
     {
         public GameObject m_ItemPrefab;
         private Transform _contentTrans;
-        public void Inject(List<LevelRule> levelRules)
+        public void Inject(IList<LevelRule> levelRules)
         {
             if(_contentTrans == null) _contentTrans = transform.Find("Viewport").Find("Content");
             foreach(var x in levelRules)

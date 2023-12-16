@@ -26,13 +26,21 @@ namespace Assets.Scripts.Services
         /// <summary> 掉落物表，用于ToString，防止拼错 </summary>
         public enum ItemTable
         {
-            KillEnemy,
-            KillTeam,
-            Time,
-            Key,
-            Red, //测试道具1号
+            // 战斗系统
+            KillEnemy, // 敌人死亡标志
+            KillTeam, // 队友死亡标志
+            Time, // 战斗时间
+            Key,  // 测试互动道具
+
+            // 仓库资源
+            Electric, // 电
+            Iron, // 铁
+            Ammo, // 弹药
+            Al, // 铝
+            Red, //测试道具1号，充当抽卡道具
+
             Purple, //测试道具2号
-            Sphere //测试道具3号
+            Sphere, //测试道具3号
         }
         #endregion
 

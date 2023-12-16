@@ -10,24 +10,21 @@ namespace Assets.Scripts.Services
 {
     internal class TestDatabase : IGameDatabase
     {
-        public List<Operator> Operators { get; private set; }
+        public IList<Operator> Operators { get; private set; }
+        public IList<MechaBase> Mechas { get; private set; }
+        public IList<LevelRule> LevelRules { get; private set; }
+        public IDictionary<string, int> Inventory { get; private set; }
 
-        public List<MechaBase> Mechas { get; private set; }
-
-        public List<LevelRule> LevelRules { get; private set; }
 
         public LevelInfo CurLevel { get; set; }
-
         public List<string> ModelList { get; private set; }
-
-        public Dictionary<string, int> Inventory { get; private set; }
-
         public TestDatabase()
         {
             ModelList = new List<string> { "Hoshino", "Shiroko", "Aru", "Karin", "Mashiro" };
             LevelRules = generateTestLevel();
             Operators = generateTestOperators();
             Mechas = generateTestMechas();
+            Inventory = getTestInventory();
             registerDatabind();
 
             Operators[0].McHead = (MechaHead)Mechas[0];
@@ -317,7 +314,12 @@ namespace Assets.Scripts.Services
         private Dictionary<string, int> getTestInventory()
         {
             var res = new Dictionary<string, int>();
+            res.Add(ItemTable.Red.ToString(), 100);
 
+            res.Add(ItemTable.Electric.ToString(), 1000);
+            res.Add(ItemTable.Iron.ToString(), 1000);
+            res.Add(ItemTable.Al.ToString(), 1000);
+            res.Add(ItemTable.Ammo.ToString(), 1000);
 
             return res;
         }

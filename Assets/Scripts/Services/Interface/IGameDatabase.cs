@@ -10,24 +10,24 @@ namespace Assets.Scripts.Services.Interface
         /// <summary>
         /// 玩家拥有的Op
         /// </summary>
-        public List<Operator> Operators { get; }
+        public IList<Operator> Operators { get; }
 
         /// <summary>
         /// 玩家拥有的机甲
         /// </summary>
-        public List<MechaBase> Mechas { get; }
+        public IList<MechaBase> Mechas { get; }
 
         /// <summary>
         /// 所有关卡规则
         /// </summary>
-        public List<LevelRule> LevelRules { get; }
+        public IList<LevelRule> LevelRules { get; }
 
         /// <summary>
         /// 仓库（itemId, amount)
         /// </summary>
-        public Dictionary<string, int> Inventory { get; }
+        public IDictionary<string, int> Inventory { get; }
 
-        // skill 和 item
+        // 还差skill，但skill是否需要存入数据库呢？
 
 
         /// <summary>
