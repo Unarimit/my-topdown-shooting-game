@@ -19,17 +19,11 @@ namespace Assets.Scripts.HomeLogic.UILogic
 
         private void Start()
         {
-            m_topAreaBtn.onClick.AddListener(() => OnClick(CameraPos.TopView));
-            m_coreAreaBtn.onClick.AddListener(() => OnClick(CameraPos.CoreView));
-            m_battleAreaBtn.onClick.AddListener(() => OnClick(CameraPos.BattleView));
-            m_mainViewBtn.onClick.AddListener(() => OnClick(CameraPos.MainView));
+            m_topAreaBtn.onClick.AddListener(() => _rootUI.OnClick(HomePage.TopView));
+            m_coreAreaBtn.onClick.AddListener(() => _rootUI.OnClick(HomePage.CoreView));
+            m_battleAreaBtn.onClick.AddListener(() => _rootUI.OnClick(HomePage.BattleView));
+            m_mainViewBtn.onClick.AddListener(() => _rootUI.OnClick(HomePage.MainView));
         }
 
-        private void OnClick(CameraPos pos)
-        {
-            if (pos == CameraManager.Instance.CurCameraPos) return;
-            if (CameraManager.Instance.IsFinishTween is false) return;
-            StartCoroutine(CameraManager.Instance.SwitchCamera(pos));
-        }
     }
 }

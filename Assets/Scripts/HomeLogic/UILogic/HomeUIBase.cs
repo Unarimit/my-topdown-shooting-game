@@ -4,8 +4,8 @@ namespace Assets.Scripts.HomeLogic.UILogic
 {
     internal class HomeUIBase : MonoBehaviour
     {
-        HomeContextManager _context => HomeContextManager.Instance;
-
+        protected HomeContextManager _context => HomeContextManager.Instance;
+        protected UIManager _rootUI => UIManager.Instance; 
         public virtual void Enter()
         {
             gameObject.SetActive(true);

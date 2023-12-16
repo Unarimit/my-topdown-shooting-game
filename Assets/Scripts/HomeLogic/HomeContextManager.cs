@@ -1,11 +1,9 @@
 ﻿using Assets.Scripts.Common;
 using Assets.Scripts.Common.EscMenu;
 using Assets.Scripts.Entities;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.HomeLogic
 {
