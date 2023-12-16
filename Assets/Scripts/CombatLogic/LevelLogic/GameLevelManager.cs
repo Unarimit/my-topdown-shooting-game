@@ -48,7 +48,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             if(_time > 1)
             {
                 _time -= 1;
-                addDropout(MyConfig.DropoutTable.Time.ToString(), 1);
+                addDropout(MyConfig.ItemTable.Time.ToString(), 1);
             }
         }
 
@@ -99,7 +99,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         }
         public void CalculateDropout(CombatOperator cOperator)
         {
-            if (cOperator.Team == 0) addDropout(MyConfig.DropoutTable.KillTeam.ToString(), 1);
+            if (cOperator.Team == 0) addDropout(MyConfig.ItemTable.KillTeam.ToString(), 1);
             else if (cOperator.Team == 1)
             {
                 // 自带掉落
@@ -118,7 +118,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
                     }
                 }
                 // 敌人指示物
-                addDropout(MyConfig.DropoutTable.KillEnemy.ToString(), 1);
+                addDropout(MyConfig.ItemTable.KillEnemy.ToString(), 1);
                 // AI相关
                 EnemyAttackFactor += 0.2f;
             }

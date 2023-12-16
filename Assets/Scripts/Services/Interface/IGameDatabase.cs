@@ -22,6 +22,11 @@ namespace Assets.Scripts.Services.Interface
         /// </summary>
         public List<LevelRule> LevelRules { get; }
 
+        /// <summary>
+        /// 仓库（itemId, amount)
+        /// </summary>
+        public Dictionary<string, int> Inventory { get; }
+
         // skill 和 item
 
 

@@ -23,7 +23,8 @@ namespace Assets.Scripts.Services
         #endregion
 
         #region 全局信息（如关卡、仓库状态）
-        public enum DropoutTable
+        /// <summary> 掉落物表，用于ToString，防止拼错 </summary>
+        public enum ItemTable
         {
             KillEnemy,
             KillTeam,

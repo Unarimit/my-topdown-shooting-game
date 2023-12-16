@@ -20,6 +20,8 @@ namespace Assets.Scripts.Services
 
         public List<string> ModelList { get; private set; }
 
+        public Dictionary<string, int> Inventory { get; private set; }
+
         public TestDatabase()
         {
             ModelList = new List<string> { "Hoshino", "Shiroko", "Aru", "Karin", "Mashiro" };
@@ -57,7 +59,7 @@ namespace Assets.Scripts.Services
                             AiAgressive = true,
                             InitPosition = InitPosition.EnemySpawnScatter,
                             Dropouts = new Dropout[]{
-                                new Dropout(ItemHelper.GetItem(DropoutTable.Sphere.ToString()))
+                                new Dropout(ItemHelper.GetItem(ItemTable.Sphere.ToString()))
                             }
                         },
                         new OperatorPrefab
@@ -70,15 +72,15 @@ namespace Assets.Scripts.Services
                             AiAgressive = true,
                             InitPosition = InitPosition.EnemySpawnScatter,
                             Dropouts = new Dropout[]{
-                                new Dropout(ItemHelper.GetItem(DropoutTable.Red.ToString())),
-                                new Dropout(ItemHelper.GetItem(DropoutTable.Purple.ToString()))
+                                new Dropout(ItemHelper.GetItem(ItemTable.Red.ToString())),
+                                new Dropout(ItemHelper.GetItem(ItemTable.Purple.ToString()))
                             }
                         }
                     },
                     WinCondition = new Condition[]{
                         new Condition
                         {
-                            ItemName =  DropoutTable.KillEnemy.ToString(),
+                            ItemName =  ItemTable.KillEnemy.ToString(),
                             Amount = 15,
                             Description = "击杀{0}个敌人"
                         }
@@ -86,7 +88,7 @@ namespace Assets.Scripts.Services
                     LossCondition = new Condition[]{
                         new Condition
                         {
-                            ItemName =  DropoutTable.KillTeam.ToString(),
+                            ItemName =  ItemTable.KillTeam.ToString(),
                             Amount = 15,
                             Description = "被击杀{0}个队友"
                         }
@@ -136,7 +138,7 @@ namespace Assets.Scripts.Services
                             MaxAmount = 1,
                             InitPosition = InitPosition.EnemySpawnCenter,
                             Dropouts = new Dropout[]{
-                                new Dropout(ItemHelper.GetItem(DropoutTable.Key.ToString()))
+                                new Dropout(ItemHelper.GetItem(ItemTable.Key.ToString()))
                             },
                             ModelUrl = "Objects/Key",
                         }
@@ -144,7 +146,7 @@ namespace Assets.Scripts.Services
                     WinCondition = new Condition[]{
                         new Condition
                         {
-                            ItemName =  DropoutTable.Key.ToString(),
+                            ItemName =  ItemTable.Key.ToString(),
                             Amount = 1,
                             Description = "摧毁{0}个红色方块"
                         }
@@ -152,7 +154,7 @@ namespace Assets.Scripts.Services
                     LossCondition = new Condition[]{
                         new Condition
                         {
-                            ItemName =  DropoutTable.Time.ToString(),
+                            ItemName =  ItemTable.Time.ToString(),
                             Amount = 120,
                             Description = "时间经过{0}秒"
                         }
@@ -203,7 +205,7 @@ namespace Assets.Scripts.Services
                             InitPosition = InitPosition.MapScatter,
                             Dropouts = new Dropout[]
                             {
-                                new Dropout(ItemHelper.GetItem(DropoutTable.Key.ToString()))
+                                new Dropout(ItemHelper.GetItem(ItemTable.Key.ToString()))
                             },
                             ModelUrl = "Objects/Key",
                         }
@@ -211,7 +213,7 @@ namespace Assets.Scripts.Services
                     WinCondition = new Condition[]{
                         new Condition
                         {
-                            ItemName =  DropoutTable.Key.ToString(),
+                            ItemName =  ItemTable.Key.ToString(),
                             Amount = 3,
                             Description = "激活{0}个红色方块"
                         }
@@ -219,7 +221,7 @@ namespace Assets.Scripts.Services
                     LossCondition = new Condition[]{
                         new Condition
                         {
-                            ItemName =  DropoutTable.Time.ToString(),
+                            ItemName =  ItemTable.Time.ToString(),
                             Amount = 120,
                             Description = "时间经过{0}秒"
                         }
@@ -310,6 +312,14 @@ namespace Assets.Scripts.Services
                 },
                 Id = (++opId).ToString()
             };
+        }
+
+        private Dictionary<string, int> getTestInventory()
+        {
+            var res = new Dictionary<string, int>();
+
+
+            return res;
         }
 
         /// <summary>
