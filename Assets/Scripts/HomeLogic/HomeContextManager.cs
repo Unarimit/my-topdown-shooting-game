@@ -30,9 +30,12 @@ namespace Assets.Scripts.HomeLogic
         public void GoToLevel(LevelRule rule)
         {
             MyServices.Database.CurLevel = LevelGenerator.GeneratorLevelInfo(rule);
-            
             StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Prepare"));
             
+        }
+        private void OnDestroy()
+        {
+            HomeVM.Save();
         }
 
         private bool isEscMenu = false;
@@ -51,25 +54,33 @@ namespace Assets.Scripts.HomeLogic
         public class ViewModel
         {
             /// <summary> 人口 </summary>
-            public int Population { get; private set; }
+            public MyBinded<int> Population { get; private set; } = new MyBinded<int>();
             /// <summary> 电力 </summary>
-            public int ResElectric { get; private set; }
+            public MyBinded<int> ResElectric { get; private set; } = new MyBinded<int>();
             /// <summary> 铁 </summary>
-            public int ResIron { get; private set; }
+            public MyBinded<int> ResIron { get; private set; } = new MyBinded<int>(); 
             /// <summary> 弹药 </summary>
-            public int ResAmmo { get; private set; }
+            public MyBinded<int> ResAmmo { get; private set; } = new MyBinded<int>();
             /// <summary> 铝 </summary>
-            public int ResAl { get; private set; }
+            public MyBinded<int> ResAl { get; private set; } = new MyBinded<int>();
             /// <summary> 抽卡道具 </summary>
-            public int ResGacha { get; private set; }
+            public MyBinded<int> ResGacha { get; private set; } = new MyBinded<int>();
             public ViewModel()
             {
-                Population = MyServices.Database.Operators.Count;
-                ResElectric = MyServices.Database.Inventory[MyConfig.ItemTable.Electric.ToString()];
-                ResIron = MyServices.Database.Inventory[MyConfig.ItemTable.Iron.ToString()];
-                ResAmmo = MyServices.Database.Inventory[MyConfig.ItemTable.Ammo.ToString()];
-                ResAl = MyServices.Database.Inventory[MyConfig.ItemTable.Al.ToString()];
-                ResGacha = MyServices.Database.Inventory[MyConfig.ItemTable.Red.ToString()];
+                Population.Data = MyServices.Database.Operators.Count;
+                ResElectric.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Electric.ToString()];
+                ResIron.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Iron.ToString()];
+                ResAmmo.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Ammo.ToString()];
+                ResAl.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Al.ToString()];
+                ResGacha.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Red.ToString()];
+            }
+            public void Save()
+            {
+                MyServices.Database.Inventory[MyConfig.ItemTable.Electric.ToString()] = ResElectric.Data;
+                MyServices.Database.Inventory[MyConfig.ItemTable.Iron.ToString()] = ResIron.Data;
+                MyServices.Database.Inventory[MyConfig.ItemTable.Ammo.ToString()] = ResAmmo.Data;
+                MyServices.Database.Inventory[MyConfig.ItemTable.Al.ToString()] = ResAl.Data;
+                MyServices.Database.Inventory[MyConfig.ItemTable.Red.ToString()] = ResGacha.Data;
             }
         }
     }

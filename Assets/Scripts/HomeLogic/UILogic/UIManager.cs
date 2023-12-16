@@ -25,7 +25,7 @@ namespace Assets.Scripts.HomeLogic.UILogic
         {
             if (pos == CurHomePage) return;
             if (CameraManager.Instance.IsFinishTween is false) return;
-            //CurHomePage = pos;
+            CurHomePage = pos;
             StartCoroutine(CameraManager.Instance.SwitchCamera(pos));
         }
     }
