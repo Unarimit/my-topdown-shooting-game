@@ -44,7 +44,7 @@ namespace Assets.Scripts.HomeLogic.UILogic
             if(OverlayStack.Count != 0)
             {
                 var t = OverlayStack.Pop();
-                if(t.Equals(null) is not true) t.Quit();
+                if (t.Equals(null) is not true) t.Quit();
                 
                 return;
             }

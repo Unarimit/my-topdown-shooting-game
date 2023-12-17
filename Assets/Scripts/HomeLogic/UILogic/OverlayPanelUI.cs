@@ -1,5 +1,6 @@
 ﻿
 using Assets.Scripts.HomeLogic.UILogic.BagUIs;
+using Assets.Scripts.HomeLogic.UILogic.OperatorsUIs;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,9 +14,11 @@ namespace Assets.Scripts.HomeLogic.UILogic
         private Button m_characterBtn;
 
         private BagPanelUI bagPanelUI;
+        private OperatorsPanelUI opsPanelUI;
         private void Awake()
         {
             bagPanelUI = transform.Find("BagPanel").GetComponent<BagPanelUI>();
+            opsPanelUI = transform.Find("OperatorsPanel").GetComponent<OperatorsPanelUI>();
         }
         private void OnEnable()
         {
@@ -35,7 +38,7 @@ namespace Assets.Scripts.HomeLogic.UILogic
         }
         private void openCharacter()
         {
-
+            opsPanelUI.Enter();
         }
     }
 }

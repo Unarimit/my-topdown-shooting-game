@@ -66,6 +66,7 @@ namespace Assets.Scripts.Common
             var prefab = ResourceManager.Load<GameObject>("Characters/Displayer");
             var go = Instantiate(prefab, _fullBodyTrans);
             GetComponent<FbxLoadManager>().LoadModel(modelUrl, go.transform, false);
+            changeLayer(go);
 
             // render
             m_FullBodyCamera.Render();
@@ -88,6 +89,7 @@ namespace Assets.Scripts.Common
             var prefab = ResourceManager.Load<GameObject>("Characters/Displayer");
             var go = Instantiate(prefab, _headOnlyTrans);
             GetComponent<FbxLoadManager>().LoadModel(modelUrl, go.transform, false);
+            changeLayer(go);
 
             // render
             m_HeadOnlyCamera.Render();
@@ -102,6 +104,29 @@ namespace Assets.Scripts.Common
             m_HeadOnlyCamera.gameObject.SetActive(false);
 
             return res;
+        }
+        public void changeLayer(GameObject go)
+        {
+            var queue = new Queue<GameObject>();
+            var layer = LayerMask.NameToLayer("OperatorIconShading");
+            queue.Enqueue(go);
+            int deep = 0;
+            while (queue.Count != 0)
+            {
+                int len = queue.Count;
+                for(int _ = 0 ; _ < len; _++)
+                {
+                    var t = queue.Dequeue();
+                    t.layer = layer;
+                    for (int i = 0; i < t.transform.childCount; i++)
+                    {
+                        queue.Enqueue(t.transform.GetChild(i).gameObject);
+                    }
+                }
+                
+                deep += 1;
+                if (deep == 4) break;
+            }
         }
     }
 

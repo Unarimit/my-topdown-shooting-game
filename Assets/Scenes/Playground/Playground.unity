@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.012
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
+  m_AmbientSkyColor: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.3736798, g: 0.44681054, b: 0.6320754, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
@@ -10845,23 +10845,9 @@ MonoBehaviour:
     WeaponSkillId: 4
     MainSkillId: 1
     SlideSkillId: 7
-    WeaponType: 0
+    MaxPower: 4
+    Power: 3
     ReviveTime: 5
-    McHead:
-      IconUrl: 
-      Name: 
-      Critical: 0
-      Accurate: 0
-    McBody:
-      IconUrl: 
-      Name: 
-      HP: 5
-      HPRecover: 1
-    McLeg:
-      IconUrl: 
-      Name: 
-      Speed: 3
-      Dodge: 0
 --- !u!114 &1458971852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11526,23 +11512,9 @@ MonoBehaviour:
     WeaponSkillId: 4
     MainSkillId: 1
     SlideSkillId: 7
-    WeaponType: 0
+    MaxPower: 4
+    Power: 3
     ReviveTime: 5
-    McHead:
-      IconUrl: 
-      Name: 
-      Critical: 0
-      Accurate: 0
-    McBody:
-      IconUrl: 
-      Name: 
-      HP: 5
-      HPRecover: 1
-    McLeg:
-      IconUrl: 
-      Name: 
-      Speed: 3
-      Dodge: 0
 --- !u!114 &1538417420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14943,23 +14915,9 @@ MonoBehaviour:
     WeaponSkillId: 4
     MainSkillId: 1
     SlideSkillId: 7
-    WeaponType: 0
+    MaxPower: 4
+    Power: 3
     ReviveTime: 5
-    McHead:
-      IconUrl: 
-      Name: 
-      Critical: 0
-      Accurate: 0
-    McBody:
-      IconUrl: 
-      Name: 
-      HP: 5
-      HPRecover: 1
-    McLeg:
-      IconUrl: 
-      Name: 
-      Speed: 3
-      Dodge: 0
 --- !u!114 &2132031952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19070,7 +19028,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 522039
   m_RenderingLayerMask: 1
   m_Lightmapping: 1
   m_LightShadowCasterMode: 0
