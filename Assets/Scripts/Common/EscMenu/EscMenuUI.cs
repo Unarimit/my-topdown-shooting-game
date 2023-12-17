@@ -1,11 +1,11 @@
-﻿using DG.Tweening;
+﻿using Assets.Scripts.Common.Interface;
+using DG.Tweening;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.Common.EscMenu
 {
-    internal class EscMenuUI : MonoBehaviour
+    internal class EscMenuUI : MonoBehaviour, IOverlayUI
     {
         // 退出时会销毁这些button对象和他们的事件监听吗？
         [HideInInspector]
@@ -55,6 +55,11 @@ namespace Assets.Scripts.Common.EscMenu
         private void openEnviormentSettingPanel()
         {
             enviorSettingPanelTrans.gameObject.SetActive(true);
+        }
+
+        public void Quit()
+        {
+            quit();
         }
     }
 }

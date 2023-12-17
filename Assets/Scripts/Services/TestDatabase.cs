@@ -315,6 +315,8 @@ namespace Assets.Scripts.Services
         {
             var res = new Dictionary<string, int>();
             res.Add(ItemTable.Red.ToString(), 100);
+            res.Add(ItemTable.Purple.ToString(), 100);
+            res.Add(ItemTable.Sphere.ToString(), 100);
 
             res.Add(ItemTable.Electric.ToString(), 1000);
             res.Add(ItemTable.Iron.ToString(), 1000);

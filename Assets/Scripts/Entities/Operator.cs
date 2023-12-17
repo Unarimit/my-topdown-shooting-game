@@ -28,30 +28,24 @@ namespace Assets.Scripts.Entities
 
         public string ModelResourceUrl;
 
-        // 属性
+        // 主要属性
         public int PropRed;
-
         public int PropGreen;
-
         public int PropBlue;
 
         // 技能id
         public int WeaponSkillId = 4;
-
         public int MainSkillId = 0;
-
         public int SlideSkillId = 7;
 
+        // 体力系统
+        public int MaxPower = 4;
+        public int Power = 3;
+
+
+        // 舰载机
         public List<Fighter> Fighters;
-
-        // 需要删除的属性
-        public int RecoverHP => McBody.HPRecover;
-
-        public float MaxSpeed => McLeg.Speed;
-
-        public float ReviveTime = 5;
-
-        // 对于装备是引用关系，绑定事件方便数据库响应
+        // 装备，对于装备是引用关系，绑定事件方便数据库响应
         public MechaHead McHead { 
             get {
                 return _mcHead;
@@ -87,6 +81,14 @@ namespace Assets.Scripts.Entities
 
         public delegate void MechaChangeEvent(Operator @this, MechaBase oldMehca, MechaBase newMehca);
         public event MechaChangeEvent MechaChangeEventHandler;
+
+
+        // 需要考虑删除或替换的属性
+        public int RecoverHP => McBody.HPRecover;
+        public float MaxSpeed => McLeg.Speed;
+
+        public float ReviveTime = 5;
+
 
         //TODO: 使用次数较少，优化这个方案
         public object Clone()

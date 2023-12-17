@@ -48,3 +48,23 @@ MonoBehaviour:
     Description: "\u6D4B\u8BD5\u9053\u51773\u53F7"
     IconUrl: Textures/SphereGem
     IsDisplay: 1
+  - ItemId: Electric
+    ItemName: "\u7535\u529B"
+    Description: "\u8D44\u6E90"
+    IconUrl: 
+    IsDisplay: 0
+  - ItemId: Iron
+    ItemName: "\u94C1"
+    Description: "\u8D44\u6E90"
+    IconUrl: 
+    IsDisplay: 0
+  - ItemId: Ammo
+    ItemName: "\u5F39\u836F"
+    Description: "\u8D44\u6E90"
+    IconUrl: 
+    IsDisplay: 0
+  - ItemId: Al
+    ItemName: "\u94DD"
+    Description: "\u8D44\u6E90"
+    IconUrl: 
+    IsDisplay: 0

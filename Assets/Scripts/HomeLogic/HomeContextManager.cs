@@ -38,18 +38,6 @@ namespace Assets.Scripts.HomeLogic
             HomeVM.Save();
         }
 
-        private bool isEscMenu = false;
-        public void OnEscMenu(InputValue value)
-        {
-            if (isEscMenu) return;
-            isEscMenu = true;
-            var ui = EscMenuUI.OpenEscMenuUI();
-            ui.ReturnBtn.onClick.AddListener(() =>
-            {
-                isEscMenu = false;
-            });
-        }
-
 
         public class ViewModel
         {
