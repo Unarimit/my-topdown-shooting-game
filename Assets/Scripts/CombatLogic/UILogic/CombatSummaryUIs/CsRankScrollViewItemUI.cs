@@ -1,4 +1,6 @@
 ﻿using Assets.Scripts.CombatLogic.CombatEntities;
+using Assets.Scripts.Common;
+using Assets.Scripts.PrepareLogic.EffectLogic;
 using DG.Tweening;
 using TMPro;
 using Unity.VisualScripting;
@@ -42,7 +44,7 @@ namespace Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs
                 dmgSlider.value = 0;
                 shieldValTMP.text = cop.StatReceiveDamage.ToString();
                 dmgValTMP.text = cop.StatCauseDamage.ToString();
-                var texture = ResourceManager.LoadIcon(cop.OpInfo.ModelResourceUrl);
+                var texture = PhotographyManager.GetOperatorHeadIcon(cop.OpInfo);
                 if (texture != null) HeadIconRawImg.texture = texture;
                 if (totalReceive != 0) shieldSlider.DOValue((float)cop.StatReceiveDamage / totalReceive, 1);
                 if(totalDmg != 0) dmgSlider.DOValue((float)cop.StatCauseDamage / totalDmg, 1);

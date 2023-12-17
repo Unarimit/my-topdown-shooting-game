@@ -14,18 +14,5 @@ namespace Assets.Scripts
             }
             return res;
         }
-
-        // TODO: 在数据未持久化之前的临时措施
-        public static Dictionary<string, Texture> IconMap = new Dictionary<string, Texture>();
-        public static Texture LoadIcon(string modelUrl)
-        {
-            if (IconMap.ContainsKey(modelUrl)) return IconMap[modelUrl];
-            else return null;
-        }
-        public static void AddIcon(string modelUrl, Texture texture)
-        {
-            if (IconMap.ContainsKey(modelUrl)) return;
-            else IconMap.Add(modelUrl, texture);
-        }
     }
 }

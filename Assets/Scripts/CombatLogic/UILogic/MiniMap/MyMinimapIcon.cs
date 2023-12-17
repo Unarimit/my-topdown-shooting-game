@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.CombatLogic.CombatEntities;
 using Assets.Scripts.CombatLogic.ContextExtends;
+using Assets.Scripts.Common;
 using Assets.Scripts.Entities;
 using DG.Tweening;
 using Lovatto.MiniMap;
@@ -111,7 +112,7 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
 
             hpSlider.value = cop.CurrentHP / cop.MaxHP;
             nameTMP.text = cop.OpInfo.Name;
-            var texture = ResourceManager.LoadIcon(cop.OpInfo.ModelResourceUrl);
+            var texture = PhotographyManager.GetOperatorHeadIcon(cop.OpInfo);
             if (texture != null) HeadIconRawImg.texture = texture;
             typeNameTMP.text = cop.OpInfo.Type.ToString();
         }
@@ -133,7 +134,7 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
 
             hpSlider.value = 1;
             nameTMP.text = fighter.Operator.Name;
-            var texture = ResourceManager.LoadIcon(fighter.Operator.ModelResourceUrl);
+            var texture = PhotographyManager.GetOperatorHeadIcon(fighter.Operator);
             if (texture != null) HeadIconRawImg.texture = texture;
             typeNameTMP.text = fighter.Type.To2WordsString();
         }

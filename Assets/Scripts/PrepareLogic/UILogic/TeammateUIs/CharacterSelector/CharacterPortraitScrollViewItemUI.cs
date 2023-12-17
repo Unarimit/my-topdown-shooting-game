@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.PrepareLogic.EffectLogic;
+﻿using Assets.Scripts.Common;
 using Assets.Scripts.PrepareLogic.PrepareEntities;
 using TMPro;
 using UnityEngine;
@@ -26,7 +26,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterSelector
         public void Inject(PrepareOperator model, TeammatePortraitPage page, CharacterPortraitScrollViewUI parent)
         {
             _model = model;
-            PortraitImage.texture = PhotographyManager.Instance.GetCharacterPortrait(_model.OpInfo.ModelResourceUrl);
+            PortraitImage.texture = PhotographyManager.GetOperatorPortrait(_model.OpInfo);
             CharacterNameTMP.text = _model.OpInfo.Name;
             CharacterTypeTMP.text = _model.OpInfo.Type.ToString();
             _page = page;

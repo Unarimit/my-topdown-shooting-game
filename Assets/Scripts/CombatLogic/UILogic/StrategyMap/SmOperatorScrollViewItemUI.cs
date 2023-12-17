@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.CombatLogic.CombatEntities;
+using Assets.Scripts.Common;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -38,7 +39,7 @@ namespace Assets.Scripts.CombatLogic.UILogic.StrategyMap
             // 基础信息
             nameTMP.text = cop.OpInfo.Name;
             typeNameTMP.text = cop.OpInfo.Type.ToString();
-            var texture = ResourceManager.LoadIcon(cop.OpInfo.ModelResourceUrl);
+            var texture = PhotographyManager.GetOperatorHeadIcon(cop.OpInfo);
             if (texture != null) HeadIconRawImg.texture = texture;
 
             // 血条

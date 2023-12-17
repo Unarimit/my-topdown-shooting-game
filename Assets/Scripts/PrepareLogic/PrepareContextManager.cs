@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.Common;
 using Assets.Scripts.Common.EscMenu;
 using Assets.Scripts.Entities;
-using Assets.Scripts.PrepareLogic.EffectLogic;
 using Assets.Scripts.PrepareLogic.PrepareEntities;
 using System.Collections.Generic;
 using UnityEngine;
@@ -59,11 +58,6 @@ namespace Assets.Scripts.PrepareLogic
             {
                 TipsUI.GenerateNewTips("请至少选择一名干员");
                 return;
-            }
-            else
-            {
-                foreach (var x in Level.TeamOperators)
-                    ResourceManager.AddIcon(x.ModelResourceUrl, PhotographyManager.Instance.GetCharacterHeadIcon(x.ModelResourceUrl));
             }
             SlideUI.CreateSlideUI();
             StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Playground"));

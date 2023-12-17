@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.Entities;
-using Assets.Scripts.PrepareLogic.EffectLogic;
+﻿using Assets.Scripts.Common;
+using Assets.Scripts.Entities;
 using Assets.Scripts.PrepareLogic.PrepareEntities;
 using TMPro;
 using UnityEngine;
@@ -17,7 +17,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.EnemyUIs
         public void Inject(Operator model)
         {
             _model = model;
-            PortraitImage.texture = PhotographyManager.Instance.GetCharacterPortrait(_model.ModelResourceUrl);
+            PortraitImage.texture = PhotographyManager.GetOperatorPortrait(model);
             CharacterNameTMP.text = _model.Name;
             CharacterTypeTMP.text = _model.Type.ToString();
         }

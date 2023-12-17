@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.Entities;
-using Assets.Scripts.PrepareLogic.EffectLogic;
+﻿using Assets.Scripts.Common;
+using Assets.Scripts.Entities;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -16,7 +16,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
         public void Inject(Fighter fi)
         {
             _model = fi;
-            PortraitImage.texture = PhotographyManager.Instance.GetCharacterHeadIcon(_model.Operator.ModelResourceUrl);
+            PortraitImage.texture = PhotographyManager.GetOperatorHeadIcon(_model.Operator);
             CharacterNameTMP.text = _model.Operator.Name;
             CharacterTypeTMP.text = _model.Type.To2WordsString();
         }
