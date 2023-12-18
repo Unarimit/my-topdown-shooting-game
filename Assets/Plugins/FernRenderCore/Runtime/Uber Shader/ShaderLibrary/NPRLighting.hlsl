@@ -110,7 +110,7 @@ struct LightingData
 ///////////////////////////////////////////////////////////////////////////////
 
 #if FACE
-inline void SDFFaceUV(half reversal, half faceArea, out half2 result)
+    inline void SDFFaceUV(half reversal, half faceArea, out half2 result)
     {
         Light mainLight = GetMainLight();
         half2 lightDir = normalize(mainLight.direction.xz);
@@ -120,7 +120,7 @@ inline void SDFFaceUV(half reversal, half faceArea, out half2 result)
 
         float FdotL = dot(Front, lightDir);
         float RdotL = dot(Right, lightDir) * lerp(1, -1, reversal);
-        result.x = 1 - max(0,-(acos(FdotL) * INV_PI * 90.0 /(faceArea+90.0) -0.5) * 2);
+        result.x = 1 - max(0,-(acos(FdotL) * INV_PI * 90.0 / (faceArea) -0.5) * 2);
         result.y = 1 - 2 * step(RdotL, 0);
     }
 
