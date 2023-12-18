@@ -314,6 +314,8 @@ namespace Assets.Scripts.Services
         private Dictionary<string, int> getTestInventory()
         {
             var res = new Dictionary<string, int>();
+            res.Add(ItemTable.GTime.ToString(), 14);
+
             res.Add(ItemTable.Red.ToString(), 100);
             res.Add(ItemTable.Purple.ToString(), 100);
             res.Add(ItemTable.Sphere.ToString(), 100);

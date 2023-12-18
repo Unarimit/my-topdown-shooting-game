@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 
 namespace Assets.Scripts.HomeLogic.UILogic
@@ -6,6 +7,8 @@ namespace Assets.Scripts.HomeLogic.UILogic
     internal class StatuPanelUI : HomeUIBase
     {
 
+        [SerializeField]
+        private TextMeshProUGUI m_timeTMP;
         [SerializeField]
         private TextMeshProUGUI m_populationTMP;
         [SerializeField]
@@ -21,6 +24,7 @@ namespace Assets.Scripts.HomeLogic.UILogic
 
         private void Start()
         {
+            setTimeText();
             setPopulationText();
             setElectricText();
             setIronText();
@@ -34,6 +38,15 @@ namespace Assets.Scripts.HomeLogic.UILogic
             _context.HomeVM.ResAl.OnDataChange += setAlText;
             _context.HomeVM.ResGacha.OnDataChange += setGachaText;
         }
+
+        private void setTimeText()
+        {
+            var text = $"第{(_context.HomeVM.GTime / 2)}天，";
+            if (_context.HomeVM.GTime % 2 == 0) text += "白天";
+            else text += "夜晚";
+            m_timeTMP.text = text;
+        }
+
         private void OnDestroy()
         {
             _context.HomeVM.Population.OnDataChange -= setPopulationText;

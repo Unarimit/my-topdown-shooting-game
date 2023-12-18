@@ -68,3 +68,8 @@ MonoBehaviour:
     Description: "\u8D44\u6E90"
     IconUrl: 
     IsDisplay: 0
+  - ItemId: GTime
+    ItemName: "\u5168\u5C40\u65F6\u95F4"
+    Description: "\u8D44\u6E90"
+    IconUrl: 
+    IsDisplay: 0

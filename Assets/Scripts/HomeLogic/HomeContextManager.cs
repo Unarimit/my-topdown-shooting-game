@@ -41,6 +41,9 @@ namespace Assets.Scripts.HomeLogic
 
         public class ViewModel
         {
+            /// <summary> 全局时间 </summary>
+            public int GTime { get; private set; } // 变化会涉及创景切换，所以不做数据绑定
+
             /// <summary> 人口 </summary>
             public MyBinded<int> Population { get; private set; } = new MyBinded<int>();
             /// <summary> 电力 </summary>
@@ -55,6 +58,7 @@ namespace Assets.Scripts.HomeLogic
             public MyBinded<int> ResGacha { get; private set; } = new MyBinded<int>();
             public ViewModel()
             {
+                GTime = MyServices.Database.Inventory[MyConfig.ItemTable.GTime.ToString()];
                 Population.Data = MyServices.Database.Operators.Count;
                 ResElectric.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Electric.ToString()];
                 ResIron.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Iron.ToString()];
