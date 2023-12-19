@@ -15,7 +15,9 @@ namespace Assets.Scripts.HomeLogic
             {
                 bDic.Add(x.BuildingId, x);
             }
-            transform.Find("Placement").GetComponent<PlacementManager>().Init(MyServices.Database.BuildingArea, bDic);
+            var pm = transform.Find("Placement").GetComponent<PlacementManager>();
+            pm.Init(MyServices.Database.BuildingArea, bDic);
+            GetComponent<HomeLogic.UILogic.UIManager>().Inject(pm);
         }
     }
 }
