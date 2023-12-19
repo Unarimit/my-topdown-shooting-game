@@ -44,8 +44,14 @@ namespace Assets.Scripts.HomeLogic.UILogic
             if(OverlayStack.Count != 0)
             {
                 var t = OverlayStack.Pop();
-                if (t.Equals(null) is not true) t.Quit();
-                
+                if (t.Equals(null) is not true)
+                {
+                    t.Quit(); // 正在退出时也会出问题，但如何考虑这个问题？
+                }
+                else
+                {
+                    OnEscMenu(value); // 懒得写循环出队，就递归
+                }
                 return;
             }
 
