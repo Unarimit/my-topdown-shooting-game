@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Common;
 using Assets.Scripts.Entities;
+using Assets.Scripts.Entities.Buildings;
 using Assets.Scripts.Entities.Mechas;
 using Assets.Scripts.Services.Interface;
 using System.Collections.Generic;
@@ -12,19 +13,26 @@ namespace Assets.Scripts.Services
     {
         public IList<Operator> Operators { get; private set; }
         public IList<MechaBase> Mechas { get; private set; }
-        public IList<LevelRule> LevelRules { get; private set; }
         public IDictionary<string, int> Inventory { get; private set; }
-
-
         public LevelInfo CurLevel { get; set; }
+        public BuildingArea BuildingArea { get; private set; }
+
+
+        public IList<LevelRule> LevelRules { get; private set; }
+        public IList<Building> Buildings { get; private set; }
         public List<string> ModelList { get; private set; }
+
+
         public TestDatabase()
         {
             ModelList = new List<string> { "Hoshino", "Shiroko", "Aru", "Karin", "Mashiro" };
             LevelRules = generateTestLevel();
+            Buildings = getTestBuildings();
+
             Operators = generateTestOperators();
             Mechas = generateTestMechas();
             Inventory = getTestInventory();
+            BuildingArea = getTestBuildingArea();
             registerDatabind();
 
             Operators[0].McHead = (MechaHead)Mechas[0];
@@ -326,6 +334,22 @@ namespace Assets.Scripts.Services
             res.Add(ItemTable.Ammo.ToString(), 1000);
 
             return res;
+        }
+
+        private List<Building> getTestBuildings()
+        {
+            var d3b3 = new Vector2Int(3, 3);
+            var res = new List<Building>();
+            res.Add(new ResourceBuilding { Name = "发电厂", Description = "测试电力建筑",  
+                ModelUrl = "", Dimensions = d3b3, 
+                Produces = new Produce[] { new Produce { ItemId = ItemTable.Electric.ToString(), Amount = 10 } } });
+
+            return res;
+        }
+
+        private BuildingArea getTestBuildingArea()
+        {
+            return new BuildingArea() { };
         }
 
         /// <summary>

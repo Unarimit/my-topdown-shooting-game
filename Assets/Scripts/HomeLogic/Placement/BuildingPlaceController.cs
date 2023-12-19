@@ -1,5 +1,4 @@
-﻿
-using Assets.Scripts.Entities;
+﻿using Assets.Scripts.Entities.Buildings;
 using UnityEngine;
 
 namespace Assets.Scripts.HomeLogic.Placement
@@ -34,7 +33,7 @@ namespace Assets.Scripts.HomeLogic.Placement
         /// </summary>
         public float dampSpeed = 0.075f;
 
-        public Building Building { get; private set; } = new Building() { Dimensions = new Vector2Int(1, 1) };
+        public Building Building { get; private set; } = new ResourceBuilding() { Dimensions = new Vector2Int(1, 1) };
 
         private void Awake()
         {
