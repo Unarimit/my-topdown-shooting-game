@@ -19,10 +19,10 @@ namespace Assets.Scripts.HomeLogic.UILogic
 
         private void Start()
         {
-            m_topAreaBtn.onClick.AddListener(() => _rootUI.OnClick(HomePage.TopView));
-            m_coreAreaBtn.onClick.AddListener(() => _rootUI.OnClick(HomePage.CoreView));
-            m_battleAreaBtn.onClick.AddListener(() => _rootUI.OnClick(HomePage.BattleView));
-            m_mainViewBtn.onClick.AddListener(() => _rootUI.OnClick(HomePage.MainView));
+            m_topAreaBtn.onClick.AddListener(() => _rootUI.SwitchPage(HomePage.TopView));
+            m_coreAreaBtn.onClick.AddListener(() => _rootUI.SwitchPage(HomePage.CoreView));
+            m_battleAreaBtn.onClick.AddListener(() => _rootUI.SwitchPage(HomePage.BattleView));
+            m_mainViewBtn.onClick.AddListener(() => _rootUI.SwitchPage(HomePage.MainView));
         }
 
     }

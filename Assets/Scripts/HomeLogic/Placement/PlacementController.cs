@@ -27,7 +27,7 @@ namespace Assets.Scripts.HomeLogic.Placement
         /// <summary>
 		/// Tracks if the ghost is in a valid location and the player can afford it
 		/// </summary>
-		bool m_GhostPlacementPossible;
+		public bool m_GhostPlacementPossible { get; private set; }
 
         private void Update()
         {

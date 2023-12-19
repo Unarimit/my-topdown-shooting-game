@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Entities.Buildings;
+using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts.HomeLogic.Placement
@@ -33,12 +34,26 @@ namespace Assets.Scripts.HomeLogic.Placement
         /// </summary>
         public float dampSpeed = 0.075f;
 
-        public Building Building { get; private set; } = new ResourceBuilding() { Dimensions = new Vector2Int(1, 1) };
+        public Building Building { 
+            get { 
+                return _building; 
+            } 
+            set { 
+                _building = value;
+                m_MeshRenderers = null;
 
-        private void Awake()
-        {
-            m_MeshRenderers = GetComponentsInChildren<MeshRenderer>();
+                StartCoroutine(WaitFrameUpdate());
+                IEnumerator WaitFrameUpdate()
+                {
+                    yield return null;
+                    m_MeshRenderers = GetComponentsInChildren<MeshRenderer>();
+                }
+            } 
         }
+
+        private Building _building;
+
+
 
         /// <summary>
         /// Moves this ghost to a given world position
@@ -59,6 +74,7 @@ namespace Assets.Scripts.HomeLogic.Placement
             }
 
             transform.rotation = rotation;
+            if (m_MeshRenderers == null) return;
             foreach (MeshRenderer meshRenderer in m_MeshRenderers)
             {
                 meshRenderer.sharedMaterial = validLocation ? material : invalidPositionMaterial;

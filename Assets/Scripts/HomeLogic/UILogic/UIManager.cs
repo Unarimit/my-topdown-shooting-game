@@ -56,7 +56,7 @@ namespace Assets.Scripts.HomeLogic.UILogic
         }
 
 
-        public void OnClick(HomePage page)
+        public void SwitchPage(HomePage page)
         {
             if (page == CurHomePage) return;
             if (CameraManager.Instance.IsFinishTween is false) return;
@@ -77,7 +77,10 @@ namespace Assets.Scripts.HomeLogic.UILogic
 
         }
 
-
+        public void OnClick(InputValue value)
+        {
+            foreach (var x in switchUIs[CurHomePage]) x.OnClick();
+        }
         public void OnEscMenu(InputValue value)
         {
             // 清理弹出窗口栈

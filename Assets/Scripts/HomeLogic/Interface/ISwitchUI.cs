@@ -8,5 +8,6 @@ namespace Assets.Scripts.HomeLogic.Interface
     {
         void Enter();
         void Quit();
+        void OnClick();
     }
 }
