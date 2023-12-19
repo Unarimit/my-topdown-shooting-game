@@ -11,6 +11,10 @@ namespace Assets.Scripts.Entities.Buildings
     }
     internal abstract class Building
     {
+
+        /// <summary> 建筑Id </summary>
+        public string BuildingId;
+
         /// <summary> 建筑名称 </summary>
         public string Name;
 

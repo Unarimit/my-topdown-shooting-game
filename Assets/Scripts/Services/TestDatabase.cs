@@ -339,17 +339,62 @@ namespace Assets.Scripts.Services
         private List<Building> getTestBuildings()
         {
             var d3b3 = new Vector2Int(3, 3);
+            var d2b2 = new Vector2Int(2, 2);
             var res = new List<Building>();
-            res.Add(new ResourceBuilding { Name = "发电厂", Description = "测试电力建筑",  
-                ModelUrl = "", Dimensions = d3b3, 
-                Produces = new Produce[] { new Produce { ItemId = ItemTable.Electric.ToString(), Amount = 10 } } });
+            res.Add(new ResourceBuilding
+            {
+                BuildingId = "e1",
+                Name = "发电厂",
+                Description = "测试电力建筑+10",
+                ModelUrl = "cooling-tower Variant",
+                Dimensions = d3b3,
+                Produces = new Produce[] { new Produce { ItemId = ItemTable.Electric.ToString(), Amount = 10 } }
+            });
+
+            res.Add(new ResourceBuilding
+            {
+                BuildingId = "iaa1",
+                Name = "冶炼厂",
+                Description = "测试建筑，生产基本资源+10",
+                ModelUrl = "industry-factory Variant",
+                Dimensions = d3b3,
+                Produces = new Produce[] {
+                    new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 10 },
+                    new Produce { ItemId = ItemTable.Ammo.ToString(), Amount = 10 },
+                    new Produce { ItemId = ItemTable.Al.ToString(), Amount = 10 } }
+            });
+            res.Add(new ResourceBuilding
+            {
+                BuildingId = "s1",
+                Name = "购物广场",
+                Description = "测试建筑，生产抽卡资源+10",
+                ModelUrl = "skyscraper-part-bottom Variant",
+                Dimensions = d3b3,
+                Produces = new Produce[] {
+                    new Produce { ItemId = ItemTable.Red.ToString(), Amount = 10 } }
+            });
+            res.Add(new ResourceBuilding
+            {
+                BuildingId = "h1",
+                Name = "住宅",
+                Description = "测试建筑，恢复角色体力+2",
+                ModelUrl = "House_1Room_Blue Variant",
+                Dimensions = d2b2,
+                Produces = new Produce[] {
+                    new Produce { ItemId = ItemTable.PowerRecover.ToString(), Amount = 2 } }
+            });
 
             return res;
         }
 
         private BuildingArea getTestBuildingArea()
         {
-            return new BuildingArea() { };
+            return new BuildingArea() { PlaceInfos = new PlaceInfo[] {
+                new PlaceInfo { BuildingId = "h1", AreaIndex = 0, PlacePosition = new Vector2Int(4, 4)},
+                new PlaceInfo { BuildingId = "h1", AreaIndex = 1, PlacePosition = new Vector2Int(4, 4)},
+                new PlaceInfo { BuildingId = "e1", AreaIndex = 2, PlacePosition = new Vector2Int(1, 4)},
+                new PlaceInfo { BuildingId = "e1", AreaIndex = 2, PlacePosition = new Vector2Int(4, 4)},
+            } };
         }
 
         /// <summary>

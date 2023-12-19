@@ -38,10 +38,13 @@ namespace Assets.Scripts.Services
             Ammo, // 弹药
             Al, // 铝
             Red, // 测试道具1号，充当抽卡道具
-            GTime, // 全局“时间”
 
             Purple, //测试道具2号
             Sphere, //测试道具3号
+
+            // 家园系统
+            GTime, // 全局“时间”
+            PowerRecover,
         }
         #endregion
 
