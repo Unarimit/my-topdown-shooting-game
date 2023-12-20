@@ -35,7 +35,6 @@ namespace Assets.Scripts.HomeLogic.UILogic
             else Debug.LogWarning(transform.ToString() + " try to load another Manager");
 
             OverlayStack = new Stack<IOverlayUI>();
-            buildingUI = m_canvas.Find("BuildingPanel").GetComponent<BuildingUI>();
 
 
             switchUIs = new Dictionary<HomePage, List<ISwitchUI>>();
@@ -45,14 +44,18 @@ namespace Assets.Scripts.HomeLogic.UILogic
             switchUIs.Add(HomePage.CoreView, new List<ISwitchUI>());
         }
 
-        BuildingUI buildingUI;
         public void Inject(PlacementManager pm)
         {
+            var buildingUI = m_canvas.Find("BuildingPanel").GetComponent<BuildingUI>();
             buildingUI.Inject(pm);
             switchUIs[HomePage.TopView].Add(pm);
             switchUIs[HomePage.TopView].Add(buildingUI);
             switchUIs[HomePage.BattleView].Add(pm);
             switchUIs[HomePage.BattleView].Add(buildingUI);
+        }
+        public void DisplayOutput(Dictionary<string, int> sum)
+        {
+            m_canvas.Find("OverlayPanel").Find("StatisticPanel").GetComponent<StatisticPanelUI>().Display(sum);
         }
 
 

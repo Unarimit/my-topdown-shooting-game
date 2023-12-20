@@ -36,7 +36,7 @@ namespace Assets.Scripts.HomeLogic
         {
             foreach(var c in building.Costs)
             {
-                if (HomeVM.TestResource(Enum.Parse<MyConfig.ItemTable>(c.ItemId), -c.Amount) is false)
+                if (HomeVM.TestResource(c.ItemId, -c.Amount) is false)
                 {
                     return false;
                 }
@@ -44,21 +44,33 @@ namespace Assets.Scripts.HomeLogic
 
             foreach(var c in building.Costs)
             {
-                HomeVM.ChangeResource(Enum.Parse<MyConfig.ItemTable>(c.ItemId), -c.Amount);
+                HomeVM.ChangeResource(c.ItemId, -c.Amount);
             }
 
             return true;
+        }
+        /// <summary> 应用建筑产出 </summary>
+        public void TryApplyBuildingOutput(Dictionary<string, int> sum)
+        {
+            if (MyServices.Database.OnNewDay is true)
+            {
+                MyServices.Database.OnNewDay = false;
+                foreach (var x in sum)
+                {
+                    HomeVM.ChangeResource(x.Key, x.Value);
+                }
+            }
         }
 
         public void GoToLevel(LevelRule rule)
         {
             MyServices.Database.CurLevel = LevelGenerator.GeneratorLevelInfo(rule);
-            StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Prepare"));
             
+            StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Prepare"));
         }
         private void OnDestroy()
         {
-            HomeVM.Save();
+            HomeVM.Submit();
         }
 
 
@@ -91,7 +103,8 @@ namespace Assets.Scripts.HomeLogic
                 ResAl.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Al.ToString()];
                 ResGacha.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Red.ToString()];
             }
-            public void Save()
+            /// <summary> 提交到数据库 </summary>
+            public void Submit()
             {
                 MyServices.Database.Inventory[MyConfig.ItemTable.Electric.ToString()] = ResElectric.Data;
                 MyServices.Database.Inventory[MyConfig.ItemTable.Iron.ToString()] = ResIron.Data;
@@ -102,39 +115,40 @@ namespace Assets.Scripts.HomeLogic
             /// <summary>
             /// 在执行资源改变之前，先执行Test方法 <see cref="TestResource" /> 
             /// </summary>
-            public void ChangeResource(MyConfig.ItemTable itemId, int diff)
+            public void ChangeResource(string itemId, int diff)
             {
                 var res = GetResourceById(itemId);
                 res.Data += diff;
             }
 
-            public bool TestResource(MyConfig.ItemTable itemId, int diff)
+            public bool TestResource(string itemId, int diff)
             {
                 var res = GetResourceById(itemId);
                 if (res.Data + diff < 0) return false;
                 else return true;
             }
 
-            private MyBinded<int> GetResourceById(MyConfig.ItemTable itemId)
+            private MyBinded<int> GetResourceById(string itemId)
             {
+                var itemEnum = Enum.Parse<MyConfig.ItemTable>(itemId);
                 MyBinded<int> res;
-                if (itemId == MyConfig.ItemTable.Electric)
+                if (itemEnum == MyConfig.ItemTable.Electric)
                 {
                     res = ResElectric;
                 }
-                else if (itemId == MyConfig.ItemTable.Iron)
+                else if (itemEnum == MyConfig.ItemTable.Iron)
                 {
                     res = ResIron;
                 }
-                else if (itemId == MyConfig.ItemTable.Ammo)
+                else if (itemEnum == MyConfig.ItemTable.Ammo)
                 {
                     res = ResAmmo;
                 }
-                else if (itemId == MyConfig.ItemTable.Al)
+                else if (itemEnum == MyConfig.ItemTable.Al)
                 {
                     res = ResAl;
                 }
-                else if (itemId == MyConfig.ItemTable.Red)
+                else if (itemEnum == MyConfig.ItemTable.Red)
                 {
                     res = ResGacha;
                 }

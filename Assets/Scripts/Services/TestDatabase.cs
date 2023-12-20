@@ -16,7 +16,7 @@ namespace Assets.Scripts.Services
         public IDictionary<string, int> Inventory { get; private set; }
         public LevelInfo CurLevel { get; set; }
         public BuildingArea BuildingArea { get; private set; }
-
+        public bool OnNewDay { get; set; }
 
         public IList<LevelRule> LevelRules { get; private set; }
         public IList<Building> Buildings { get; private set; }

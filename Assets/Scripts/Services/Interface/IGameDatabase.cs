@@ -22,6 +22,9 @@ namespace Assets.Scripts.Services.Interface
 
         /// <summary> 当前关卡信息 </summary>
         public LevelInfo CurLevel { get; set; }
+
+        /// <summary> 根据这个判断是否需要结算建筑新一天产出 </summary>
+        public bool OnNewDay { get; set; }
         #endregion
 
         #region 游戏配置数据
