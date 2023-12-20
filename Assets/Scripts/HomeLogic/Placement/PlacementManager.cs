@@ -86,29 +86,41 @@ namespace Assets.Scripts.HomeLogic.Placement
                 yield return null;
                 if (controller.m_CurrentBuilding.Building == null || EventSystem.current.IsPointerOverGameObject()) yield break;
 
+                
+
                 var ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
                 var hits = Physics.RaycastAll(ray, 100f, LayerMask.GetMask(new string[] { "BuildingGrid" }));
-                if (hits.Length == 1 && controller.m_GhostPlacementPossible is true)
-                {
-                    var pa = hits[0].transform.GetComponent<TowerPlacementGrid>();
-                    int i = 0;
-                    // 找到位置
-                    for (; i < placementArea.Length; i++)
-                    {
-                        if (pa == placementArea[i]) break;
-                    }
-                    // 放置
-                    var pos = pa.WorldToGrid(hits[0].point, controller.m_CurrentBuilding.Building.Dimensions);
-                    var info = new PlaceInfo { AreaIndex = i, PlacePosition = pos, BuildingId = controller.m_CurrentBuilding.Building.BuildingId };
-                    placeBuilding(info, controller.m_CurrentBuilding.Building);
 
-                    // 入库
-                    model.PlaceInfos = model.PlaceInfos.Append(info).ToArray();
-                }
-                else
+                // 判断位置合理
+                if (hits.Length != 1 || controller.m_GhostPlacementPossible is false) 
                 {
                     TipsUI.GenerateNewTips("请选择正确的放置位置");
+                    yield break;
                 }
+
+                // 判断开销合理->开销
+                if(HomeContextManager.Instance.TryOffordCost(controller.m_CurrentBuilding.Building) is false)
+                {
+                    TipsUI.GenerateNewTips("资源不足");
+                    yield break;
+                }
+
+                // 放置流程
+
+                var pa = hits[0].transform.GetComponent<TowerPlacementGrid>();
+                int i = 0;
+                // --找到位置
+                for (; i < placementArea.Length; i++)
+                {
+                    if (pa == placementArea[i]) break;
+                }
+                // --放置
+                var pos = pa.WorldToGrid(hits[0].point, controller.m_CurrentBuilding.Building.Dimensions);
+                var info = new PlaceInfo { AreaIndex = i, PlacePosition = pos, BuildingId = controller.m_CurrentBuilding.Building.BuildingId };
+                placeBuilding(info, controller.m_CurrentBuilding.Building);
+
+                // --入库
+                model.PlaceInfos = model.PlaceInfos.Append(info).ToArray();
             }
             
         }

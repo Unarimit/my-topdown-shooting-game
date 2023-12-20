@@ -20,7 +20,7 @@ namespace Assets.Scripts.HomeLogic.UILogic.BuildingUIs
             // 配置UI内容
             m_buildingRawImage.texture = PhotographyManager.GetBuildingIcon(building);
             m_buildingText.text = building.Name.ToString();
-            HoverToolTipUI.CreateHoverToolTip(transform, building.Description, 0);
+            HoverToolTipUI.CreateHoverToolTip(transform, building.GetInfo(), 0);
         }
 
     }

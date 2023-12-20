@@ -348,7 +348,9 @@ namespace Assets.Scripts.Services
                 Description = "测试电力建筑+10",
                 ModelUrl = "cooling-tower Variant",
                 Dimensions = d3b3,
-                Produces = new Produce[] { new Produce { ItemId = ItemTable.Electric.ToString(), Amount = 10 } }
+                Produces = new Produce[] { new Produce { ItemId = ItemTable.Electric.ToString(), Amount = 10 } },
+                Costs = new Produce[] { new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 100 } }
+                
             });
 
             res.Add(new ResourceBuilding
@@ -361,7 +363,8 @@ namespace Assets.Scripts.Services
                 Produces = new Produce[] {
                     new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 10 },
                     new Produce { ItemId = ItemTable.Ammo.ToString(), Amount = 10 },
-                    new Produce { ItemId = ItemTable.Al.ToString(), Amount = 10 } }
+                    new Produce { ItemId = ItemTable.Al.ToString(), Amount = 10 } },
+                Costs = new Produce[] { new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 100 } }
             });
             res.Add(new ResourceBuilding
             {
@@ -371,7 +374,10 @@ namespace Assets.Scripts.Services
                 ModelUrl = "skyscraper-part-bottom Variant",
                 Dimensions = d3b3,
                 Produces = new Produce[] {
-                    new Produce { ItemId = ItemTable.Red.ToString(), Amount = 10 } }
+                    new Produce { ItemId = ItemTable.Red.ToString(), Amount = 10 } },
+                Costs = new Produce[] { 
+                    new Produce { ItemId = ItemTable.Electric.ToString(), Amount = 100 },
+                    new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 100 } }
             });
             res.Add(new ResourceBuilding
             {
@@ -381,7 +387,8 @@ namespace Assets.Scripts.Services
                 ModelUrl = "House_1Room_Blue Variant",
                 Dimensions = d2b2,
                 Produces = new Produce[] {
-                    new Produce { ItemId = ItemTable.PowerRecover.ToString(), Amount = 2 } }
+                    new Produce { ItemId = ItemTable.PowerRecover.ToString(), Amount = 2 } },
+                Costs = new Produce[] { new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 50 } }
             });
 
             return res;

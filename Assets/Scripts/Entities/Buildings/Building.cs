@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Common;
+using System.Text;
+using Unity.VisualScripting;
+using UnityEngine;
 
 namespace Assets.Scripts.Entities.Buildings
 {
@@ -8,6 +11,11 @@ namespace Assets.Scripts.Entities.Buildings
         Resource,
         /// <summary> 战斗建筑 </summary>
         Combat
+    }
+    internal struct Produce
+    {
+        public string ItemId;
+        public int Amount;
     }
     internal abstract class Building
     {
@@ -29,5 +37,21 @@ namespace Assets.Scripts.Entities.Buildings
 
         /// <summary> 建筑类型 </summary>
         public BuildingType BuildingType;
+
+        /// <summary> 建筑花费 </summary>
+        public Produce[] Costs;
+
+        public virtual string GetInfo()
+        {
+            var sb = new StringBuilder();
+            sb.Append("消耗");
+            foreach (var c in Costs)
+            {
+                sb.Append($"{ItemHelper.GetItem(c.ItemId).ItemName}:{c.Amount} ");
+            }
+            sb.AppendLine();
+            sb.Append(Description);
+            return sb.ToString();
+        }
     }
 }
