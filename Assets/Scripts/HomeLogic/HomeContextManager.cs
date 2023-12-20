@@ -55,7 +55,17 @@ namespace Assets.Scripts.HomeLogic
             if (MyServices.Database.OnNewDay is true)
             {
                 MyServices.Database.OnNewDay = false;
-                foreach (var x in sum)
+
+                var filterSum = new Dictionary<string, int>();
+                foreach(var x in sum)
+                {
+                    if(ItemHelper.GetItem(x.Key).ItemType == GameItemType.Resources)
+                    {
+                        filterSum.Add(x.Key, x.Value);
+                    }
+                }
+
+                foreach (var x in filterSum)
                 {
                     HomeVM.ChangeResource(x.Key, x.Value);
                 }
@@ -151,8 +161,7 @@ namespace Assets.Scripts.HomeLogic
                 else if (itemEnum == MyConfig.ItemTable.Red)
                 {
                     res = ResGacha;
-                }
-                else
+                }else
                 {
                     throw new Exception("un match item id");
                 }

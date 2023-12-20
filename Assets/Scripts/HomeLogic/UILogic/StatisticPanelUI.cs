@@ -16,13 +16,12 @@ namespace Assets.Scripts.HomeLogic.UILogic
         Button m_cancelBtn;
 
         CanvasGroup canvasGroup;
-        private void Awake()
-        {
-            canvasGroup = GetComponent<CanvasGroup>();
-            m_cancelBtn.onClick.AddListener(Quit);
-        }
         public void Display(Dictionary<string, int> sum)
         {
+            gameObject.SetActive(true);
+            canvasGroup = GetComponent<CanvasGroup>();
+            m_cancelBtn.onClick.AddListener(Quit);
+
             var sb = new StringBuilder();
             foreach(var x in sum)
             {

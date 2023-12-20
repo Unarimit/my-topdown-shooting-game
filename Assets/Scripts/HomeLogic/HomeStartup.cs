@@ -21,7 +21,7 @@ namespace Assets.Scripts.HomeLogic
 
             // 计算产出
             var sum = CalculateOutput(bDic);
-            GetComponent<HomeLogic.UILogic.UIManager>().DisplayOutput(sum);
+            if(MyServices.Database.OnNewDay is true) GetComponent<HomeLogic.UILogic.UIManager>().DisplayOutput(sum);
             HomeContextManager.Instance.TryApplyBuildingOutput(sum);
             
         }
