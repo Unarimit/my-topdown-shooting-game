@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6715119191084316140}
   - component: {fileID: 7400403950449832269}
   m_Layer: 17
-  m_Name: Sphere
+  m_Name: DaySphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

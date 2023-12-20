@@ -15,66 +15,79 @@ MonoBehaviour:
   GameItems:
   - ItemId: KillEnemy
     ItemName: KillEnemy
+    ItemType: 2
     Description: for game system
     IconUrl: null
     IsDisplay: 0
   - ItemId: KillTeam
     ItemName: KillTeam
+    ItemType: 2
     Description: for game system
     IconUrl: null
     IsDisplay: 0
   - ItemId: Time
     ItemName: Time
+    ItemType: 2
     Description: for game system
     IconUrl: null
     IsDisplay: 0
   - ItemId: Key
     ItemName: Key
+    ItemType: 2
     Description: for game system
     IconUrl: null
     IsDisplay: 0
   - ItemId: Red
     ItemName: "\u7EA2\u8272\u5C0F\u76D2"
+    ItemType: 0
     Description: "\u6D4B\u8BD5\u9053\u51771\u53F7"
     IconUrl: Textures/RedBox
     IsDisplay: 1
   - ItemId: Purple
     ItemName: "\u7D2B\u8272\u7816\u5757"
+    ItemType: 1
     Description: "\u6D4B\u8BD5\u9053\u51772\u53F7"
     IconUrl: Textures/PurpleBox
     IsDisplay: 1
   - ItemId: Sphere
     ItemName: "\u76F8\u95F4\u5706\u7403"
+    ItemType: 1
     Description: "\u6D4B\u8BD5\u9053\u51773\u53F7"
     IconUrl: Textures/SphereGem
     IsDisplay: 1
   - ItemId: Electric
     ItemName: "\u7535\u529B"
+    ItemType: 0
     Description: "\u8D44\u6E90"
     IconUrl: 
     IsDisplay: 0
   - ItemId: Iron
     ItemName: "\u94C1"
+    ItemType: 0
     Description: "\u8D44\u6E90"
     IconUrl: 
     IsDisplay: 0
   - ItemId: Ammo
     ItemName: "\u5F39\u836F"
+    ItemType: 0
     Description: "\u8D44\u6E90"
     IconUrl: 
     IsDisplay: 0
   - ItemId: Al
     ItemName: "\u94DD"
+    ItemType: 0
     Description: "\u8D44\u6E90"
     IconUrl: 
     IsDisplay: 0
   - ItemId: GTime
     ItemName: "\u5168\u5C40\u65F6\u95F4"
+    ItemType: 2
     Description: "\u5BB6\u56ED\u4FE1\u606F"
     IconUrl: 
     IsDisplay: 0
   - ItemId: PowerRecover
     ItemName: "\u4F53\u529B\u6062\u590D"
+    ItemType: 2
     Description: "\u5BB6\u56ED\u8D44\u6E90"
     IconUrl: 
     IsDisplay: 0
