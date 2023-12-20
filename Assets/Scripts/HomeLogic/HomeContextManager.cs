@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Common;
 using Assets.Scripts.Common.EscMenu;
+using Assets.Scripts.Common.Test;
 using Assets.Scripts.Entities;
 using Assets.Scripts.Entities.Buildings;
 using Assets.Scripts.Services;
@@ -22,6 +23,13 @@ namespace Assets.Scripts.HomeLogic
             Time.timeScale = 1;
 
             HomeVM = new ViewModel();
+        }
+        [MyTest]
+        public void TestNextDay()
+        {
+            MyServices.Database.Inventory[MyConfig.ItemTable.GTime.ToString()] += 1;
+            MyServices.Database.OnNewDay = true;
+            StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Home"));
         }
 
         public IList<LevelRule> GetLevelRules()
