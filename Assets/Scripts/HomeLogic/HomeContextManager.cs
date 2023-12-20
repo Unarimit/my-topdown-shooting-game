@@ -106,6 +106,7 @@ namespace Assets.Scripts.HomeLogic
             public ViewModel()
             {
                 GTime = MyServices.Database.Inventory[MyConfig.ItemTable.GTime.ToString()];
+                IsDay = GTime % 2 == 0;
                 Population.Data = MyServices.Database.Operators.Count;
                 ResElectric.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Electric.ToString()];
                 ResIron.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Iron.ToString()];

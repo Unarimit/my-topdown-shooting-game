@@ -158,6 +158,11 @@ namespace Assets.Scripts.HomeLogic.Placement
         {
             var go = Instantiate(ResourceManager.Load<GameObject>("Buildings/" + b.ModelUrl), placeTrans);
             go.transform.position = placementArea[info.AreaIndex].GridToWorld(info.PlacePosition, b.Dimensions);
+            if(HomeContextManager.Instance.HomeVM.IsDay is false)
+            {
+                var light = go.transform.Find("Lights");
+                if (light != null) light.gameObject.SetActive(true);
+            }
             placementArea[info.AreaIndex].Occupy(info.PlacePosition, b.Dimensions);
         }
     }

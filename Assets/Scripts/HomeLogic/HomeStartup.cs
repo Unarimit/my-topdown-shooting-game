@@ -1,5 +1,7 @@
 ﻿using Assets.Scripts.Entities.Buildings;
+using Assets.Scripts.HomeLogic.Environment;
 using Assets.Scripts.HomeLogic.Placement;
+using Assets.Scripts.Services;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +9,8 @@ namespace Assets.Scripts.HomeLogic
 {
     internal class HomeStartup : MonoBehaviour
     {
+        [SerializeField]
+        LightManager lightManager;
         private void Start()
         {
             // 根据存档防止建筑
@@ -23,6 +27,16 @@ namespace Assets.Scripts.HomeLogic
             var sum = CalculateOutput(bDic);
             if(MyServices.Database.OnNewDay is true) GetComponent<HomeLogic.UILogic.UIManager>().DisplayOutput(sum);
             HomeContextManager.Instance.TryApplyBuildingOutput(sum);
+
+            // 白天还是黑夜
+            if (HomeContextManager.Instance.HomeVM.IsDay)
+            {
+                lightManager.Day();
+            }
+            else
+            {
+                lightManager.Night();
+            }
             
         }
 
