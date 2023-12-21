@@ -35,7 +35,7 @@ namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs
         }
         private void onGetMacha()
         {
-            _rootUI.SwitchPage(HomePage.CoreMachaView);
+            _rootUI.SwitchPage(HomePage.CoreMechaView);
         }
         private void returnHome()
         {

@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CustomBlends:
   - m_From: CoreViewVC
-    m_To: CoreMachaPhase1ViewVC
+    m_To: CoreMechaPhase1ViewVC
     m_Blend:
-      m_Style: 7
+      m_Style: 6
       m_Time: 0.7
       m_CustomCurve:
         serializedVersion: 2
@@ -42,8 +42,8 @@ MonoBehaviour:
         m_PreInfinity: 1
         m_PostInfinity: 1
         m_RotationOrder: 0
-  - m_From: CoreMachaPhase1ViewVC
-    m_To: CoreMachaPhase2ViewVC
+  - m_From: CoreMechaPhase1ViewVC
+    m_To: CoreMechaPhase2ViewVC
     m_Blend:
       m_Style: 1
       m_Time: 0.3
@@ -71,8 +71,8 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 0
-  - m_From: CoreMachaPhase2ViewVC
-    m_To: CoreMachaPhase1ViewVC
+  - m_From: CoreMechaPhase2ViewVC
+    m_To: CoreMechaPhase1ViewVC
     m_Blend:
       m_Style: 6
       m_Time: 0.3
@@ -100,7 +100,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 0
-  - m_From: CoreMachaPhase1ViewVC
+  - m_From: CoreMechaPhase1ViewVC
     m_To: CoreViewVC
     m_Blend:
       m_Style: 1

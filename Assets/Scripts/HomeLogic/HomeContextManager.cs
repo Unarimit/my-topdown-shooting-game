@@ -86,6 +86,17 @@ namespace Assets.Scripts.HomeLogic
             
             StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Prepare"));
         }
+
+        public void GachaCharater()
+        {
+
+        }
+
+        public void GachaMacha()
+        {
+
+        }
+
         private void OnDestroy()
         {
             HomeVM.Submit();

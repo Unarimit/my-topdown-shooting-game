@@ -37,9 +37,9 @@ namespace Assets.Scripts.HomeLogic.Environment
             camerasDic.Add(HomePage.CoreView, new CinemachineVirtualCamera[] { transform.Find("CoreViewVC").GetComponent<CinemachineVirtualCamera>() });
             camerasDic.Add(HomePage.BattleView, new CinemachineVirtualCamera[] { transform.Find("BattleViewVC").GetComponent<CinemachineVirtualCamera>() });
             camerasDic.Add(HomePage.CoreCharacterView, new CinemachineVirtualCamera[] { transform.Find("CoreCharacterViewVC").GetComponent<CinemachineVirtualCamera>() });
-            camerasDic.Add(HomePage.CoreMachaView, new CinemachineVirtualCamera[] { 
-                transform.Find("CoreMachaPhase1ViewVC").GetComponent<CinemachineVirtualCamera>(),
-                transform.Find("CoreMachaPhase2ViewVC").GetComponent<CinemachineVirtualCamera>(),
+            camerasDic.Add(HomePage.CoreMechaView, new CinemachineVirtualCamera[] { 
+                transform.Find("CoreMechaPhase1ViewVC").GetComponent<CinemachineVirtualCamera>(),
+                transform.Find("CoreMechaPhase2ViewVC").GetComponent<CinemachineVirtualCamera>(),
             });
 
             brain = transform.Find("Main Camera").GetComponent<CinemachineBrain>();
