@@ -1,4 +1,7 @@
-﻿using Assets.Scripts.HomeLogic.Interface;
+﻿using Assets.Scripts.Common;
+using Assets.Scripts.HomeLogic.ContextExtend;
+using Assets.Scripts.HomeLogic.Interface;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,20 +18,33 @@ namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs
         [SerializeField]
         Slider m_slider;
 
+        [SerializeField]
+        TextMeshProUGUI m_simpleNeedTMP;
+        [SerializeField]
+        TextMeshProUGUI m_expensiveNeedTMP;
+
         private void Start()
         {
             m_returnBtn.onClick.AddListener(returnHome);
             m_simpleGachaBtn.Slider = m_slider;
             m_expensiveGachaBtn.Slider = m_slider;
-            m_simpleGachaBtn.OnHoldButtonFinishEvent += _context.GachaMacha;
-            m_expensiveGachaBtn.OnHoldButtonFinishEvent += _context.GachaMacha;
+            m_simpleGachaBtn.OnHoldButtonFinishEvent += gachaSimple;
+            m_expensiveGachaBtn.OnHoldButtonFinishEvent += gachaExpensive;
 
+            m_simpleGachaBtn.OnHoldButtonPressEvent += gachaSimpleCheck;
+            m_expensiveGachaBtn.OnHoldButtonPressEvent += gachaExpensiveCheck;
+
+            m_simpleNeedTMP.text = _context.GetGachaNeed(GachaType.SimpleMecha);
+            m_expensiveNeedTMP.text = _context.GetGachaNeed(GachaType.ExpensiveMecha);
         }
         private void OnDestroy()
         {
             m_returnBtn.onClick.RemoveListener(returnHome);
-            m_simpleGachaBtn.OnHoldButtonFinishEvent -= _context.GachaMacha;
-            m_expensiveGachaBtn.OnHoldButtonFinishEvent -= _context.GachaMacha;
+            m_simpleGachaBtn.OnHoldButtonFinishEvent -= gachaSimple;
+            m_expensiveGachaBtn.OnHoldButtonFinishEvent -= gachaExpensive;
+
+            m_simpleGachaBtn.OnHoldButtonPressEvent -= gachaSimpleCheck;
+            m_expensiveGachaBtn.OnHoldButtonPressEvent -= gachaExpensiveCheck;
         }
 
         private void returnHome()
@@ -36,6 +52,34 @@ namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs
             _rootUI.SwitchPage(HomePage.CoreView);
         }
 
+        private bool gachaSimpleCheck()
+        {
+            bool temp = _context.IsCanGacha(GachaType.SimpleMecha);
+            if (temp is false)
+            {
+                TipsUI.GenerateNewTips(_context.GetGachaFailedTips(GachaType.SimpleMecha));
+            }
+            return temp;
+
+        }
+        private bool gachaExpensiveCheck()
+        {
+            bool temp = _context.IsCanGacha(GachaType.ExpensiveMecha);
+            if (temp is false)
+            {
+                TipsUI.GenerateNewTips(_context.GetGachaFailedTips(GachaType.ExpensiveMecha));
+            }
+            return temp;
+        }
+        private void gachaSimple()
+        {
+            _context.DoGacha(GachaType.SimpleMecha);
+
+        }
+        private void gachaExpensive()
+        {
+            _context.DoGacha(GachaType.ExpensiveMecha);
+        }
 
         public void OnClick()
         {

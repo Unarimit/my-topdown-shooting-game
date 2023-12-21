@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Common;
 using Assets.Scripts.Entities;
+using Assets.Scripts.Entities.Buildings;
 using Assets.Scripts.Entities.Mechas;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,35 @@ namespace Assets.Scripts.Services
         {
             Trigger
         }
+
+        // 抽卡信息
+        public static readonly List<Produce> SimpleCharacterCost =
+            new() {
+                new Produce { ItemId = ItemTable.Red.ToString(), Amount = 1 }
+            };
+
+        public static readonly List<Produce> ExpensiveCharacterCost =
+            new List<Produce>() {
+                new Produce { ItemId = ItemTable.Red.ToString(), Amount = 10 }
+            };
+
+        public static readonly List<Produce> SimpleMechaCost =
+            new List<Produce>() {
+                new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 50 },
+                new Produce { ItemId = ItemTable.Al.ToString(), Amount = 50 },
+            };
+        public static readonly List<Produce> ExpensiveMechaCost =
+            new List<Produce>() {
+                new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 250 },
+                new Produce { ItemId = ItemTable.Al.ToString(), Amount = 250 },
+            };
+
+        // name list
+        public static readonly List<string> NameList = new()
+        {
+            "Sakura","Hikari","Aoi","Yumi","Ayumi","Haruka","Michiko","Kaori","Akari","Miku","Nana","Emi","Yui","Rei","Yuki","Asuka","Kiri","Chika","Nanami","Kumiko"
+        };
+
         #endregion
 
         #region 全局信息（如关卡、仓库状态）

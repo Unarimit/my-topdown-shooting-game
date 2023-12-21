@@ -14,6 +14,12 @@ namespace Assets.Scripts.HomeLogic.UILogic.OperatorsUIs
         public void Inject(IList<Operator> operators)
         {
             var contentTrans = transform.Find("Viewport").Find("Content");
+            // clear old
+            for(int i = 0; i < contentTrans.childCount; i++)
+            {
+                 Destroy(contentTrans.GetChild(i).gameObject);
+            }
+
             foreach (var op in operators)
             {
                 var go = Instantiate(m_itemPrefab, contentTrans);

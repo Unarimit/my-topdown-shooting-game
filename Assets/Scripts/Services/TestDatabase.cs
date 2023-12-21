@@ -259,23 +259,6 @@ namespace Assets.Scripts.Services
                 new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
                 new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString()},
                 new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
             };
         }
 

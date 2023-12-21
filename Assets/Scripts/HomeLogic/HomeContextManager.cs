@@ -3,6 +3,7 @@ using Assets.Scripts.Common.EscMenu;
 using Assets.Scripts.Common.Test;
 using Assets.Scripts.Entities;
 using Assets.Scripts.Entities.Buildings;
+using Assets.Scripts.HomeLogic.UILogic.BuildingUIs;
 using Assets.Scripts.Services;
 using System;
 using System.Collections.Generic;
@@ -40,23 +41,37 @@ namespace Assets.Scripts.HomeLogic
         /// <summary>
         /// 如果可以支付开销，则支付。不能则不变动数据，返回false
         /// </summary>
-        public bool TryOffordCost(Building building)
+        public bool TryAffordCost(Building building)
         {
-            foreach(var c in building.Costs)
+            if (IsCanAfford(building.Costs) is false) return false;
+            Afford(building.Costs);
+            return true;
+        }
+        /// <summary>
+        /// 是否支付得起开销
+        /// </summary>
+        public bool IsCanAfford(IEnumerable<Produce> produces)
+        {
+            foreach (var c in produces)
             {
                 if (HomeVM.TestResource(c.ItemId, -c.Amount) is false)
                 {
                     return false;
                 }
             }
-
-            foreach(var c in building.Costs)
+            return true;
+        }
+        /// <summary>
+        /// 支付开销
+        /// </summary>
+        public void Afford(IEnumerable<Produce> produces)
+        {
+            foreach (var c in produces)
             {
                 HomeVM.ChangeResource(c.ItemId, -c.Amount);
             }
-
-            return true;
         }
+
         /// <summary> 应用建筑产出 </summary>
         public void TryApplyBuildingOutput(Dictionary<string, int> sum)
         {
@@ -87,16 +102,6 @@ namespace Assets.Scripts.HomeLogic
             StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Prepare"));
         }
 
-        public void GachaCharater()
-        {
-
-        }
-
-        public void GachaMacha()
-        {
-
-        }
-
         private void OnDestroy()
         {
             HomeVM.Submit();
@@ -109,6 +114,8 @@ namespace Assets.Scripts.HomeLogic
             public int GTime { get; private set; } // 变化会涉及创景切换，所以不做数据绑定
 
             public bool IsDay { get; private set; }
+
+            public bool OperatorListDirtyMark { get; set; }
 
             /// <summary> 人口 </summary>
             public MyBinded<int> Population { get; private set; } = new MyBinded<int>();

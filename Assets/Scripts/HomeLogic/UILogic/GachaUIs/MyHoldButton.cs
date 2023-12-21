@@ -23,6 +23,10 @@ namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs
 
         public delegate void OnHoldButtonFinish();
         public event OnHoldButtonFinish OnHoldButtonFinishEvent;
+
+        public delegate bool OnHoldButtonPress();
+        public event OnHoldButtonPress OnHoldButtonPressEvent;
+
         protected override void Start()
         {
             base.Start();
@@ -31,6 +35,7 @@ namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs
         public override void OnPointerDown(PointerEventData eventData)
         {
             base.OnPointerDown(eventData);
+            if (OnHoldButtonPressEvent.Invoke() is false) return;
             isShaking = true;
             StartCoroutine(ShakeCoroutine());
         }

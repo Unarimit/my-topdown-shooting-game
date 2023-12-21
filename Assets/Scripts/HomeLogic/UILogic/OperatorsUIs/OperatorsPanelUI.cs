@@ -24,5 +24,13 @@ namespace Assets.Scripts.HomeLogic.UILogic.OperatorsUIs
         {
             transform.Find("ScrollView").GetComponent<OpScrollViewUI>().Inject(MyServices.Database.Operators);
         }
+        private void OnEnable()
+        {
+            if(_context.HomeVM.OperatorListDirtyMark is true)
+            {
+                transform.Find("ScrollView").GetComponent<OpScrollViewUI>().Inject(MyServices.Database.Operators);
+                _context.HomeVM.OperatorListDirtyMark = false;
+            }
+        }
     }
 }

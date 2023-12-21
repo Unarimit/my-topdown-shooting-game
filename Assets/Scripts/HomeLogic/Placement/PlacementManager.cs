@@ -99,7 +99,7 @@ namespace Assets.Scripts.HomeLogic.Placement
                 }
 
                 // 判断开销合理->开销
-                if(HomeContextManager.Instance.TryOffordCost(controller.m_CurrentBuilding.Building) is false)
+                if(HomeContextManager.Instance.TryAffordCost(controller.m_CurrentBuilding.Building) is false)
                 {
                     TipsUI.GenerateNewTips("资源不足");
                     yield break;
