@@ -51,6 +51,7 @@ namespace Assets.Scripts.HomeLogic.UILogic
             switchUIs.Add(HomePage.CoreMachaView, new List<ISwitchUI>());
 
             switchUIs[HomePage.CoreView].Add(m_canvas.Find("GachaPanel").GetComponent<GachaPanelUI>());
+            switchUIs[HomePage.MainView].Add(m_canvas.Find("OverlayPanel").GetComponent<OverlayPanelUI>());
 
         }
 

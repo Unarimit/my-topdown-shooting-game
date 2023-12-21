@@ -1,4 +1,5 @@
 ﻿
+using Assets.Scripts.HomeLogic.Interface;
 using Assets.Scripts.HomeLogic.UILogic.BagUIs;
 using Assets.Scripts.HomeLogic.UILogic.OperatorsUIs;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.HomeLogic.UILogic
 {
-    internal class OverlayPanelUI : HomeUIBase
+    internal class OverlayPanelUI : HomeUIBase, ISwitchUI
     {
         [SerializeField]
         private Button m_bagBtn;
@@ -39,6 +40,11 @@ namespace Assets.Scripts.HomeLogic.UILogic
         private void openCharacter()
         {
             opsPanelUI.Enter();
+        }
+
+        public void OnClick()
+        {
+
         }
     }
 }
