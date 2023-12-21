@@ -5,6 +5,7 @@ using Assets.Scripts.HomeLogic.Environment;
 using Assets.Scripts.HomeLogic.Interface;
 using Assets.Scripts.HomeLogic.Placement;
 using Assets.Scripts.HomeLogic.UILogic.BuildingUIs;
+using Assets.Scripts.HomeLogic.UILogic.GachaUIs;
 using DG.Tweening;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -19,6 +20,10 @@ namespace Assets.Scripts.HomeLogic.UILogic
         TopView,
         CoreView,
         BattleView,
+
+        // more deep
+        CoreCharacterView,
+        CoreMachaView,
     }
     internal class UIManager : MonoBehaviour
     {
@@ -36,12 +41,17 @@ namespace Assets.Scripts.HomeLogic.UILogic
 
             OverlayStack = new Stack<IOverlayUI>();
 
-
+            // register uis
             switchUIs = new Dictionary<HomePage, List<ISwitchUI>>();
             switchUIs.Add(HomePage.MainView, new List<ISwitchUI>());
             switchUIs.Add(HomePage.TopView, new List<ISwitchUI>());
             switchUIs.Add(HomePage.BattleView, new List<ISwitchUI>());
             switchUIs.Add(HomePage.CoreView, new List<ISwitchUI>());
+            switchUIs.Add(HomePage.CoreCharacterView, new List<ISwitchUI>());
+            switchUIs.Add(HomePage.CoreMachaView, new List<ISwitchUI>());
+
+            switchUIs[HomePage.CoreView].Add(m_canvas.Find("GachaPanel").GetComponent<GachaPanelUI>());
+
         }
 
         public void Inject(PlacementManager pm)
