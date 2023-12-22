@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77bfad57ecb7f38479445c8e6321de77, type: 3}
-  m_Name: NewSkillList
+  m_Name: SkillList
   m_EditorClassIdentifier: 
   CombatSkills:
   - Type: 0

@@ -33,8 +33,11 @@ namespace Assets.Scripts.Services.Interface
         /// <summary> 所有建筑信息 </summary>
         public IList<Building> Buildings { get; }
 
+
         // 还差skill，但skill是否需要存入数据库呢？
         // A: 需要的，因为skill数据也将随启动流程加载，尽量统一管理
+        public IList<CombatSkill> CombatSkills { get; }
+
 
         /// <summary> 当前加载的模型信息 </summary>
         public List<string> ModelList { get; }

@@ -23,6 +23,10 @@ namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs
         [SerializeField]
         TextMeshProUGUI m_expensiveNeedTMP;
 
+
+        [SerializeField]
+        GachaNewOperatorInfoUI m_operatorInfoUI;
+
         private void Start()
         {
             m_returnBtn.onClick.AddListener(returnHome);
@@ -36,6 +40,10 @@ namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs
 
             m_simpleNeedTMP.text = _context.GetGachaNeed(GachaType.SimpleCharacter);
             m_expensiveNeedTMP.text = _context.GetGachaNeed(GachaType.ExpensiveCharacter);
+        }
+        private void OnEnable()
+        {
+            m_operatorInfoUI.gameObject.SetActive(true);
         }
         private void OnDestroy()
         {
@@ -73,11 +81,13 @@ namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs
         private void gachaSimple()
         {
             _context.DoGacha(GachaType.SimpleCharacter);
+            m_operatorInfoUI.Operater = MyServices.Database.Operators[^1];
 
         }
         private void gachaExpensive()
         {
             _context.DoGacha(GachaType.ExpensiveCharacter);
+            m_operatorInfoUI.Operater = MyServices.Database.Operators[^1];
         }
 
         public void OnClick()

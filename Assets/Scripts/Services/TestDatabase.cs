@@ -21,6 +21,7 @@ namespace Assets.Scripts.Services
         public IList<LevelRule> LevelRules { get; private set; }
         public IList<Building> Buildings { get; private set; }
         public List<string> ModelList { get; private set; }
+        public IList<CombatSkill> CombatSkills { get; private set; }
 
 
         public TestDatabase()
@@ -28,6 +29,7 @@ namespace Assets.Scripts.Services
             ModelList = new List<string> { "Hoshino", "Shiroko", "Aru", "Karin", "Mashiro" };
             LevelRules = generateTestLevel();
             Buildings = getTestBuildings();
+            CombatSkills = getCombatSkills();
 
             Operators = generateTestOperators();
             Mechas = generateTestMechas();
@@ -39,6 +41,7 @@ namespace Assets.Scripts.Services
             Operators[0].McBody = (MechaBody)Mechas[1];
             Operators[0].McLeg = (MechaLeg)Mechas[2];
         }
+
 
         private List<LevelRule> generateTestLevel()
         {
@@ -375,6 +378,12 @@ namespace Assets.Scripts.Services
             });
 
             return res;
+        }
+
+
+        private List<CombatSkill> getCombatSkills()
+        {
+            return ResourceManager.Load<SkillListConfig>("SkillList").CombatSkills;
         }
 
         private BuildingArea getTestBuildingArea()

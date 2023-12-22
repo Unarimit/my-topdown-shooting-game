@@ -12,6 +12,7 @@ namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs
         Button m_getMaBtn;
         [SerializeField]
         Button m_returnBtn;
+
         private void Start()
         {
             m_getChaBtn.onClick.AddListener(onGetCharacter);
