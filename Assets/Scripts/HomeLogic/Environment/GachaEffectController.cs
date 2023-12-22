@@ -1,7 +1,16 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Common.Test;
+using Assets.Scripts.Entities;
+using UnityEngine;
+using UnityEngine.Playables;
 
 namespace Assets.Scripts.HomeLogic.Environment
 {
+    internal enum GachaEffectStatu
+    {
+        Playing,
+        Boom,
+        Finish
+    }
     internal class GachaEffectController : MonoBehaviour
     {
         public GameObject m_Boom;
@@ -9,22 +18,50 @@ namespace Assets.Scripts.HomeLogic.Environment
 
         public float m_ForwordSpeed = 10f;
         public Vector3 m_AngleSpeed = Vector3.zero;
-        public bool m_Freeze = false;
-        public bool m_Over = false;
+        /// <summary>
+        /// 基本由timeline控制
+        /// </summary>
+        public GachaEffectStatu Statu = GachaEffectStatu.Finish;
+
+        Vector3 initPos;
+        Vector3 initAngle;
+        private void Awake()
+        {
+            initPos = transform.position;
+            initAngle = transform.eulerAngles;
+        }
+        public void MyReset()
+        {
+            transform.position = initPos;
+            transform.eulerAngles = initAngle;
+        }
+
+        public void Play()
+        {
+            transform.position = initPos;
+            transform.eulerAngles = initAngle;
+            GetComponent<PlayableDirector>().Play();
+            m_Tail.SetActive(true);
+            this.enabled = true;
+        }
+        private void OnEnable()
+        {
+            Statu = GachaEffectStatu.Playing;
+        }
 
         private void Update()
         {
-            if(m_Over is true)
+            if(Statu == GachaEffectStatu.Finish)
             {
-                gameObject.SetActive(false);
-                Destroy(gameObject);
+                this.enabled = false;
+                return;
             }
-
-            if (m_Freeze is true)
+            if (Statu == GachaEffectStatu.Boom)
             {
                 transform.eulerAngles = Vector3.zero;
                 m_Tail.SetActive(false);
-                m_Boom.SetActive(true);
+                m_Boom.GetComponent<ParticleSystem>().Play();
+                this.enabled = false;
                 return;
             }
             transform.position += transform.forward * m_ForwordSpeed * Time.deltaTime;

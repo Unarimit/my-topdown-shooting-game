@@ -24,6 +24,8 @@ namespace Assets.Scripts.HomeLogic.UILogic
         // more deep
         CoreCharacterView,
         CoreMechaView,
+
+        GachaCharacterView,
     }
     internal class UIManager : MonoBehaviour
     {
@@ -49,6 +51,7 @@ namespace Assets.Scripts.HomeLogic.UILogic
             switchUIs.Add(HomePage.CoreView, new List<ISwitchUI>());
             switchUIs.Add(HomePage.CoreCharacterView, new List<ISwitchUI>());
             switchUIs.Add(HomePage.CoreMechaView, new List<ISwitchUI>());
+            switchUIs.Add(HomePage.GachaCharacterView, new List<ISwitchUI>());
 
             switchUIs[HomePage.CoreView].Add(m_canvas.Find("GachaPanel").GetComponent<GachaPanelUI>());
             switchUIs[HomePage.MainView].Add(m_canvas.Find("OverlayPanel").GetComponent<OverlayPanelUI>());

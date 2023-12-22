@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,9 @@ namespace Assets.Scripts.Common
             return go.AddComponent<SlideUI>();
         }
         RectTransform _panelRect;
+        /// <summary>
+        /// 是否完全遮挡屏幕
+        /// </summary>
         public bool IsFinish { get; private set; } = false;
         private void Start()
         {

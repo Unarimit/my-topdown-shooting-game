@@ -41,6 +41,9 @@ namespace Assets.Scripts.HomeLogic.Environment
                 transform.Find("CoreMechaPhase1ViewVC").GetComponent<CinemachineVirtualCamera>(),
                 transform.Find("CoreMechaPhase2ViewVC").GetComponent<CinemachineVirtualCamera>(),
             });
+            camerasDic.Add(HomePage.GachaCharacterView, new CinemachineVirtualCamera[] {
+                transform.Find("GachaingView").Find("GachaingViewPhaseVC").GetComponent<CinemachineVirtualCamera>(),
+            });
 
             brain = transform.Find("Main Camera").GetComponent<CinemachineBrain>();
 
@@ -64,16 +67,19 @@ namespace Assets.Scripts.HomeLogic.Environment
             var last = camerasDic[CurCameraPos][^1];
 
             // 过渡退出
-            for(int i = camerasDic[CurCameraPos].Length-2; i >= 0; i--)
+            if(CurCameraPos != HomePage.GachaCharacterView)
             {
-                last.gameObject.SetActive(false);
-                camerasDic[CurCameraPos][i].gameObject.SetActive(true);
-                last = camerasDic[CurCameraPos][i];
-
-                yield return null;
-                while (brain.IsBlending is true)
+                for (int i = camerasDic[CurCameraPos].Length - 2; i >= 0; i--)
                 {
+                    last.gameObject.SetActive(false);
+                    camerasDic[CurCameraPos][i].gameObject.SetActive(true);
+                    last = camerasDic[CurCameraPos][i];
+
                     yield return null;
+                    while (brain.IsBlending is true)
+                    {
+                        yield return null;
+                    }
                 }
             }
 

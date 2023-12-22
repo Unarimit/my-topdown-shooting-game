@@ -2,6 +2,8 @@
 using Assets.Scripts.Entities;
 using Assets.Scripts.Entities.Buildings;
 using Assets.Scripts.Entities.Mechas;
+using Assets.Scripts.HomeLogic.Environment;
+using Assets.Scripts.HomeLogic.UILogic;
 using Assets.Scripts.Services;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,7 +33,9 @@ namespace Assets.Scripts.HomeLogic.ContextExtend
                 var op = gachaSimpleCharacter();
                 MyServices.Database.Operators.Add(op);
                 context.HomeVM.OperatorListDirtyMark = true;
+
                 // 动画
+                GachaViewManager.Instance.GachaCharacterAnime(context, op, UIManager.Instance);
             }
             else if (gacha == GachaType.ExpensiveCharacter)
             {

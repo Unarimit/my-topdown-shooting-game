@@ -1,14 +1,13 @@
-﻿using Assets.Scripts.Common;
-using Assets.Scripts.Common.EscMenu;
+﻿using Assets.Scripts.CombatLogic;
+using Assets.Scripts.Common;
 using Assets.Scripts.Common.Test;
 using Assets.Scripts.Entities;
 using Assets.Scripts.Entities.Buildings;
-using Assets.Scripts.HomeLogic.UILogic.BuildingUIs;
+using Assets.Scripts.HomeLogic.Environment;
 using Assets.Scripts.Services;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.HomeLogic
 {
@@ -93,6 +92,26 @@ namespace Assets.Scripts.HomeLogic
                     HomeVM.ChangeResource(x.Key, x.Value);
                 }
             }
+        }
+        public Transform GenerateGachaDisplay(Operator opInfo, Vector3 pos, Vector3 angle)
+        {
+            var prefab = ResourceManager.Load<GameObject>("Characters/GachaDisplayer");
+            var go = Instantiate(prefab, transform);
+            GetComponent<FbxLoadManager>().LoadModel(opInfo.ModelResourceUrl, go.transform.Find("modelRoot"), false);
+            go.transform.position = pos;
+            go.transform.eulerAngles = angle;
+
+            return go.transform;
+        }
+        public Transform GenerateGachaBaseDisplay(Operator opInfo, Vector3 pos, Vector3 angle)
+        {
+            var prefab = ResourceManager.Load<GameObject>("Characters/Displayer");
+            var go = Instantiate(prefab, transform);
+            GetComponent<FbxLoadManager>().LoadModel(opInfo.ModelResourceUrl, go.transform, false);
+            go.transform.position = pos;
+            go.transform.eulerAngles = angle;
+
+            return go.transform;
         }
 
         public void GoToLevel(LevelRule rule)
