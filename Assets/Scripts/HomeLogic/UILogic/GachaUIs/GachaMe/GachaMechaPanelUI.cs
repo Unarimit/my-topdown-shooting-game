@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs
+namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs.GachaMe
 {
     internal class GachaMechaPanelUI : HomeUIBase, ISwitchUI
     {
@@ -22,6 +22,9 @@ namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs
         TextMeshProUGUI m_simpleNeedTMP;
         [SerializeField]
         TextMeshProUGUI m_expensiveNeedTMP;
+
+        [SerializeField]
+        GachaNewMachaInfoUI m_gachaNewMachaInfoUI;
 
         private void Start()
         {
@@ -74,11 +77,13 @@ namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs
         private void gachaSimple()
         {
             _context.DoGacha(GachaType.SimpleMecha);
+            m_gachaNewMachaInfoUI.ShowMecha(MyServices.Database.Mechas[^1]);
 
         }
         private void gachaExpensive()
         {
             _context.DoGacha(GachaType.ExpensiveMecha);
+            m_gachaNewMachaInfoUI.ShowMecha(MyServices.Database.Mechas[^1]);
         }
 
         public void OnClick()

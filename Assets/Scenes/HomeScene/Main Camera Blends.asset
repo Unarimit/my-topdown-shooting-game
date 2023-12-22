@@ -23,21 +23,39 @@ MonoBehaviour:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
+          value: 0.006248474
+          inSlope: -0.054541014
+          outSlope: -0.054541014
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
-          outWeight: 0
+          outWeight: 0.34375
+        - serializedVersion: 3
+          time: 0.50017804
+          value: 0.192895
+          inSlope: 0.89756185
+          outSlope: 0.89756185
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 0.5515025
+          value: 0.24228522
+          inSlope: 1.0280821
+          outSlope: 1.0280821
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
           value: 1
-          inSlope: 2
-          outSlope: 2
+          inSlope: 2.4285712
+          outSlope: 2.4285712
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0
+          inWeight: 0.13125002
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -60,6 +78,15 @@ MonoBehaviour:
           inWeight: 0
           outWeight: 0.15
         - serializedVersion: 3
+          time: 0.5094944
+          value: 0.87733805
+          inSlope: 0.8631665
+          outSlope: 0.8631665
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.4520959
+        - serializedVersion: 3
           time: 1
           value: 1
           inSlope: 0.019607916
@@ -74,7 +101,7 @@ MonoBehaviour:
   - m_From: CoreMechaPhase2ViewVC
     m_To: CoreMechaPhase1ViewVC
     m_Blend:
-      m_Style: 6
+      m_Style: 7
       m_Time: 0.3
       m_CustomCurve:
         serializedVersion: 2
@@ -82,18 +109,18 @@ MonoBehaviour:
         - serializedVersion: 3
           time: 0
           value: 0
-          inSlope: 1
-          outSlope: 1
-          tangentMode: 34
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
           weightedMode: 0
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
           time: 1
           value: 1
-          inSlope: 1
-          outSlope: 1
-          tangentMode: 34
+          inSlope: 2
+          outSlope: 2
+          tangentMode: 0
           weightedMode: 0
           inWeight: 0
           outWeight: 0
@@ -103,7 +130,7 @@ MonoBehaviour:
   - m_From: CoreMechaPhase1ViewVC
     m_To: CoreViewVC
     m_Blend:
-      m_Style: 1
+      m_Style: 7
       m_Time: 0.7
       m_CustomCurve:
         serializedVersion: 2
@@ -111,20 +138,20 @@ MonoBehaviour:
         - serializedVersion: 3
           time: 0
           value: 0
-          inSlope: 1
-          outSlope: 1
-          tangentMode: 34
+          inSlope: 3.235294
+          outSlope: 3.235294
+          tangentMode: 0
           weightedMode: 0
           inWeight: 0
-          outWeight: 0
+          outWeight: 0.10625
         - serializedVersion: 3
           time: 1
           value: 1
-          inSlope: 1
-          outSlope: 1
-          tangentMode: 34
+          inSlope: 0.22222221
+          outSlope: 0.22222221
+          tangentMode: 0
           weightedMode: 0
-          inWeight: 0
+          inWeight: 0.33749998
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2

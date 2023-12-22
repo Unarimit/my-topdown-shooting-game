@@ -6,6 +6,7 @@ using Assets.Scripts.CombatLogic.Characters.Player;
 using Assets.Scripts.CombatLogic.CombatEntities;
 using Assets.Scripts.CombatLogic.ContextExtends;
 using Assets.Scripts.CombatLogic.LevelLogic;
+using Assets.Scripts.Common;
 using Assets.Scripts.Entities;
 using Assets.Scripts.Services;
 using Cinemachine;
@@ -375,7 +376,7 @@ namespace Assets.Scripts.CombatLogic
 
         public void QuitScene()
         {
-            SceneManager.LoadScene("Home", LoadSceneMode.Single);
+            StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Home"));
         }
 
         // *********** Player Logic *****************

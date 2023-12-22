@@ -42,21 +42,22 @@ namespace Assets.Scripts.HomeLogic.ContextExtend
                 var op = gachaExpensiveCharacter();
                 MyServices.Database.Operators.Add(op);
                 context.HomeVM.OperatorListDirtyMark = true;
-                // 动画(根据op属性变动动画效果？
+
+                // TODO: 动画(根据op属性变动动画效果？
+                GachaViewManager.Instance.GachaCharacterAnime(context, op, UIManager.Instance);
 
             }
             else if (gacha == GachaType.SimpleMecha)
             {
                 var mecha = gachaSimpleMecha();
                 MyServices.Database.Mechas.Add(mecha);
-                // 动画, UI
+                // TODO: 动画, UI
             }
             else if (gacha == GachaType.ExpensiveMecha)
             {
                 var mecha = gachaExpensiveMecha();
                 MyServices.Database.Mechas.Add(mecha);
-                // 动画, UI
-
+                // TODO: 动画, UI
             }
         }
 
