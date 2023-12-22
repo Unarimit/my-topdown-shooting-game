@@ -12,9 +12,10 @@ namespace Assets.Scripts.CombatLogic.EnviormentLogic
     /// </summary>
     internal class SkySphereController : MonoBehaviour
     {
+        public float m_RotateSpeed = 1f;
         private void Update()
         {
-            transform.Rotate(new Vector3(0, 1 * Time.deltaTime, 0));
+            transform.Rotate(new Vector3(0, m_RotateSpeed * Time.deltaTime, 0));
         }
     }
 }
