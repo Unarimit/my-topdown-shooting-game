@@ -377,6 +377,19 @@ namespace Assets.Scripts.Services
                 Costs = new Produce[] { new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 50 } }
             });
 
+            res.Add(new CombatBuilding
+            {
+                BuildingId = "mgTower1",
+                Name = "机枪塔",
+                Description = "测试建筑，攻击敌人",
+                ModelUrl = "MachineGunTower_0 Variant",
+                Dimensions = d2b2,
+                Costs = new Produce[] { new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 50 } },
+                Hp = 50,
+                WeaponId = 4,
+                Range = 10,
+            });
+
             return res;
         }
 

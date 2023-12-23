@@ -8,6 +8,8 @@ namespace Assets.Scripts.Entities.Buildings
 {
     internal class CombatBuilding : Building
     {
-
+        public int Hp;
+        public int WeaponId;
+        public int Range;
     }
 }

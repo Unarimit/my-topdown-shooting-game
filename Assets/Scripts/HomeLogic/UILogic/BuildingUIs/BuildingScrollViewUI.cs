@@ -12,7 +12,13 @@ namespace Assets.Scripts.HomeLogic.UILogic.BuildingUIs
         public void Inject(IList<Building> buildings, BuildingUI bUI)
         {
             var contentTrans = transform.Find("Viewport").Find("Content");
-            foreach(var x in buildings)
+            // clear old
+            for (int i = 0; i < contentTrans.childCount; i++)
+            {
+                Destroy(contentTrans.GetChild(i).gameObject);
+            }
+
+            foreach (var x in buildings)
             {
                 var go = Instantiate(m_item, contentTrans);
                 go.GetComponent<BuildingScrollViewItemUI>().Inject(x, bUI);
