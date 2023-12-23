@@ -8,6 +8,7 @@ using Assets.Scripts.Services;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static Assets.Scripts.Services.MyConfig;
 
 namespace Assets.Scripts.HomeLogic
 {
@@ -41,7 +42,9 @@ namespace Assets.Scripts.HomeLogic
 
         public IList<LevelRule> GetLevelRules()
         {
-            return MyServices.Database.LevelRules;
+            if (HomeVM.IsInInvade is false) return MyServices.Database.LevelRules;
+            else return new List<LevelRule>() { MyServices.Database.GetInvasionLevel() };
+            
         }
 
         /// <summary>

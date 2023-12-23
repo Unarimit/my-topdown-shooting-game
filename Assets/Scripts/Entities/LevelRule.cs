@@ -164,6 +164,10 @@ namespace Assets.Scripts.Entities
         /// </summary>
         public bool AllowRespawn;
         /// <summary>
+        /// 是否允许家园建筑加入战斗
+        /// </summary>
+        public bool AllowHomeBuilding;
+        /// <summary>
         /// 友方索敌阈值
         /// </summary>
         public float TeamAttackThreshold;

@@ -18,6 +18,8 @@ namespace Assets.Scripts.HomeLogic.UILogic.ActionUIs
 
         // action Info
         [SerializeField]
+        TextMeshProUGUI m_actionInfoName;
+        [SerializeField]
         RawImage m_actionInfoImage;
         [SerializeField]
         TextMeshProUGUI m_actionInfoDesc;
@@ -39,6 +41,7 @@ namespace Assets.Scripts.HomeLogic.UILogic.ActionUIs
         public void OnActionSelect(LevelRule levelRule)
         {
             curSelect = levelRule;
+            m_actionInfoName.text = levelRule.LevelName;
             m_actionInfoDesc.text = levelRule.Description;
         }
 

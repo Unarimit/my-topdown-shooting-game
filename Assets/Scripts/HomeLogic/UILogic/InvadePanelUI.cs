@@ -3,6 +3,7 @@ using DG.Tweening;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.HomeLogic.UILogic
 {
@@ -23,6 +24,7 @@ namespace Assets.Scripts.HomeLogic.UILogic
         {
             if (_context.HomeVM.IsInInvade is false) return;
             StartCoroutine(coroTask());
+            m_scrollPanelSmall.GetComponent<Button>().onClick.AddListener(() => _rootUI.SwitchPage(HomePage.ActionView));
 
         }
         private IEnumerator coroTask()

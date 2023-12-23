@@ -42,6 +42,60 @@ namespace Assets.Scripts.Services
             Operators[0].McLeg = (MechaLeg)Mechas[2];
         }
 
+        public LevelRule GetInvasionLevel()
+        {
+            return new LevelRule
+            {
+                LevelName = "阻止入侵",
+                Description = "抵抗不明势力的猛烈进攻，保证指挥部安全，持续120秒！可能会出现12-14个水平相当的敌人。若失败会导致游戏结束。",
+                MapSize = MapSize.Middle,
+                TeamSpawn = new RectInt(5, 5, 5, 5),
+                EnemySpawn = new RectInt(25, 25, 5, 5),
+                OperatorPrefabs = new OperatorPrefab[]
+                    {
+                        new OperatorPrefab
+                        {
+                            OpInfo = getRandomCA(),
+                            MinAmount = 5,
+                            MaxAmount = 8,
+                            UseRandomCModel = true,
+                            MechaRandomUpgradeFactor = 0,
+                            AiAgressive = true,
+                            InitPosition = InitPosition.EnemySpawnScatter,
+                        },
+                        new OperatorPrefab
+                        {
+                            OpInfo = getRandomCV(),
+                            MinAmount = 1,
+                            MaxAmount = 2,
+                            UseRandomCModel = true,
+                            MechaRandomUpgradeFactor = 0,
+                            AiAgressive = true,
+                            InitPosition = InitPosition.EnemySpawnScatter,
+                        }
+                    },
+                AllowHomeBuilding = true,
+                WinCondition = new Condition[]{
+                    new Condition
+                    {
+                        ItemName =  ItemTable.Time.ToString(),
+                        Amount = 120,
+                        Description = "时间经过{0}秒"
+                    }
+                },
+                LossCondition = new Condition[]{
+                    new Condition
+                    {
+                        ItemName =  ItemTable.Key.ToString(),
+                        Amount = 1,
+                        Description = "基地被摧毁{0}"
+                    }
+                },
+                AllowRespawn = true,
+                TeamAttackThreshold = 0.5f,
+                EnemyAttackThreshold = 0.5f
+            };
+        }
 
         private List<LevelRule> generateTestLevel()
         {
@@ -425,5 +479,7 @@ namespace Assets.Scripts.Services
             if (oldMehca.IsDefaultMecha() is false) oldMehca.DataBind(null);
             newMehca.DataBind(@this);
         }
+
+        
     }
 }
