@@ -134,6 +134,8 @@ namespace Assets.Scripts.HomeLogic
 
             public bool IsDay { get; private set; }
 
+            public bool IsInInvation { get; private set; }
+
             public bool OperatorListDirtyMark { get; set; }
 
             /// <summary> 人口 </summary>
