@@ -1,25 +1,50 @@
-﻿using DG.Tweening;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Assets.Scripts.Entities;
+using Assets.Scripts.HomeLogic.Interface;
+using DG.Tweening;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.HomeLogic.UILogic.ActionUIs
 {
-    internal class ActionUI : MonoBehaviour
+    internal class ActionUI : HomeUIBase, ISwitchUI
     {
-        private HomeContextManager _context => HomeContextManager.Instance;
-        public void Enter()
-        {
-            ((RectTransform)transform).sizeDelta = new Vector2(800, 0);
-            gameObject.SetActive(true);
-            ((RectTransform)transform).DOSizeDelta(new Vector2(800, 600), 0.5f);
-        }
+        [SerializeField]
+        ActionScrollViewUI m_scrollView;
+        [SerializeField]
+        Button m_goBtn;
+        [SerializeField]
+        Button m_returnBtn;
+
+        // action Info
+        [SerializeField]
+        RawImage m_actionInfoImage;
+        [SerializeField]
+        TextMeshProUGUI m_actionInfoDesc;
+
+        LevelRule curSelect;
         private void Start()
         {
-            transform.Find("Scroll View").GetComponent<ActionScrollViewUI>().Inject(_context.GetLevelRules());
+            m_scrollView.Inject(_context.GetLevelRules(), this);
+            m_returnBtn.onClick.AddListener(() => _rootUI.SwitchPage(HomePage.MainView));
+            m_goBtn.onClick.AddListener(() => _context.GoToLevel(curSelect));
+            OnActionSelect(_context.GetLevelRules()[0]);
+        }
+        private void OnDestroy()
+        {
+            m_returnBtn.onClick.RemoveAllListeners();
+            m_goBtn.onClick.RemoveAllListeners();
+        }
+
+        public void OnActionSelect(LevelRule levelRule)
+        {
+            curSelect = levelRule;
+            m_actionInfoDesc.text = levelRule.Description;
+        }
+
+        public void OnClick()
+        {
+            // do nothing
         }
     }
 }

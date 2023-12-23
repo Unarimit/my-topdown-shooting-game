@@ -4,6 +4,7 @@ using Assets.Scripts.Entities.Buildings;
 using Assets.Scripts.HomeLogic.Environment;
 using Assets.Scripts.HomeLogic.Interface;
 using Assets.Scripts.HomeLogic.Placement;
+using Assets.Scripts.HomeLogic.UILogic.ActionUIs;
 using Assets.Scripts.HomeLogic.UILogic.BuildingUIs;
 using Assets.Scripts.HomeLogic.UILogic.GachaUIs;
 using Assets.Scripts.HomeLogic.UILogic.GachaUIs.GachaMe;
@@ -18,16 +19,27 @@ namespace Assets.Scripts.HomeLogic.UILogic
 {
     internal enum HomePage
     {
+        /// <summary> 主视角 </summary>
         MainView,
+        /// <summary> 上城区建筑编辑视角 </summary>
         TopView,
+        /// <summary> 核心区抽卡视角 </summary>
         CoreView,
+        /// <summary> 战斗区建筑编辑视角 </summary>
         BattleView,
+        /// <summary> 档案室视角 </summary>
+        FileRoomView,
+        /// <summary> 战斗视角 </summary>
+        ActionView,
 
-        // more deep
+        /// <summary> 干员抽卡视角 </summary>
         CoreCharacterView,
+        /// <summary> 机甲抽卡视角 </summary>
         CoreMechaView,
 
+        /// <summary> 抽卡动画视角 </summary>
         GachaCharacterView,
+
     }
     internal class UIManager : MonoBehaviour
     {
@@ -51,6 +63,8 @@ namespace Assets.Scripts.HomeLogic.UILogic
             switchUIs.Add(HomePage.TopView, new List<ISwitchUI>());
             switchUIs.Add(HomePage.BattleView, new List<ISwitchUI>());
             switchUIs.Add(HomePage.CoreView, new List<ISwitchUI>());
+            switchUIs.Add(HomePage.FileRoomView, new List<ISwitchUI>());
+            switchUIs.Add(HomePage.ActionView, new List<ISwitchUI>());
             switchUIs.Add(HomePage.CoreCharacterView, new List<ISwitchUI>());
             switchUIs.Add(HomePage.CoreMechaView, new List<ISwitchUI>());
             switchUIs.Add(HomePage.GachaCharacterView, new List<ISwitchUI>());
@@ -59,6 +73,8 @@ namespace Assets.Scripts.HomeLogic.UILogic
             switchUIs[HomePage.MainView].Add(m_canvas.Find("OverlayPanel").GetComponent<OverlayPanelUI>());
             switchUIs[HomePage.CoreCharacterView].Add(m_canvas.Find("GachaCharacterPanel").GetComponent<GachaCharacterPanelUI>());
             switchUIs[HomePage.CoreMechaView].Add(m_canvas.Find("GachaMechaPanel").GetComponent<GachaMechaPanelUI>());
+            switchUIs[HomePage.FileRoomView].Add(m_canvas.Find("FileRoomPanel").GetComponent<FileRoomPanelUI>());
+            switchUIs[HomePage.ActionView].Add(m_canvas.Find("ActionPanel").GetComponent<ActionUI>());
 
         }
 

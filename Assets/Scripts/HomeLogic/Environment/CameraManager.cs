@@ -32,16 +32,18 @@ namespace Assets.Scripts.HomeLogic.Environment
             else Debug.LogWarning(transform.ToString() + " try to load another Manager");
 
             // find component
-            camerasDic.Add(HomePage.MainView, new CinemachineVirtualCamera[] { transform.Find("MainViewVC").GetComponent<CinemachineVirtualCamera>() });
-            camerasDic.Add(HomePage.TopView, new CinemachineVirtualCamera[] { transform.Find("TopViewVC").GetComponent<CinemachineVirtualCamera>() });
-            camerasDic.Add(HomePage.CoreView, new CinemachineVirtualCamera[] { transform.Find("CoreViewVC").GetComponent<CinemachineVirtualCamera>() });
-            camerasDic.Add(HomePage.BattleView, new CinemachineVirtualCamera[] { transform.Find("BattleViewVC").GetComponent<CinemachineVirtualCamera>() });
-            camerasDic.Add(HomePage.CoreCharacterView, new CinemachineVirtualCamera[] { transform.Find("CoreCharacterViewVC").GetComponent<CinemachineVirtualCamera>() });
-            camerasDic.Add(HomePage.CoreMechaView, new CinemachineVirtualCamera[] { 
+            camerasDic.Add(HomePage.MainView, new [] { transform.Find("MainViewVC").GetComponent<CinemachineVirtualCamera>() });
+            camerasDic.Add(HomePage.TopView, new [] { transform.Find("TopViewVC").GetComponent<CinemachineVirtualCamera>() });
+            camerasDic.Add(HomePage.CoreView, new [] { transform.Find("CoreViewVC").GetComponent<CinemachineVirtualCamera>() });
+            camerasDic.Add(HomePage.BattleView, new [] { transform.Find("BattleViewVC").GetComponent<CinemachineVirtualCamera>() });
+            camerasDic.Add(HomePage.FileRoomView, new[] { transform.Find("FileRoomViewVC").GetComponent<CinemachineVirtualCamera>() });
+            camerasDic.Add(HomePage.ActionView, new[] { transform.Find("ActionViewVC").GetComponent<CinemachineVirtualCamera>() });
+            camerasDic.Add(HomePage.CoreCharacterView, new [] { transform.Find("CoreCharacterViewVC").GetComponent<CinemachineVirtualCamera>() });
+            camerasDic.Add(HomePage.CoreMechaView, new [] { 
                 transform.Find("CoreMechaPhase1ViewVC").GetComponent<CinemachineVirtualCamera>(),
                 transform.Find("CoreMechaPhase2ViewVC").GetComponent<CinemachineVirtualCamera>(),
             });
-            camerasDic.Add(HomePage.GachaCharacterView, new CinemachineVirtualCamera[] {
+            camerasDic.Add(HomePage.GachaCharacterView, new [] {
                 transform.Find("GachaingView").Find("GachaingViewPhaseVC").GetComponent<CinemachineVirtualCamera>(),
             });
 

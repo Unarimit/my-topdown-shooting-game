@@ -12,13 +12,13 @@ namespace Assets.Scripts.HomeLogic.UILogic.ActionUIs
     {
         public GameObject m_ItemPrefab;
         private Transform _contentTrans;
-        public void Inject(IList<LevelRule> levelRules)
+        public void Inject(IList<LevelRule> levelRules, ActionUI actionUI)
         {
             if(_contentTrans == null) _contentTrans = transform.Find("Viewport").Find("Content");
             foreach(var x in levelRules)
             {
                 var go = Instantiate(m_ItemPrefab, _contentTrans);
-                go.GetComponent<ActionScrollViewItemUI>().Inject(x);
+                go.GetComponent<ActionScrollViewItemUI>().Inject(x, actionUI);
             }
         }
     }

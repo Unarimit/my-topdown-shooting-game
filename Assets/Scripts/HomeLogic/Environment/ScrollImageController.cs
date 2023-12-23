@@ -11,7 +11,6 @@ namespace Assets.Scripts.HomeLogic.Environment
     internal class ScrollImageController : MonoBehaviour
     {
         RawImage ri;
-        string textureName = "_MainTex";
         private void Awake()
         {
             ri = GetComponent<RawImage>();

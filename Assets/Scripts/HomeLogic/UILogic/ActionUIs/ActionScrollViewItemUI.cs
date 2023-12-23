@@ -8,14 +8,13 @@ namespace Assets.Scripts.HomeLogic.UILogic.ActionUIs
 {
     internal class ActionScrollViewItemUI : MonoBehaviour
     {
-        public void Inject(LevelRule levelRule)
+        public void Inject(LevelRule levelRule, ActionUI actionUI)
         {
             transform.Find("LevelNameTMP").GetComponent<TextMeshProUGUI>().text = levelRule.LevelName;
             GetComponent<Button>().onClick.AddListener(() =>
             {
-                HomeContextManager.Instance.GoToLevel(levelRule);
+                actionUI.OnActionSelect(levelRule);
             });
-            HoverToolTipUI.CreateHoverToolTip(transform, levelRule.Description, 0.5f);
         }
     }
 }
