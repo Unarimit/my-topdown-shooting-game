@@ -32,7 +32,7 @@ namespace Assets.Scripts.HomeLogic.Environment
         }
 
         [MyTest]
-        public void Play()
+        public void TestGachaCharacterAnime()
         {
             GachaCharacterAnime(HomeContextManager.Instance, MyServices.Database.Operators[0], UIManager.Instance);
         }

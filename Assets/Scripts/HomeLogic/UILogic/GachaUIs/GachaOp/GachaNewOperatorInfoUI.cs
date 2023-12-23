@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs
+namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs.GachaOp
 {
     internal class GachaNewOperatorInfoUI : MonoBehaviour
     {
@@ -33,7 +33,7 @@ namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs
         }
         private void OnEnable()
         {
-            if(Operater == null) gameObject.SetActive(false);
+            if (Operater == null) gameObject.SetActive(false);
             else Init(Operater);
         }
         public void Init(Operator op)
@@ -54,7 +54,7 @@ namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs
         }
         private void OnDisable()
         {
-            if(Operater != null)
+            if (Operater != null)
             {
                 Operater = null;
                 GachaViewManager.Instance.Quit();

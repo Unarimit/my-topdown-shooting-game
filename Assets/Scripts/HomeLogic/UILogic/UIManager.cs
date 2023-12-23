@@ -7,6 +7,7 @@ using Assets.Scripts.HomeLogic.Placement;
 using Assets.Scripts.HomeLogic.UILogic.BuildingUIs;
 using Assets.Scripts.HomeLogic.UILogic.GachaUIs;
 using Assets.Scripts.HomeLogic.UILogic.GachaUIs.GachaMe;
+using Assets.Scripts.HomeLogic.UILogic.GachaUIs.GachaOp;
 using DG.Tweening;
 using System.Collections.Generic;
 using Unity.VisualScripting;

@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs
+namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs.GachaOp
 {
     internal class GachaCharacterPanelUI : HomeUIBase, ISwitchUI
     {
@@ -72,7 +72,7 @@ namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs
         private bool gachaExpensiveCheck()
         {
             bool temp = _context.IsCanGacha(GachaType.ExpensiveCharacter);
-            if(temp is false)
+            if (temp is false)
             {
                 TipsUI.GenerateNewTips(_context.GetGachaFailedTips(GachaType.ExpensiveCharacter));
             }
