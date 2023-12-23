@@ -31,6 +31,13 @@ namespace Assets.Scripts.HomeLogic
             MyServices.Database.OnNewDay = true;
             StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Home"));
         }
+        [MyTest]
+        public void TestNextInvadeDay()
+        {
+            MyServices.Database.Inventory[MyConfig.ItemTable.GTime.ToString()] = MyServices.Database.Inventory[MyConfig.ItemTable.GTime.ToString()] / 7 + 7;
+            MyServices.Database.OnNewDay = true;
+            StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Home"));
+        }
 
         public IList<LevelRule> GetLevelRules()
         {
@@ -134,7 +141,7 @@ namespace Assets.Scripts.HomeLogic
 
             public bool IsDay { get; private set; }
 
-            public bool IsInInvation { get; private set; }
+            public bool IsInInvade { get; private set; }
 
             public bool OperatorListDirtyMark { get; set; }
 
@@ -154,6 +161,7 @@ namespace Assets.Scripts.HomeLogic
             {
                 GTime = MyServices.Database.Inventory[MyConfig.ItemTable.GTime.ToString()];
                 IsDay = GTime % 2 == 0;
+                IsInInvade = GTime % 7 == 0;
                 Population.Data = MyServices.Database.Operators.Count;
                 ResElectric.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Electric.ToString()];
                 ResIron.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Iron.ToString()];

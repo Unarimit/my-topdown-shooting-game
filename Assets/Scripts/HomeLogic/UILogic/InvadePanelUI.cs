@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.HomeLogic.UILogic
 {
-    internal class InvationPanelUI : HomeUIBase
+    internal class InvadePanelUI : HomeUIBase
     {
         [SerializeField]
         RectTransform m_scrollPanel;
@@ -21,14 +21,9 @@ namespace Assets.Scripts.HomeLogic.UILogic
 
         private void Start()
         {
-            if (_context.HomeVM.IsInInvation is false) return;
+            if (_context.HomeVM.IsInInvade is false) return;
             StartCoroutine(coroTask());
 
-        }
-        [MyTest]
-        public void TestInvationUI()
-        {
-            StartCoroutine(coroTask());
         }
         private IEnumerator coroTask()
         {
