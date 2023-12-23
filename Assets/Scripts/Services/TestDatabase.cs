@@ -439,9 +439,21 @@ namespace Assets.Scripts.Services
                 ModelUrl = "MachineGunTower_0 Variant",
                 Dimensions = d2b2,
                 Costs = new Produce[] { new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 50 } },
-                Hp = 50,
+                Hp = 30,
                 WeaponId = 4,
                 Range = 10,
+            });
+            res.Add(new CombatBuilding
+            {
+                BuildingId = "cmd",
+                Name = "指挥部",
+                Description = "测试建筑",
+                ModelUrl = "Airport_Building Variant",
+                Dimensions = new Vector2Int(6, 4),
+                CanBuild = false,
+                Hp = 50,
+                WeaponId = -1,
+                Range = -1,
             });
 
             return res;
@@ -460,6 +472,7 @@ namespace Assets.Scripts.Services
                 new PlaceInfo { BuildingId = "h1", AreaIndex = 1, PlacePosition = new Vector2Int(4, 4)},
                 new PlaceInfo { BuildingId = "e1", AreaIndex = 2, PlacePosition = new Vector2Int(1, 4)},
                 new PlaceInfo { BuildingId = "e1", AreaIndex = 2, PlacePosition = new Vector2Int(4, 4)},
+                new PlaceInfo { BuildingId = "cmd", AreaIndex = PlaceInfo.BattleIndex, PlacePosition = new Vector2Int(4, 0)},
             } };
         }
 

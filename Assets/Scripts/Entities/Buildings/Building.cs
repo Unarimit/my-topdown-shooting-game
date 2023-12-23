@@ -29,6 +29,9 @@ namespace Assets.Scripts.Entities.Buildings
         /// <summary> 建筑描述 </summary>
         public string Description;
 
+        /// <summary> 是否允许玩家建造 </summary>
+        public bool CanBuild = true;
+
         /// <summary> 建筑放置格子 </summary>
         public Vector2Int Dimensions;
 

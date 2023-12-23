@@ -5,6 +5,11 @@ namespace Assets.Scripts.Entities.Buildings
 {
     internal struct PlaceInfo
     {
+        /// <summary>
+        /// 战斗区域的索引
+        /// </summary>
+        public static int BattleIndex = 6;
+
         /// <summary> 放置建筑的id </summary>
         public string BuildingId;
 

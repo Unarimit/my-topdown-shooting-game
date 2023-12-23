@@ -33,6 +33,7 @@ namespace Assets.Scripts.HomeLogic.UILogic.BuildingUIs
             {
                 foreach (var x in MyServices.Database.Buildings)
                 {
+                    if (x.CanBuild is false) continue;
                     if (x is ResourceBuilding) building.Add(x);
                 }
             }
@@ -40,6 +41,7 @@ namespace Assets.Scripts.HomeLogic.UILogic.BuildingUIs
             {
                 foreach (var x in MyServices.Database.Buildings)
                 {
+                    if (x.CanBuild is false) continue;
                     if (x is CombatBuilding) building.Add(x);
                 }
             }
