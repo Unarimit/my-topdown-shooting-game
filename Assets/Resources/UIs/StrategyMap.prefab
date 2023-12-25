@@ -1963,12 +1963,12 @@ PrefabInstance:
     - target: {fileID: 710603236009474665, guid: 1143e94b592ad6449a8d76dbc3cc58ea,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 24.100952
+      value: 24.100922
       objectReference: {fileID: 0}
     - target: {fileID: 710603236009474665, guid: 1143e94b592ad6449a8d76dbc3cc58ea,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 23.569462
+      value: 23.569439
       objectReference: {fileID: 0}
     - target: {fileID: 710603236023595719, guid: 1143e94b592ad6449a8d76dbc3cc58ea,
         type: 3}
@@ -2098,7 +2098,17 @@ PrefabInstance:
     - target: {fileID: 710603236029101676, guid: 1143e94b592ad6449a8d76dbc3cc58ea,
         type: 3}
       propertyPath: DefaultHeight
-      value: 30
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 710603236029101676, guid: 1143e94b592ad6449a8d76dbc3cc58ea,
+        type: 3}
+      propertyPath: FullMapSize.x
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 710603236029101676, guid: 1143e94b592ad6449a8d76dbc3cc58ea,
+        type: 3}
+      propertyPath: FullMapSize.y
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 710603236029101676, guid: 1143e94b592ad6449a8d76dbc3cc58ea,
         type: 3}
@@ -2113,11 +2123,31 @@ PrefabInstance:
     - target: {fileID: 710603236029101676, guid: 1143e94b592ad6449a8d76dbc3cc58ea,
         type: 3}
       propertyPath: fullScreenMode
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 710603236029101676, guid: 1143e94b592ad6449a8d76dbc3cc58ea,
         type: 3}
       propertyPath: DynamicRotation
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 710603236029101676, guid: 1143e94b592ad6449a8d76dbc3cc58ea,
+        type: 3}
+      propertyPath: FullMapPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 710603236029101676, guid: 1143e94b592ad6449a8d76dbc3cc58ea,
+        type: 3}
+      propertyPath: FullMapPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 710603236029101676, guid: 1143e94b592ad6449a8d76dbc3cc58ea,
+        type: 3}
+      propertyPath: FullMapRotation.x
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 710603236029101676, guid: 1143e94b592ad6449a8d76dbc3cc58ea,
+        type: 3}
+      propertyPath: FullMapRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 710603236029102717, guid: 1143e94b592ad6449a8d76dbc3cc58ea,
@@ -2213,7 +2243,7 @@ PrefabInstance:
     - target: {fileID: 710603236030884197, guid: 1143e94b592ad6449a8d76dbc3cc58ea,
         type: 3}
       propertyPath: orthographic size
-      value: 30
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 710603236030884197, guid: 1143e94b592ad6449a8d76dbc3cc58ea,
         type: 3}
@@ -2290,6 +2320,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3405066596608671146}
+    - targetCorrespondingSourceObject: {fileID: 710603236029102717, guid: 1143e94b592ad6449a8d76dbc3cc58ea,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6736320968427253664}
   m_SourcePrefab: {fileID: 100100000, guid: 1143e94b592ad6449a8d76dbc3cc58ea, type: 3}
 --- !u!223 &852014921390042617 stripped
 Canvas:
@@ -2371,3 +2405,22 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!114 &6736320968427253664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 852014921404038789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2448d096b88dd884885696ab9c402e9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LookCenterBounds:
+    serializedVersion: 2
+    x: -80
+    y: -80
+    width: 160
+    height: 160
+  m_GroundHeight: 40

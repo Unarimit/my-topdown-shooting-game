@@ -9,83 +9,117 @@ namespace Assets.Scripts.Common
 {
     internal class MapGenerator
     {
+
+        public static int[][] RandomMap(MapType mapSize)
+        {
+            // TODO：finish small map and big map generation
+            if (mapSize == MapType.Big) return randomBigMap();
+            else if (mapSize == MapType.Middle) return randomMiddleMap();
+            else return randomBigMap();
+        }
+
+        public static int[][] GetInvasionMap()
+        {
+            int rseed = Random.Range(1, 1000000000);
+            Random.InitState(25);
+            var res = new int[80][];
+            for (int i = 0; i < 80; i++) res[i] = new int[80];
+            // road
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 8, 1, 1);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 8, 1, 1);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 8, 1, 1);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 8, 1, 1);
+
+            // mountain
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 2);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 2);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 2);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 6, 4, 2);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 6, 4, 2);
+
+            // water
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
+
+            // tree
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 4);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 4);
+
+            Random.InitState(rseed);
+            return res;
+        }
+
         /// <summary>
         /// return 64*64 random map
         /// </summary>
         /// <returns></returns>
-        public static int[][] RandomMap()
+        private static int[][] randomBigMap()
         {
             var res = new int[64][];
             for (int i = 0; i < 64; i++) res[i] = new int[64];
 
             // road
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 8, 1, 1);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 8, 1, 1);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 8, 1, 1);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 8, 1, 1);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 8, 1, 1);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 8, 1, 1);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 8, 1, 1);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 8, 1, 1);
 
             // mountain
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 2);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 2);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 2);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 6, 4, 2);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 6, 4, 2);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 2);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 2);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 2);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 6, 4, 2);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 6, 4, 2);
 
             // water
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
 
             // tree
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 4);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 4);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 4);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 4);
 
             return res;
         }
-
-        public static int[][] RandomMap(MapSize mapSize)
-        {
-            // TODO：finish small map and big map generation
-            if (mapSize == MapSize.Big) return RandomMap();
-            else if (mapSize == MapSize.Middle) return RandomMiddleMap();
-            else return RandomMap();
-        }
-
         /// <summary>
         /// return 40*40 random map
         /// </summary>
         /// <returns></returns>
-        public static int[][] RandomMiddleMap()
+        private static int[][] randomMiddleMap()
         {
             var res = new int[40][];
             for (int i = 0; i < res.Length; i++) res[i] = new int[40];
 
             // road
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 8, 1, 1);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 8, 1, 1);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 8, 1, 1);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 8, 1, 1);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 8, 1, 1);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 8, 1, 1);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 8, 1, 1);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 8, 1, 1);
 
             // mountain
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 2);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 2);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 2);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 6, 4, 2);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 6, 4, 2);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 2);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 2);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 2);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 6, 4, 2);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 6, 4, 2);
 
             // water
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
-            SimpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
+            simpleRandomWalk(res, new Vector2Int(Random.Range(0, res.Length), Random.Range(0, res[0].Length)), 4, 4, 3);
 
             return res;
         }
 
-        private static void SimpleRandomWalk(int[][] map, Vector2Int startPos, int walkLength, int iterations, int aim)
+        private static void simpleRandomWalk(int[][] map, Vector2Int startPos, int walkLength, int iterations, int aim)
         {
             HashSet<Vector2Int> path = new HashSet<Vector2Int>();
             path.Add(startPos);

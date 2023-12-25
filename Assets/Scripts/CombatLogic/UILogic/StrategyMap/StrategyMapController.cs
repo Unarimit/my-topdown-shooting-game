@@ -1,6 +1,10 @@
 ﻿using Assets.Scripts.CombatLogic.ContextExtends;
+using Assets.Scripts.CombatLogic.LevelLogic;
+using Assets.Scripts.CombatLogic.UILogic.MiniMap;
 using Cinemachine;
 using DG.Tweening;
+using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -47,7 +51,13 @@ namespace Assets.Scripts.CombatLogic.UILogic.StrategyMap
         {
             // miniMap
             mapCam = Camera.main.transform.Find("UICamera").GetComponent<Camera>();
-            m_MiniMap.minimapRig.position = new Vector3(_context.CombatVM.Level.Map.Length / 2, 0, _context.CombatVM.Level.Map[0].Length / 2); ;
+
+            // 让摄像头在地图中间
+            // m_MiniMap.minimapRig.position = new Vector3(_context.CombatVM.Level.Map.Length / 2, 0, _context.CombatVM.Level.Map[0].Length / 2);
+
+            // 让摄像头初始跟随人物
+            m_MiniMap.minimapRig.position = new Vector3(_context.CombatVM.PlayerTrans.position.x - 5, 0, _context.CombatVM.PlayerTrans.position.z - 5);
+
             m_MiniMap.SetAsActiveMiniMap();
             setPlayer();
             _context.CombatVM.PlayerChangeEvent += setPlayer;
@@ -68,6 +78,9 @@ namespace Assets.Scripts.CombatLogic.UILogic.StrategyMap
             m_MapRenderCanvas.worldCamera = mapCam;
             m_MapRenderCanvas.planeDistance = 20;
             m_MiniMap.SetToFullscreenSize();
+
+            //Vector3 pp = miniMapCamera.WorldToViewportPoint(TargetPosition);
+
         }
         private void setPlayer()
         {

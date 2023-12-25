@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Entities
 {
-    public enum MapSize
+    public enum MapType
     {
-        Small,Middle,Big
+        Small,Middle,Big,Invasion
     }
     public enum InitPosition
     {
@@ -142,7 +142,7 @@ namespace Assets.Scripts.Entities
         /// <summary>
         /// 地图大小类型
         /// </summary>
-        public MapSize MapSize;
+        public MapType MapType;
         /// <summary>
         /// 敌方原型
         /// </summary>

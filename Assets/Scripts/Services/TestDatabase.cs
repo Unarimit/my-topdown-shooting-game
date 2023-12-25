@@ -48,9 +48,9 @@ namespace Assets.Scripts.Services
             {
                 LevelName = "阻止入侵",
                 Description = "抵抗不明势力的猛烈进攻，保证指挥部安全，持续120秒！可能会出现12-14个水平相当的敌人。若失败会导致游戏结束。",
-                MapSize = MapSize.Middle,
+                MapType = MapType.Invasion,
                 TeamSpawn = new RectInt(5, 5, 5, 5),
-                EnemySpawn = new RectInt(25, 25, 5, 5),
+                EnemySpawn = new RectInt(70, 70, 5, 5),
                 OperatorPrefabs = new OperatorPrefab[]
                     {
                         new OperatorPrefab
@@ -93,7 +93,7 @@ namespace Assets.Scripts.Services
                 },
                 AllowRespawn = true,
                 TeamAttackThreshold = 0.5f,
-                EnemyAttackThreshold = 0.5f
+                EnemyAttackThreshold = 0
             };
         }
 
@@ -106,7 +106,7 @@ namespace Assets.Scripts.Services
                 {
                     LevelName = "演习作战",
                     Description = "达到击杀数就是胜利！可能会出现8-10个水平相当的敌人",
-                    MapSize = MapSize.Middle,
+                    MapType = MapType.Middle,
                     TeamSpawn = new RectInt(5, 5, 5, 5),
                     EnemySpawn = new RectInt(25, 25, 5, 5),
                     OperatorPrefabs = new OperatorPrefab[]
@@ -163,7 +163,7 @@ namespace Assets.Scripts.Services
                 {
                     LevelName = "攻城作战",
                     Description = "深入敌营，破坏敌人重军防守的主要目标！可能会出现12-14个水平相当的敌人",
-                    MapSize = MapSize.Middle,
+                    MapType = MapType.Middle,
                     TeamSpawn = new RectInt(5, 5, 5, 5),
                     EnemySpawn = new RectInt(25, 25, 5, 5),
                     OperatorPrefabs = new OperatorPrefab[]
@@ -229,7 +229,7 @@ namespace Assets.Scripts.Services
                 {
                     LevelName = "三角定位",
                     Description = "激活地图上的三个红色方块！小心散落在地图上的敌人",
-                    MapSize = MapSize.Middle,
+                    MapType = MapType.Middle,
                     TeamSpawn = new RectInt(5, 5, 5, 5),
                     EnemySpawn = new RectInt(15, 15, 5, 5),
                     OperatorPrefabs = new OperatorPrefab[]
@@ -449,7 +449,7 @@ namespace Assets.Scripts.Services
                 Name = "指挥部",
                 Description = "测试建筑",
                 ModelUrl = "Airport_Building Variant",
-                Dimensions = new Vector2Int(6, 4),
+                Dimensions = new Vector2Int(12, 6),
                 CanBuild = false,
                 Hp = 50,
                 WeaponId = -1,
@@ -473,6 +473,7 @@ namespace Assets.Scripts.Services
                 new PlaceInfo { BuildingId = "e1", AreaIndex = 2, PlacePosition = new Vector2Int(1, 4)},
                 new PlaceInfo { BuildingId = "e1", AreaIndex = 2, PlacePosition = new Vector2Int(4, 4)},
                 new PlaceInfo { BuildingId = "cmd", AreaIndex = PlaceInfo.BattleIndex, PlacePosition = new Vector2Int(4, 0)},
+                new PlaceInfo { BuildingId = "mgTower1", AreaIndex = PlaceInfo.BattleIndex, PlacePosition = new Vector2Int(10, 10)},
             } };
         }
 

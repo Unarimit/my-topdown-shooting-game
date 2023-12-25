@@ -11,7 +11,10 @@ namespace Assets.Scripts.Common
         {
             var level = new LevelInfo();
             level.LevelRule = rule;
-            level.Map = MapGenerator.RandomMap(rule.MapSize);
+
+            if(rule.MapType is MapType.Invasion) level.Map = MapGenerator.GetInvasionMap();
+            else level.Map = MapGenerator.RandomMap(rule.MapType);
+
             level.EnemyOperators = new List<Operator>();
             level.EnemyOperatorsBy = new List<OperatorPrefab>();
             foreach (var ops in rule.OperatorPrefabs)

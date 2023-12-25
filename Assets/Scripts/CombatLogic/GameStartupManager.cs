@@ -1,13 +1,17 @@
 ﻿using Assets.Scripts.CombatLogic.EnviormentLogic;
 using Assets.Scripts.CombatLogic.LevelLogic;
 using Assets.Scripts.Common;
+using Assets.Scripts.Common.Test;
 using Assets.Scripts.Entities;
+using Assets.Scripts.Entities.Buildings;
 using Assets.Scripts.Services;
+using System.Collections.Generic;
 using System.Linq;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static Cinemachine.DocumentationSortingAttribute;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.CombatLogic
@@ -51,6 +55,13 @@ namespace Assets.Scripts.CombatLogic
 
             UIManager.Instance.Init();
 
+        }
+        [MyTest]
+        public void TestInvasion()
+        {
+            MyServices.Database.CurLevel = LevelGenerator.GeneratorLevelInfo(MyServices.Database.GetInvasionLevel());
+            MyServices.Database.CurLevel.TeamOperators = MyServices.Database.Operators.Take(5).ToList();
+            StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Playground"));
         }
 
         /// <summary>
@@ -111,12 +122,31 @@ namespace Assets.Scripts.CombatLogic
                     }
                 }
             }
+
+            // place building
+            if(level.LevelRule.AllowHomeBuilding is true)
+            {
+                var bDic = new Dictionary<string, Building>();
+                foreach (var x in MyServices.Database.Buildings)
+                {
+                    bDic.Add(x.BuildingId, x);
+                }
+                foreach (var place in MyServices.Database.BuildingArea.PlaceInfos)
+                {
+                    if(place.AreaIndex == PlaceInfo.BattleIndex)
+                    {
+                        //if (bDic[place.BuildingId])
+                        _context.GenerateBuilding((CombatBuilding)bDic[place.BuildingId], place.PlacePosition, 0);
+                    }
+                }
+            }
             
 
             //TODO: bake navmap
             var nm = transform.Find("NavMesh Surface").GetComponent<NavMeshSurface>();
             nm.UpdateNavMesh(nm.navMeshData);
         }
+
 
         
         private Vector3 GetPosByInitMethod(LevelInfo level, InitPosition method)

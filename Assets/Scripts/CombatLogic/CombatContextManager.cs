@@ -8,6 +8,7 @@ using Assets.Scripts.CombatLogic.ContextExtends;
 using Assets.Scripts.CombatLogic.LevelLogic;
 using Assets.Scripts.Common;
 using Assets.Scripts.Entities;
+using Assets.Scripts.Entities.Buildings;
 using Assets.Scripts.Services;
 using Cinemachine;
 using System.Collections.Generic;
@@ -351,6 +352,29 @@ namespace Assets.Scripts.CombatLogic
                 Debug.LogWarning("can not match this team");
                 return null;
             }
+        }
+
+        internal Transform GenerateBuilding(CombatBuilding building, Vector2Int pos, int Team)
+        {
+            // 加载包装模型
+            var prefab = ResourceManager.Load<GameObject>("Characters/BuildingBox");
+            var go = Instantiate(prefab, _agentsSpawnTrans);
+            // 加载建筑模型
+            Instantiate(ResourceManager.Load<GameObject>($"Buildings/{building.ModelUrl}"), go.transform);
+            // 根据建筑属性配置组件
+            // -- 大小位置
+            go.GetComponent<BoxCollider>().size = new Vector3(building.Dimensions.y, 2, building.Dimensions.x);
+            go.GetComponent<BoxCollider>().center = new Vector3(0, 1, 0);
+            go.transform.position = new Vector3(pos.x * 2 + building.Dimensions.x, 0, pos.y * 2 + building.Dimensions.y);
+            go.transform.eulerAngles = new Vector3(0, -90, 0);
+            // -- 生命
+            go.GetComponent<DestructibleObjectController>().HP = building.Hp;
+            // -- 小地图颜色
+            if (Team == 0) go.GetComponent<bl_MiniMapEntity>().IconColor = MyConfig.TeamColor;
+            else go.GetComponent<bl_MiniMapEntity>().IconColor = MyConfig.EnemyColor;
+            // -- TODO: AI控制
+
+            return go.transform;
         }
 
         public Transform CreateGO(GameObject prefab, Transform parent)
