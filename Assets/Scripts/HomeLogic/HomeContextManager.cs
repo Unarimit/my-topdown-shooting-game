@@ -123,12 +123,24 @@ namespace Assets.Scripts.HomeLogic
 
             return go.transform;
         }
+        public Transform GenerateDisplay(Operator opInfo, Transform transform, bool withGun)
+        {
+            var prefab = ResourceManager.Load<GameObject>("Characters/PureDisplayer");
+            var go = Instantiate(prefab, transform);
+            GetComponent<FbxLoadManager>().LoadModel(opInfo.ModelResourceUrl, go.transform, withGun);
+            return go.transform;
+        }
 
         public void GoToLevel(LevelRule rule)
         {
             MyServices.Database.CurLevel = LevelGenerator.GeneratorLevelInfo(rule);
             
             StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Prepare"));
+        }
+
+        public IList<Operator> GetDecorationOperator()
+        {
+            return MyServices.Database.Operators;
         }
 
         private void OnDestroy()

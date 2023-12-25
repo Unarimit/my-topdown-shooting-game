@@ -19,6 +19,7 @@ namespace Assets.Scripts.HomeLogic.UILogic
 {
     internal enum HomePage
     {
+        Nothing,
         /// <summary> 主视角 </summary>
         MainView,
         /// <summary> 上城区建筑编辑视角 </summary>
@@ -59,6 +60,7 @@ namespace Assets.Scripts.HomeLogic.UILogic
 
             // register uis
             switchUIs = new Dictionary<HomePage, List<ISwitchUI>>();
+            switchUIs.Add(HomePage.Nothing, new List<ISwitchUI>());
             switchUIs.Add(HomePage.MainView, new List<ISwitchUI>());
             switchUIs.Add(HomePage.TopView, new List<ISwitchUI>());
             switchUIs.Add(HomePage.BattleView, new List<ISwitchUI>());
@@ -78,6 +80,11 @@ namespace Assets.Scripts.HomeLogic.UILogic
 
         }
 
+        public void Close()
+        {
+            m_canvas.gameObject.SetActive(false);
+            this.enabled = false;
+        }
         public void Inject(PlacementManager pm)
         {
             var buildingUI = m_canvas.Find("BuildingPanel").GetComponent<BuildingUI>();

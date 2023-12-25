@@ -32,6 +32,7 @@ namespace Assets.Scripts.HomeLogic.Environment
             else Debug.LogWarning(transform.ToString() + " try to load another Manager");
 
             // find component
+            camerasDic.Add(HomePage.Nothing, new[] { transform.Find("MainViewVC").GetComponent<CinemachineVirtualCamera>() });
             camerasDic.Add(HomePage.MainView, new [] { transform.Find("MainViewVC").GetComponent<CinemachineVirtualCamera>() });
             camerasDic.Add(HomePage.TopView, new [] { transform.Find("TopViewVC").GetComponent<CinemachineVirtualCamera>() });
             camerasDic.Add(HomePage.CoreView, new [] { transform.Find("CoreViewVC").GetComponent<CinemachineVirtualCamera>() });
@@ -52,7 +53,7 @@ namespace Assets.Scripts.HomeLogic.Environment
         }
         private void Start()
         {
-            CurCameraPos = HomePage.MainView;
+            CurCameraPos = HomePage.Nothing;
         }
 
         public IEnumerator SwitchCamera(HomePage pos)

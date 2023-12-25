@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Entities.Buildings;
 using Assets.Scripts.HomeLogic.Environment;
+using Assets.Scripts.HomeLogic.Environment.OperatorDecoration;
 using Assets.Scripts.HomeLogic.Placement;
 using Assets.Scripts.Services;
 using System.Collections.Generic;
@@ -22,11 +23,15 @@ namespace Assets.Scripts.HomeLogic
             var pm = transform.Find("Placement").GetComponent<PlacementManager>();
             pm.Init(MyServices.Database.BuildingArea, bDic);
             GetComponent<HomeLogic.UILogic.UIManager>().Inject(pm);
+            GetComponent<HomeLogic.UILogic.UIManager>().SwitchPage(UILogic.HomePage.MainView);
 
             // 计算产出
             var sum = CalculateOutput(bDic);
             if(MyServices.Database.OnNewDay is true) GetComponent<HomeLogic.UILogic.UIManager>().DisplayOutput(sum);
             HomeContextManager.Instance.TryApplyBuildingOutput(sum);
+
+            // 放置装饰角色
+            DecorationManager.Instance.PlaceOperatorDecoration();
 
             // 白天还是黑夜
             if (HomeContextManager.Instance.HomeVM.IsDay)
