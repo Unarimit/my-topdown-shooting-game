@@ -25,6 +25,11 @@ namespace Assets.Scripts.HomeLogic.UILogic.ActionUIs
         TextMeshProUGUI m_actionInfoDesc;
 
         LevelRule curSelect;
+        CanvasGroup canvasGroup;
+        private void Awake()
+        {
+            canvasGroup = GetComponent<CanvasGroup>();
+        }
         private void Start()
         {
             m_scrollView.Inject(_context.GetLevelRules(), this);
@@ -45,9 +50,21 @@ namespace Assets.Scripts.HomeLogic.UILogic.ActionUIs
             m_actionInfoDesc.text = levelRule.Description;
         }
 
+
         public void OnClick()
         {
             // do nothing
+        }
+
+        public override void Enter()
+        {
+            if(canvasGroup != null) canvasGroup.alpha = 1;
+            base.Enter();
+        }
+
+        public override void Quit()
+        {
+            canvasGroup.DOFade(0, 0.5f).OnComplete(base.Quit);
         }
     }
 }

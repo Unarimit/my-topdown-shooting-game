@@ -1,6 +1,5 @@
-﻿using Assets.Scripts.Common;
-using Assets.Scripts.Entities;
-using TMPro;
+﻿using Assets.Scripts.Entities;
+using Michsky.UI.Shift;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,13 +7,23 @@ namespace Assets.Scripts.HomeLogic.UILogic.ActionUIs
 {
     internal class ActionScrollViewItemUI : MonoBehaviour
     {
-        public void Inject(LevelRule levelRule, ActionUI actionUI)
+        MainPanelButton button;
+        public void Inject(LevelRule levelRule, ActionUI actionUI, ActionScrollViewUI container)
         {
-            transform.Find("LevelNameTMP").GetComponent<TextMeshProUGUI>().text = levelRule.LevelName;
+            button = transform.GetComponent<MainPanelButton>();
+            button.buttonText = levelRule.LevelName;
+            gameObject.SetActive(true);
             GetComponent<Button>().onClick.AddListener(() =>
             {
+                container.DeSelectAll();
+                button.SetKeyPress(true);
                 actionUI.OnActionSelect(levelRule);
             });
+        }
+
+        public void SetSelect(bool isSelect)
+        {
+            button.SetKeyPress(isSelect);
         }
     }
 }

@@ -1,9 +1,5 @@
 ﻿using Assets.Scripts.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Scripts.HomeLogic.UILogic.ActionUIs
@@ -12,13 +8,27 @@ namespace Assets.Scripts.HomeLogic.UILogic.ActionUIs
     {
         public GameObject m_ItemPrefab;
         private Transform _contentTrans;
+        List<ActionScrollViewItemUI> items;
         public void Inject(IList<LevelRule> levelRules, ActionUI actionUI)
         {
             if(_contentTrans == null) _contentTrans = transform.Find("Viewport").Find("Content");
-            foreach(var x in levelRules)
+            items = new List<ActionScrollViewItemUI>(levelRules.Count);
+            foreach (var x in levelRules)
             {
                 var go = Instantiate(m_ItemPrefab, _contentTrans);
-                go.GetComponent<ActionScrollViewItemUI>().Inject(x, actionUI);
+                var comp = go.GetComponent<ActionScrollViewItemUI>();
+
+                comp.Inject(x, actionUI, this);
+                items.Add(comp);
+            }
+            items[0].SetSelect(true);
+        }
+
+        public void DeSelectAll()
+        {
+            foreach(var x in items)
+            {
+                x.SetSelect(false);
             }
         }
     }
