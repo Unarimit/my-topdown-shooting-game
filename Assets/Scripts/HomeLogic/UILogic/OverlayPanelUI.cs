@@ -2,6 +2,7 @@
 using Assets.Scripts.HomeLogic.Interface;
 using Assets.Scripts.HomeLogic.UILogic.BagUIs;
 using Assets.Scripts.HomeLogic.UILogic.OperatorsUIs;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,10 +17,12 @@ namespace Assets.Scripts.HomeLogic.UILogic
 
         private BagPanelUI bagPanelUI;
         private OperatorsPanelUI opsPanelUI;
+        CanvasGroup canvasGroup;
         private void Awake()
         {
             bagPanelUI = transform.Find("BagPanel").GetComponent<BagPanelUI>();
             opsPanelUI = transform.Find("OperatorsPanel").GetComponent<OperatorsPanelUI>();
+            canvasGroup = GetComponent<CanvasGroup>();
         }
         private void OnEnable()
         {
@@ -45,6 +48,17 @@ namespace Assets.Scripts.HomeLogic.UILogic
         public void OnClick()
         {
 
+        }
+
+        public override void Enter()
+        {
+            base.Enter();
+            canvasGroup.alpha = 1;
+        }
+
+        public override void Quit()
+        {
+            canvasGroup.DOFade(0, 0.5f).OnComplete(base.Quit);
         }
     }
 }
