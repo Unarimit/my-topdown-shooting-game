@@ -56,7 +56,7 @@ namespace Assets.Scripts.HomeLogic.Environment
             while(m_gachaEffectController.Statu == GachaEffectStatu.Playing) yield return null;
 
             // 3. 爆炸效果时创建角色
-            gachaCharacter = HomeContextManager.Instance.GenerateGachaDisplay(op, m_gachaEffectController.transform.position, Vector3.zero);
+            gachaCharacter = context.GenerateGachaDisplay(op, m_gachaEffectController.transform.position, Vector3.zero);
 
             // 4. 延时
             yield return new WaitForSeconds(1f);

@@ -1,5 +1,8 @@
 ﻿using Assets.Scripts.Common.Test;
+using Assets.Scripts.Entities;
 using Cinemachine;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Scripts.HomeLogic.Environment.OperatorDecoration
@@ -8,6 +11,7 @@ namespace Assets.Scripts.HomeLogic.Environment.OperatorDecoration
     {
         public static DecorationManager Instance;
         CinemachineVirtualCamera[] cameras;
+        
         private void Awake()
         {
             if (Instance == null) Instance = this;
@@ -23,12 +27,10 @@ namespace Assets.Scripts.HomeLogic.Environment.OperatorDecoration
             {
                 for(int i = 0; i < typec.transform.childCount; i++)
                 {
-                    var trans = HomeContextManager.Instance.GenerateDisplay(ops[Random.Range(0, ops.Count)], typec.transform.GetChild(i), typec.m_WithGun);
-                    trans.GetComponent<Animator>().runtimeAnimatorController = typec.m_AnimeController;
+                    place(typec, typec.transform.GetChild(i), ops[Random.Range(0, ops.Count)]);
                 }
             }
         }
-
         public void EnableRandomViewCamera()
         {
             var aimCam = cameras[Random.Range(0, cameras.Length)];
@@ -36,14 +38,43 @@ namespace Assets.Scripts.HomeLogic.Environment.OperatorDecoration
 
             var ops = HomeContextManager.Instance.GetDecorationOperator();
             var typec = aimCam.GetComponentInParent<DecorationTypeController>();
-            var trans = HomeContextManager.Instance.GenerateDisplay(ops[Random.Range(0, ops.Count)], aimCam.transform.parent, typec.m_WithGun);
-            trans.GetComponent<Animator>().runtimeAnimatorController = typec.m_AnimeController;
+            place(typec, aimCam.transform.parent, ops[Random.Range(0, ops.Count)]);
 
             foreach(var x in cameras)
             {
                 if (x != aimCam) x.enabled = false;
             }
         }
+
+        readonly HashSet<Transform> placed = new();
+        private void place(DecorationTypeController typec, Transform child, Operator op)
+        {
+            if (placed.Contains(child)) return;
+
+            var trans = HomeContextManager.Instance.GenerateDisplay(op, child, typec.m_WithGun);
+            trans.GetComponent<Animator>().runtimeAnimatorController = typec.m_AnimeController;
+            if (typec.m_DecorationControllerType == DecorationControllerType.Walk)
+            {
+                var comp = trans.AddComponent<WalkDecorationOperator>();
+                comp.Inject(typec.m_Param);
+            }else if(typec.m_DecorationControllerType == DecorationControllerType.Talk)
+            {
+                var comp = trans.AddComponent<TalkDecorationOperator>();
+                comp.Inject(typec.m_Param);
+            }
+
+            placed.Add(child);
+
+            if (typec.m_IsGroup)
+            {
+                for (int i = 0; i < typec.transform.childCount; i++)
+                {
+                    var ops = HomeContextManager.Instance.GetDecorationOperator();
+                    place(typec, typec.transform.GetChild(i), ops[Random.Range(0, ops.Count)]);
+                }
+            }
+        }
+
 
     }
 }
