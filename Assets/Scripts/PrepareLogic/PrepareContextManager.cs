@@ -59,12 +59,10 @@ namespace Assets.Scripts.PrepareLogic
                 TipsUI.GenerateNewTips("请至少选择一名干员");
                 return;
             }
-            SlideUI.CreateSlideUI();
             StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Playground"));
         }
         public void ReturnHome()
         {
-            SlideUI.CreateSlideUI();
             StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Home"));
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Common
@@ -7,6 +8,7 @@ namespace Assets.Scripts.Common
     {
         public static IEnumerator MyLoadSceneAsync(string sceneName)
         {
+            DOTween.Clear();
             var slider = SlideUI.CreateSlideUI();
             var task = SceneManager.LoadSceneAsync(sceneName);
             task.allowSceneActivation = false;
