@@ -51,6 +51,7 @@ namespace Assets.Scripts.HomeLogic.UILogic
         public HomePage CurHomePage { get; private set; }
         public Stack<IOverlayUI> OverlayStack { get; private set; }
         Dictionary<HomePage, List<ISwitchUI>> switchUIs;
+        UnoverlayPanelUI unoverlayUI;
         private void Awake()
         {
             if (Instance == null) Instance = this;
@@ -78,6 +79,14 @@ namespace Assets.Scripts.HomeLogic.UILogic
             switchUIs[HomePage.FileRoomView].Add(m_canvas.Find("FileRoomPanel").GetComponent<FileRoomPanelUI>());
             switchUIs[HomePage.ActionView].Add(m_canvas.Find("ActionPanel").GetComponent<ActionUI>());
 
+            unoverlayUI = m_canvas.Find("UnoverlayPanel").GetComponent<UnoverlayPanelUI>();
+            switchUIs[HomePage.ActionView].Add(unoverlayUI);
+            switchUIs[HomePage.CoreView].Add(unoverlayUI);
+            switchUIs[HomePage.TopView].Add(unoverlayUI);
+            switchUIs[HomePage.FileRoomView].Add(unoverlayUI);
+            switchUIs[HomePage.BattleView].Add(unoverlayUI);
+            switchUIs[HomePage.CoreMechaView].Add(unoverlayUI);
+            switchUIs[HomePage.CoreCharacterView].Add(unoverlayUI);
         }
 
         public void Close()
@@ -127,6 +136,12 @@ namespace Assets.Scripts.HomeLogic.UILogic
         }
         public void OnEscMenu(InputValue value)
         {
+            if(switchUIs[CurHomePage].Contains(unoverlayUI))
+            {
+                SwitchPage(HomePage.MainView);
+                return;
+            }
+
             // 清理弹出窗口栈
             if(OverlayStack.Count != 0)
             {
