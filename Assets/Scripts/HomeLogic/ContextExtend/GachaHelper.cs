@@ -83,10 +83,9 @@ namespace Assets.Scripts.HomeLogic.ContextExtend
         {
             var cost = getMatchCostList(gacha);
             var sb = new StringBuilder();
-            sb.Append("需要资源：");
             foreach (var x in cost)
             {
-                sb.Append($"{ItemHelper.GetItem(x.ItemId).ItemName}*{x.Amount}, ");
+                sb.Append($"{x.Amount}\n");
             }
             return sb.ToString();
         }
