@@ -4,20 +4,21 @@ using Assets.Scripts.Common;
 using Assets.Scripts.Common.Test;
 using Assets.Scripts.Entities;
 using Assets.Scripts.Entities.Buildings;
-using Assets.Scripts.Services;
+using Assets.Scripts.HomeLogic.Environment;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static Cinemachine.DocumentationSortingAttribute;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.CombatLogic
 {
     internal class GameStartupManager : MonoBehaviour
     {
+        [SerializeField]
+        LightManager lightManager;
         CombatContextManager _context => CombatContextManager.Instance;
 
         public void OnTestKey(InputValue value)
@@ -54,6 +55,9 @@ namespace Assets.Scripts.CombatLogic
             transform.AddComponent<GameLevelManager>().Init(level.LevelRule);
 
             UIManager.Instance.Init();
+
+            if(Random.Range(0, 2) == 0) lightManager.Day();
+            else lightManager.Night();
 
         }
         [MyTest]
