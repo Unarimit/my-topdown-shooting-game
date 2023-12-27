@@ -59,25 +59,25 @@ MonoBehaviour:
     ItemName: "\u7535\u529B"
     ItemType: 0
     Description: "\u8D44\u6E90"
-    IconUrl: 
+    IconUrl: Textures/Electric
     IsDisplay: 0
   - ItemId: Iron
     ItemName: "\u94C1"
     ItemType: 0
     Description: "\u8D44\u6E90"
-    IconUrl: 
+    IconUrl: Textures/Iron
     IsDisplay: 0
   - ItemId: Ammo
     ItemName: "\u5F39\u836F"
     ItemType: 0
     Description: "\u8D44\u6E90"
-    IconUrl: 
+    IconUrl: Textures/Ammo
     IsDisplay: 0
   - ItemId: Al
     ItemName: "\u94DD"
     ItemType: 0
     Description: "\u8D44\u6E90"
-    IconUrl: 
+    IconUrl: Textures/Al
     IsDisplay: 0
   - ItemId: GTime
     ItemName: "\u5168\u5C40\u65F6\u95F4"
