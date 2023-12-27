@@ -5,11 +5,9 @@ using Assets.Scripts.Entities.Mechas;
 using Assets.Scripts.HomeLogic.Environment;
 using Assets.Scripts.HomeLogic.UILogic;
 using Assets.Scripts.Services;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
-using UnityEngine.XR;
 
 namespace Assets.Scripts.HomeLogic.ContextExtend
 {
@@ -19,6 +17,10 @@ namespace Assets.Scripts.HomeLogic.ContextExtend
         ExpensiveCharacter,
         SimpleMecha,
         ExpensiveMecha,
+    }
+    internal enum GachaRarity
+    {
+        Low, Middle, High
     }
     internal static class GachaHelper
     {

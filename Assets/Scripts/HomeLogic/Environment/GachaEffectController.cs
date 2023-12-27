@@ -1,5 +1,7 @@
 ﻿using Assets.Scripts.Common.Test;
 using Assets.Scripts.Entities;
+using Assets.Scripts.HomeLogic.ContextExtend;
+using System;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -14,7 +16,6 @@ namespace Assets.Scripts.HomeLogic.Environment
     internal class GachaEffectController : MonoBehaviour
     {
         public GameObject m_Boom;
-        public GameObject m_Tail;
 
         public float m_ForwordSpeed = 10f;
         public Vector3 m_AngleSpeed = Vector3.zero;
@@ -23,12 +24,21 @@ namespace Assets.Scripts.HomeLogic.Environment
         /// </summary>
         public GachaEffectStatu Statu = GachaEffectStatu.Finish;
 
+        public GameObject m_BlueTail;
+        public GameObject m_PurpleTail;
+        public GameObject m_OrangeTail;
+
+        private GameObject currentTail;
+
         Vector3 initPos;
         Vector3 initAngle;
         private void Awake()
         {
             initPos = transform.position;
             initAngle = transform.eulerAngles;
+            m_BlueTail.SetActive(false);
+            m_PurpleTail.SetActive(false);
+            m_OrangeTail.SetActive(false);
         }
         public void MyReset()
         {
@@ -36,12 +46,16 @@ namespace Assets.Scripts.HomeLogic.Environment
             transform.eulerAngles = initAngle;
         }
 
-        public void Play()
+        public void Play(GachaRarity gachaRarity)
         {
+            if(gachaRarity == GachaRarity.Low) currentTail = m_BlueTail;
+            else if (gachaRarity == GachaRarity.Middle) currentTail = m_PurpleTail;
+            else if (gachaRarity == GachaRarity.High) currentTail = m_OrangeTail;
+
             transform.position = initPos;
             transform.eulerAngles = initAngle;
             GetComponent<PlayableDirector>().Play();
-            m_Tail.SetActive(true);
+            currentTail.SetActive(true);
             this.enabled = true;
         }
         private void OnEnable()
@@ -59,7 +73,7 @@ namespace Assets.Scripts.HomeLogic.Environment
             if (Statu == GachaEffectStatu.Boom)
             {
                 transform.eulerAngles = Vector3.zero;
-                m_Tail.SetActive(false);
+                currentTail.SetActive(false);
                 m_Boom.GetComponent<ParticleSystem>().Play();
                 this.enabled = false;
                 return;

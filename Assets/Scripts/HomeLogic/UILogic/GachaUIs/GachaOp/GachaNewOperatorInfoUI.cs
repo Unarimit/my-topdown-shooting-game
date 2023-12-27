@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Common;
 using Assets.Scripts.Entities;
 using Assets.Scripts.HomeLogic.Environment;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,16 +26,16 @@ namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs.GachaOp
         [SerializeField]
         RawImage m_operatorHeadIconImg;
 
-        public Operator Operater { get; set; }
+        public Queue<Operator> Operaters { get; set; }
 
         private void Awake()
         {
-            Operater = null;
+            Operaters = new Queue<Operator>();
         }
         private void OnEnable()
         {
-            if (Operater == null) gameObject.SetActive(false);
-            else Init(Operater);
+            if (Operaters.Count == 0) gameObject.SetActive(false);
+            else Init(Operaters.Peek());
         }
         public void Init(Operator op)
         {
@@ -54,9 +55,9 @@ namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs.GachaOp
         }
         private void OnDisable()
         {
-            if (Operater != null)
+            if (Operaters.Count != 0)
             {
-                Operater = null;
+                Operaters.Dequeue();
                 GachaViewManager.Instance.Quit();
             }
         }

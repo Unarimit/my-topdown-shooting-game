@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Common;
 using Assets.Scripts.Common.Test;
 using Assets.Scripts.Entities;
+using Assets.Scripts.HomeLogic.ContextExtend;
 using Assets.Scripts.HomeLogic.UILogic;
 using System.Collections;
 using UnityEngine;
@@ -52,8 +53,11 @@ namespace Assets.Scripts.HomeLogic.Environment
             yield return new WaitForSeconds(0.45f);
 
             // 2.播放动画
-            m_gachaEffectController.Play();
-            while(m_gachaEffectController.Statu == GachaEffectStatu.Playing) yield return null;
+            var rarity = op.GetRarity();
+            if(rarity < 10) m_gachaEffectController.Play(GachaRarity.Low);
+            else if(rarity < 20 ) m_gachaEffectController.Play(GachaRarity.Middle);
+            else m_gachaEffectController.Play(GachaRarity.High);
+            while (m_gachaEffectController.Statu == GachaEffectStatu.Playing) yield return null;
 
             // 3. 爆炸效果时创建角色
             gachaCharacter = context.GenerateGachaDisplay(op, m_gachaEffectController.transform.position, Vector3.zero);
@@ -75,7 +79,7 @@ namespace Assets.Scripts.HomeLogic.Environment
         // 延迟在CoreView创建角色，防止穿帮
         IEnumerator coreTask2(Operator op)
         {
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.8f); // UI延迟0.5秒...
             gachaBaseCharacter = HomeContextManager.Instance.GenerateGachaBaseDisplay(op, m_gachaBase.position, Vector3.zero);
         }
 

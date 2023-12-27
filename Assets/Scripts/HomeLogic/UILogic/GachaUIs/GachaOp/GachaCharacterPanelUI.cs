@@ -81,13 +81,13 @@ namespace Assets.Scripts.HomeLogic.UILogic.GachaUIs.GachaOp
         private void gachaSimple()
         {
             _context.DoGacha(GachaType.SimpleCharacter);
-            m_operatorInfoUI.Operater = MyServices.Database.Operators[^1];
+            m_operatorInfoUI.Operaters.Enqueue(MyServices.Database.Operators[^1]); // 生命周期存在延迟，所以使用队列管理
 
         }
         private void gachaExpensive()
         {
             _context.DoGacha(GachaType.ExpensiveCharacter);
-            m_operatorInfoUI.Operater = MyServices.Database.Operators[^1];
+            m_operatorInfoUI.Operaters.Enqueue(MyServices.Database.Operators[^1]);
         }
 
         public void OnClick()

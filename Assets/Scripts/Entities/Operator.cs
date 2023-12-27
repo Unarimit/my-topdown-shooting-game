@@ -29,7 +29,7 @@ namespace Assets.Scripts.Entities
         public string ModelResourceUrl;
 
         // 主要属性
-        public int PropRed;
+        public int PropRed; // 1-10
         public int PropGreen;
         public int PropBlue;
 
@@ -88,6 +88,17 @@ namespace Assets.Scripts.Entities
         public float MaxSpeed => McLeg.Speed;
 
         public float ReviveTime = 5;
+
+        /// <summary> 返回是 0 - 35 </summary>
+        public int GetRarity()
+        {
+            int res = 0;
+            if (Type == OperatorType.CV) res += 5;
+            res += PropRed;
+            res += PropBlue;
+            res += PropGreen;
+            return res;
+        }
 
 
         //TODO: 使用次数较少，优化这个方案
