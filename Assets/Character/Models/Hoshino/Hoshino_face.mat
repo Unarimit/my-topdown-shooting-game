@@ -12,7 +12,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _CELLSHADING
+  - _SDFFACE
   m_InvalidKeywords:
   - _IS_FILTER_LIGHTCOLOR_ON
   - _METALLICSPECGLOSSMAP
@@ -211,7 +211,7 @@ Material:
     - _WorkflowMode: 1
     - _ZOffset: 0
     - _ZWrite: 1
-    - _enum_diffuse: 0
+    - _enum_diffuse: 4
     - _enum_env: 1
     - _enum_outline_color: 0
     - _enum_outline_smoothed: 0
@@ -235,11 +235,11 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DarkColor: {r: 0.3490566, g: 0.3152349, b: 0.3013083, a: 1}
+    - _DarkColor: {r: 0.31132078, g: 0.31132078, b: 0.31132078, a: 1}
     - _EmissionChannel: {r: 0, g: 0, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionMapChannelMask: {r: 1, g: 1, b: 1, a: 0}
-    - _HighColor: {r: 1.4142135, g: 1.4142135, b: 1.4142135, a: 1}
+    - _HighColor: {r: 1.8880861, g: 1.8880861, b: 1.8880861, a: 1}
     - _IndirectLightMinColor: {r: 0.09999997, g: 0.09999997, b: 0.09999997, a: 1}
     - _OcclusionMapChannelMask: {r: 1, g: 0, b: 0, a: 0}
     - _OutlineColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
