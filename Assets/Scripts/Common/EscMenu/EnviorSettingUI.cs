@@ -1,4 +1,5 @@
 ﻿
+using Michsky.UI.Shift;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,11 +8,13 @@ namespace Assets.Scripts.Common.EscMenu
     internal class EnviorSettingUI : MonoBehaviour
     {
         Button quitBtn;
-
-        private void Awake()
+        MainPanelManager mpm;
+        public void Open()
         {
-            quitBtn = transform.Find("QuitBtn").GetComponent<Button>();
-            quitBtn.onClick.AddListener(quit);
+            if(mpm == null) mpm = GetComponent<MainPanelManager>();
+            mpm.OpenPanel("GamePlay");
+            gameObject.SetActive(true);
+            GetComponent<Animator>().Play("Panel In");
         }
 
         private void quit()
