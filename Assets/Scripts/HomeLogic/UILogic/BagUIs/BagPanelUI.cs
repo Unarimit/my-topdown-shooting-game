@@ -11,11 +11,6 @@ namespace Assets.Scripts.HomeLogic.UILogic.BagUIs
             base.Enter();
         }
 
-        public override void Quit()
-        {
-            base.Quit();
-        }
-
         private void Start()
         {
             transform.Find("ScrollView").GetComponent<BagScrollViewUI>().Inject(MyServices.Database.Inventory);

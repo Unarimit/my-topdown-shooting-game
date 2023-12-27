@@ -16,10 +16,6 @@ namespace Assets.Scripts.HomeLogic.UILogic.OperatorsUIs
             base.Enter();
         }
 
-        public override void Quit()
-        {
-            base.Quit();
-        }
         private void Start()
         {
             transform.Find("ScrollView").GetComponent<OpScrollViewUI>().Inject(MyServices.Database.Operators);

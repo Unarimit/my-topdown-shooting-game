@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.HomeLogic.UILogic
 {
+    /// <summary>
+    /// 生产报告 Panel
+    /// </summary>
     internal class StatisticPanelUI : HomeUIBase
     {
         [SerializeField]
@@ -15,11 +18,9 @@ namespace Assets.Scripts.HomeLogic.UILogic
         [SerializeField]
         Button m_cancelBtn;
 
-        CanvasGroup canvasGroup;
         public void Display(Dictionary<string, int> sum)
         {
             gameObject.SetActive(true);
-            canvasGroup = GetComponent<CanvasGroup>();
             m_cancelBtn.onClick.AddListener(Quit);
 
             var sb = new StringBuilder();
@@ -29,12 +30,8 @@ namespace Assets.Scripts.HomeLogic.UILogic
             }
             m_statisticTMP.text = sb.ToString();
 
-            canvasGroup.alpha = 1;
+            GetComponent<CanvasGroup>().alpha = 1;
         }
 
-        public override void Quit()
-        {
-            canvasGroup.DOFade(0, 0.5f).OnComplete(base.Quit);
-        }
     }
 }

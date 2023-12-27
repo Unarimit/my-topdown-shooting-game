@@ -6676,6 +6676,7 @@ GameObject:
   - component: {fileID: 458147543}
   - component: {fileID: 458147546}
   - component: {fileID: 458147547}
+  - component: {fileID: 458147548}
   m_Layer: 5
   m_Name: GachaMechaPanel
   m_TagString: Untagged
@@ -6731,6 +6732,18 @@ MonoBehaviour:
   m_simpleNeedTMP: {fileID: 1870524084}
   m_expensiveNeedTMP: {fileID: 687304117}
   m_gachaNewMachaInfoUI: {fileID: 1777398213}
+--- !u!225 &458147548
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458147542}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &460008868
 GameObject:
   m_ObjectHideFlags: 0
@@ -18617,6 +18630,7 @@ GameObject:
   - component: {fileID: 1161743922}
   - component: {fileID: 1161743921}
   - component: {fileID: 1161743923}
+  - component: {fileID: 1161743924}
   m_Layer: 5
   m_Name: GachaPanel
   m_TagString: Untagged
@@ -18701,6 +18715,18 @@ MonoBehaviour:
   m_getChaBtn: {fileID: 1754182550}
   m_getMaBtn: {fileID: 1430585548}
   m_returnBtn: {fileID: 1859076487}
+--- !u!225 &1161743924
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1161743919}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1167739382
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29649,6 +29675,7 @@ GameObject:
   - component: {fileID: 1549032629}
   - component: {fileID: 1549032628}
   - component: {fileID: 1549032630}
+  - component: {fileID: 1549032631}
   m_Layer: 5
   m_Name: GachaCharacterPanel
   m_TagString: Untagged
@@ -29734,6 +29761,18 @@ MonoBehaviour:
   m_simpleNeedTMP: {fileID: 1492236205}
   m_expensiveNeedTMP: {fileID: 529803751}
   m_operatorInfoUI: {fileID: 1117860342}
+--- !u!225 &1549032631
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549032625}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1550859416
 GameObject:
   m_ObjectHideFlags: 3

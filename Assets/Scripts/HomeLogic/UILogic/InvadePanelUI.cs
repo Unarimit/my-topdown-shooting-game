@@ -14,8 +14,9 @@ namespace Assets.Scripts.HomeLogic.UILogic
         [SerializeField]
         RectTransform m_scrollPanelSmall;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             m_scrollPanel.gameObject.SetActive(false);
             m_scrollPanelSmall.gameObject.SetActive(false);
         }

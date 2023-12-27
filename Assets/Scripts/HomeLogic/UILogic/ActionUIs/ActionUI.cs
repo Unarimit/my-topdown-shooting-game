@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.HomeLogic.UILogic.ActionUIs
 {
+    /// <summary>
+    /// 作战页面
+    /// </summary>
     internal class ActionUI : HomeUIBase, ISwitchUI
     {
         [SerializeField]
@@ -25,11 +28,6 @@ namespace Assets.Scripts.HomeLogic.UILogic.ActionUIs
         TextMeshProUGUI m_actionInfoDesc;
 
         LevelRule curSelect;
-        CanvasGroup canvasGroup;
-        private void Awake()
-        {
-            canvasGroup = GetComponent<CanvasGroup>();
-        }
         private void Start()
         {
             m_scrollView.Inject(_context.GetLevelRules(), this);
@@ -56,15 +54,5 @@ namespace Assets.Scripts.HomeLogic.UILogic.ActionUIs
             // do nothing
         }
 
-        public override void Enter()
-        {
-            if(canvasGroup != null) canvasGroup.alpha = 1;
-            base.Enter();
-        }
-
-        public override void Quit()
-        {
-            canvasGroup.DOFade(0, 0.5f).OnComplete(base.Quit);
-        }
     }
 }
