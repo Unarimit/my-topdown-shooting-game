@@ -70,6 +70,7 @@ namespace Assets.Scripts.Services
                 {
                     LevelName = "演习作战",
                     Description = "达到击杀数就是胜利！可能会出现8-10个水平相当的敌人",
+                    ImageUrl = "Textures/combatLevel-1",
                     MapType = MapType.Middle,
                     TeamSpawn = new RectInt(5, 5, 5, 5),
                     EnemySpawn = new RectInt(25, 25, 5, 5),
@@ -193,6 +194,7 @@ namespace Assets.Scripts.Services
                 {
                     LevelName = "三角定位",
                     Description = "激活地图上的三个红色方块！小心散落在地图上的敌人",
+                    ImageUrl = "Textures/combatLevel-3",
                     MapType = MapType.Middle,
                     TeamSpawn = new RectInt(5, 5, 5, 5),
                     EnemySpawn = new RectInt(15, 15, 5, 5),
@@ -316,12 +318,14 @@ namespace Assets.Scripts.Services
                 {
                     LevelName = "什么也不做",
                     Description = "啊对对对，你说什么我都开摆~",
+                    ImageUrl = "Textures/eventLevel-aniya",
                     MessageAction = (context) => { },
                 },
                 new EventLevelRule
                 {
                     LevelName = "我什么都做不到！",
                     Description = "密码正确！获得大量资源",
+                    ImageUrl = "Textures/eventLevel-yayi",
                     MessageAction = (context) => {
                         context.Afford(new List<Produce>(){ 
                             new Produce { ItemId = ItemTable.Red.ToString(), Amount = -100 },

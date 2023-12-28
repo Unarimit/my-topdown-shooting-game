@@ -69,8 +69,13 @@ namespace Assets.Scripts.HomeLogic.UILogic.BuildingUIs
         }
         private void returnHome()
         {
-            placementManager.OnBuilding(null);
             _rootUI.SwitchPage(HomePage.MainView);
+        }
+
+        public override void Quit()
+        {
+            placementManager.OnBuilding(null);
+            base.Quit();
         }
     }
 }

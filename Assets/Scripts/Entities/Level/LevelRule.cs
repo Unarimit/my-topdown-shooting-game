@@ -10,6 +10,8 @@ namespace Assets.Scripts.Entities.Level
         public string LevelName;
         /// <summary> 关卡描述 </summary>
         public string Description;
+        /// <summary> 关卡图像 </summary>
+        public string ImageUrl = null;
         /// <summary> 跳转页面 </summary>
         public MyConfig.Scene JumpScene;
         /// <summary> 触发条件 </summary>
