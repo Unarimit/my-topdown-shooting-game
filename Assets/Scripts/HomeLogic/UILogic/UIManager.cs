@@ -94,6 +94,10 @@ namespace Assets.Scripts.HomeLogic.UILogic
             m_canvas.gameObject.SetActive(false);
             this.enabled = false;
         }
+        /// <summary>
+        /// 相当于有数据传入的start
+        /// </summary>
+        /// <param name="pm"></param>
         public void Inject(PlacementManager pm)
         {
             var buildingUI = m_canvas.Find("BuildingPanel").GetComponent<BuildingUI>();
@@ -102,6 +106,10 @@ namespace Assets.Scripts.HomeLogic.UILogic
             switchUIs[HomePage.TopView].Add(buildingUI);
             switchUIs[HomePage.BattleView].Add(pm);
             switchUIs[HomePage.BattleView].Add(buildingUI);
+
+            // 根据条件激活面板
+            // 1. invasion
+            if (HomeContextManager.Instance.HomeVM.IsInInvade is true) m_canvas.Find("InvationPanel").gameObject.SetActive(true);
         }
         public void DisplayOutput(Dictionary<string, int> sum)
         {

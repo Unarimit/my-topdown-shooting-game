@@ -23,7 +23,6 @@ namespace Assets.Scripts.HomeLogic.UILogic
 
         private void Start()
         {
-            if (_context.HomeVM.IsInInvade is false) return;
             StartCoroutine(coroTask());
             m_scrollPanelSmall.GetComponent<Button>().onClick.AddListener(() => _rootUI.SwitchPage(HomePage.ActionView));
 
