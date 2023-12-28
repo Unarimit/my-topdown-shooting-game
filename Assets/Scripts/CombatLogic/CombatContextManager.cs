@@ -401,7 +401,7 @@ namespace Assets.Scripts.CombatLogic
 
         public void QuitScene()
         {
-            StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Home"));
+            SceneLoadHelper.MyLoadSceneAsync("Home");
         }
 
         // *********** Player Logic *****************

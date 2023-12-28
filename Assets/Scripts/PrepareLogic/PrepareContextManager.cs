@@ -60,11 +60,11 @@ namespace Assets.Scripts.PrepareLogic
                 TipsUI.GenerateNewTips("请至少选择一名干员");
                 return;
             }
-            StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Playground"));
+            SceneLoadHelper.MyLoadSceneAsync("Playground");
         }
         public void ReturnHome()
         {
-            StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Home"));
+            SceneLoadHelper.MyLoadSceneAsync("Home");
         }
 
 

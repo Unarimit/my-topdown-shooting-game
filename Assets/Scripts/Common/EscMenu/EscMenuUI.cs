@@ -50,7 +50,7 @@ namespace Assets.Scripts.Common.EscMenu
         }
         private void quitToStart()
         {
-            StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Start"));
+            SceneLoadHelper.MyLoadSceneAsync("Start");
         }
         private void openEnviormentSettingPanel()
         {

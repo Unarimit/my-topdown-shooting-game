@@ -14,19 +14,22 @@ namespace Assets.Scripts.Common
     /// </summary>
     internal class SlideUI : MonoBehaviour
     {
-        public static SlideUI CreateSlideUI()
+        public static SlideUI CreateSlideUI(bool releaseBySelf = false)
         {
             Time.timeScale = 1;
             var prefab = ResourceManager.Load<GameObject>("UIs/SlideCanvas");
             var go = Instantiate(prefab);
             DontDestroyOnLoad(go);
-            return go.AddComponent<SlideUI>();
+            var res = go.AddComponent<SlideUI>();
+            res.ReleaseBySelf = releaseBySelf;
+            return res;
         }
         RectTransform _panelRect;
         /// <summary>
         /// 是否完全遮挡屏幕
         /// </summary>
         public bool IsFinish { get; private set; } = false;
+        public bool ReleaseBySelf { get; private set; } = false;
         private void Start()
         {
             _panelRect = transform.Find("Panel").GetComponent<RectTransform>();
@@ -35,14 +38,14 @@ namespace Assets.Scripts.Common
             cg.DOFade(1, 0.2f).OnComplete(() =>
             {
                 IsFinish = true;
-                End();
+                if(ReleaseBySelf is false) End();
             });
         }
 
         /// <summary>
         /// TODO: 传入异步加载的参数
         /// </summary>
-        private void End()
+        public void End()
         {
             _panelRect.DOSizeDelta(new Vector2(0, _panelRect.rect.height), 0.3f).OnComplete(() =>
             {

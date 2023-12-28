@@ -29,14 +29,14 @@ namespace Assets.Scripts.HomeLogic
         {
             MyServices.Database.Inventory[MyConfig.ItemTable.GTime.ToString()] += 1;
             MyServices.Database.OnNewDay = true;
-            StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Home"));
+            SceneLoadHelper.MyLoadSceneAsync("Home");
         }
         [MyTest]
         public void TestNextInvadeDay()
         {
             MyServices.Database.Inventory[MyConfig.ItemTable.GTime.ToString()] = MyServices.Database.Inventory[MyConfig.ItemTable.GTime.ToString()] / 7 + 7;
             MyServices.Database.OnNewDay = true;
-            StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Home"));
+            SceneLoadHelper.MyLoadSceneAsync("Home");
         }
 
         public IList<LevelRule> GetLevelRules()
@@ -158,7 +158,7 @@ namespace Assets.Scripts.HomeLogic
                 MyServices.Database.CurCombatLevelInfo = LevelGenerator.GeneratorLevelInfo(combatRule);
             }
 
-            StartCoroutine(SceneLoadHelper.MyLoadSceneAsync(rule.JumpScene.ToString()));
+            SceneLoadHelper.MyLoadSceneAsync(rule.JumpScene.ToString());
         }
 
         public IList<Operator> GetDecorationOperator()

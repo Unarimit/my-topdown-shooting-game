@@ -65,7 +65,7 @@ namespace Assets.Scripts.CombatLogic
         {
             MyServices.Database.CurCombatLevelInfo = LevelGenerator.GeneratorLevelInfo(MyServices.Database.GetInvasionLevel());
             MyServices.Database.CurCombatLevelInfo.TeamOperators = MyServices.Database.Operators.Take(5).ToList();
-            StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Playground"));
+            SceneLoadHelper.MyLoadSceneAsync("Playground");
         }
 
         /// <summary>

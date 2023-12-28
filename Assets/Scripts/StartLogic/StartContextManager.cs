@@ -19,7 +19,7 @@ namespace Assets.Scripts.StartLogic
         public void StartGame()
         {
             SlideUI.CreateSlideUI();
-            StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Home"));
+            SceneLoadHelper.MyLoadSceneAsync("Home");
         }
     }
 }
