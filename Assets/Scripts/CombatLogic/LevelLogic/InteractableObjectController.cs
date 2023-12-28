@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.CombatLogic.Characters.Player;
-using Assets.Scripts.Entities;
+using Assets.Scripts.Entities.Level;
 using Assets.Scripts.Services;
 using DG.Tweening;
 using JetBrains.Annotations;

@@ -9,6 +9,7 @@ using Assets.Scripts.CombatLogic.LevelLogic;
 using Assets.Scripts.Common;
 using Assets.Scripts.Entities;
 using Assets.Scripts.Entities.Buildings;
+using Assets.Scripts.Entities.Level;
 using Assets.Scripts.Services;
 using Cinemachine;
 using System.Collections.Generic;
@@ -450,7 +451,7 @@ namespace Assets.Scripts.CombatLogic
             /// </summary>
             public CombatOperator Player => Instance.Operators[_playerTrans];
 
-            public LevelInfo Level { get; set; }
+            public CombatLevelInfo Level { get; set; }
         }
 
     }

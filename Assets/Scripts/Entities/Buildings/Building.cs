@@ -5,19 +5,19 @@ using UnityEngine;
 
 namespace Assets.Scripts.Entities.Buildings
 {
-    internal enum BuildingType
+    public enum BuildingType
     {
         /// <summary> 资源建筑 </summary>
         Resource,
         /// <summary> 战斗建筑 </summary>
         Combat
     }
-    internal struct Produce
+    public struct Produce
     {
         public string ItemId;
         public int Amount;
     }
-    internal abstract class Building
+    public abstract class Building
     {
 
         /// <summary> 建筑Id </summary>

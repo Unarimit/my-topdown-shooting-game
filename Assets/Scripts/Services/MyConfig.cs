@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Services
 {
-    internal static class MyConfig
+    public static class MyConfig
     {
         #region 常量配置
         public static readonly int CHARACTER_LAYER = LayerMask.NameToLayer("Character");
@@ -76,6 +76,15 @@ namespace Assets.Scripts.Services
             GTime, // 全局“时间”
             PowerRecover,
         }
+
+        public enum Scene
+        {
+            Start,
+            Home,
+            Prepare,
+            Playground,
+        }
+
         #endregion
 
 

@@ -13,10 +13,15 @@ namespace Assets.Scripts
         /// 运行时存储，不等于存档
         /// </summary>
         public static IGameDatabase Database { get; }
+        /// <summary>
+        /// 游戏数据常用方法
+        /// </summary>
+        public static GameDataHelper GameDataHelper { get; }
         static MyServices()
         {
             // 测试使用
             Database = new TestDatabase();
+            GameDataHelper = new GameDataHelper(Database);
         }
     }
 }

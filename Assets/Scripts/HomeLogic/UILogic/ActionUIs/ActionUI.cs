@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Entities;
+﻿using Assets.Scripts.Entities.Level;
 using Assets.Scripts.HomeLogic.Interface;
 using DG.Tweening;
 using TMPro;

@@ -2,8 +2,8 @@
 using Assets.Scripts.CombatLogic.LevelLogic;
 using Assets.Scripts.Common;
 using Assets.Scripts.Common.Test;
-using Assets.Scripts.Entities;
 using Assets.Scripts.Entities.Buildings;
+using Assets.Scripts.Entities.Level;
 using Assets.Scripts.HomeLogic.Environment;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,18 +31,18 @@ namespace Assets.Scripts.CombatLogic
 
             transform.GetComponent<SkillManager>().Init();
 
-            LevelInfo level;
-            if (MyServices.Database.CurLevel == null 
-                || MyServices.Database.CurLevel.TeamOperators == null 
-                || MyServices.Database.CurLevel.TeamOperators.Count == 0)
+            CombatLevelInfo level;
+            if (MyServices.Database.CurCombatLevelInfo == null 
+                || MyServices.Database.CurCombatLevelInfo.TeamOperators == null 
+                || MyServices.Database.CurCombatLevelInfo.TeamOperators.Count == 0)
             {   // 调试生成，第二个判断是因为可能进入了prepare页面，但没有选择角色，保存了不完整的生成信息
                 Debug.Log("DB has no level info, enter test mode");
-                level = LevelGenerator.GeneratorLevelInfo(MyServices.Database.LevelRules[0]);
+                level = LevelGenerator.GeneratorLevelInfo((CombatLevelRule)MyServices.Database.LevelRules[0]);
                 level.TeamOperators = MyServices.Database.Operators.Take(5).ToList();
             }
             else
             {
-                level = MyServices.Database.CurLevel;
+                level = MyServices.Database.CurCombatLevelInfo;
             }
             _context.CombatVM.Level = level;
 
@@ -63,15 +63,15 @@ namespace Assets.Scripts.CombatLogic
         [MyTest]
         public void TestInvasion()
         {
-            MyServices.Database.CurLevel = LevelGenerator.GeneratorLevelInfo(MyServices.Database.GetInvasionLevel());
-            MyServices.Database.CurLevel.TeamOperators = MyServices.Database.Operators.Take(5).ToList();
+            MyServices.Database.CurCombatLevelInfo = LevelGenerator.GeneratorLevelInfo(MyServices.Database.GetInvasionLevel());
+            MyServices.Database.CurCombatLevelInfo.TeamOperators = MyServices.Database.Operators.Take(5).ToList();
             StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Playground"));
         }
 
         /// <summary>
         /// 根据信息放置地形和人物
         /// </summary>
-        private void prepareGameScene(LevelInfo level)
+        private void prepareGameScene(CombatLevelInfo level)
         {
             // terrain
             _context.GenerateTerrain(level.Map);
@@ -153,7 +153,7 @@ namespace Assets.Scripts.CombatLogic
 
 
         
-        private Vector3 GetPosByInitMethod(LevelInfo level, InitPosition method)
+        private Vector3 GetPosByInitMethod(CombatLevelInfo level, InitPosition method)
         {
             if(method == InitPosition.EnemySpawnCenter)
             {

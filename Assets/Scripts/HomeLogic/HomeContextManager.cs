@@ -3,12 +3,11 @@ using Assets.Scripts.Common;
 using Assets.Scripts.Common.Test;
 using Assets.Scripts.Entities;
 using Assets.Scripts.Entities.Buildings;
-using Assets.Scripts.HomeLogic.Environment;
+using Assets.Scripts.Entities.Level;
 using Assets.Scripts.Services;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static Assets.Scripts.Services.MyConfig;
 
 namespace Assets.Scripts.HomeLogic
 {
@@ -42,9 +41,24 @@ namespace Assets.Scripts.HomeLogic
 
         public IList<LevelRule> GetLevelRules()
         {
-            if (HomeVM.IsInInvade is false) return MyServices.Database.LevelRules;
-            else return new List<LevelRule>() { MyServices.Database.GetInvasionLevel() };
-            
+            var list = new List<LevelRule>();
+            foreach(var x in MyServices.Database.LevelRules)
+            {
+                if(x.EnableFunc(MyServices.Database) is true)
+                {
+                    if(x.IsOnly is true)
+                    {
+                        list.Clear();
+                        list.Add(x);
+                        break;
+                    }
+                    else
+                    {
+                        list.Add(x);
+                    }
+                }
+            }
+            return list;
         }
 
         /// <summary>
@@ -133,9 +147,18 @@ namespace Assets.Scripts.HomeLogic
 
         public void GoToLevel(LevelRule rule)
         {
-            MyServices.Database.CurLevel = LevelGenerator.GeneratorLevelInfo(rule);
-            
-            StartCoroutine(SceneLoadHelper.MyLoadSceneAsync("Prepare"));
+            if(rule.EnableFunc(MyServices.Database) is false)
+            {
+                throw new ArgumentException($"The rule:{rule.LevelName} not match conditions");
+            }
+
+
+            if(rule is CombatLevelRule combatRule)
+            {
+                MyServices.Database.CurCombatLevelInfo = LevelGenerator.GeneratorLevelInfo(combatRule);
+            }
+
+            StartCoroutine(SceneLoadHelper.MyLoadSceneAsync(rule.JumpScene.ToString()));
         }
 
         public IList<Operator> GetDecorationOperator()
@@ -175,8 +198,8 @@ namespace Assets.Scripts.HomeLogic
             public ViewModel()
             {
                 GTime = MyServices.Database.Inventory[MyConfig.ItemTable.GTime.ToString()];
-                IsDay = GTime % 2 == 0;
-                IsInInvade = GTime % 7 == 0;
+                IsDay = MyServices.GameDataHelper.IsDay();
+                IsInInvade = MyServices.GameDataHelper.IsInvation();
                 Population.Data = MyServices.Database.Operators.Count;
                 ResElectric.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Electric.ToString()];
                 ResIron.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Iron.ToString()];

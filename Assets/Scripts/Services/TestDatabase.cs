@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Common;
 using Assets.Scripts.Entities;
 using Assets.Scripts.Entities.Buildings;
+using Assets.Scripts.Entities.Level;
 using Assets.Scripts.Entities.Mechas;
 using Assets.Scripts.Services.Interface;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace Assets.Scripts.Services
         public IList<Operator> Operators { get; private set; }
         public IList<MechaBase> Mechas { get; private set; }
         public IDictionary<string, int> Inventory { get; private set; }
-        public LevelInfo CurLevel { get; set; }
+        public CombatLevelInfo CurCombatLevelInfo { get; set; }
         public BuildingArea BuildingArea { get; private set; }
         public bool OnNewDay { get; set; } = true;
 
@@ -42,59 +43,9 @@ namespace Assets.Scripts.Services
             Operators[0].McLeg = (MechaLeg)Mechas[2];
         }
 
-        public LevelRule GetInvasionLevel()
+        public CombatLevelRule GetInvasionLevel()
         {
-            return new LevelRule
-            {
-                LevelName = "阻止入侵",
-                Description = "抵抗不明势力的猛烈进攻，保证指挥部安全，持续120秒！可能会出现12-14个水平相当的敌人。若失败会导致游戏结束。",
-                MapType = MapType.Invasion,
-                TeamSpawn = new RectInt(5, 5, 5, 5),
-                EnemySpawn = new RectInt(70, 70, 5, 5),
-                OperatorPrefabs = new OperatorPrefab[]
-                    {
-                        new OperatorPrefab
-                        {
-                            OpInfo = getRandomCA(),
-                            MinAmount = 5,
-                            MaxAmount = 8,
-                            UseRandomCModel = true,
-                            MechaRandomUpgradeFactor = 0,
-                            AiAgressive = true,
-                            InitPosition = InitPosition.EnemySpawnScatter,
-                        },
-                        new OperatorPrefab
-                        {
-                            OpInfo = getRandomCV(),
-                            MinAmount = 1,
-                            MaxAmount = 2,
-                            UseRandomCModel = true,
-                            MechaRandomUpgradeFactor = 0,
-                            AiAgressive = true,
-                            InitPosition = InitPosition.EnemySpawnScatter,
-                        }
-                    },
-                AllowHomeBuilding = true,
-                WinCondition = new Condition[]{
-                    new Condition
-                    {
-                        ItemName =  ItemTable.Time.ToString(),
-                        Amount = 120,
-                        Description = "时间经过{0}秒"
-                    }
-                },
-                LossCondition = new Condition[]{
-                    new Condition
-                    {
-                        ItemName =  ItemTable.Key.ToString(),
-                        Amount = 1,
-                        Description = "基地被摧毁{0}"
-                    }
-                },
-                AllowRespawn = true,
-                TeamAttackThreshold = 0.5f,
-                EnemyAttackThreshold = 0
-            };
+            return (CombatLevelRule)LevelRules[^1];
         }
 
         private List<LevelRule> generateTestLevel()
@@ -102,7 +53,7 @@ namespace Assets.Scripts.Services
             // 演习作战（聚集分布敌人，进攻性强）、攻城作战（互动单位，中范围聚集分布敌人，进攻性弱）、三角定位（互动单位，和随机位置分布敌人，进攻性弱）
             return new List<LevelRule>()
             {
-                new LevelRule
+                new CombatLevelRule
                 {
                     LevelName = "演习作战",
                     Description = "达到击杀数就是胜利！可能会出现8-10个水平相当的敌人",
@@ -159,7 +110,7 @@ namespace Assets.Scripts.Services
                     TeamAttackThreshold = 0,
                     EnemyAttackThreshold = 0
                 },
-                new LevelRule
+                new CombatLevelRule
                 {
                     LevelName = "攻城作战",
                     Description = "深入敌营，破坏敌人重军防守的主要目标！可能会出现12-14个水平相当的敌人",
@@ -225,7 +176,7 @@ namespace Assets.Scripts.Services
                     TeamAttackThreshold = 0.5f,
                     EnemyAttackThreshold = 0.5f
                 },
-                new LevelRule
+                new CombatLevelRule
                 {
                     LevelName = "三角定位",
                     Description = "激活地图上的三个红色方块！小心散落在地图上的敌人",
@@ -291,6 +242,61 @@ namespace Assets.Scripts.Services
                     AllowRespawn = true,
                     TeamAttackThreshold = 0.5f,
                     EnemyAttackThreshold = 0.5f
+                },
+                new CombatLevelRule
+                {
+                    LevelName = "阻止入侵",
+                    Description = "抵抗不明势力的猛烈进攻，保证指挥部安全，持续120秒！可能会出现12-14个水平相当的敌人。若失败会导致游戏结束。",
+                    IsOnly = true,
+                    EnableFunc = (database) => {
+                        return database.Inventory[ItemTable.GTime.ToString()] % 7 == 0;
+                    },
+                    MapType = MapType.Invasion,
+                    TeamSpawn = new RectInt(5, 5, 5, 5),
+                    EnemySpawn = new RectInt(70, 70, 5, 5),
+                    OperatorPrefabs = new OperatorPrefab[]
+                        {
+                            new OperatorPrefab
+                            {
+                                OpInfo = getRandomCA(),
+                                MinAmount = 5,
+                                MaxAmount = 8,
+                                UseRandomCModel = true,
+                                MechaRandomUpgradeFactor = 0,
+                                AiAgressive = true,
+                                InitPosition = InitPosition.EnemySpawnScatter,
+                            },
+                            new OperatorPrefab
+                            {
+                                OpInfo = getRandomCV(),
+                                MinAmount = 1,
+                                MaxAmount = 2,
+                                UseRandomCModel = true,
+                                MechaRandomUpgradeFactor = 0,
+                                AiAgressive = true,
+                                InitPosition = InitPosition.EnemySpawnScatter,
+                            }
+                        },
+                    AllowHomeBuilding = true,
+                    WinCondition = new Condition[]{
+                        new Condition
+                        {
+                            ItemName =  ItemTable.Time.ToString(),
+                            Amount = 120,
+                            Description = "时间经过{0}秒"
+                        }
+                    },
+                    LossCondition = new Condition[]{
+                        new Condition
+                        {
+                            ItemName =  ItemTable.Key.ToString(),
+                            Amount = 1,
+                            Description = "基地被摧毁{0}"
+                        }
+                    },
+                    AllowRespawn = true,
+                    TeamAttackThreshold = 0.5f,
+                    EnemyAttackThreshold = 0
                 }
             };
         }

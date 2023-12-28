@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.CombatLogic.CombatEntities;
 using Assets.Scripts.CombatLogic.ContextExtends;
 using Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs;
-using Assets.Scripts.Entities;
+using Assets.Scripts.Entities.Level;
 using Assets.Scripts.Services;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         /// 敌方索敌系数
         /// </summary>
         public float EnemyAttackFactor { get; private set; }
-        private LevelRule _rule;
+        private CombatLevelRule _rule;
         /// <summary>
         /// 掉落
         /// </summary>
@@ -29,7 +29,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             if (Instance == null) Instance = this;
             else Debug.LogWarning(transform.ToString() + " try to load another Manager");
         }
-        public void Init(LevelRule rule)
+        public void Init(CombatLevelRule rule)
         {
             _rule = rule;
         }

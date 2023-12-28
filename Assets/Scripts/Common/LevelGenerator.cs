@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Entities;
+using Assets.Scripts.Entities.Level;
 using Assets.Scripts.Services;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,9 +8,9 @@ namespace Assets.Scripts.Common
 {
     internal class LevelGenerator
     {
-        public static LevelInfo GeneratorLevelInfo(LevelRule rule)
+        public static CombatLevelInfo GeneratorLevelInfo(CombatLevelRule rule)
         {
-            var level = new LevelInfo();
+            var level = new CombatLevelInfo();
             level.LevelRule = rule;
 
             if(rule.MapType is MapType.Invasion) level.Map = MapGenerator.GetInvasionMap();

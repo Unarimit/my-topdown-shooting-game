@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Common;
 using Assets.Scripts.Common.EscMenu;
 using Assets.Scripts.Entities;
+using Assets.Scripts.Entities.Level;
 using Assets.Scripts.PrepareLogic.PrepareEntities;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +20,7 @@ namespace Assets.Scripts.PrepareLogic
         private SkillListConfig skillConfig;
 
         // prop
-        public LevelInfo Level { get; private set; }
+        public CombatLevelInfo Level { get; private set; }
         public List<PrepareOperator> PrepareOps { get; private set; }
         private void Awake()
         {
@@ -27,7 +28,7 @@ namespace Assets.Scripts.PrepareLogic
             else Debug.LogWarning(transform.ToString() + " try to load another Manager");
 
         }
-        public void Inject(LevelInfo level)
+        public void Inject(CombatLevelInfo level)
         {
             Level = level;
             dataInit();

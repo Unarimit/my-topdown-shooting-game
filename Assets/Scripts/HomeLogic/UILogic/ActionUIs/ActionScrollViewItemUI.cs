@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Entities;
+﻿using Assets.Scripts.Entities.Level;
 using Michsky.UI.Shift;
 using UnityEngine;
 using UnityEngine.UI;

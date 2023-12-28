@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Entities
+namespace Assets.Scripts.Entities.Level
 {
     public enum MapType
     {
-        Small,Middle,Big,Invasion
+        Small, Middle, Big, Invasion
     }
     public enum InitPosition
     {
@@ -119,7 +119,7 @@ namespace Assets.Scripts.Entities
 
         public int GetDropoutAmount()
         {
-            if(Possible > Random.Range(0f, 1.0f))
+            if (Possible > Random.Range(0f, 1.0f))
             {
                 return Random.Range(AmountMin, AmountMax);
             }
@@ -129,16 +129,12 @@ namespace Assets.Scripts.Entities
     /// <summary>
     /// 关卡生成规则
     /// </summary>
-    public class LevelRule
+    public class CombatLevelRule : LevelRule
     {
-        /// <summary>
-        /// 关卡名称
-        /// </summary>
-        public string LevelName;
-        /// <summary>
-        /// 关卡描述
-        /// </summary>
-        public string Description;
+        public CombatLevelRule()
+        {
+            JumpScene = Services.MyConfig.Scene.Prepare;
+        }
         /// <summary>
         /// 地图大小类型
         /// </summary>

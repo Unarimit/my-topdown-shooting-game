@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Assets.Scripts.Entities
+namespace Assets.Scripts.Entities.Level
 {
-    public class LevelInfo
+    /// <summary>
+    /// 关卡详情
+    /// </summary>
+    public class CombatLevelInfo
     {
-        public LevelRule LevelRule;
+        public CombatLevelRule LevelRule;
         public int[][] Map;
         public List<Operator> EnemyOperators;
         public List<OperatorPrefab> EnemyOperatorsBy;
@@ -17,9 +20,9 @@ namespace Assets.Scripts.Entities
         public string GetWinDesc()
         {
             var sb = new StringBuilder();
-            foreach(var con in LevelRule.WinCondition)
+            foreach (var con in LevelRule.WinCondition)
             {
-                sb.Append(string.Format(con.Description,con.Amount.ToString()));
+                sb.Append(string.Format(con.Description, con.Amount.ToString()));
             }
             return sb.ToString();
         }

@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Entities;
 using Assets.Scripts.Entities.Buildings;
+using Assets.Scripts.Entities.Level;
 using Assets.Scripts.Entities.Mechas;
 using System.Collections.Generic;
 
@@ -20,8 +21,8 @@ namespace Assets.Scripts.Services.Interface
         /// <summary> 家园的建筑区域记录 </summary>
         public BuildingArea BuildingArea { get; }
 
-        /// <summary> 当前关卡信息 </summary>
-        public LevelInfo CurLevel { get; set; }
+        /// <summary> 当前战斗关卡信息 </summary>
+        public CombatLevelInfo CurCombatLevelInfo { get; set; }
 
         /// <summary> 根据这个判断是否需要结算建筑新一天产出 </summary>
         public bool OnNewDay { get; set; }
@@ -43,6 +44,6 @@ namespace Assets.Scripts.Services.Interface
         public List<string> ModelList { get; }
         #endregion
         /// <summary> 获取入侵关卡信息，需要完善输入以指定强度，或采取其他方式 </summary>
-        public LevelRule GetInvasionLevel();
+        public CombatLevelRule GetInvasionLevel();
     }
 }
