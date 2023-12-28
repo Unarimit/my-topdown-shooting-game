@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Entities;
 using Assets.Scripts.Entities.Buildings;
+using Assets.Scripts.Entities.HomeMessage;
 using Assets.Scripts.Entities.Level;
 using Assets.Scripts.Entities.Mechas;
 using System.Collections.Generic;
@@ -24,12 +25,14 @@ namespace Assets.Scripts.Services.Interface
         /// <summary> 当前战斗关卡信息 </summary>
         public CombatLevelInfo CurCombatLevelInfo { get; set; }
 
+        public HomeMessageQueue HomeMessages { get; }
+
         /// <summary> 根据这个判断是否需要结算建筑新一天产出 </summary>
         public bool OnNewDay { get; set; }
         #endregion
 
         #region 游戏配置数据
-        /// <summary> 所有关卡规则 </summary>
+        /// <summary> 所有关卡规则 TIP：用了委托可能要通过反射或lua实现动态增加 </summary>
         public IList<LevelRule> LevelRules { get; }
         /// <summary> 所有建筑信息 </summary>
         public IList<Building> Buildings { get; }

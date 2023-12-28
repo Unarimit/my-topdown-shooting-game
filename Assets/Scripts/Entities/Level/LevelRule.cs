@@ -21,5 +21,7 @@ namespace Assets.Scripts.Entities.Level
         {
             return true;
         }
+        /// <summary> 判断关卡是否可以激活 </summary> 
+        internal bool IsActive => EnableFunc(MyServices.Database); // 这样写属性可以被重写，考虑委托的序列化问题
     }
 }

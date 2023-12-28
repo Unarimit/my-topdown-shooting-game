@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Assets.Scripts.HomeLogic;
+using System;
 
 namespace Assets.Scripts.Entities.Level
 {
-    public class EventLevelRule : LevelRule
+    internal class EventLevelRule : LevelRule
     {
+        public int DelayDay = 1;
+        public Action<HomeContextManager> MessageAction;
         public EventLevelRule()
         {
             JumpScene = Services.MyConfig.Scene.Home;

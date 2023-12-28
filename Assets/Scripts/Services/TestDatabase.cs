@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Common;
 using Assets.Scripts.Entities;
 using Assets.Scripts.Entities.Buildings;
+using Assets.Scripts.Entities.HomeMessage;
 using Assets.Scripts.Entities.Level;
 using Assets.Scripts.Entities.Mechas;
 using Assets.Scripts.Services.Interface;
@@ -17,6 +18,7 @@ namespace Assets.Scripts.Services
         public IDictionary<string, int> Inventory { get; private set; }
         public CombatLevelInfo CurCombatLevelInfo { get; set; }
         public BuildingArea BuildingArea { get; private set; }
+        public HomeMessageQueue HomeMessages { get; }
         public bool OnNewDay { get; set; } = true;
 
         public IList<LevelRule> LevelRules { get; private set; }
@@ -36,11 +38,17 @@ namespace Assets.Scripts.Services
             Mechas = generateTestMechas();
             Inventory = getTestInventory();
             BuildingArea = getTestBuildingArea();
+            HomeMessages = getTestHomeMessages();
             registerDatabind();
 
             Operators[0].McHead = (MechaHead)Mechas[0];
             Operators[0].McBody = (MechaBody)Mechas[1];
             Operators[0].McLeg = (MechaLeg)Mechas[2];
+        }
+
+        private HomeMessageQueue getTestHomeMessages()
+        {
+            return new HomeMessageQueue();
         }
 
         public CombatLevelRule GetInvasionLevel()
@@ -297,6 +305,25 @@ namespace Assets.Scripts.Services
                     AllowRespawn = true,
                     TeamAttackThreshold = 0.5f,
                     EnemyAttackThreshold = 0
+                },
+                // EventRule
+                new EventLevelRule
+                {
+                    LevelName = "什么也不做",
+                    Description = "啊对对对，你说什么我都开摆~",
+                    MessageAction = (context) => { },
+                },
+                new EventLevelRule
+                {
+                    LevelName = "我什么都做不到！",
+                    Description = "密码正确！获得大量资源",
+                    MessageAction = (context) => {
+                        context.Afford(new List<Produce>(){ 
+                            new Produce { ItemId = ItemTable.Red.ToString(), Amount = -100 },
+                            new Produce { ItemId = ItemTable.Iron.ToString(), Amount = -1000 },
+                            new Produce { ItemId = ItemTable.Al.ToString(), Amount = -1000 },
+                        });
+                    },
                 }
             };
         }

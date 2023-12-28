@@ -42,6 +42,13 @@ namespace Assets.Scripts.HomeLogic
             {
                 lightManager.Night();
             }
+
+            // 处理HomeMessages事件
+            while (MyServices.Database.HomeMessages.Count != 0 && MyServices.Database.HomeMessages.Peek().Day <= MyServices.GameDataHelper.DayNow)
+            {
+                var act = MyServices.Database.HomeMessages.Pop();
+                act.MessageAction(HomeContextManager.Instance);
+            }
             
         }
 

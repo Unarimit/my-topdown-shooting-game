@@ -1,10 +1,8 @@
-﻿using Assets.Scripts.Entities.Level;
+﻿using Assets.Scripts.Entities.HomeMessage;
+using Assets.Scripts.Entities.Level;
 using Assets.Scripts.Services.Interface;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static Assets.Scripts.Services.MyConfig;
 
 namespace Assets.Scripts.Services
@@ -15,6 +13,7 @@ namespace Assets.Scripts.Services
     internal class GameDataHelper
     {
         private IGameDatabase _database;
+        public int DayNow => _database.Inventory[ItemTable.GTime.ToString()];
         public GameDataHelper(IGameDatabase database)
         {
             _database = database;
@@ -22,31 +21,26 @@ namespace Assets.Scripts.Services
 
         public bool IsDay()
         {
-            return _database.Inventory[ItemTable.GTime.ToString()] % 2 == 0;
+            return DayNow % 2 == 0;
         }
 
         public bool IsInvation()
         {
-            return _database.Inventory[ItemTable.GTime.ToString()] % 7 == 0;
+            return DayNow % 7 == 0;
         }
 
-        /// <summary>
-        /// 完成关卡，转移到下一个时间
-        /// </summary>
-        /// <param name="resourceAdd"></param>
-        /// <exception cref="ArgumentException">仓库中缺少key</exception>
-        public void FinishLevel(Dictionary<string, int> resourceAdd)
+        
+        public void FinishLevel(EventLevelRule eventLevel)
         {
-            
-            foreach(var x in resourceAdd)
+            // 0. 判断
+            if(eventLevel.MessageAction is null)
             {
-                if(_database.Inventory.ContainsKey(x.Key) is false)
-                {
-                    throw new ArgumentException($"GameDatabase do not have key named: {x.Key}");
-                }
-
-                _database.Inventory[x.Key] += x.Value;
+                throw new ArgumentNullException($"EventLevelRule named ${eventLevel.LevelName} do not have delegate action");
             }
+
+            // 1. 推入队列
+            _database.HomeMessages.Push(new HomeMessage { Day = DayNow + eventLevel.DelayDay, MessageAction = eventLevel.MessageAction });
+            
             // last. 推进时间
             _database.Inventory[ItemTable.GTime.ToString()] += 1;
             _database.OnNewDay = true;

@@ -44,7 +44,7 @@ namespace Assets.Scripts.HomeLogic
             var list = new List<LevelRule>();
             foreach(var x in MyServices.Database.LevelRules)
             {
-                if(x.EnableFunc(MyServices.Database) is true)
+                if(x.IsActive is true)
                 {
                     if(x.IsOnly is true)
                     {
@@ -147,7 +147,7 @@ namespace Assets.Scripts.HomeLogic
 
         public void GoToLevel(LevelRule rule)
         {
-            if(rule.EnableFunc(MyServices.Database) is false)
+            if(rule.IsActive is false)
             {
                 throw new ArgumentException($"The rule:{rule.LevelName} not match conditions");
             }
@@ -160,7 +160,7 @@ namespace Assets.Scripts.HomeLogic
             else if(rule is EventLevelRule eventLevel)
             {
                 // TODO: 结算
-                MyServices.GameDataHelper.FinishLevel(new Dictionary<string, int>());
+                MyServices.GameDataHelper.FinishLevel(eventLevel);
             }
 
             SceneLoadHelper.MyLoadSceneAsync(rule.JumpScene.ToString());
