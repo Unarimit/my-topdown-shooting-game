@@ -48,7 +48,12 @@ namespace Assets.Scripts.Services
 
         private HomeMessageQueue getTestHomeMessages()
         {
-            return new HomeMessageQueue();
+            return new HomeMessageQueue() { 
+                new HomeMessage {  // 卑微的胜利提示
+                    Day = 50, 
+                    MessageAction = (context) => { Debug.Log("You WIN!!!!"); } 
+                } 
+            };
         }
 
         public CombatLevelRule GetInvasionLevel()
