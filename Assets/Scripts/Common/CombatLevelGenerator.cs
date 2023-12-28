@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Common
 {
-    internal class LevelGenerator
+    internal class CombatLevelGenerator
     {
         public static CombatLevelInfo GeneratorLevelInfo(CombatLevelRule rule)
         {

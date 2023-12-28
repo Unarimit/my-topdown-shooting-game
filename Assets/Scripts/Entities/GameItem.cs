@@ -9,7 +9,7 @@ namespace Assets.Scripts.Entities
         Resources,
         /// <summary> 显示在仓库中的信息 </summary>
         Normal,
-        /// <summary> 系统信息 </summary>
+        /// <summary> 系统信息，不会出现在loot中 </summary>
         System
     }
     // 游戏中的道具

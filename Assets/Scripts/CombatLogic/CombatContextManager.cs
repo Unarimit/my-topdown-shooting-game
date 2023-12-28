@@ -401,6 +401,7 @@ namespace Assets.Scripts.CombatLogic
 
         public void QuitScene()
         {
+            MyServices.GameDataHelper.FinishLevel(CombatVM.LevelResult);
             SceneLoadHelper.MyLoadSceneAsync("Home");
         }
 
@@ -450,8 +451,9 @@ namespace Assets.Scripts.CombatLogic
             /// 玩家属性
             /// </summary>
             public CombatOperator Player => Instance.Operators[_playerTrans];
-
             public CombatLevelInfo Level { get; set; }
+
+            public CombatLevelResult LevelResult { get; set; }
         }
 
     }

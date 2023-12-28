@@ -10,7 +10,6 @@ using System.Linq;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.CombatLogic
@@ -20,11 +19,6 @@ namespace Assets.Scripts.CombatLogic
         [SerializeField]
         LightManager lightManager;
         CombatContextManager _context => CombatContextManager.Instance;
-
-        public void OnTestKey(InputValue value)
-        {
-            GameLevelManager.Instance.TestFunction();
-        }
 
         public void Start()
         {
@@ -37,7 +31,7 @@ namespace Assets.Scripts.CombatLogic
                 || MyServices.Database.CurCombatLevelInfo.TeamOperators.Count == 0)
             {   // 调试生成，第二个判断是因为可能进入了prepare页面，但没有选择角色，保存了不完整的生成信息
                 Debug.Log("DB has no level info, enter test mode");
-                level = LevelGenerator.GeneratorLevelInfo((CombatLevelRule)MyServices.Database.LevelRules[0]);
+                level = CombatLevelGenerator.GeneratorLevelInfo((CombatLevelRule)MyServices.Database.LevelRules[0]);
                 level.TeamOperators = MyServices.Database.Operators.Take(5).ToList();
             }
             else
@@ -45,6 +39,9 @@ namespace Assets.Scripts.CombatLogic
                 level = MyServices.Database.CurCombatLevelInfo;
             }
             _context.CombatVM.Level = level;
+            _context.CombatVM.LevelResult = new CombatLevelResult { CombatStatu = CombatStatu.Ing, 
+                LevelRule = level.LevelRule, 
+                JoinOperator = level.TeamOperators };
 
             //level.TeamOperators[0].McBody.HP = 100;
 
@@ -63,7 +60,7 @@ namespace Assets.Scripts.CombatLogic
         [MyTest]
         public void TestInvasion()
         {
-            MyServices.Database.CurCombatLevelInfo = LevelGenerator.GeneratorLevelInfo(MyServices.Database.GetInvasionLevel());
+            MyServices.Database.CurCombatLevelInfo = CombatLevelGenerator.GeneratorLevelInfo(MyServices.Database.GetInvasionLevel());
             MyServices.Database.CurCombatLevelInfo.TeamOperators = MyServices.Database.Operators.Take(5).ToList();
             SceneLoadHelper.MyLoadSceneAsync("Playground");
         }

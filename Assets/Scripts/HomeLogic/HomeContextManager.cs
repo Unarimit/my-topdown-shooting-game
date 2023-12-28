@@ -155,7 +155,12 @@ namespace Assets.Scripts.HomeLogic
 
             if(rule is CombatLevelRule combatRule)
             {
-                MyServices.Database.CurCombatLevelInfo = LevelGenerator.GeneratorLevelInfo(combatRule);
+                MyServices.Database.CurCombatLevelInfo = CombatLevelGenerator.GeneratorLevelInfo(combatRule);
+            }
+            else if(rule is EventLevelRule eventLevel)
+            {
+                // TODO: 结算
+                MyServices.GameDataHelper.FinishLevel(new Dictionary<string, int>());
             }
 
             SceneLoadHelper.MyLoadSceneAsync(rule.JumpScene.ToString());

@@ -12,7 +12,7 @@ namespace Assets.Scripts.PrepareLogic
             if(MyServices.Database.CurCombatLevelInfo == null)
             {
                 Debug.Log("DB has no level info, create 0 index level");
-                MyServices.Database.CurCombatLevelInfo = LevelGenerator.GeneratorLevelInfo((CombatLevelRule)MyServices.Database.LevelRules[0]);
+                MyServices.Database.CurCombatLevelInfo = CombatLevelGenerator.GeneratorLevelInfo((CombatLevelRule)MyServices.Database.LevelRules[0]);
                 //TODO：对非测试情况下的处理
             }
 

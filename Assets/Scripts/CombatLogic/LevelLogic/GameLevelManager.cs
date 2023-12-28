@@ -1,11 +1,14 @@
 ﻿using Assets.Scripts.CombatLogic.CombatEntities;
 using Assets.Scripts.CombatLogic.ContextExtends;
 using Assets.Scripts.CombatLogic.UILogic.CombatSummaryUIs;
+using Assets.Scripts.Common;
+using Assets.Scripts.Common.Test;
 using Assets.Scripts.Entities.Level;
 using Assets.Scripts.Services;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Scripts.CombatLogic.LevelLogic
@@ -57,7 +60,8 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             return EnemyAttackFactor >= _rule.EnemyAttackThreshold;
         }
 
-        public void TestFunction()
+        [MyTest]
+        public void TestBattleAccomplish()
         {
             levelAccomplish(true);
         }
@@ -88,6 +92,15 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             // 3. call ui
             UIManager.Instance.TweenQuit();
             CombatSummaryCanvasUI.CreateAndShowCombatSummaryCanvasUI(cops, isWin, Dropouts);
+
+            // 4. 传递信息
+            _context.CombatVM.LevelResult.CombatStatu = isWin? CombatStatu.Win : CombatStatu.Loss;
+            _context.CombatVM.LevelResult.Loot.Clear();
+            foreach(var x in Dropouts)
+            {
+                if(ItemHelper.GetItem(x.Key).ItemType != Entities.GameItemType.System) 
+                    _context.CombatVM.LevelResult.Loot.Add(x.Key, x.Value);
+            }
         }
         #region 掉落和检测相关
         public void FinishInteract(InteractablePrefab interactable)

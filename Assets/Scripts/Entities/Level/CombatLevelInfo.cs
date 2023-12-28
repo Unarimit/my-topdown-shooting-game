@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Assets.Scripts.Entities.Level
 {
     /// <summary>
-    /// 关卡详情
+    /// 战斗关卡详情，跨3个场景
     /// </summary>
     public class CombatLevelInfo
     {
