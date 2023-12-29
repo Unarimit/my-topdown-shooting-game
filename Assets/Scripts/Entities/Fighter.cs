@@ -27,9 +27,10 @@ namespace Assets.Scripts.Entities
         /// 战机类型
         /// </summary>
         public FighterType Type = FighterType.Bomber;
+
         /// <summary>
-        /// 战机操作员，决定战机属性
+        /// 战机操作员，决定战机属性。
         /// </summary>
-        public Operator Operator;
+        public Operator Operator { get; set; }
     }
 }

@@ -18,11 +18,7 @@ namespace Assets.Scripts.HomeLogic
         private void Start()
         {
             // 根据存档防止建筑
-            var bDic = new Dictionary<string, Building>();
-            foreach (var x in MyServices.Database.Buildings)
-            {
-                bDic.Add(x.BuildingId, x);
-            }
+            var bDic = MyServices.Database.Buildings;
             var pm = transform.Find("Placement").GetComponent<PlacementManager>();
             pm.Init(MyServices.Database.BuildingArea, bDic);
 

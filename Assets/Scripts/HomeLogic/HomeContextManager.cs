@@ -34,7 +34,7 @@ namespace Assets.Scripts.HomeLogic
         [MyTest]
         public void TestNextInvadeDay()
         {
-            MyServices.Database.Inventory[MyConfig.ItemTable.GTime.ToString()] = MyServices.Database.Inventory[MyConfig.ItemTable.GTime.ToString()] / 7 + 7;
+            MyServices.Database.Inventory[MyConfig.ItemTable.GTime.ToString()] = (MyServices.Database.Inventory[MyConfig.ItemTable.GTime.ToString()] / 7 + 1) * 7;
             MyServices.Database.OnNewDay = true;
             SceneLoadHelper.MyLoadSceneAsync("Home");
         }

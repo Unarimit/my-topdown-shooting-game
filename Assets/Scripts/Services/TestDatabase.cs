@@ -22,7 +22,7 @@ namespace Assets.Scripts.Services
         public bool OnNewDay { get; set; } = true;
 
         public IList<LevelRule> LevelRules { get; private set; }
-        public IList<Building> Buildings { get; private set; }
+        public IDictionary<string, Building> Buildings { get; private set; }
         public List<string> ModelList { get; private set; }
         public IList<CombatSkill> CombatSkills { get; private set; }
 
@@ -418,37 +418,41 @@ namespace Assets.Scripts.Services
             return res;
         }
 
-        private List<Building> getTestBuildings()
+        private Dictionary<string, Building> getTestBuildings()
         {
             var d3b3 = new Vector2Int(3, 3);
             var d2b2 = new Vector2Int(2, 2);
-            var res = new List<Building>();
-            res.Add(new ResourceBuilding
-            {
-                BuildingId = "e1",
-                Name = "发电厂",
-                Description = "测试电力建筑+10",
-                ModelUrl = "cooling-tower Variant",
-                Dimensions = d3b3,
-                Produces = new Produce[] { new Produce { ItemId = ItemTable.Electric.ToString(), Amount = 10 } },
-                Costs = new Produce[] { new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 100 } }
-                
-            });
+            var res = new Dictionary<string, Building>();
+            res.Add("e1",
+                new ResourceBuilding
+                {
+                    BuildingId = "e1",
+                    Name = "发电厂",
+                    Description = "测试电力建筑+10",
+                    ModelUrl = "cooling-tower Variant",
+                    Dimensions = d3b3,
+                    Produces = new Produce[] { new Produce { ItemId = ItemTable.Electric.ToString(), Amount = 10 } },
+                    Costs = new Produce[] { new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 100 } }
 
-            res.Add(new ResourceBuilding
-            {
-                BuildingId = "iaa1",
-                Name = "冶炼厂",
-                Description = "测试建筑，生产基本资源+10",
-                ModelUrl = "industry-factory Variant",
-                Dimensions = d3b3,
-                Produces = new Produce[] {
-                    new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 10 },
-                    new Produce { ItemId = ItemTable.Ammo.ToString(), Amount = 10 },
-                    new Produce { ItemId = ItemTable.Al.ToString(), Amount = 10 } },
-                Costs = new Produce[] { new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 100 } }
-            });
-            res.Add(new ResourceBuilding
+                }
+            );
+
+            res.Add("iaa1",
+                new ResourceBuilding
+                {
+                    BuildingId = "iaa1",
+                    Name = "冶炼厂",
+                    Description = "测试建筑，生产基本资源+10",
+                    ModelUrl = "industry-factory Variant",
+                    Dimensions = d3b3,
+                    Produces = new Produce[] {
+                        new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 10 },
+                        new Produce { ItemId = ItemTable.Ammo.ToString(), Amount = 10 },
+                        new Produce { ItemId = ItemTable.Al.ToString(), Amount = 10 } },
+                    Costs = new Produce[] { new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 100 } }
+                }
+            );
+            res.Add("s1", new ResourceBuilding
             {
                 BuildingId = "s1",
                 Name = "购物广场",
@@ -461,7 +465,7 @@ namespace Assets.Scripts.Services
                     new Produce { ItemId = ItemTable.Electric.ToString(), Amount = 100 },
                     new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 100 } }
             });
-            res.Add(new ResourceBuilding
+            res.Add("h1", new ResourceBuilding
             {
                 BuildingId = "h1",
                 Name = "住宅",
@@ -473,7 +477,7 @@ namespace Assets.Scripts.Services
                 Costs = new Produce[] { new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 50 } }
             });
 
-            res.Add(new CombatBuilding
+            res.Add("mgTower1", new CombatBuilding
             {
                 BuildingId = "mgTower1",
                 Name = "机枪塔",
@@ -485,7 +489,7 @@ namespace Assets.Scripts.Services
                 WeaponId = 4,
                 Range = 10,
             });
-            res.Add(new CombatBuilding
+            res.Add("cmd", new CombatBuilding
             {
                 BuildingId = "cmd",
                 Name = "指挥部",

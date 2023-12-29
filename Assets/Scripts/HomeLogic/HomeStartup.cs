@@ -15,11 +15,7 @@ namespace Assets.Scripts.HomeLogic
         private void Start()
         {
             // 根据存档防止建筑
-            var bDic = new Dictionary<string, Building>();
-            foreach(var x in MyServices.Database.Buildings)
-            {
-                bDic.Add(x.BuildingId, x);
-            }
+            var bDic = MyServices.Database.Buildings;
             var pm = transform.Find("Placement").GetComponent<PlacementManager>();
             pm.Init(MyServices.Database.BuildingArea, bDic);
             GetComponent<HomeLogic.UILogic.UIManager>().Inject(pm);
@@ -52,7 +48,7 @@ namespace Assets.Scripts.HomeLogic
             
         }
 
-        private Dictionary<string, int> CalculateOutput(Dictionary<string, Building> bDic)
+        private Dictionary<string, int> CalculateOutput(IDictionary<string, Building> bDic)
         {
             var sum = new Dictionary<string, int>();
             foreach(var x in MyServices.Database.BuildingArea.PlaceInfos)

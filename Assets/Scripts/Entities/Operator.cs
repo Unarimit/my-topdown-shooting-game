@@ -13,6 +13,25 @@ namespace Assets.Scripts.Entities
         CA,
         CV
     }
+    public enum JobStatus
+    {
+        Nothing,
+        HomeBuilding,
+        Fighter
+    }
+    /// <summary>
+    /// 人物工作信息
+    /// </summary>
+    public struct OperatorJob
+    {
+        public OperatorJob(JobStatus jobStatus, string data)
+        {
+            JobStatus = jobStatus;
+            Data = data;
+        }
+        public JobStatus JobStatus;
+        public string Data;
+    }
     /// <summary>
     /// 要存入数据库的信息
     /// </summary>
@@ -25,7 +44,6 @@ namespace Assets.Scripts.Entities
         public string Id;
         public OperatorType Type = OperatorType.CA;
         public string Name = "empty";
-
         public string ModelResourceUrl;
 
         // 主要属性
@@ -39,12 +57,18 @@ namespace Assets.Scripts.Entities
         public int SlideSkillId = 7;
 
         // 体力系统
+        /// <summary> 最大体力，体力回复的上限 </summary>
         public int MaxPower = 4;
+        /// <summary> 当前体力 </summary>
         public int Power = 3;
 
+        // 工作信息
+        /// <summary> 工作状态，如在建筑中或操作舰载机等 </summary>
+        public OperatorJob Job = new OperatorJob(JobStatus.Nothing, null);
 
-        // 舰载机
-        public List<Fighter> Fighters;
+        // 舰载机，引用关系，数据库应该存key
+        public List<Fighter> Fighters { get; set; }
+
         // 装备，对于装备是引用关系，绑定事件方便数据库响应
         public MechaHead McHead { 
             get {

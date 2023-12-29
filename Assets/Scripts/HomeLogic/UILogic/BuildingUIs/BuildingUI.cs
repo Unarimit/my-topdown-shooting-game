@@ -31,7 +31,7 @@ namespace Assets.Scripts.HomeLogic.UILogic.BuildingUIs
             var building = new List<Building>();
             if (_rootUI.CurHomePage == HomePage.TopView)
             {
-                foreach (var x in MyServices.Database.Buildings)
+                foreach (var x in MyServices.Database.Buildings.Values)
                 {
                     if (x.CanBuild is false) continue;
                     if (x is ResourceBuilding) building.Add(x);
@@ -39,7 +39,7 @@ namespace Assets.Scripts.HomeLogic.UILogic.BuildingUIs
             }
             else if (_rootUI.CurHomePage == HomePage.BattleView)
             {
-                foreach (var x in MyServices.Database.Buildings)
+                foreach (var x in MyServices.Database.Buildings.Values)
                 {
                     if (x.CanBuild is false) continue;
                     if (x is CombatBuilding) building.Add(x);

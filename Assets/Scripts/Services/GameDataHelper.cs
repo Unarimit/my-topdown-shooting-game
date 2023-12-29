@@ -13,7 +13,14 @@ namespace Assets.Scripts.Services
     internal class GameDataHelper
     {
         private IGameDatabase _database;
-        public int DayNow => _database.Inventory[ItemTable.GTime.ToString()];
+        public int DayNow { 
+            get {
+                return _database.Inventory[ItemTable.GTime.ToString()];
+            } 
+            set {
+                _database.Inventory[ItemTable.GTime.ToString()] = value;
+            } 
+        }
         public GameDataHelper(IGameDatabase database)
         {
             _database = database;
@@ -40,9 +47,9 @@ namespace Assets.Scripts.Services
 
             // 1. 推入队列
             _database.HomeMessages.Push(new HomeMessage { Day = DayNow + eventLevel.DelayDay, MessageAction = eventLevel.MessageAction });
-            
+
             // last. 推进时间
-            _database.Inventory[ItemTable.GTime.ToString()] += 1;
+            DayNow += 1; // 属性真方便啊
             _database.OnNewDay = true;
         }
 
@@ -59,7 +66,7 @@ namespace Assets.Scripts.Services
             // 3. TODO: win loss?
 
             // last. 推进时间
-            _database.Inventory[ItemTable.GTime.ToString()] += 1;
+            DayNow += 1;
             _database.OnNewDay = true;
         }
 

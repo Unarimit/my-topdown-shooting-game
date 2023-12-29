@@ -35,7 +35,7 @@ namespace Assets.Scripts.Services.Interface
         /// <summary> 所有关卡规则 TIP：用了委托可能要通过反射或lua实现动态增加 </summary>
         public IList<LevelRule> LevelRules { get; }
         /// <summary> 所有建筑信息 </summary>
-        public IList<Building> Buildings { get; }
+        public IDictionary<string, Building> Buildings { get; }
 
 
         // 还差skill，但skill是否需要存入数据库呢？

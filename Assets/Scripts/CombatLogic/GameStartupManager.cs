@@ -127,11 +127,7 @@ namespace Assets.Scripts.CombatLogic
             // place building
             if(level.LevelRule.AllowHomeBuilding is true)
             {
-                var bDic = new Dictionary<string, Building>();
-                foreach (var x in MyServices.Database.Buildings)
-                {
-                    bDic.Add(x.BuildingId, x);
-                }
+                var bDic = MyServices.Database.Buildings;
                 foreach (var place in MyServices.Database.BuildingArea.PlaceInfos)
                 {
                     if(place.AreaIndex == PlaceInfo.BattleIndex)
