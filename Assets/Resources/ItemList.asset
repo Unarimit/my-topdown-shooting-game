@@ -89,5 +89,5 @@ MonoBehaviour:
     ItemName: "\u4F53\u529B\u6062\u590D"
     ItemType: 2
     Description: "\u5BB6\u56ED\u8D44\u6E90"
-    IconUrl: 
+    IconUrl: Textures/power
     IsDisplay: 0

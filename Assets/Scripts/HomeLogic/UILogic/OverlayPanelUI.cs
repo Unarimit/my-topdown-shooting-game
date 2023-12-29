@@ -2,6 +2,7 @@
 using Assets.Scripts.HomeLogic.Interface;
 using Assets.Scripts.HomeLogic.UILogic.BagUIs;
 using Assets.Scripts.HomeLogic.UILogic.OperatorsUIs;
+using Assets.Scripts.HomeLogic.UILogic.OverlayBuildingUIs;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,25 +15,31 @@ namespace Assets.Scripts.HomeLogic.UILogic
         private Button m_bagBtn;
         [SerializeField]
         private Button m_characterBtn;
+        [SerializeField]
+        private Button m_buildingBtn;
 
         private BagPanelUI bagPanelUI;
         private OperatorsPanelUI opsPanelUI;
+        private OverlayBuildingPanelUI buildingPanelUI;
         protected override void Awake()
         {
             base.Awake();
             bagPanelUI = transform.Find("BagPanel").GetComponent<BagPanelUI>();
             opsPanelUI = transform.Find("OperatorsPanel").GetComponent<OperatorsPanelUI>();
+            buildingPanelUI = transform.Find("BuildingsPanel").GetComponent<OverlayBuildingPanelUI>();
         }
         private void OnEnable()
         {
             m_bagBtn.onClick.AddListener(openBag);
             m_characterBtn.onClick.AddListener(openCharacter);
+            m_buildingBtn.onClick.AddListener(() => buildingPanelUI.Enter());
 
         }
         private void OnDisable()
         {
             m_bagBtn.onClick.RemoveListener(openBag);
             m_characterBtn.onClick.RemoveListener(openCharacter);
+            m_buildingBtn.onClick.RemoveAllListeners();
         }
 
         private void openBag()

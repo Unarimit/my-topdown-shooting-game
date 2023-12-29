@@ -5,9 +5,7 @@ namespace Assets.Scripts.Entities.Buildings
 {
     internal struct PlaceInfo
     {
-        /// <summary>
-        /// 战斗区域的索引
-        /// </summary>
+        /// <summary> 战斗区域的索引 </summary>
         public static int BattleIndex = 6;
 
         /// <summary> 放置建筑的id </summary>
@@ -18,6 +16,10 @@ namespace Assets.Scripts.Entities.Buildings
 
         /// <summary> 放置位置 </summary>
         public Vector2Int PlacePosition;
+
+        /// <summary> 管理员 </summary>
+        public Operator AdminOperator;
+
     }
     internal class BuildingArea
     {
