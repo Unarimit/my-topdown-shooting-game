@@ -16,9 +16,11 @@ a easy cartoon top down shooting game framework
 - `main`分支：最新的稳定版
 - `ver0.x`分支: 特定版本
 
-## 使用项目
+## 使用开源项目
 
-FernNPR
+- [FernNPR](https://github.com/FernRP/FernRP)
+- [Automatic-DynamicBone](https://github.com/OneYoungMean/Automatic-DynamicBone)
+
 
 ## 运行注意
 
