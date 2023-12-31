@@ -739,6 +739,12 @@ PrefabInstance:
       propertyPath: m_IsGlobal
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6342210016230023280, guid: 5f47f890caccf53429d91b94b2ef87e5,
+        type: 3}
+      propertyPath: sharedProfile
+      value: 
+      objectReference: {fileID: 11400000, guid: b6a58a2113f67c64a8963cba53cf5626,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -854,6 +860,12 @@ PrefabInstance:
       propertyPath: m_IsGlobal
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6342210016230023280, guid: 5f47f890caccf53429d91b94b2ef87e5,
+        type: 3}
+      propertyPath: sharedProfile
+      value: 
+      objectReference: {fileID: 11400000, guid: b6a58a2113f67c64a8963cba53cf5626,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -964,6 +976,12 @@ PrefabInstance:
       propertyPath: m_IsGlobal
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6342210016230023280, guid: 5f47f890caccf53429d91b94b2ef87e5,
+        type: 3}
+      propertyPath: sharedProfile
+      value: 
+      objectReference: {fileID: 11400000, guid: b6a58a2113f67c64a8963cba53cf5626,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
