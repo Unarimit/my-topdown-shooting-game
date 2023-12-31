@@ -3,27 +3,7 @@ guid: 83f1ea6d1a423954ea93d4f8cf8ea7d8
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Shiroko_Original_Body
-    second: {fileID: 2100000, guid: 44684bf07dbe74e4ca0e00ea62972d8c, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Shiroko_Original_EyeMouth
-    second: {fileID: 2100000, guid: 8738fca097fd8d44ebce98392acde6af, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Shiroko_Original_Face
-    second: {fileID: 2100000, guid: 2b4ca477be3647344bf94225b5a37aea, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Shiroko_Original_Hair
-    second: {fileID: 2100000, guid: e981a344aa31e8849883134cfa00f88b, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0

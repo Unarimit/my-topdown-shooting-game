@@ -45,6 +45,9 @@ namespace Assets.Scripts.Services.Interface
 
         /// <summary> 当前加载的模型信息 </summary>
         public List<string> ModelList { get; }
+
+
+
         #endregion
         /// <summary> 获取入侵关卡信息，需要完善输入以指定强度，或采取其他方式 </summary>
         public CombatLevelRule GetInvasionLevel();
