@@ -29,6 +29,7 @@ namespace Assets.Scripts.HomeLogic.UILogic.ActionUIs
 
         LevelRule curSelect;
         Sprite defaultActionImage;
+
         private void Start()
         {
             defaultActionImage = m_actionInfoImage.sprite;
