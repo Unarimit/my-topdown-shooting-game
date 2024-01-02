@@ -4,11 +4,19 @@ a easy cartoon top down shooting game framework
 
 # 俯视视角射击游戏
 
-目前完成度比较低
-
-制作流程：https://www.bilibili.com/video/BV1Uh4y1N7sK
+制作流程视频讲解：
+- `ver0.1`(原型)：https://www.bilibili.com/video/BV1Uh4y1N7sK
+- `ver0.2`:https://www.bilibili.com/video/BV1uN411u7cH
+- `ver0.3`:https://www.bilibili.com/video/BV1Me411y7hL
+- `ver0.4`: ING
 
 开发环境：Unity 2022.3 + URP
+> `ver0.1`为Unity 2021.3
+
+## 网盘分流
+
+- `ver0.3`: [百度网盘](https://pan.baidu.com/s/1vr8mtwS2_PJGXnEvzui6Zw?pwd=z7t5)
+- `ver0.4`: [百度网盘](https://pan.baidu.com/s/1O8IEs6cBlJfFOBy-eB2ayQ?pwd=zyin)
 
 ## 分支说明
 
