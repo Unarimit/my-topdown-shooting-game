@@ -29,8 +29,6 @@ a easy cartoon top down shooting game
 ## 使用开源项目
 
 - [FernNPR](https://github.com/FernRP/FernRP)
-- [Automatic-DynamicBone](https://github.com/OneYoungMean/Automatic-DynamicBone)
-
 
 ## 运行注意
 
