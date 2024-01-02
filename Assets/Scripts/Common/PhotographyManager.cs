@@ -95,13 +95,18 @@ namespace Assets.Scripts.Common
 
         public Texture GetCharacterHeadIcon(string modelUrl)
         {
+            // 自定义头像
+            // TODO:应该添加flag判断，而不是判空
+            Texture res = ResourceManager.TryLoad<Texture2D>("Fbx/HeadIcon/" + modelUrl);
+            if (res != null) return res;
+
             var prefab = ResourceManager.Load<GameObject>("Characters/Displayer");
             var go = Instantiate(prefab, _headOnlyTrans);
             GetComponent<FbxLoadManager>().LoadModel(modelUrl, go.transform, false);
             changeLayer(go);
 
             // render
-            var res = render(m_HeadOnlyCamera);
+            res = render(m_HeadOnlyCamera);
 
             // destroy model
             go.SetActive(false);
