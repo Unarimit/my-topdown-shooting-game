@@ -2,6 +2,7 @@
 using Assets.Scripts.Services;
 using MagicaCloth2;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -229,6 +230,15 @@ namespace Assets.Scripts.CombatLogic
             var skirtParent = nodes.Where(x => x.gameObject.name.Contains("skirt") && x.parent.name.Contains("skirt") is false).ToList();
             if (skirtParent.Count() != 0)
             {
+                // 找到叶节点并延长一段
+                var skirtLeafs = nodes.Where(x => x.gameObject.name.Contains("skirt") && x.childCount == 0).ToList();
+                foreach(var leaf in skirtLeafs)
+                {
+                    var left_ex = new GameObject(leaf.name + "left_ex");
+                    left_ex.transform.parent = leaf.transform;
+                    left_ex.transform.position = leaf.position + (leaf.position - leaf.parent.position).normalized * 0.08f;
+                }
+
                 // bones
                 var go = Instantiate(magicaSkirt, root);
                 var comp = go.GetComponent<MagicaCloth>();
@@ -239,7 +249,7 @@ namespace Assets.Scripts.CombatLogic
                 {
                     var rThighTrans = nodes.Where(x => x.gameObject.name.Contains("R Thigh"));
                     if (rThighTrans.Count() != 1)
-                        throw new ArgumentException($"{root.name} have {rThighTrans.Count()} 'R Thigh' Bone");
+                        throw new ArgumentException($"{root.name} have {rThighTrans.Count()} 'R Thigh' Bone, expected to be 1");
                     var rTrans = Instantiate(rThighCollider, rThighTrans.First());
                     colliders.Add(rTrans.GetComponent<MagicaCapsuleCollider>());
                 }
@@ -247,7 +257,7 @@ namespace Assets.Scripts.CombatLogic
                 {
                     var lThighTrans = nodes.Where(x => x.gameObject.name.Contains("L Thigh"));
                     if (lThighTrans.Count() != 1)
-                        throw new ArgumentException($"{root.name} have {lThighTrans.Count()} 'L Thigh' Bone");
+                        throw new ArgumentException($"{root.name} have {lThighTrans.Count()} 'L Thigh' Bone, expected to be 1");
                     var thTrans = Instantiate(lThighCollider, lThighTrans.First());
                     colliders.Add(thTrans.GetComponent<MagicaCapsuleCollider>());
                 }
@@ -255,14 +265,34 @@ namespace Assets.Scripts.CombatLogic
                 {
                     var pelvisTrans = nodes.Where(x => x.gameObject.name.Contains("Pelvis"));
                     if (pelvisTrans.Count() != 1)
-                        throw new ArgumentException($"{root.name} have {pelvisTrans.Count()} 'Pelvis' Bone");
+                        throw new ArgumentException($"{root.name} have {pelvisTrans.Count()} 'Pelvis' Bone, expected to be 1");
                     var thTrans = Instantiate(pelvisCollider, pelvisTrans.First());
                     colliders.Add(thTrans.GetComponent<MagicaSphereCollider>());
                 }
 
                 comp.SerializeData.colliderCollisionConstraint.colliderList = colliders;
                 go.GetComponent<MagicaCloth>().BuildAndRun();
+
+                // 冻结裙子根骨骼运动，直到MagicaCloth build完成
+                int id = _ID++;
+                freezeSkirtId.Add(id);
+                StartCoroutine(freezeSkirt(skirtParent, id));
+                go.GetComponent<MagicaCloth>().OnBuildComplete += (flag) => { freezeSkirtId.Remove(id); };
             }
+        }
+
+        static int _ID = 0;
+        HashSet<int> freezeSkirtId = new HashSet<int>();
+        private IEnumerator freezeSkirt(IList<Transform> skirtTopNode, int id)
+        {
+            var points = skirtTopNode.Select(x => x.position).ToList();
+            yield return null;
+            while (freezeSkirtId.Contains(id))
+            {
+                for(int i = 0; i < skirtTopNode.Count; i++) skirtTopNode[i].position = points[i];
+                yield return null;
+            }
+            yield return null;
         }
 
         /// <summary>
