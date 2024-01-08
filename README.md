@@ -10,7 +10,7 @@ a easy cartoon top down shooting game
 - `ver0.1`(原型)：[从零开始的上帝视角射击游戏制作！！01 - Bilibili](https://www.bilibili.com/video/BV1Uh4y1N7sK)
 - `ver0.2`:[从零开始的上帝视角射击游戏制作！！02 - Bilibili](https://www.bilibili.com/video/BV1uN411u7cH)
 - `ver0.3`:[从零开始的上帝视角射击游戏制作！！03 - Bilibili](https://www.bilibili.com/video/BV1Me411y7hL)
-- `ver0.4`: ING
+- `ver0.4`:[从零开始的上帝视角射击游戏制作！！04 - Bilibili](https://www.bilibili.com/video/BV1kk4y1X7JK)
 
 开发环境：Unity 2022.3 + URP
 > `ver0.1`为Unity 2021.3
