@@ -54,11 +54,11 @@ namespace Assets.Scripts.CombatLogic
         [Tooltip("泛用的，能代表导入角色的avatar")]
         public Avatar NormalAvatar;
 
-        public LoadModelRes LoadModel(string modelName, Transform parent, bool withGun)
+        public LoadModelRes LoadModel(string modelName, Transform parent, bool withGun, ModelShaderLayer msLayer = ModelShaderLayer.Default)
         {
-            return LoadModel(modelName, parent, parent, withGun);
+            return LoadModel(modelName, parent, parent, withGun, msLayer);
         }
-        public LoadModelRes LoadModel(string modelName, Transform parent, Transform animatorTrans, bool withGun)
+        public LoadModelRes LoadModel(string modelName, Transform parent, Transform animatorTrans, bool withGun, ModelShaderLayer msLayer = ModelShaderLayer.Default)
         {
             // 1.读取模型
             var prefab = ResourceManager.Load<GameObject>($"Fbx/{modelName}");
@@ -110,11 +110,16 @@ namespace Assets.Scripts.CombatLogic
             // -- 1.2 配置Magica Cloth
             if (GamePreference.UseMagicaBone is true) addMagicaBone(go_root.transform);
 
+
             // 2.读取avatar
             Avatar avatar = AvatarBuilder.BuildHumanAvatar(go, GetHumanDesc());
             animatorTrans.GetComponent<Animator>().avatar = avatar;
 
-            // 3.抢放好
+
+            // 3 配置 layer
+            changeLayer(go_root, msLayer);
+
+            // 4.抢放好
             if (withGun)
             {
                 var weaponBone = boneRoot.Find("Bip001").Find("Bip001_Weapon");
@@ -338,6 +343,36 @@ namespace Assets.Scripts.CombatLogic
             res.skeleton[1] = new SkeletonBone { name = res.skeleton[1].name, position = res.skeleton[1].position, rotation = res.skeleton[1].rotation, scale = res.skeleton[1].scale };
             return res;
         }
-        
+        public enum ModelShaderLayer
+        {
+            Default,
+            BackgroundShading,
+        }
+        private void changeLayer(GameObject go, ModelShaderLayer layerEnum)
+        {
+            if (layerEnum == ModelShaderLayer.Default) return;
+
+            var queue = new Queue<GameObject>();
+            var layer = LayerMask.NameToLayer(layerEnum.ToString());
+            queue.Enqueue(go);
+            int deep = 0;
+            while (queue.Count != 0)
+            {
+                int len = queue.Count;
+                for (int _ = 0; _ < len; _++)
+                {
+                    var t = queue.Dequeue();
+                    t.layer = layer;
+                    for (int i = 0; i < t.transform.childCount; i++)
+                    {
+                        queue.Enqueue(t.transform.GetChild(i).gameObject);
+                    }
+                }
+
+                deep += 1;
+                if (deep == 4) break;
+            }
+        }
+
     }
 }

@@ -258,7 +258,7 @@ namespace Assets.Scripts.CombatLogic
 
             // 还有驾驶舱
             CockpitManager.Instance.ResetAnimator();
-            GetComponent<FbxLoadManager>().LoadModel(OpInfo.ModelResourceUrl, CockpitManager.Instance.CharacterAnimator.transform, false);
+            GetComponent<FbxLoadManager>().LoadModel(OpInfo.ModelResourceUrl, CockpitManager.Instance.CharacterAnimator.transform, false, FbxLoadManager.ModelShaderLayer.BackgroundShading);
 
             PlayerTeamTrans.Add(trans);
 
