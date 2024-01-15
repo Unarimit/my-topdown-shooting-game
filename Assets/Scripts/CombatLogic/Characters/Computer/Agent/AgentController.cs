@@ -1,5 +1,7 @@
 ﻿using Assets.Scripts.CombatLogic.Characters.Computer.Agent.States;
 using Assets.Scripts.CombatLogic.UILogic.MiniMap;
+using BehaviorDesigner.Runtime;
+using BehaviorDesigner.Runtime.Tactical.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -25,6 +27,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
         #region component
         private CombatContextManager _context;
         private OperatorController _controller;
+        private BehaviorTree _bTree;
         public NavMeshAgent NavMeshAgent { get; private set; }
         #endregion
 
@@ -34,18 +37,28 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
         {
             _controller = GetComponent<OperatorController>();
             _context = CombatContextManager.Instance;
+            _bTree = GetComponent<BehaviorTree>();
             // 注册其他组件
             NavMeshAgent = GetComponent<NavMeshAgent>();
             NavMeshAgent.enabled = true;
             mapMarkUI = initMiniMapMark();
         }
+        private void Start()
+        {
+            var at = _bTree.FindTask<Attack>();
+            if(Team == 0) at.targetGroup = _context.EnemyTeamTrans.Select(x => x.gameObject).ToList();
+            else if(Team == 1) at.targetGroup = _context.PlayerTeamTrans.Select(x => x.gameObject).ToList();
+            _bTree.enabled = true;
+            //_bTree.EnableBehavior();
+        }
         private void OnDestroy()
         {
             // 注销组件
+            _bTree.enabled = false;
             NavMeshAgent.enabled = false;
             if(mapMarkUI != null) Destroy(mapMarkUI);
         }
-
+        /*
         protected void Start()
         {
             _instantiatePosition = transform.position;
@@ -66,7 +79,12 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
             
 
         }
-
+        
+        private void Update()
+        {
+            currentState.OnUpdate();
+            _controller.AnimatorMove(new Vector2(NavMeshAgent.velocity.x, NavMeshAgent.velocity.z), NavMeshAgent.velocity.magnitude);
+        }*/
         public void TranslateState(StateType state)
         {
             if (currentState != null)
@@ -74,11 +92,6 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
             currentState = states[state];
             currentState.OnEnter();
             type = state;
-        }
-        private void Update()
-        {
-            currentState.OnUpdate();
-            _controller.AnimatorMove(new Vector2(NavMeshAgent.velocity.x, NavMeshAgent.velocity.z), NavMeshAgent.velocity.magnitude);
         }
 
         // ********************** Agent Behavior ********************

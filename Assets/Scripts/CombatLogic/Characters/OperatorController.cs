@@ -105,9 +105,8 @@ namespace Assets.Scripts.CombatLogic.Characters
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _collider = GetComponent<CapsuleCollider>();
             _gunController = GetComponent<GunController>();
-
             // AssignAnimationIDs
-            
+
         }
         public void Inject(CombatOperator model)
         {
@@ -137,6 +136,7 @@ namespace Assets.Scripts.CombatLogic.Characters
             groundedCheck();
             closeUnActiveAnimation();
             prepareFighter();
+            if (_navMeshAgent.enabled is true) AnimatorMove(new Vector2(_navMeshAgent.velocity.x, _navMeshAgent.velocity.z), _navMeshAgent.velocity.magnitude);
 
             if(_freezeTime > 0)
             {
