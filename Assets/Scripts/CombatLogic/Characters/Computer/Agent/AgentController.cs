@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.CombatLogic.Characters.Computer.Agent.States;
-using Assets.Scripts.CombatLogic.UILogic.MiniMap;
+﻿using Assets.Scripts.CombatLogic.UILogic.MiniMap;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tactical.Tasks;
 using System.Collections.Generic;
@@ -11,12 +10,6 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
 {
     public class AgentController : MonoBehaviour
     {
-        private Dictionary<StateType, IAgentState> states = new Dictionary<StateType, IAgentState>();
-        private IAgentState currentState;
-
-        [Tooltip("for debug use")]
-        public StateType type;
-
         [HideInInspector]
         public Vector3 aimPos;
         [HideInInspector]
@@ -45,11 +38,18 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
         }
         private void Start()
         {
-            var at = _bTree.FindTask<Attack>();
-            if(Team == 0) at.targetGroup = _context.EnemyTeamTrans.Select(x => x.gameObject).ToList();
-            else if(Team == 1) at.targetGroup = _context.PlayerTeamTrans.Select(x => x.gameObject).ToList();
+            if(Team == 0) _bTree.SetVariable("test", (SharedGameObjectList)_context.EnemyTeamTrans.Select(x => x.gameObject).ToList());
+            else if(Team == 1) _bTree.SetVariable("test", (SharedGameObjectList)_context.PlayerTeamTrans.Select(x => x.gameObject).ToList());
             _bTree.enabled = true;
             //_bTree.EnableBehavior();
+        }
+        private void OnEnable()
+        {
+            if(_bTree.enabled is true) _bTree.EnableBehavior(); // 它里面会自己判断，重复调用没有问题
+        }
+        private void OnDisable()
+        {
+            _bTree.DisableBehavior();
         }
         private void OnDestroy()
         {
@@ -57,41 +57,6 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
             _bTree.enabled = false;
             NavMeshAgent.enabled = false;
             if(mapMarkUI != null) Destroy(mapMarkUI);
-        }
-        /*
-        protected void Start()
-        {
-            _instantiatePosition = transform.position;
-            if(_controller.Model.OpInfo.Type == Entities.OperatorType.CA)
-            {
-                states.Add(StateType.CaIdle, new CaIdle(this));
-                states.Add(StateType.CaReact, new CaReact(this, _context));
-                states.Add(StateType.CaAttack, new CaAttack(this));
-                TranslateState(StateType.CaIdle);
-            }
-            else
-            {
-                states.Add(StateType.CvIdle, new CvIdle(this));
-                states.Add(StateType.CvFollow, new CvFollow(this));
-                states.Add(StateType.CvHelp, new CvHelp(this));
-                TranslateState(StateType.CvIdle);
-            }
-            
-
-        }
-        
-        private void Update()
-        {
-            currentState.OnUpdate();
-            _controller.AnimatorMove(new Vector2(NavMeshAgent.velocity.x, NavMeshAgent.velocity.z), NavMeshAgent.velocity.magnitude);
-        }*/
-        public void TranslateState(StateType state)
-        {
-            if (currentState != null)
-                currentState.OnExit();
-            currentState = states[state];
-            currentState.OnEnter();
-            type = state;
         }
 
         // ********************** Agent Behavior ********************
