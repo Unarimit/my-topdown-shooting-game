@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.CombatLogic.EnviormentLogic;
+using Assets.Scripts.CombatLogic.GOAPs;
 using Assets.Scripts.CombatLogic.LevelLogic;
 using Assets.Scripts.Common;
 using Assets.Scripts.Common.Test;
@@ -45,7 +46,10 @@ namespace Assets.Scripts.CombatLogic
 
             //level.TeamOperators[0].McBody.HP = 100;
 
-            prepareGameScene(level);
+            prepareLevel(level);
+
+            // AI
+            GetComponent<GOAPManager>().Inject(_context);
 
             // 组件注册
             transform.AddComponent<AnimeHelper>();
@@ -66,9 +70,9 @@ namespace Assets.Scripts.CombatLogic
         }
 
         /// <summary>
-        /// 根据信息放置地形和人物
+        /// 根据关卡信息放置地形和人物
         /// </summary>
-        private void prepareGameScene(CombatLevelInfo level)
+        private void prepareLevel(CombatLevelInfo level)
         {
             // terrain
             _context.GenerateTerrain(level.Map);
@@ -137,6 +141,7 @@ namespace Assets.Scripts.CombatLogic
                     }
                 }
             }
+
             
 
             //TODO: bake navmap

@@ -11,6 +11,8 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
 
         //public Transform Transform { get; set; }  //暂时没用
 
+        public int Id { get; }
+
         /// <summary>
         /// 出生点
         /// </summary>
@@ -63,9 +65,11 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
 
         #endregion
 
-
+        private static int _gId = 0; 
         public CombatOperator(Operator op, int team, Transform spawnBase, bool isPlayer)
         {
+            Id = ++_gId;
+            if (Id == int.MaxValue) throw new ArgumentOutOfRangeException("auto incrasement id overflow");
             OpInfo = op;
             MaxHP = op.McBody.HP;
             CurrentHP = MaxHP;
