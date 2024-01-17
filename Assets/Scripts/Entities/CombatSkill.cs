@@ -12,6 +12,13 @@ namespace Assets.Scripts.Entities
         Range, // releaser会绑定在发射物体上
         Melee // releaser会绑定在角色上
     }
+    public enum SkillTargetTip
+    {
+        EnemySingle,
+        EnemyRange,
+        TeammateSingle,
+        TeammateRange,
+    }
     [Serializable]
     public struct SkillSelector
     {
@@ -50,6 +57,11 @@ namespace Assets.Scripts.Entities
         public string Description;
 
         /// <summary>
+        /// 技能目标提示（用于UI和AI判断）
+        /// </summary>
+        public SkillTargetTip TargetTip = SkillTargetTip.EnemySingle;
+
+        /// <summary>
         /// 技能冷却
         /// </summary>
         public float CoolDown;
@@ -64,6 +76,9 @@ namespace Assets.Scripts.Entities
         /// </summary>
         public float AfterCastTime = 0;
 
+        /// <summary>
+        /// 技能播放动画Id
+        /// </summary>
         public string CharacterAnimeId;
 
         /// <summary>

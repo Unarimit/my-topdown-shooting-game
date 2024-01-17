@@ -14,7 +14,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
         public Vector3 aimPos;
         [HideInInspector]
         public Transform aimTran;
-        public bool isStopped => NavMeshAgent.velocity == new Vector3();
+        internal GunController.GunProperty GunProperty => GetComponent<GunController>().gunProperty;
         private Vector3 _instantiatePosition;
 
         #region component

@@ -13,15 +13,24 @@ namespace Assets.Scripts.Entities
         CA,
         CV
     }
+    /// <summary> 人物性格 </summary>
+    public enum OperatorTrait
+    {
+        /// <summary> 激进的 </summary>
+        Offensive,
+        /// <summary> 战略家 </summary>
+        Tactical,
+        /// <summary> 胆小的 </summary>
+        Timid,
+    }
+    /// <summary> 占用状态 </summary>
     public enum JobStatus
     {
         Nothing,
         HomeBuilding,
         Fighter
     }
-    /// <summary>
-    /// 人物工作信息
-    /// </summary>
+    /// <summary> 人物工作信息 </summary>
     public struct OperatorJob
     {
         public OperatorJob(JobStatus jobStatus, string data)
@@ -50,6 +59,8 @@ namespace Assets.Scripts.Entities
         public int PropRed; // 1-10
         public int PropGreen;
         public int PropBlue;
+        /// <summary> 性格 </summary>
+        public OperatorTrait Trait;
 
         // 技能id
         public int WeaponSkillId = 4;
