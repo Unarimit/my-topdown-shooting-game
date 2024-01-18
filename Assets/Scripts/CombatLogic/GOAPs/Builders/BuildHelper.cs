@@ -46,7 +46,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs.Builders
                     .AddFactor(GOAPStatus.Tactical, -5)
                     .AddFactor(GOAPStatus.LowAmmo, 5)
                     .AddFactor(GOAPStatus.NoAmmo, 20)
-                    .SetPlan(GOAPPlan.SurrondAndAttack)
+                    .SetPlan(GOAPPlan.SurroundAndAttack)
                     .BuildAction();
             }
             else if(cop.WeaponSkill.SkillInfo.TargetTip == Entities.SkillTargetTip.TeammateSingle)

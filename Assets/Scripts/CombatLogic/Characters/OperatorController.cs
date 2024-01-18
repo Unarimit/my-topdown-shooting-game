@@ -184,6 +184,10 @@ namespace Assets.Scripts.CombatLogic.Characters
         {
             if (!tryBreakAction(ActionName.Aim)) return false;
             _animator.SetBool(_animIDAim, isAim);
+            if (_navMeshAgent.enabled is true) {  // 改变agent速度
+                if (isAim is true) _navMeshAgent.speed = Model.Speed / 2;
+                else _navMeshAgent.speed = Model.Speed;
+            }
             // 枪口朝向鼠标方向
             if (isAim) transform.LookAt(new Vector3(aim.x, transform.position.y, aim.z));
             return true;

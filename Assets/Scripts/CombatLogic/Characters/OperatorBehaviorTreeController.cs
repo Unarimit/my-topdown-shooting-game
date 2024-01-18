@@ -16,6 +16,7 @@ namespace Assets.Scripts.CombatLogic.Characters
 
         public void Attack(Vector3 targetPosition)
         {
+            GetComponent<AgentController>().Aim(true, new Vector3(targetPosition.x, 0.8f, targetPosition.z));
             GetComponent<AgentController>().Shoot(new Vector3(targetPosition.x, 0.8f, targetPosition.z));
         }
 

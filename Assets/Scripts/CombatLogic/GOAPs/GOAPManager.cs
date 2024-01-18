@@ -2,9 +2,11 @@
 using Assets.Scripts.CombatLogic.Characters.Computer.Agent;
 using Assets.Scripts.CombatLogic.CombatEntities;
 using Assets.Scripts.CombatLogic.GOAPs.Builders;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.CombatLogic.GOAPs
 {
@@ -13,12 +15,16 @@ namespace Assets.Scripts.CombatLogic.GOAPs
     /// </summary>
     internal enum GOAPPlan
     {
+        // ver1
         Null,
         GoAndAttack,
-        SurrondAndAttack,
+        SurroundAndAttack,
         RetreatAndReload,
         FollowAndHeal,
         Patrol,
+
+        //ver2
+        RetreatAndAttack,
 
     }
     /// <summary>
@@ -27,9 +33,10 @@ namespace Assets.Scripts.CombatLogic.GOAPs
     internal class GOAPManager : MonoBehaviour
     {
         // 全局信息
-        Dictionary<int, AgentController> m_AgentControllerDic = new Dictionary<int, AgentController>();
+        Dictionary<int, Transform> m_OpTransDic = new Dictionary<int, Transform>();
         Dictionary<int, CombatOperator> m_OperatorDic = new Dictionary<int, CombatOperator>();
         Dictionary<int, GOAPGraph> m_GraphDic = new Dictionary<int, GOAPGraph>();
+        Dictionary<int, GOAPPlan> m_PlanDic = new Dictionary<int, GOAPPlan>();
         int[][] m_Map; // 应该映射为障碍物map
 
         bool initSuccess = false;
@@ -38,15 +45,13 @@ namespace Assets.Scripts.CombatLogic.GOAPs
             m_Map = context.CombatVM.Level.Map;
             foreach(var x in context.Operators)
             {
-                if (x.Value.IsPlayer is true) continue;
-
-                m_AgentControllerDic.Add(x.Value.Id, x.Key.GetComponent<AgentController>());
                 m_OperatorDic.Add(x.Value.Id, x.Value);
                 m_GraphDic.Add(x.Value.Id, BuildHelper.BuildActionGraphForAgent(x.Value));
+                m_PlanDic.Add(x.Value.Id, GOAPPlan.Null);
+                m_OpTransDic.Add(x.Value.Id, x.Key);
             }
             initSuccess = true;
         }
-
 
         float time = 0;
         private void Update()
@@ -65,11 +70,41 @@ namespace Assets.Scripts.CombatLogic.GOAPs
         {
             foreach(var id in m_OperatorDic.Keys)
             {
+                if (m_OperatorDic[id].IsPlayer is true) continue; // 忽略玩家
+
                 var list = findFieldOfViewEnemy(id);
                 // 注意不需要搜索敌人的情况
-                var state = GOAPStatusHelper.CalcState(m_OperatorDic[id], m_AgentControllerDic[id].GunProperty, false, list.Count != 0);
-                m_GraphDic[id].DoPlan(state);
+                var state = GOAPStatusHelper.CalcState(m_OperatorDic[id], 
+                    m_OpTransDic[id].GetComponent<GunController>().gunProperty, false, list.Count != 0);
+                var res = m_GraphDic[id].DoPlan(state);
 
+                // 执行plan
+                if (res.Count == 0) throw new Exception($"{m_GraphDic[id].Name} plan result cnt is 0");
+                switch (res[0].GOAPPlan) {
+                    case GOAPPlan.Null:
+                        throw new Exception($"can not do null plan in {res[0].ActionName}");
+                    case GOAPPlan.Patrol:
+                        if (m_PlanDic[id] == res[0].GOAPPlan) break; // 不重复执行该计划
+                        m_OpTransDic[id].GetComponent<AgentController>().DoPatrol(calPatrolPos(id));
+                        break;
+                    case GOAPPlan.GoAndAttack:
+                        // 可能会出现目标不同的情况，交给AgentController处理
+                        m_OpTransDic[id].GetComponent<AgentController>().DoGoAndAttack(getMostValuableTarget(list));
+                        break;
+                    case GOAPPlan.SurroundAndAttack:
+                        // 可能会出现目标不同的情况，交给AgentController处理
+                        m_OpTransDic[id].GetComponent<AgentController>().DoSurroundAndAttack(getMostValuableTarget(list));
+                        break;
+                    case GOAPPlan.RetreatAndReload:
+                        if (m_PlanDic[id] == res[0].GOAPPlan) break; // 不重复执行该计划
+                        m_OpTransDic[id].GetComponent<AgentController>().DoRetreatAndReload(calRetreatPos(id));
+                        break;
+                    case GOAPPlan.FollowAndHeal:
+                        // 可能会出现目标不同的情况，交给AgentController处理
+                        m_OpTransDic[id].GetComponent<AgentController>().DoFollowAndHeal(findNearlyTeammate(id));
+                        break;
+                }
+                m_PlanDic[id] = res[0].GOAPPlan;
             }
         }
 
@@ -83,20 +118,23 @@ namespace Assets.Scripts.CombatLogic.GOAPs
         private List<int> findFieldOfViewEnemy(int cid)
         {
             var enemyIdList = new List<int>();
-            if (m_OperatorDic[cid].Team == 0) enemyIdList = m_AgentControllerDic.Where(x => m_OperatorDic[x.Key].Team == 1).Select(x => x.Key).ToList();
-            else if (m_OperatorDic[cid].Team == 1) enemyIdList = m_AgentControllerDic.Where(x => m_OperatorDic[x.Key].Team == 0).Select(x => x.Key).ToList();
-            else throw new System.Exception($"error Team{m_OperatorDic[cid].Team}");
+            if (m_OperatorDic[cid].Team == 0) 
+                enemyIdList = m_OperatorDic.Where(x => m_OperatorDic[x.Key].Team == 1 && x.Value.IsDead is false).Select(x => x.Key).ToList();
+            else if (m_OperatorDic[cid].Team == 1) 
+                enemyIdList = m_OperatorDic.Where(x => m_OperatorDic[x.Key].Team == 0 && x.Value.IsDead is false).Select(x => x.Key).ToList();
+            else 
+                throw new Exception($"error Team{m_OperatorDic[cid].Team}");
 
             var res = new List<int>();
             foreach(var enemyId in enemyIdList)
             {
                 // 距离
-                var selfPos = new Vector2(m_AgentControllerDic[cid].transform.position.x, m_AgentControllerDic[cid].transform.position.z);
-                var enemyPos = new Vector2(m_AgentControllerDic[enemyId].transform.position.x, m_AgentControllerDic[enemyId].transform.position.z);
+                var selfPos = new Vector2(m_OpTransDic[cid].position.x, m_OpTransDic[cid].position.z);
+                var enemyPos = new Vector2(m_OpTransDic[enemyId].position.x, m_OpTransDic[enemyId].position.z);
                 if (Vector2.Distance(selfPos, enemyPos) > distance) continue;
 
                 // 角度
-                var selfForword = new Vector2(m_AgentControllerDic[cid].transform.forward.x, m_AgentControllerDic[cid].transform.forward.z);
+                var selfForword = new Vector2(m_OpTransDic[cid].forward.x, m_OpTransDic[cid].forward.z);
                 float angleToEnemy = Vector2.Angle(selfForword, enemyPos);
                 if (angleToEnemy > angle / 2f) continue;
 
@@ -107,6 +145,53 @@ namespace Assets.Scripts.CombatLogic.GOAPs
             }
             return res;
         }
+
+        private GameObject findNearlyTeammate(int cid)
+        {
+            var teamIdList = new List<int>();
+            teamIdList = m_OperatorDic.Where(x => m_OperatorDic[x.Key].Team == m_OperatorDic[cid].Team && x.Value.IsDead is false)
+                .Select(x => x.Key)
+                .ToList();
+            if(teamIdList.Count == 0) return null;
+            else if(teamIdList.Count == 1 && teamIdList[0] == cid) return null;
+
+            int res = -1;
+            float res_distance = 0;
+            foreach (var teamId in teamIdList)
+            {
+
+                var selfPos = new Vector2(m_OpTransDic[cid].position.x, m_OpTransDic[cid].position.z);
+                var teamPos = new Vector2(m_OpTransDic[teamId].position.x, m_OpTransDic[teamId].position.z);
+                var d = Vector2.Distance(teamPos, selfPos);
+                if(res == -1)
+                {
+                    res = teamId;
+                    res_distance = d;
+                }
+                else if(d < res_distance)
+                {
+                    res_distance = d;
+                    res = teamId;
+                }
+            }
+            return m_OpTransDic[res].gameObject;
+        }
+
+        private GameObject getMostValuableTarget(List<int> cids)
+        {
+            return m_OpTransDic[cids[0]].gameObject;
+        }
+
+        private Vector2 calRetreatPos(int cid)
+        {
+            return new Vector2(m_OperatorDic[cid].SpawnBase.position.x, m_OperatorDic[cid].SpawnBase.position.z);
+        }
+
+        private Vector2 calPatrolPos(int cid)
+        {
+            return new Vector2(m_OpTransDic[cid].position.x + Random.Range(3f, 10f), m_OpTransDic[cid].position.z + Random.Range(3f, 10f));
+        }
+
         /// <summary>
         /// 线在地图上是否有障碍物？
         /// </summary>

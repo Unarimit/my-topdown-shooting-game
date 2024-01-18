@@ -57,7 +57,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
             NavMeshAgent.enabled = false;
             if(mapMarkUI != null) Destroy(mapMarkUI);
         }
-        internal void DoPatrol(Vector3 patrol)
+        internal void DoPatrol(Vector2 patrolPos)
         {
 
         }
@@ -69,7 +69,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
         {
 
         }
-        internal void DoRetreatAndReload(Vector3 retreatPlace)
+        internal void DoRetreatAndReload(Vector2 retreatPos)
         {
 
         }
