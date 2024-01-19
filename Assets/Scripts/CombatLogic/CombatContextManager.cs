@@ -217,8 +217,8 @@ namespace Assets.Scripts.CombatLogic
             Operators[trans].Respawn();
             if(trans == PlayerTrans) PlayerDiedEvent.Invoke(transform, false);
 
-            trans.gameObject.SetActive(true);
             trans.position = Operators[trans].SpawnBase.position;
+            trans.gameObject.SetActive(true);
         }
 
         // ********************* Level logic *********************

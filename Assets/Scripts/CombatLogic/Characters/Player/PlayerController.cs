@@ -95,7 +95,6 @@ namespace Assets.Scripts.CombatLogic.Characters.Player
         private void Move()
         {
             _controller.Move(_input.move);
-            _context.Operators[transform].Speed = _controller.Speed;
         }
 
         private float GunLine = 0.95f; // 枪线，应该在准星上

@@ -25,7 +25,7 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
         /// 战斗中最大HP
         /// </summary>
         public int MaxHP { get; private set; }
-        public float Speed { get; set; }
+        public float Speed { get; private set; }
         public int Team { get; private set; }
 
         /// <summary>
@@ -75,6 +75,7 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
             CurrentHP = MaxHP;
             Team = team;
             SpawnBase = spawnBase;
+            Speed = op.McLeg.Speed;
             WeaponSkill = new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[op.WeaponSkillId]);
             SlideSkill = new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[op.SlideSkillId]);
             CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[op.MainSkillId]));

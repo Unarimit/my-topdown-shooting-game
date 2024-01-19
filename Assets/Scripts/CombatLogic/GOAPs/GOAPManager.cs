@@ -70,8 +70,10 @@ namespace Assets.Scripts.CombatLogic.GOAPs
         {
             foreach(var id in m_OperatorDic.Keys)
             {
-                if (m_OperatorDic[id].IsPlayer is true) continue; // 忽略玩家
-                if (m_OperatorDic[id].IsDead is true) continue; // 忽略死亡agent
+                if (m_OperatorDic[id].IsPlayer is true || // 忽略玩家
+                    m_OperatorDic[id].IsDead is true ||  // 忽略死亡agent
+                    m_OpTransDic[id].GetComponent<AgentController>().enabled is false) // 忽略暂停行为
+                    continue; 
 
                 var list = findFieldOfViewEnemy(id);
                 // 注意不需要搜索敌人的情况
@@ -99,7 +101,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs
                         m_OpTransDic[id].GetComponent<AgentController>().DoSurroundAndAttack(getMostValuableTarget(list));
                         break;
                     case GOAPPlan.RetreatAndReload:
-                        if (m_PlanDic[id] == res[0].GOAPPlan) break; // 不重复执行该计划
+                        // 可能会出现目标不同的情况，交给AgentController处理
                         m_OpTransDic[id].GetComponent<AgentController>().DoRetreatAndReload(findNearlyEnemy(id));
                         break;
                     case GOAPPlan.FollowAndHeal:
@@ -221,6 +223,9 @@ namespace Assets.Scripts.CombatLogic.GOAPs
             var enemyIdList = m_OperatorDic.Where(x => m_OperatorDic[x.Key].Team != m_OperatorDic[cid].Team && x.Value.IsDead is false)
                 .Select(x => x.Key)
                 .ToList();
+            // 没有敌人活着时
+            if (enemyIdList.Count == 0) return new Vector2(m_OperatorDic[cid].SpawnBase.position.x, m_OperatorDic[cid].SpawnBase.position.z);
+
             var randomEnemy = m_OpTransDic[enemyIdList[Random.Range(0, enemyIdList.Count)]];
             return new Vector2(randomEnemy.position.x + Random.Range(3f, 5f), randomEnemy.position.z + Random.Range(3f, 5f));
         }

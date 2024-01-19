@@ -33,9 +33,12 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
         {
             _controller = GetComponent<OperatorController>();
             _context = CombatContextManager.Instance;
-            // 注册其他组件
+
+            // AI
             m_BTreeDic = getBehaviorTreeDic();
             activeBTree = m_BTreeDic[GOAPPlan.Null];
+
+            // 注册其他组件
             NavMeshAgent = GetComponent<NavMeshAgent>();
             NavMeshAgent.enabled = true;
             mapMarkUI = initMiniMapMark();
@@ -46,11 +49,21 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
         }
         private void OnEnable()
         {
-            if(activeBTree.enabled is true) activeBTree.EnableBehavior(); // 它里面会自己判断，重复调用没有问题
+            activeBTree.enabled = true; // 它里面会自己判断，重复调用没有问题
+            activeBTree.EnableBehavior();
         }
         private void OnDisable()
         {
-            activeBTree.DisableBehavior();
+            if (_context.Operators[transform].IsDead is true)
+            {
+                activeBTree.enabled = false;
+                activeBTree = m_BTreeDic[GOAPPlan.Null];
+            }
+            else
+            {
+                activeBTree.enabled = false;
+            }
+            
         }
         private void OnDestroy()
         {
@@ -64,50 +77,59 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
             activeBTree.enabled = false;
             activeBTree = m_BTreeDic[GOAPPlan.MoveForward];
             activeBTree.SetVariable("target", (SharedVector3)new Vector3(patrolPos.x, 0, patrolPos.y));
-            activeBTree.enabled = true;
+            startBehavior();
         }
         private GameObject _last_aim_gaa;
-        internal void DoGoAndAttack(GameObject aim) 
+        internal void DoGoAndAttack(GameObject aim)
         {
+            if (aim == null) return;
             if (activeBTree == m_BTreeDic[GOAPPlan.GoAndAttack] && _last_aim_gaa == aim) return;
 
             activeBTree.enabled = false;
             activeBTree = m_BTreeDic[GOAPPlan.GoAndAttack];
             activeBTree.SetVariable("target", (SharedGameObjectList)new List<GameObject>() { aim });
-            activeBTree.enabled = true;
+            startBehavior();
             _last_aim_gaa = aim;
         }
         private GameObject _last_aim_saa;
         internal void DoSurroundAndAttack(GameObject aim)
         {
+            if (aim == null) return;
             if (activeBTree == m_BTreeDic[GOAPPlan.GoAndAttack] && _last_aim_saa == aim) return;
             activeBTree.enabled = false;
             activeBTree = m_BTreeDic[GOAPPlan.SurroundAndAttack];
             activeBTree.SetVariable("target", (SharedGameObjectList)new List<GameObject>() { aim });
-            activeBTree.enabled = true;
+            startBehavior();
             _last_aim_saa = aim;
         }
         private GameObject _last_aim_rar;
         internal void DoRetreatAndReload(GameObject nealy_enemy)
         {
+            if (nealy_enemy == null) return;
             if (activeBTree == m_BTreeDic[GOAPPlan.GoAndAttack] && _last_aim_rar == nealy_enemy) return;
             activeBTree.enabled = false;
             activeBTree = m_BTreeDic[GOAPPlan.RetreatAndReload];
-            activeBTree.SetVariable("target", (SharedGameObjectList)new List<GameObject>() { nealy_enemy });
-            activeBTree.enabled = true;
+            if(nealy_enemy != null) activeBTree.SetVariable("target", (SharedGameObjectList)new List<GameObject>() { nealy_enemy });
+            startBehavior();
             _last_aim_rar = nealy_enemy;
         }
         private GameObject _last_aim_fah;
         internal void DoFollowAndHeal(GameObject aim)
         {
+            if (aim == null) return;
             if (activeBTree == m_BTreeDic[GOAPPlan.GoAndAttack] && _last_aim_fah == aim) return;
             activeBTree.enabled = false;
             activeBTree = m_BTreeDic[GOAPPlan.FollowAndHeal];
             activeBTree.SetVariable("teammate", (SharedGameObjectList)new List<GameObject>() { aim });
-            activeBTree.enabled = true;
+            startBehavior();
             _last_aim_fah = aim;
         }
 
+        private void startBehavior()
+        {
+            activeBTree.enabled = true;
+            activeBTree.EnableBehavior();
+        }
         
         public void Aim(bool isAim, Vector3 aim)
         {

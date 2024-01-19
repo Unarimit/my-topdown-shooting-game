@@ -130,6 +130,10 @@ namespace Assets.Scripts.CombatLogic.Characters
                 _controller.enabled = true; // 默认false，防止初始化时记录错误的位置
             }
         }
+        private void OnDisable()
+        {
+            ClearAnimate();
+        }
         private void Update()
         {
             jumpAndGravity();
@@ -183,11 +187,7 @@ namespace Assets.Scripts.CombatLogic.Characters
         public bool Aim(bool isAim, Vector3 aim)
         {
             if (!tryBreakAction(ActionName.Aim)) return false;
-            _animator.SetBool(_animIDAim, isAim);
-            if (_navMeshAgent.enabled is true) {  // 改变agent速度
-                if (isAim is true) _navMeshAgent.speed = Model.Speed / 2;
-                else _navMeshAgent.speed = Model.Speed;
-            }
+            setAim(isAim);
             // 枪口朝向鼠标方向
             if (isAim) transform.LookAt(new Vector3(aim.x, transform.position.y, aim.z));
             return true;
@@ -247,19 +247,28 @@ namespace Assets.Scripts.CombatLogic.Characters
         public void Reload()
         {
             if (!tryBreakAction(ActionName.Jump)) return;
-            _animator.SetBool(_animIDAim, false);
+            setAim(false);
             StartCoroutine(coroReloading(_gunController.Reloading()));
         }
         public void ClearAnimate()
         {
             // 清空动画
             _animator.SetBool(_animIDJump, false);
-            _animator.SetBool(_animIDAim, false);
             _animator.SetBool(_animIDShoot, false);
+            setAim(false);
             _animator.SetBool(_animIDSlide, false);
             _animator.SetFloat(_animIDSpeed, 0);
         }
 
+        private void setAim(bool flag)
+        {
+            if(Model.IsPlayer is false)
+            {
+                if (flag is true) _navMeshAgent.speed = Model.Speed / 2;
+                else _navMeshAgent.speed = Model.Speed;
+            }
+            _animator.SetBool(_animIDAim, flag);
+        }
 
         protected virtual void OnFootstep(AnimationEvent animationEvent)
         {
