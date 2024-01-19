@@ -2,7 +2,6 @@
 using Assets.Scripts.CombatLogic.Characters.Computer.Agent;
 using Assets.Scripts.CombatLogic.CombatEntities;
 using Assets.Scripts.CombatLogic.GOAPs.Builders;
-using Assets.Scripts.CombatLogic.GOAPs.Editor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,6 +71,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs
             foreach(var id in m_OperatorDic.Keys)
             {
                 if (m_OperatorDic[id].IsPlayer is true) continue; // 忽略玩家
+                if (m_OperatorDic[id].IsDead is true) continue; // 忽略死亡agent
 
                 var list = findFieldOfViewEnemy(id);
                 // 注意不需要搜索敌人的情况
@@ -121,9 +121,9 @@ namespace Assets.Scripts.CombatLogic.GOAPs
         {
             var enemyIdList = new List<int>();
             if (m_OperatorDic[cid].Team == 0) 
-                enemyIdList = m_OperatorDic.Where(x => m_OperatorDic[x.Key].Team == 1 && x.Value.IsDead is false).Select(x => x.Key).ToList();
+                enemyIdList = m_OperatorDic.Where(x => x.Value.Team == 1 && x.Value.IsDead is false).Select(x => x.Key).ToList();
             else if (m_OperatorDic[cid].Team == 1) 
-                enemyIdList = m_OperatorDic.Where(x => m_OperatorDic[x.Key].Team == 0 && x.Value.IsDead is false).Select(x => x.Key).ToList();
+                enemyIdList = m_OperatorDic.Where(x => x.Value.Team == 0 && x.Value.IsDead is false).Select(x => x.Key).ToList();
             else 
                 throw new Exception($"error Team{m_OperatorDic[cid].Team}");
 
@@ -137,7 +137,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs
 
                 // 角度
                 var selfForword = new Vector2(m_OpTransDic[cid].forward.x, m_OpTransDic[cid].forward.z);
-                float angleToEnemy = Vector2.Angle(selfForword, enemyPos);
+                float angleToEnemy = Vector2.Angle(selfForword, enemyPos - selfPos);
                 if (angleToEnemy > angle / 2f) continue;
 
                 // 障碍物
@@ -176,6 +176,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs
                     res = teamId;
                 }
             }
+            if (res == -1) return null;
             return m_OpTransDic[res].gameObject;
         }
 
@@ -211,6 +212,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs
                     res = teamId;
                 }
             }
+            if (res == -1) return null;
             return m_OpTransDic[res].gameObject;
         }
 

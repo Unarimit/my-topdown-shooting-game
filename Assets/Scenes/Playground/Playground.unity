@@ -9312,6 +9312,7 @@ MonoBehaviour:
     PropRed: 0
     PropGreen: 0
     PropBlue: 0
+    Trait: 0
     WeaponSkillId: 4
     MainSkillId: 1
     SlideSkillId: 7
@@ -9980,6 +9981,7 @@ MonoBehaviour:
     PropRed: 0
     PropGreen: 0
     PropBlue: 0
+    Trait: 0
     WeaponSkillId: 4
     MainSkillId: 1
     SlideSkillId: 7
@@ -12037,6 +12039,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1860473157}
   - component: {fileID: 1860473158}
+  - component: {fileID: 1860473159}
   m_Layer: 0
   m_Name: TestArea
   m_TagString: Untagged
@@ -12072,6 +12075,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7c082bd3fc721147ae2314810b59956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1860473159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1860473156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e6b831eec4b3a6448da27c831f2eec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1861067068
@@ -13402,6 +13417,7 @@ MonoBehaviour:
     PropRed: 0
     PropGreen: 0
     PropBlue: 0
+    Trait: 0
     WeaponSkillId: 4
     MainSkillId: 1
     SlideSkillId: 7
