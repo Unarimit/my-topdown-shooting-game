@@ -16,7 +16,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs.Builders
 
             builder.AddAction("patrol")
                 .SetCost(20)
-                .SetPlan(GOAPPlan.Patrol)
+                .SetPlan(GOAPPlan.MoveForward)
                 .AddEffect(GOAPStatus.SawEnemy)
                 .BuildAction();
 

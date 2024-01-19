@@ -80,15 +80,5 @@ namespace Assets.Scripts.CombatLogic.GOAPs
             return (state & ((uint)1 << (int)GOAPStatus.Win)) != 0;
         }
 
-        private void printActions(List<GOAPAction> actions)
-        {
-            var sb = new StringBuilder();
-            sb.Append($"GOAP Graph:'{Name}' Planed: ");
-            foreach(var x in actions)
-            {
-                sb.Append($"{x.ActionName},");
-            }
-            Debug.Log(sb.ToString());
-        }
     }
 }
