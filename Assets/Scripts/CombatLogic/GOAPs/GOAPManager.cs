@@ -5,7 +5,6 @@ using Assets.Scripts.CombatLogic.GOAPs.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -114,12 +113,17 @@ namespace Assets.Scripts.CombatLogic.GOAPs
         }
 
 
-        float angle = 120f;
-        float distance = 10f;
+        float ligalAngle = 120f;
+        float ligalDistance = 10f;
+        struct FieldOfViewItem
+        {
+            public int id;
+            public float distance;
+        }
         /// <summary>
         /// 寻找agent视野内的敌方单位
         /// </summary>
-        private List<int> findFieldOfViewEnemy(int cid)
+        private List<FieldOfViewItem> findFieldOfViewEnemy(int cid)
         {
             var enemyIdList = new List<int>();
             if (m_OperatorDic[cid].Team == 0) 
@@ -129,23 +133,24 @@ namespace Assets.Scripts.CombatLogic.GOAPs
             else 
                 throw new Exception($"error Team{m_OperatorDic[cid].Team}");
 
-            var res = new List<int>();
+            var res = new List<FieldOfViewItem>();
             foreach(var enemyId in enemyIdList)
             {
                 // 距离
                 var selfPos = new Vector2(m_OpTransDic[cid].position.x, m_OpTransDic[cid].position.z);
                 var enemyPos = new Vector2(m_OpTransDic[enemyId].position.x, m_OpTransDic[enemyId].position.z);
-                if (Vector2.Distance(selfPos, enemyPos) > distance) continue;
+                var d = Vector2.Distance(selfPos, enemyPos);
+                if (d > ligalDistance) continue;
 
                 // 角度
                 var selfForword = new Vector2(m_OpTransDic[cid].forward.x, m_OpTransDic[cid].forward.z);
                 float angleToEnemy = Vector2.Angle(selfForword, enemyPos - selfPos);
-                if (angleToEnemy > angle / 2f) continue;
+                if (angleToEnemy > ligalAngle / 2f) continue;
 
                 // 障碍物
                 if (isLineHaveObstacle(selfPos, enemyPos) is true) continue;
 
-                res.Add(enemyId);
+                res.Add(new FieldOfViewItem { id = enemyId, distance = d });
             }
             return res;
         }
@@ -153,7 +158,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs
         private GameObject findNearlyTeammate(int cid)
         {
             var teamIdList = new List<int>();
-            teamIdList = m_OperatorDic.Where(x => m_OperatorDic[x.Key].Team == m_OperatorDic[cid].Team && x.Value.IsDead is false)
+            teamIdList = m_OperatorDic.Where(x => m_OperatorDic[x.Key].Team == m_OperatorDic[cid].Team && x.Value.IsDead is false && x.Value.Id != cid)
                 .Select(x => x.Key)
                 .ToList();
             if(teamIdList.Count == 0) return null;
@@ -182,9 +187,14 @@ namespace Assets.Scripts.CombatLogic.GOAPs
             return m_OpTransDic[res].gameObject;
         }
 
-        private GameObject getMostValuableTarget(List<int> cids)
+        private GameObject getMostValuableTarget(List<FieldOfViewItem> data)
         {
-            return m_OpTransDic[cids[0]].gameObject;
+            int res = 0;
+            for(int i = 0; i < data.Count; i++)
+            {
+                if (data[i].distance < data[res].distance) res = i;
+            }
+            return m_OpTransDic[data[res].id].gameObject;
         }
 
         private GameObject findNearlyEnemy(int cid)

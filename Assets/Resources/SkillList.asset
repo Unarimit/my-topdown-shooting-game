@@ -17,6 +17,7 @@ MonoBehaviour:
     Name: Beam
     Id: 0
     Description: null
+    TargetTip: 0
     CoolDown: 20
     Duration: 1
     AfterCastTime: 0
@@ -37,6 +38,7 @@ MonoBehaviour:
     Name: Grenade
     Id: 1
     Description: null
+    TargetTip: 0
     CoolDown: 5
     Duration: 3
     AfterCastTime: 0
@@ -55,6 +57,7 @@ MonoBehaviour:
     Name: Grenade2
     Id: 2
     Description: null
+    TargetTip: 0
     CoolDown: 0
     Duration: 1
     AfterCastTime: 0
@@ -75,6 +78,7 @@ MonoBehaviour:
     Name: Gun
     Id: 3
     Description: null
+    TargetTip: 0
     CoolDown: 0.1
     Duration: 1.5
     AfterCastTime: 0
@@ -95,6 +99,7 @@ MonoBehaviour:
     Name: Gun
     Id: 4
     Description: null
+    TargetTip: 0
     CoolDown: 0.2
     Duration: 1.5
     AfterCastTime: 0
@@ -115,6 +120,7 @@ MonoBehaviour:
     Name: FastGrenade
     Id: 5
     Description: null
+    TargetTip: 0
     CoolDown: 5
     Duration: 0.5
     AfterCastTime: 0
@@ -133,6 +139,7 @@ MonoBehaviour:
     Name: HealthGun
     Id: 6
     Description: null
+    TargetTip: 2
     CoolDown: 0.3
     Duration: 1.5
     AfterCastTime: 0
@@ -153,6 +160,7 @@ MonoBehaviour:
     Name: Slide
     Id: 7
     Description: null
+    TargetTip: 0
     CoolDown: 5
     Duration: 1
     AfterCastTime: 1

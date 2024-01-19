@@ -35,6 +35,11 @@ namespace Assets.Scripts.CombatLogic.Characters
             return true;
         }
 
+        public bool IsHurt()
+        {
+            return _context.Operators[transform].CurrentHP < _context.Operators[transform].MaxHP;
+        }
+
         public void Damage(float amount)
         {
             throw new NotImplementedException();
