@@ -352,7 +352,7 @@ namespace Assets.Scripts.Services
                     },
                     Id = (++opId).ToString()
                 },
-                new Operator { Name = "aru", ModelResourceUrl = "Aru",Id = (++opId).ToString()  },
+                new Operator { Name = "aru", ModelResourceUrl = "Aru",Id = (++opId).ToString(), Trait = OperatorTrait.Tactical },
                 new Operator { Name = "akrin", ModelResourceUrl = "Karin", Id = (++opId).ToString() },
                 new Operator { Name = "mashiro", ModelResourceUrl = "Mashiro",Id = (++opId).ToString()  },
                 new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },

@@ -74,6 +74,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
         }
         internal void DoMove(Vector2 patrolPos)
         {
+            if (canBreakBehavior() is false) return;
             activeBTree.enabled = false;
             activeBTree = m_BTreeDic[GOAPPlan.MoveForward];
             activeBTree.SetVariable("target", (SharedVector3)new Vector3(patrolPos.x, 0, patrolPos.y));
@@ -82,6 +83,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
         private GameObject _last_aim_gaa;
         internal void DoGoAndAttack(GameObject aim)
         {
+            if (canBreakBehavior() is false) return;
             if (aim == null) return;
             if (activeBTree == m_BTreeDic[GOAPPlan.GoAndAttack] && _last_aim_gaa == aim) return;
 
@@ -94,6 +96,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
         private GameObject _last_aim_saa;
         internal void DoSurroundAndAttack(GameObject aim)
         {
+            if (canBreakBehavior() is false) return;
             if (aim == null) return;
             if (activeBTree == m_BTreeDic[GOAPPlan.GoAndAttack] && _last_aim_saa == aim) return;
             activeBTree.enabled = false;
@@ -105,6 +108,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
         private GameObject _last_aim_rar;
         internal void DoRetreatAndReload(GameObject nealy_enemy)
         {
+            if (canBreakBehavior() is false) return;
             if (nealy_enemy == null) return;
             if (activeBTree == m_BTreeDic[GOAPPlan.GoAndAttack] && _last_aim_rar == nealy_enemy) return;
             activeBTree.enabled = false;
@@ -116,6 +120,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
         private GameObject _last_aim_fah;
         internal void DoFollowAndHeal(GameObject aim)
         {
+            if (canBreakBehavior() is false) return;
             if (aim == null) return;
             if (activeBTree == m_BTreeDic[GOAPPlan.GoAndAttack] && _last_aim_fah == aim) return;
             activeBTree.enabled = false;
@@ -125,6 +130,12 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
             _last_aim_fah = aim;
         }
 
+        private bool canBreakBehavior()
+        {
+            var canbreak = activeBTree.GetVariable("canBreak");
+            if (canbreak == null) return true;
+            else return ((SharedBool)canbreak).Value;
+        }
         private void startBehavior()
         {
             activeBTree.enabled = true;

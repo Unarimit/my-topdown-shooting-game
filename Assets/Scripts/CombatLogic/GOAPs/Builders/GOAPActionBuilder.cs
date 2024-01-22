@@ -21,12 +21,18 @@ namespace Assets.Scripts.CombatLogic.GOAPs.Builders
             _graph = graph;
         }
 
+        /// <summary>
+        /// 添加必须满足的条件
+        /// </summary>
         public GOAPActionBuilder AddCondition(GOAPStatus status)
         {
             condtions.Add(status);
             return this;
         }
 
+        /// <summary>
+        /// 添加影响因子
+        /// </summary>
         public GOAPActionBuilder AddFactor(GOAPStatus status, float factor)
         {
             factors.Add((status, factor));
@@ -34,12 +40,17 @@ namespace Assets.Scripts.CombatLogic.GOAPs.Builders
 
         }
 
+        /// <summary>
+        /// 添加对世界状态的影响（可能）
+        /// </summary>
         public GOAPActionBuilder AddEffect(GOAPStatus status)
         {
             effects.Add(status);
             return this;
         }
-
+        /// <summary>
+        /// 添加计划，对应行为树
+        /// </summary>
         public GOAPActionBuilder SetPlan(GOAPPlan plan)
         {
             this.plan = plan;

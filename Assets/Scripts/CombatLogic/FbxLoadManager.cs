@@ -292,7 +292,7 @@ namespace Assets.Scripts.CombatLogic
         {
             var points = skirtTopNode.Select(x => x.position).ToList();
             yield return null;
-            while (freezeSkirtId.Contains(id))
+            while (freezeSkirtId.Contains(id) && skirtTopNode[0] != null) // 可能加载完的时候，skirt已经销毁了（出现这种情况是因为被dontdestroyonload调用
             {
                 for(int i = 0; i < skirtTopNode.Count; i++) skirtTopNode[i].position = points[i];
                 yield return null;
