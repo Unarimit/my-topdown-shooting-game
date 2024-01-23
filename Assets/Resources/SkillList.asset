@@ -200,7 +200,7 @@ MonoBehaviour:
     ReleaserType: 1
     SkillSelector:
       SelectorName: Sector
-      Data: 1;60
+      Data: 2;60
     EffectType: 2
     SkillImpectors:
     - ImpectorName: Damage
@@ -208,4 +208,4 @@ MonoBehaviour:
     NextSkillId: -1
     Ammo: -1
     PrefabResourceUrl: null
-    IconUrl: Balde
+    IconUrl: Blade

@@ -128,5 +128,7 @@ namespace Assets.Scripts.Entities
         public string IconUrl;
 
         public bool IsHaveNextSkill  => NextSkillId != -1;
+
+        public bool IsGun => ReleaserType == SkillReleaserType.Range;
     }
 }

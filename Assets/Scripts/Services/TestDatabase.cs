@@ -343,7 +343,7 @@ namespace Assets.Scripts.Services
         {
             // TODO: these just for test
             return new List<Operator>() {
-                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", WeaponSkillId = 4, Id = (++opId).ToString() },
+                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", WeaponSkillId = 8, Id = (++opId).ToString() },
                 new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Type = OperatorType.CV,
                     WeaponSkillId = 6,
                     Fighters = new List<Fighter>{

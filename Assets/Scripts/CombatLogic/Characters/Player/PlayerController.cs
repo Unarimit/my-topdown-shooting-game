@@ -73,7 +73,8 @@ namespace Assets.Scripts.CombatLogic.Characters.Player
         {
             Move();
             Skill();
-            AimAndShoot();
+            if (_controller.Model.WeaponSkill.SkillInfo.IsGun) AimAndShoot();
+            else Attack();
             DoTriggerAction();
         }
         private void DoTriggerAction()
@@ -98,6 +99,13 @@ namespace Assets.Scripts.CombatLogic.Characters.Player
         }
 
         private float GunLine = 0.95f; // 枪线，应该在准星上
+        private void Attack()
+        {
+            if (_input.shoot)
+            {
+                _controller.MeleeAttack(getMouseAiming());
+            }
+        }
         private void AimAndShoot()
         {
             // 瞄准和射击的动作控制

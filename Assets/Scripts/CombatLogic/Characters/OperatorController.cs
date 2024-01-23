@@ -52,6 +52,7 @@ namespace Assets.Scripts.CombatLogic.Characters
         private int _animIDASpeed;
         private int _animIDWSpeed;
         private int _animIDSlide;
+        private int _animIDSlash;
         private int _animIDReloading;
         private Animator _animator;
         private bool _isSprint;
@@ -178,11 +179,29 @@ namespace Assets.Scripts.CombatLogic.Characters
             if (_animator.GetBool(_animIDAim)) aimAnimatorMove(vec);
             else normalAnimatorMove(speed);
         }
+
+        /// <summary>
+        /// 近战攻击
+        /// </summary>
+        /// <param name="aim">用于判断方向</param>
+        public bool MeleeAttack(Vector3 aim)
+        {
+            if (tryBreakAction(ActionName.Skill))
+            {
+                if(_context.UseSkill(transform, Model.WeaponSkill, aim))
+                {
+                    _animator.SetTrigger(_animIDSlash);
+                    transform.LookAt(new Vector3(aim.x, transform.position.y, aim.z));
+                    _freezeTime = Model.WeaponSkill.SkillInfo.AfterCastTime;
+                    return true;
+                }
+            }
+            return false;
+        }
+
         /// <summary>
         /// 输入瞄准目标和位置
         /// </summary>
-        /// <param name="isAim"></param>
-        /// <param name="aim"></param>
         public bool Aim(bool isAim, Vector3 aim)
         {
             if (!tryBreakAction(ActionName.Aim)) return false;
@@ -204,14 +223,6 @@ namespace Assets.Scripts.CombatLogic.Characters
             return _gunController.gunProperty.CurrentAmmo != 0;
         }
 
-        public void Shoot(Vector3 aim, float diffFactor)
-        {
-            if (!tryBreakAction(ActionName.Shoot)) return;
-            _shootTime = Time.time;
-            aim.x += Random.Range(0, diffFactor);
-            aim.z += Random.Range(0, diffFactor);
-            _animator.SetBool(_animIDShoot, _gunController.ShootUseSkill(aim));
-        }
         public void Skill(int i, Vector3 aim)
         {
             if (tryBreakAction(ActionName.Skill))
@@ -470,6 +481,7 @@ namespace Assets.Scripts.CombatLogic.Characters
             _animIDASpeed = Animator.StringToHash("ASpeed");
             _animIDWSpeed = Animator.StringToHash("WSpeed");
             _animIDSlide = Animator.StringToHash(Model.SlideSkill.SkillInfo.CharacterAnimeId);
+            _animIDSlash = Animator.StringToHash("Slash");
             _animIDReloading = Animator.StringToHash("Reloading");
         }
 

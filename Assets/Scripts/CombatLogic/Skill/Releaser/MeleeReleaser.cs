@@ -35,10 +35,10 @@ namespace Assets.Scripts.CombatLogic.Skill.Releaser
 
 
             // 延迟销毁go和触发连锁技能
-            StartCoroutine(DelayDestroySelf());
+            StartCoroutine(DelayDestroySelf()); // 可能因为角色死亡而异常
         }
 
-
+        
 
         IEnumerator DelayDestroySelf()
         {
