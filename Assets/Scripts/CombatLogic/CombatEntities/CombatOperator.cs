@@ -100,7 +100,7 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
             CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[op.MainSkillId]));
             IsPlayer = isPlayer;
             AttackRange = WeaponSkill.SkillInfo.RangeTip;
-            SeeRange = 15f;
+            SeeRange = 20f;
         }
 
         public int TakeDamage(int dmg)

@@ -9,6 +9,8 @@ using Unity.Burst.Intrinsics;
 using UnityEngine;
 using UnityEngine.AI;
 
+using Random = UnityEngine.Random;
+
 namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
 {
     public class AgentController : MonoBehaviour
@@ -146,10 +148,11 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
         {
             _controller.Aim(isAim, aim);
         }
+        float scatter = 1f;
         public void Shoot(Vector3 aim)
         {
 
-            if (_controller.HasAmmon()) _controller.Shoot(aim);
+            if (_controller.HasAmmon()) _controller.Shoot(aim + new Vector3(Random.Range(0, scatter), Random.Range(0, scatter), Random.Range(0, scatter)));
             else _controller.Reload();
         }
         private GameObject initMiniMapMark()

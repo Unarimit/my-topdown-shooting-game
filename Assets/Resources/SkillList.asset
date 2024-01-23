@@ -18,6 +18,7 @@ MonoBehaviour:
     Id: 0
     Description: null
     TargetTip: 0
+    RangeTip: 5
     CoolDown: 20
     Duration: 1
     AfterCastTime: 0
@@ -39,6 +40,7 @@ MonoBehaviour:
     Id: 1
     Description: null
     TargetTip: 0
+    RangeTip: 5
     CoolDown: 5
     Duration: 3
     AfterCastTime: 0
@@ -58,6 +60,7 @@ MonoBehaviour:
     Id: 2
     Description: null
     TargetTip: 0
+    RangeTip: 5
     CoolDown: 0
     Duration: 1
     AfterCastTime: 0
@@ -79,6 +82,7 @@ MonoBehaviour:
     Id: 3
     Description: null
     TargetTip: 0
+    RangeTip: 5
     CoolDown: 0.1
     Duration: 1.5
     AfterCastTime: 0
@@ -100,6 +104,7 @@ MonoBehaviour:
     Id: 4
     Description: null
     TargetTip: 0
+    RangeTip: 10
     CoolDown: 0.2
     Duration: 1.5
     AfterCastTime: 0
@@ -121,6 +126,7 @@ MonoBehaviour:
     Id: 5
     Description: null
     TargetTip: 0
+    RangeTip: 5
     CoolDown: 5
     Duration: 0.5
     AfterCastTime: 0
@@ -140,6 +146,7 @@ MonoBehaviour:
     Id: 6
     Description: null
     TargetTip: 2
+    RangeTip: 5
     CoolDown: 0.3
     Duration: 1.5
     AfterCastTime: 0
@@ -161,6 +168,7 @@ MonoBehaviour:
     Id: 7
     Description: null
     TargetTip: 0
+    RangeTip: 5
     CoolDown: 5
     Duration: 1
     AfterCastTime: 1

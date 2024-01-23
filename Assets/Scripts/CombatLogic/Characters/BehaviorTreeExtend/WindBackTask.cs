@@ -31,18 +31,18 @@ namespace Assets.Scripts.CombatLogic.Characters.BehaviorTreeExtend
             Vector3 rotatedPoint1 = Quaternion.Euler(0f, 90f, 0f) * (point - pivot).normalized * 10 + pivot;
             Vector3 rotatedPoint2 = Quaternion.Euler(0f, -90f, 0f) * (point - pivot).normalized * 10 + pivot;
 
-            void generateDests(float angle)
+            void generateDests(float angle, float curDistance)
             {
                 dests = new Queue<Vector3>();
                 for(int i = 0; i < 10; i++)
                 {
-                    dests.Enqueue(Quaternion.Euler(0f, angle / 10 * i, 0f) * (point - pivot).normalized * 10 + pivot);
+                    dests.Enqueue(Quaternion.Euler(0f, angle / 10 * i, 0f) * (point - pivot).normalized * Mathf.SmoothStep(curDistance, 10f, i/9) + pivot);
                 }
             }
 
             // 选择距离短的
-            if(Vector3.Distance(rotatedPoint1, point) < Vector3.Distance(rotatedPoint2, point)) generateDests(90f);
-            else generateDests(-90f);
+            if(Vector3.Distance(rotatedPoint1, point) < Vector3.Distance(rotatedPoint2, point)) generateDests(90f, Vector3.Distance(point, pivot));
+            else generateDests(-90f, Vector3.Distance(point, pivot));
             agent.SetDestination(dests.Peek());
         }
 
@@ -51,10 +51,14 @@ namespace Assets.Scripts.CombatLogic.Characters.BehaviorTreeExtend
             // todo：被攻击时返回sucess终止行为
 
             if (dests.Count != 0 && Vector3.Distance(transform.position, dests.Peek()) < 1f) {
-                if (dests.Count == 0) return TaskStatus.Success;
+                dests.Dequeue();
+                if (dests.Count == 0)
+                {
+                    transform.LookAt(TargetGroup.Value[0].transform.position);
+                    return TaskStatus.Success;
+                }
                 else
                 {
-                    dests.Dequeue();
                     agent.SetDestination(dests.Peek());
                     return TaskStatus.Running;
                 }

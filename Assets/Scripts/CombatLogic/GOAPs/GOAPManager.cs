@@ -80,7 +80,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs
                     m_OpTransDic[id].GetComponent<GunController>().gunProperty, 
                     false, 
                     list.Count != 0, 
-                    list.Where(x => x.distance < m_OperatorDic[id].AttackRange).Count() != 0);
+                    list.Where(x => x.distance < m_OperatorDic[id].AttackRange + 2).Count() != 0); // 触发距离应长于实际攻击距离
 
                 var res = m_GraphDic[id].DoPlan(state);
 
