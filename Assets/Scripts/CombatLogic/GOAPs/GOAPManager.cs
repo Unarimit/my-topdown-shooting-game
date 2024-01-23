@@ -92,7 +92,10 @@ namespace Assets.Scripts.CombatLogic.GOAPs
                     case GOAPPlan.Null:
                         throw new Exception($"can not do null plan in {res[0].ActionName}");
                     case GOAPPlan.MoveForward:
-                        if (m_PlanDic[id] == res[0].GOAPPlan) break; // 不重复执行该计划
+                        if (m_PlanDic[id] == res[0].GOAPPlan && 
+                            m_OpTransDic[id].GetComponent<AgentController>().IsBehaviorFinish() is false) 
+                            break; // 不重复执行该计划
+
                         m_OpTransDic[id].GetComponent<AgentController>().DoMove(calPatrolPos(id));
                         break;
                     case GOAPPlan.GoAndAttack:
@@ -184,7 +187,10 @@ namespace Assets.Scripts.CombatLogic.GOAPs
                 var selfPos = new Vector2(m_OpTransDic[cid].position.x, m_OpTransDic[cid].position.z);
                 var teamPos = new Vector2(m_OpTransDic[teamId].position.x, m_OpTransDic[teamId].position.z);
                 var d = Vector2.Distance(teamPos, selfPos);
-                if(res == -1)
+
+                if (m_PlanDic[teamId] == GOAPPlan.FollowAndHeal) continue; // 防止出现互相跟随的情况
+
+                if (res == -1)
                 {
                     res = teamId;
                     res_distance = d;

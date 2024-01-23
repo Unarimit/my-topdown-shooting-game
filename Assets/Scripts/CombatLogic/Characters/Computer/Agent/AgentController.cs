@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.CombatLogic.GOAPs;
 using Assets.Scripts.CombatLogic.UILogic.MiniMap;
+using Assets.Scripts.Entities;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tactical.Tasks;
 using System;
@@ -56,12 +57,13 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
         }
         private void OnDisable()
         {
-            if (_context.Operators[transform].IsDead is true)
+            if (_context.Operators[transform].IsDead is true) // 死亡导致的OnDisable
             {
                 activeBTree.enabled = false;
                 activeBTree = m_BTreeDic[GOAPPlan.Null];
+                _controller.ClearAnimate();
             }
-            else
+            else // 暂定行为导致的OnDisable
             {
                 activeBTree.enabled = false;
             }
@@ -131,7 +133,10 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
             startBehavior();
             _last_aim_fah = aim;
         }
-
+        public bool IsBehaviorFinish()
+        {
+            return activeBTree.ExecutionStatus != BehaviorDesigner.Runtime.Tasks.TaskStatus.Running;
+        }
         private bool canBreakBehavior()
         {
             var canbreak = activeBTree.GetVariable("canBreak");
@@ -149,10 +154,15 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
             _controller.Aim(isAim, aim);
         }
         float scatter = 1f;
+        SkillTargetTip? weaponTargetTip = null;
         public void Shoot(Vector3 aim)
         {
-
-            if (_controller.HasAmmon()) _controller.Shoot(aim + new Vector3(Random.Range(0, scatter), Random.Range(0, scatter), Random.Range(0, scatter)));
+            if (weaponTargetTip == null) weaponTargetTip = _controller.Model.WeaponSkill.SkillInfo.TargetTip;
+            if (_controller.HasAmmon())
+            {
+                if (weaponTargetTip == SkillTargetTip.TeammateSingle) _controller.Shoot(aim);
+                if (weaponTargetTip == SkillTargetTip.EnemySingle) _controller.Shoot(aim + new Vector3(Random.Range(0, scatter), Random.Range(0, scatter), Random.Range(0, scatter)));
+            } 
             else _controller.Reload();
         }
         private GameObject initMiniMapMark()

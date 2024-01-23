@@ -87,7 +87,6 @@ namespace Assets.Scripts.CombatLogic.Characters
         #endregion
 
         public CombatOperator Model { get; private set; } 
-        public float Speed => _speed;
         
         /// <summary>
         /// 外部作用力

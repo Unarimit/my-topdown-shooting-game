@@ -237,8 +237,7 @@ MonoBehaviour:
       parentIndex: 
       startIndex: 
       variableStartIndex: 
-      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(-10,0)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityNavMeshAgent.SetDestination","NodeData":{"Offset":"(5,187)"},"ID":1,"Name":"Set
-        Destination","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedVector3destination":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"target","IsShared":true,"Vector3mValue":"(-10,0,10)"}},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"target","IsShared":true,"Vector3mValue":"(-10,0,10)"}]}'
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(-10,0)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"Assets.Scripts.CombatLogic.Characters.BehaviorTreeExtend.MoveForwardTask","NodeData":{"Offset":"(-1,217)"},"ID":1,"Name":"FollowAndHeal","Instant":true,"SharedVector3MovePos":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"target","IsShared":true,"Vector3mValue":"(-10,0,10)"}},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"target","IsShared":true,"Vector3mValue":"(-10,0,10)"}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 

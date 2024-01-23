@@ -18,6 +18,7 @@ namespace Assets.Scripts.CombatLogic.Characters.BehaviorTreeExtend
     {
         public SharedGameObjectList TargetGroup;
         private NavMeshAgent agent;
+        private float speedFactor = 1.8f;
 
         Queue<Vector3> dests;
         public override void OnStart()
@@ -44,6 +45,7 @@ namespace Assets.Scripts.CombatLogic.Characters.BehaviorTreeExtend
             if(Vector3.Distance(rotatedPoint1, point) < Vector3.Distance(rotatedPoint2, point)) generateDests(90f, Vector3.Distance(point, pivot));
             else generateDests(-90f, Vector3.Distance(point, pivot));
             agent.SetDestination(dests.Peek());
+            agent.speed *= speedFactor;
         }
 
         public override TaskStatus OnUpdate()
@@ -66,6 +68,9 @@ namespace Assets.Scripts.CombatLogic.Characters.BehaviorTreeExtend
             else return TaskStatus.Running;
         }
 
-
+        public override void OnEnd()
+        {
+            agent.speed /= speedFactor;
+        }
     }
 }
