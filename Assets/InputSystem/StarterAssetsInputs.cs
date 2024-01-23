@@ -96,7 +96,6 @@ namespace StarterAssets
         public void OnShoot(InputValue value)
         {
             shoot = value.isPressed;
-            if (shoot && !aim) shoot = false;
         }
         public void OnSlide(InputValue value)
         {
