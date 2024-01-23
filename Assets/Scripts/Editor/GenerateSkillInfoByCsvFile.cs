@@ -13,6 +13,8 @@ namespace Assets.Scripts.Editor
         private static readonly string TYPE = "Type";
         private static readonly string NAME = "Name";
         private static readonly string DESC = "Description";
+        private static readonly string RANGE_TIP = "RangeTip";
+        private static readonly string TARGET_TIP = "TargetTip";
         private static readonly string COOL_DOWN = "CoolDown";
         private static readonly string DURATION = "Duration";
         private static readonly string AFTER_CAST_TIME = "AfterCastTime";
@@ -36,7 +38,7 @@ namespace Assets.Scripts.Editor
                 string[] lines = File.ReadAllLines(filePath);
 
                 // 获取ScriptableObject
-                SkillListConfig myScriptableObject = AssetDatabase.LoadAssetAtPath<SkillListConfig>("Assets/NewSkillList.asset");
+                SkillListConfig myScriptableObject = AssetDatabase.LoadAssetAtPath<SkillListConfig>("Assets/Resources/SkillList.asset");
 
 
                 // 处理CSV表头
@@ -60,6 +62,8 @@ namespace Assets.Scripts.Editor
                     skill.Type = Enum.Parse<SkillType>(values[dic[TYPE]]);
                     skill.Name = values[dic[NAME]];
                     skill.Description = values[dic[DESC]];
+                    skill.RangeTip = float.Parse(values[dic[RANGE_TIP]]);
+                    skill.TargetTip = Enum.Parse<SkillTargetTip>(values[dic[TARGET_TIP]]);
                     skill.CoolDown = float.Parse(values[dic[COOL_DOWN]]);
                     skill.Duration = float.Parse(values[dic[DURATION]]);
                     skill.AfterCastTime = float.Parse(values[dic[AFTER_CAST_TIME]]);

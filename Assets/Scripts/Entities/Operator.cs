@@ -11,7 +11,8 @@ namespace Assets.Scripts.Entities
     public enum OperatorType
     {
         CA,
-        CV
+        CV,
+        DD
     }
     /// <summary> 人物性格 </summary>
     public enum OperatorTrait

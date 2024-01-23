@@ -22,12 +22,18 @@ namespace Assets.Scripts.CombatLogic.Characters
 
         public float AttackAngle()
         {
-            return 30f;
+            return 60f;
         }
 
+        float? distance;
         public float AttackDistance()
         {
-            return 10f;
+            if(distance == null)
+            {
+                distance = GetComponent<OperatorController>().Model.WeaponSkill.SkillInfo.RangeTip;
+            }
+
+            return distance.Value;
         }
 
         public bool CanAttack()

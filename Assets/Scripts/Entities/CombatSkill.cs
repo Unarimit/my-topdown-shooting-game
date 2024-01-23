@@ -18,6 +18,7 @@ namespace Assets.Scripts.Entities
         EnemyRange,
         TeammateSingle,
         TeammateRange,
+        Self,
     }
     [Serializable]
     public struct SkillSelector
@@ -98,7 +99,7 @@ namespace Assets.Scripts.Entities
         /// <summary>
         /// 技能效果类型
         /// </summary>
-        public SkillEffectType EffectType; // TODO: 删除这个
+        public SkillEffectType EffectType; // 附属于特定的`SkillSelector`，想想如何重新设计这一项
 
         /// <summary>
         /// 技能影响器
