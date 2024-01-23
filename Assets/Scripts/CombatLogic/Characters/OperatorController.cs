@@ -459,12 +459,14 @@ namespace Assets.Scripts.CombatLogic.Characters
             else if (Model.Team == 0)
             {
                 if (Model.OpInfo.Type == Entities.OperatorType.CA) t_prefab = ResourceManager.Load<GameObject>("Effects/TeamCAMark");
-                if (Model.OpInfo.Type == Entities.OperatorType.CV) t_prefab = ResourceManager.Load<GameObject>("Effects/TeamCVMark");
+                else if (Model.OpInfo.Type == Entities.OperatorType.CV) t_prefab = ResourceManager.Load<GameObject>("Effects/TeamCVMark");
+                else if (Model.OpInfo.Type == Entities.OperatorType.DD) t_prefab = ResourceManager.Load<GameObject>("Effects/TeamDDMark");
             }
             else if (Model.Team == 1)
             {
                 if (Model.OpInfo.Type == Entities.OperatorType.CA) t_prefab = ResourceManager.Load<GameObject>("Effects/EnemyCAMark");
-                if (Model.OpInfo.Type == Entities.OperatorType.CV) t_prefab = ResourceManager.Load<GameObject>("Effects/EnemyCVMark");
+                else if (Model.OpInfo.Type == Entities.OperatorType.CV) t_prefab = ResourceManager.Load<GameObject>("Effects/EnemyCVMark");
+                else if (Model.OpInfo.Type == Entities.OperatorType.DD) t_prefab = ResourceManager.Load<GameObject>("Effects/EnemyDDMark");
             }
             Instantiate(t_prefab, transform);
         }

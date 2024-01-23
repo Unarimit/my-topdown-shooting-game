@@ -272,6 +272,10 @@ namespace Assets.Scripts.CombatLogic
             var prefab = ResourceManager.Load<GameObject>("Characters/Character");
             var go = Instantiate(prefab, _agentsSpawnTrans);
 
+            // 确认位置
+            go.transform.position = pos;
+            go.transform.eulerAngles = angle;
+
             Operators.Add(go.transform, cop);
 
             // 挂components
@@ -286,9 +290,6 @@ namespace Assets.Scripts.CombatLogic
             // op component
             go.GetComponent<OperatorController>().Inject(cop);
 
-            // 确认位置
-            go.transform.position = pos;
-            go.transform.eulerAngles = angle;
 
             return go.transform;
         }

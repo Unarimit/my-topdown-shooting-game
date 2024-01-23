@@ -78,9 +78,22 @@ namespace Assets.Scripts.Services
                     {
                         new OperatorPrefab
                         {
+                            OpInfo = getRandomDD(),
+                            MinAmount = 2,
+                            MaxAmount = 4,
+                            UseRandomCModel = true,
+                            MechaRandomUpgradeFactor = 0,
+                            AiAgressive = true,
+                            InitPosition = InitPosition.EnemySpawnScatter,
+                            Dropouts = new Dropout[]{
+                                new Dropout(ItemHelper.GetItem(ItemTable.Sphere.ToString()))
+                            }
+                        },
+                        new OperatorPrefab
+                        {
                             OpInfo = getRandomCA(),
-                            MinAmount = 5,
-                            MaxAmount = 8,
+                            MinAmount = 3,
+                            MaxAmount = 5,
                             UseRandomCModel = true,
                             MechaRandomUpgradeFactor = 0,
                             AiAgressive = true,
@@ -343,7 +356,7 @@ namespace Assets.Scripts.Services
         {
             // TODO: these just for test
             return new List<Operator>() {
-                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", WeaponSkillId = 8, Id = (++opId).ToString() },
+                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", WeaponSkillId = 3, Id = (++opId).ToString() },
                 new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Type = OperatorType.CV,
                     WeaponSkillId = 6,
                     Fighters = new List<Fighter>{
@@ -378,7 +391,7 @@ namespace Assets.Scripts.Services
         {
             return new Operator
             {
-                Name = "random test",
+                Name = "CA_",
                 ModelResourceUrl = ModelList[Random.Range(0, ModelList.Count)],
                 WeaponSkillId = 4,
                 Type = OperatorType.CA,
@@ -389,7 +402,7 @@ namespace Assets.Scripts.Services
         {
             return new Operator
             {
-                Name = "random test",
+                Name = "CV_",
                 ModelResourceUrl = ModelList[Random.Range(0, ModelList.Count)],
                 WeaponSkillId = 6,
                 Type = OperatorType.CV,
@@ -397,6 +410,17 @@ namespace Assets.Scripts.Services
                     new Fighter { Operator = new Operator { Name = "r1", ModelResourceUrl = ModelList[Random.Range(0, ModelList.Count)] } },
                     new Fighter { Operator = new Operator { Name = "r2", ModelResourceUrl = ModelList[Random.Range(0, ModelList.Count)] } }
                 },
+                Id = (++opId).ToString()
+            };
+        }
+        private Operator getRandomDD()
+        {
+            return new Operator
+            {
+                Name = "DD_",
+                ModelResourceUrl = ModelList[Random.Range(0, ModelList.Count)],
+                WeaponSkillId = 8,
+                Type = OperatorType.DD,
                 Id = (++opId).ToString()
             };
         }

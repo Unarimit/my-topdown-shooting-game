@@ -39,6 +39,10 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
             {
                 mapEntity.Icon = m_CvIcon;
             }
+            else if(type == Entities.OperatorType.DD)
+            {
+                mapEntity.Icon = m_DdIcon;
+            }
         }
         public void FighterInject(int team)
         {

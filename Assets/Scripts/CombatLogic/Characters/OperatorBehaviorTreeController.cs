@@ -13,11 +13,25 @@ namespace Assets.Scripts.CombatLogic.Characters
         {
             
         }
-
+        bool? useGun = null;
         public void Attack(Vector3 targetPosition)
         {
-            GetComponent<AgentController>().Aim(true, new Vector3(targetPosition.x, 0.8f, targetPosition.z));
-            GetComponent<AgentController>().Shoot(new Vector3(targetPosition.x, 0.8f, targetPosition.z));
+            if(useGun == null)
+            {
+                useGun = GetComponent<OperatorController>().Model.WeaponSkill.SkillInfo.IsGun;
+            }
+
+            if(useGun.Value is true)
+            {
+                GetComponent<AgentController>().Aim(true, new Vector3(targetPosition.x, 0.8f, targetPosition.z));
+                GetComponent<AgentController>().Shoot(new Vector3(targetPosition.x, 0.8f, targetPosition.z));
+            }
+            else
+            {
+                GetComponent<OperatorController>().MeleeAttack(new Vector3(targetPosition.x, 0.8f, targetPosition.z));
+            }
+
+            
         }
 
         public float AttackAngle()
@@ -25,7 +39,7 @@ namespace Assets.Scripts.CombatLogic.Characters
             return 60f;
         }
 
-        float? distance;
+        float? distance = null;
         public float AttackDistance()
         {
             if(distance == null)

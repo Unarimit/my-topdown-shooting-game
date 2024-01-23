@@ -192,7 +192,7 @@ MonoBehaviour:
     Id: 8
     Description: "\u5251\u662F\u6740\u4EBA\u7684\u51F6\u5668"
     TargetTip: 0
-    RangeTip: 1
+    RangeTip: 2
     CoolDown: 0.5
     Duration: 0.5
     AfterCastTime: 0.5

@@ -7,10 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Scripts.CombatLogic.Skill.Releaser
 {
+    /// <summary>
+    /// 贴在角色go上的释放器
+    /// </summary>
     internal class MeleeReleaser : BaseReleaser
     {
         private CombatSkill _skill;
@@ -35,10 +39,11 @@ namespace Assets.Scripts.CombatLogic.Skill.Releaser
 
 
             // 延迟销毁go和触发连锁技能
-            StartCoroutine(DelayDestroySelf()); // 可能因为角色死亡而异常
+            if(gameObject.activeSelf is true)
+                StartCoroutine(DelayDestroySelf()); 
+            else
+                Destroy(this); // 可因角色死亡提前销毁
         }
-
-        
 
         IEnumerator DelayDestroySelf()
         {

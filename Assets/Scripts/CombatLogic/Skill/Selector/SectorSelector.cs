@@ -19,6 +19,7 @@ namespace Assets.Scripts.CombatLogic.Skill.Selector
             var res = CombatContextManager.Instance.FindOpTransform(x =>
                 Vector3.Distance(caster.position, x.position) < distance &&
                 Vector3.Angle(caster.position, x.position) < angle &&
+                x != caster &&
                 CombatContextManager.Instance.Operators[x].IsDead is false
             );
 

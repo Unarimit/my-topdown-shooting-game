@@ -95,6 +95,7 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
             Team = team;
             SpawnBase = spawnBase;
             Speed = op.McLeg.Speed;
+            if (op.Type == OperatorType.DD) Speed *= 1.8f;
             WeaponSkill = new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[op.WeaponSkillId]);
             SlideSkill = new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[op.SlideSkillId]);
             CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[op.MainSkillId]));
