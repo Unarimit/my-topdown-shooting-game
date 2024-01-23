@@ -77,7 +77,11 @@ namespace Assets.Scripts.CombatLogic.GOAPs
                 var list = findFieldOfViewEnemy(id);
                 // 注意不需要搜索敌人的情况
                 var state = GOAPStatusHelper.CalcState(m_OperatorDic[id], 
-                    m_OpTransDic[id].GetComponent<GunController>().gunProperty, false, list.Count != 0);
+                    m_OpTransDic[id].GetComponent<GunController>().gunProperty, 
+                    false, 
+                    list.Count != 0, 
+                    list.Where(x => x.distance < m_OperatorDic[id].AttackRange).Count() != 0);
+
                 var res = m_GraphDic[id].DoPlan(state);
 
                 if(GOAPDebugger.Instance != null) GOAPDebugger.Instance.PrintActions(m_GraphDic[id].Name, res);
@@ -113,8 +117,6 @@ namespace Assets.Scripts.CombatLogic.GOAPs
         }
 
 
-        float ligalAngle = 120f;
-        float ligalDistance = 10f;
         struct FieldOfViewItem
         {
             public int id;
@@ -125,6 +127,10 @@ namespace Assets.Scripts.CombatLogic.GOAPs
         /// </summary>
         private List<FieldOfViewItem> findFieldOfViewEnemy(int cid)
         {
+            float ligalAngle = 120f;
+            float ligalDistance = m_OperatorDic[cid].SeeRange;
+
+            // 获取敌人列表
             var enemyIdList = new List<int>();
             if (m_OperatorDic[cid].Team == 0) 
                 enemyIdList = m_OperatorDic.Where(x => x.Value.Team == 1 && x.Value.IsDead is false).Select(x => x.Key).ToList();
@@ -133,6 +139,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs
             else 
                 throw new Exception($"error Team{m_OperatorDic[cid].Team}");
 
+            // 遍历查找满足条件的
             var res = new List<FieldOfViewItem>();
             foreach(var enemyId in enemyIdList)
             {
@@ -155,8 +162,12 @@ namespace Assets.Scripts.CombatLogic.GOAPs
             return res;
         }
 
+        /// <summary>
+        /// 寻找附近的队友
+        /// </summary>
         private GameObject findNearlyTeammate(int cid)
         {
+            // 获取队友列表
             var teamIdList = new List<int>();
             teamIdList = m_OperatorDic.Where(x => m_OperatorDic[x.Key].Team == m_OperatorDic[cid].Team && x.Value.IsDead is false && x.Value.Id != cid)
                 .Select(x => x.Key)
@@ -164,6 +175,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs
             if(teamIdList.Count == 0) return null;
             else if(teamIdList.Count == 1 && teamIdList[0] == cid) return null;
 
+            // 遍历查找满足条件的
             int res = -1;
             float res_distance = 0;
             foreach (var teamId in teamIdList)
@@ -187,6 +199,9 @@ namespace Assets.Scripts.CombatLogic.GOAPs
             return m_OpTransDic[res].gameObject;
         }
 
+        /// <summary>
+        /// 获得最有价值的目标（通常是敌方）
+        /// </summary>
         private GameObject getMostValuableTarget(List<FieldOfViewItem> data)
         {
             int res = 0;
@@ -194,7 +209,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs
             {
                 if (data[i].distance < data[res].distance) res = i;
             }
-            return m_OpTransDic[data[res].id].gameObject;
+            return m_OpTransDic[data[res].id].gameObject; // 暂时以距离最近的
         }
 
         private GameObject findNearlyEnemy(int cid)

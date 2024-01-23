@@ -11,6 +11,9 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
 
         //public Transform Transform { get; set; }  //暂时没用
 
+        /// <summary>
+        /// 标识id，随构造函数自增
+        /// </summary>
         public int Id { get; }
 
         /// <summary>
@@ -25,7 +28,14 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
         /// 战斗中最大HP
         /// </summary>
         public int MaxHP { get; private set; }
+        /// <summary>
+        /// 战斗中最大速度
+        /// </summary>
         public float Speed { get; private set; }
+
+        /// <summary>
+        /// 所属队伍 目前：0：玩家； 1：敌人
+        /// </summary>
         public int Team { get; private set; }
 
         /// <summary>
@@ -55,6 +65,15 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
         /// </summary>
         public CombatCombatSkill SlideSkill { get; private set; }
 
+        #region AI信息
+        /// <summary> 攻击范围(根据武器技能判断) </summary>
+        public float AttackRange { get; }
+
+        /// <summary> 视野范围(根据模板判断) </summary>
+        public float SeeRange { get; }
+        #endregion
+
+
         #region 战斗Buffs
         public float DefendFactor { get; set; } = 0;
         #endregion
@@ -80,6 +99,8 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
             SlideSkill = new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[op.SlideSkillId]);
             CombatSkillList.Add(new CombatCombatSkill(SkillManager.Instance.skillConfig.CombatSkills[op.MainSkillId]));
             IsPlayer = isPlayer;
+            AttackRange = WeaponSkill.SkillInfo.RangeTip;
+            SeeRange = 15f;
         }
 
         public int TakeDamage(int dmg)

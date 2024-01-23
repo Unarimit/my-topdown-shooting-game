@@ -46,6 +46,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs.Builders
                     .AddFactor(GOAPStatus.Tactical, -5)
                     .AddFactor(GOAPStatus.LowAmmo, 5)
                     .AddFactor(GOAPStatus.NoAmmo, 20)
+                    .AddFactor(GOAPStatus.EnemyInRange, 10)
                     .SetPlan(GOAPPlan.SurroundAndAttack)
                     .BuildAction();
             }

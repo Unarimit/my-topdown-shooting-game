@@ -57,9 +57,14 @@ namespace Assets.Scripts.Entities
         public string Description;
 
         /// <summary>
-        /// 技能目标提示（用于UI和AI判断）
+        /// 技能目标提示（用于AI判断和UI显示）
         /// </summary>
         public SkillTargetTip TargetTip = SkillTargetTip.EnemySingle;
+
+        /// <summary>
+        /// 射程提示（用于AI判断，实际上的射程是由释放器决定的）
+        /// </summary>
+        public float RangeTip = 5f;
 
         /// <summary>
         /// 技能冷却

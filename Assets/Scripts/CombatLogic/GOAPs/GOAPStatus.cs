@@ -22,6 +22,8 @@ namespace Assets.Scripts.CombatLogic.GOAPs
         // 角色观察状态
         /// <summary> 观察到敌人 </summary>
         SawEnemy,
+        /// <summary> 敌人在攻击范围内 </summary>
+        EnemyInRange,
         /// <summary> （附近战力）我方强于敌方 </summary>
         StrongThanEnemy, // 这依赖于这一项的Plan一定是在开局规划中无法做出的，是中途规划需要改变的
 
@@ -47,7 +49,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs
         /// <summary>
         /// 计算GOAP世界状态
         /// </summary>
-        public static uint CalcState(CombatOperator cop, GunController.GunProperty gunProperty, bool inAttack, bool canSeeEnemy)
+        public static uint CalcState(CombatOperator cop, GunController.GunProperty gunProperty, bool inAttack, bool canSeeEnemy, bool isEnemyInRange)
         {
             uint res = 0;
             /*****************  简单状态  *****************/
@@ -83,6 +85,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs
             // 角色观察状态比较难算
             if (inAttack) res |= (uint)1 << (int)GOAPStatus.InAttack;
             if (canSeeEnemy) res |= (uint)1 << (int)GOAPStatus.SawEnemy;
+            if (isEnemyInRange) res |= (uint)1 << (int)GOAPStatus.EnemyInRange;
 
             return res;
         }
