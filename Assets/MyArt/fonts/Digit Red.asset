@@ -60,9 +60,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: Digit Red
   m_EditorClassIdentifier: 
-  hashCode: -1000894699
+  hashCode: 993671556
   material: {fileID: 9076777351706018845}
-  materialHashCode: 375846805
+  materialHashCode: -706271836
   m_Version: 1.1.0
   m_SourceFontFileGUID: 404ab4050d0c41d46b6040bc0311a443
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 404ab4050d0c41d46b6040bc0311a443,
@@ -2693,7 +2693,7 @@ Material:
     - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EnvMatrixRotation: {r: 0, g: 0, b: 0, a: 0}
-    - _FaceColor: {r: 3.8867924, g: 0.38501245, b: 0.7128702, a: 1}
+    - _FaceColor: {r: 1.9337013, g: 1.9337013, b: 1.9337013, a: 1}
     - _GlowColor: {r: 0, g: 1, b: 0, a: 0.5}
     - _MaskCoord: {r: 0, g: 0, b: 32767, a: 32767}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}

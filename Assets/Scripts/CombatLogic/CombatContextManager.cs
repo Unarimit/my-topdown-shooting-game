@@ -135,7 +135,7 @@ namespace Assets.Scripts.CombatLogic
                 else Debug.LogWarning($"{from.gameObject.name}: can not be search in combat dic");
                 
                 // effect
-                AnimeHelper.Instance.DamageTextEffect(val, to);
+                AnimeHelper.Instance.FloatDamageTextEffect(val, to);
                 if (Operators[to].CurrentHP <= 0) OperatorDied(to);
                 else OperatorGotDMG(to);
             }

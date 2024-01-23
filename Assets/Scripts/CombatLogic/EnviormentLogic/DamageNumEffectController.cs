@@ -38,6 +38,7 @@ namespace Assets.Scripts.CombatLogic
             else if(delay_time > 0)
             {
                 delay_time -= Time.deltaTime;
+                _text.alpha = delay_time / BASE_DELAY_TIME;
             }
             else
             {

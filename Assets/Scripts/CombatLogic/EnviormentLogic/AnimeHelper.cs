@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +23,9 @@ namespace Assets.Scripts.CombatLogic
             go.transform.rotation = transform.rotation;
         }
         private Dictionary<Transform, DamageNumEffectController> hitTextDic = new Dictionary<Transform, DamageNumEffectController>();
+        /// <summary>
+        /// 像apex一样的累计伤害数字
+        /// </summary>
         public void DamageTextEffect(int dmg, Transform hitted)
         {
             if(hitTextDic.ContainsKey(hitted) && hitTextDic[hitted] != null && hitTextDic[hitted].InDestroy == false)
@@ -40,6 +42,20 @@ namespace Assets.Scripts.CombatLogic
 
                 go.transform.position = hitted.position + new Vector3(0, 1.5f, 0);
             }
+
+        }
+        /// <summary>
+        /// 简单的浮动伤害数字
+        /// </summary>
+        public void FloatDamageTextEffect(int dmg, Transform hitted)
+        {
+            GameObject prefab;
+            if(dmg < 0) prefab = ResourceManager.Load<GameObject>("Effects/HealTextEffect");
+            else prefab = ResourceManager.Load<GameObject>("Effects/DamageTextEffect");
+
+            var go = Instantiate(prefab, CombatContextManager.Instance.Enviorment);
+            go.GetComponent<DamageNumEffectController>().DamageNum = System.Math.Abs(dmg);
+            go.transform.position = hitted.position + new Vector3(Random.Range(0, 0.5f), 1.5f, Random.Range(0, 0.5f));
 
         }
         List<AudioClip> gunshotAudioAudioClips = null;
