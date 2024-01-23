@@ -34,10 +34,17 @@ namespace Assets.Scripts.CombatLogic
                 Debug.Log("DB has no level info, enter test mode");
                 level = CombatLevelGenerator.GeneratorLevelInfo((CombatLevelRule)MyServices.Database.LevelRules[0]);
                 level.TeamOperators = MyServices.Database.Operators.Take(5).ToList();
+
+                // 调试使用随机灯光
+                if (Random.Range(0, 2) == 0) lightManager.Day();
+                else lightManager.Night();
             }
             else
             {
                 level = MyServices.Database.CurCombatLevelInfo;
+                // 正常游戏使用确定的灯光
+                if (MyServices.GameDataHelper.IsDay() is true) lightManager.Day();
+                else lightManager.Night();
             }
             _context.CombatVM.Level = level;
             _context.CombatVM.LevelResult = new CombatLevelResult { CombatStatu = CombatStatu.Ing, 
@@ -56,9 +63,6 @@ namespace Assets.Scripts.CombatLogic
             transform.AddComponent<GameLevelManager>().Init(level.LevelRule);
 
             UIManager.Instance.Init();
-
-            if(Random.Range(0, 2) == 0) lightManager.Day();
-            else lightManager.Night();
 
         }
         [MyTest]
