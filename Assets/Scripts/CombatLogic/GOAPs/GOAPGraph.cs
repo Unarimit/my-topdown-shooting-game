@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.CombatLogic.GOAPs.JobVersion;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 
@@ -16,10 +18,24 @@ namespace Assets.Scripts.CombatLogic.GOAPs
         {
             Name = name;
         }
-
+        public GOAPGraphPro ToPro()
+        {
+            return new GOAPGraphPro
+            {
+                Actions = new Unity.Collections.NativeArray<GOAPAction>(Actions.ToArray(), Unity.Collections.Allocator.Persistent)
+            };
+        }
         public List<GOAPAction> DoPlan(uint initState)
         {
+            return GOAPGraphHelper.DoPlanForActions(initState, Actions);
+        }
+    }
+    internal static class GOAPGraphHelper 
+    { 
+        public static List<GOAPAction> DoPlanForActions(uint initState, IEnumerable<GOAPAction> Actions)
+        {
             var res = new List<GOAPAction>();
+            int actionsLength = Actions.Count();
 
             // use bfs and visit
             var queue = new Queue<uint>();
@@ -29,32 +45,32 @@ namespace Assets.Scripts.CombatLogic.GOAPs
             var dpCost = new Dictionary<uint, float>();
             dpCost.Add(initState, 0);
             queue.Enqueue(initState);
-            while(queue.Count > 0)
+            while (queue.Count > 0)
             {
                 int len = queue.Count;
-                for(int _ = 0; _ < len; _++)
+                for (int _ = 0; _ < len; _++)
                 {
                     var s = queue.Dequeue();
                     // 正文
-                    for(int i = 0; i < Actions.Count; i++)
+                    for (int i = 0; i < actionsLength; i++)
                     {
-                        if (Actions[i].IsMatchCondtions(s))
+                        if (Actions.ElementAt(i).IsMatchCondtions(s))
                         {
-                            var ns = Actions[i].Transfer(s); // next state
-                            var cost = dpCost[s] + Actions[i].GetCost(s);
+                            var ns = Actions.ElementAt(i).Transfer(s); // next state
+                            var cost = dpCost[s] + Actions.ElementAt(i).GetCost(s);
                             if (dpCost.ContainsKey(ns))
                             {
-                                if (cost < dpCost[ns]) dpCost[ns] = cost; 
+                                if (cost < dpCost[ns]) dpCost[ns] = cost;
                                 else continue;
                             }
                             else dpCost.Add(ns, cost);
 
                             if (trace.ContainsKey(s))
                             {
-                                if ( cost < trace[s].Item2)
+                                if (cost < trace[s].Item2)
                                 {
                                     trace[s] = (ns, cost, i);
-                                    if(isGoal(ns) is false) queue.Enqueue(ns);
+                                    if (isGoal(ns) is false) queue.Enqueue(ns);
                                 }
                             }
                             else
@@ -68,17 +84,16 @@ namespace Assets.Scripts.CombatLogic.GOAPs
             }
 
             var p = initState;
-            while(isGoal(p) is false)
+            while (isGoal(p) is false)
             {
-                res.Add(Actions[trace[p].Item3]);
+                res.Add(Actions.ElementAt(trace[p].Item3));
                 p = trace[p].Item1;
             }
             return res;
         }
-        private bool isGoal(uint state)
+        private static bool isGoal(uint state)
         {
             return (state & ((uint)1 << (int)GOAPStatus.Win)) != 0;
         }
-
     }
 }

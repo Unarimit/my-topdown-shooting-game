@@ -1,5 +1,7 @@
 ﻿using Assets.Scripts.CombatLogic.CombatEntities;
+using System.Security.Cryptography;
 using UnityEngine;
+using static Assets.Scripts.CombatLogic.GOAPs.JobVersion.GOAPManagerPro;
 
 namespace Assets.Scripts.CombatLogic.GOAPs
 {
@@ -67,14 +69,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs
                 }
             }
             // -- 技能
-            foreach (var x in cop.CombatSkillList)
-            {
-                if(x.IsCoolDowning(Time.deltaTime) is false && 
-                    (x.SkillInfo.TargetTip == Entities.SkillTargetTip.EnemySingle || x.SkillInfo.TargetTip == Entities.SkillTargetTip.EnemyRange))
-                {
-                    res |= (uint)1 << (int)GOAPStatus.HaveNoCdAttackSkill;
-                }
-            }
+            if(HaveNoCdAttackSkill(cop)) res |= (uint)1 << (int)GOAPStatus.HaveNoCdAttackSkill;
 
             // op性格
             if (cop.OpInfo.Trait == Entities.OperatorTrait.Offensive) res |= (uint)1 << (int)GOAPStatus.Offensive;
@@ -89,7 +84,20 @@ namespace Assets.Scripts.CombatLogic.GOAPs
 
             return res;
         }
-
         
+
+        public static bool HaveNoCdAttackSkill(CombatOperator cop)
+        {
+            foreach (var x in cop.CombatSkillList)
+            {
+                if (x.IsCoolDowning(Time.deltaTime) is false &&
+                    (x.SkillInfo.TargetTip == Entities.SkillTargetTip.EnemySingle || x.SkillInfo.TargetTip == Entities.SkillTargetTip.EnemyRange))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 }
