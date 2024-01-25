@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.CombatLogic.EnviormentLogic;
 using Assets.Scripts.CombatLogic.GOAPs;
+using Assets.Scripts.CombatLogic.GOAPs.JobVersion;
 using Assets.Scripts.CombatLogic.LevelLogic;
 using Assets.Scripts.Common;
 using Assets.Scripts.Common.Test;
@@ -56,7 +57,7 @@ namespace Assets.Scripts.CombatLogic
             prepareLevel(level);
 
             // AI
-            GetComponent<GOAPManager>().Inject(_context);
+            GetComponent<GOAPManagerPro>().Inject(_context);
 
             // 组件注册
             transform.AddComponent<AnimeHelper>();

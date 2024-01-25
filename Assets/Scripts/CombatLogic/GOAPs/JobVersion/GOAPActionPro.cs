@@ -1,26 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Unity.Collections;
+using Unity.Collections.LowLevel.Unsafe;
 
-namespace Assets.Scripts.CombatLogic.GOAPs
+namespace Assets.Scripts.CombatLogic.GOAPs.JobVersion
 {
-    internal struct GOAPActionFactor
-    {
-        public GOAPStatus Status;
-        public float Factor;
-    }
-    internal struct GOAPAction
+    internal struct GOAPActionPro
     {
         public uint Conditions;
         public uint Effects;
-        public GOAPActionFactor[] Factors;
+        public UnsafeList<GOAPActionFactor> Factors;
         public float Cost;
         public GOAPPlan GOAPPlan;
-
-        // DEBUG
-        public string ActionName;
 
         public bool IsMatchCondtions(uint state)
         {
@@ -35,7 +24,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs
         public float GetCost(uint state)
         {
             float res = Cost;
-            foreach(var fac in Factors)
+            foreach (var fac in Factors)
             {
                 if ((state & ((uint)1 << (int)fac.Status)) != 0) res += fac.Factor;
             }

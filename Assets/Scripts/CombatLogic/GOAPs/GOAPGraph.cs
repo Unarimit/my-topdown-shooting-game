@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 namespace Assets.Scripts.CombatLogic.GOAPs
@@ -22,7 +23,13 @@ namespace Assets.Scripts.CombatLogic.GOAPs
         {
             return new GOAPGraphPro
             {
-                Actions = new Unity.Collections.NativeArray<GOAPAction>(Actions.ToArray(), Unity.Collections.Allocator.Persistent)
+                Actions = Actions.Select(x => new GOAPActionPro { 
+                    Conditions = x.Conditions,
+                    Effects = x.Effects,
+                    Cost = x.Cost,
+                    GOAPPlan = x.GOAPPlan,
+                    Factors = x.Factors.ToUnsafeList(),
+                }).ToList().ToUnsafeList()
             };
         }
         public List<GOAPAction> DoPlan(uint initState)
@@ -31,7 +38,66 @@ namespace Assets.Scripts.CombatLogic.GOAPs
         }
     }
     internal static class GOAPGraphHelper 
-    { 
+    {
+        public static List<GOAPActionPro> DoPlanForActions(uint initState, UnsafeList<GOAPActionPro> Actions)
+        {
+            var res = new List<GOAPActionPro>();
+            int actionsLength = Actions.Length;
+
+            // use bfs and visit
+            var queue = new Queue<uint>();
+
+            // 状态(uint)的下一个最优状态是(uint)，代价是(float)，通过哪个动作id(int)
+            var trace = new Dictionary<uint, (uint, float, int)>();
+            var dpCost = new Dictionary<uint, float>();
+            dpCost.Add(initState, 0);
+            queue.Enqueue(initState);
+            while (queue.Count > 0)
+            {
+                int len = queue.Count;
+                for (int _ = 0; _ < len; _++)
+                {
+                    var s = queue.Dequeue();
+                    // 正文
+                    for (int i = 0; i < actionsLength; i++)
+                    {
+                        if (Actions.ElementAt(i).IsMatchCondtions(s))
+                        {
+                            var ns = Actions.ElementAt(i).Transfer(s); // next state
+                            var cost = dpCost[s] + Actions.ElementAt(i).GetCost(s);
+                            if (dpCost.ContainsKey(ns))
+                            {
+                                if (cost < dpCost[ns]) dpCost[ns] = cost;
+                                else continue;
+                            }
+                            else dpCost.Add(ns, cost);
+
+                            if (trace.ContainsKey(s))
+                            {
+                                if (cost < trace[s].Item2)
+                                {
+                                    trace[s] = (ns, cost, i);
+                                    if (isGoal(ns) is false) queue.Enqueue(ns);
+                                }
+                            }
+                            else
+                            {
+                                trace.Add(s, (ns, cost, i));
+                                if (isGoal(ns) is false) queue.Enqueue(ns);
+                            }
+                        }
+                    }
+                }
+            }
+
+            var p = initState;
+            while (isGoal(p) is false)
+            {
+                res.Add(Actions.ElementAt(trace[p].Item3));
+                p = trace[p].Item1;
+            }
+            return res;
+        }
         public static List<GOAPAction> DoPlanForActions(uint initState, IEnumerable<GOAPAction> Actions)
         {
             var res = new List<GOAPAction>();

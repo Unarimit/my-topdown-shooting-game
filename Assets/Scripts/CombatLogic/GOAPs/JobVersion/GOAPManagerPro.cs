@@ -6,9 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Collections;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.Jobs;
 using UnityEngine;
-using Random = UnityEngine.Random;
+using Random = System.Random;
 
 namespace Assets.Scripts.CombatLogic.GOAPs.JobVersion
 {
@@ -72,11 +73,11 @@ namespace Assets.Scripts.CombatLogic.GOAPs.JobVersion
         public struct GOAPJob : IJob
         {
             [ReadOnly]
-            public NativeArray<NativeArray<int>> Map;
+            public UnsafeHashMap<int, UnsafeList<int>> Map;
             [ReadOnly]
             public NativeHashMap<int, CombatCharacterColdData> CharactorColdDatas;
             [ReadOnly]
-            public NativeHashMap<int, GOAPGraphPro> CharactorGraphs;
+            public UnsafeHashMap<int, GOAPGraphPro> CharactorGraphs;
 
             public NativeHashMap<int, CombatCharacterHotData> CharactorHotDatas;
             public NativeHashMap<int, PlanResultData> CharactorPlans;
@@ -108,9 +109,9 @@ namespace Assets.Scripts.CombatLogic.GOAPs.JobVersion
                     switch (res[0].GOAPPlan)
                     {
                         case GOAPPlan.Null:
-                            throw new Exception($"can not do null plan in {res[0].ActionName}");
+                            throw new Exception($"can not do null plan in unkown action");
                         case GOAPPlan.MoveForward:
-                            resultData.TargetPos =  calPatrolPos(id);
+                            resultData.TargetPos = calPatrolPos(id);
                             break;
                         case GOAPPlan.GoAndAttack:
                             resultData.TargetCid = getMostValuableTarget(list);
@@ -260,7 +261,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs.JobVersion
                 {
                     if (data[i].distance < data[res].distance) res = i;
                 }
-                return res; // 暂时以距离最近的
+                return data[res].id; // 暂时以距离最近的
             }
 
             private int findNearlyEnemy(int cid)
@@ -313,8 +314,8 @@ namespace Assets.Scripts.CombatLogic.GOAPs.JobVersion
 
                 // 没有敌人活着时
                 if (enemyIdList.Count == 0) return CharactorColdDatas[cid].SpawnPosition;
-
-                return CharactorHotDatas[enemyIdList[Random.Range(0, enemyIdList.Count)]].Position;
+                Random rand = new Random();
+                return CharactorHotDatas[enemyIdList[rand.Next(0, enemyIdList.Count)]].Position;
             }
 
             /// <summary>
@@ -354,15 +355,18 @@ namespace Assets.Scripts.CombatLogic.GOAPs.JobVersion
             }
 
             // 地图信息
-            reusedJob.Map = new NativeArray<NativeArray<int>>(context.CombatVM.Level.Map.Length, Allocator.Persistent);
-            for(int i = 0; i < reusedJob.Map.Length; i++)
+            reusedJob.Map = new UnsafeHashMap<int, UnsafeList<int>>(context.CombatVM.Level.Map.Length, Allocator.Persistent);
+            for(int i = 0; i < context.CombatVM.Level.Map.Length; i++)
             {
-                reusedJob.Map[i] = new NativeArray<int>(context.CombatVM.Level.Map[i], Allocator.Persistent);
+                var list = new UnsafeList<int>(context.CombatVM.Level.Map[i].Length, Allocator.Persistent);
+                for (int j = 0; j < context.CombatVM.Level.Map[0].Length; j++) list.Add(context.CombatVM.Level.Map[i][j]);
+                reusedJob.Map[i] = list;
             }
 
-            // 任务信息
+            // 人物信息
             reusedJob.CharactorColdDatas = new NativeHashMap<int, CombatCharacterColdData>(context.Operators.Count, Allocator.Persistent);
-            reusedJob.CharactorGraphs = new NativeHashMap<int, GOAPGraphPro>(context.Operators.Count, Allocator.Persistent);
+            reusedJob.CharactorGraphs = new UnsafeHashMap<int, GOAPGraphPro>(context.Operators.Count, Allocator.Persistent);
+            reusedJob.CharactorPlans = new NativeHashMap<int, PlanResultData>(context.Operators.Count, Allocator.Persistent);
             foreach (var x in context.Operators.Values)
             {
                 reusedJob.CharactorColdDatas.Add(x.Id, new CombatCharacterColdData
@@ -419,6 +423,12 @@ namespace Assets.Scripts.CombatLogic.GOAPs.JobVersion
             foreach(var res in reusedJob.CharactorPlans)
             {
                 int id = res.Key;
+
+                if (m_OperatorDic[id].IsPlayer is true || // 忽略玩家
+                    m_OperatorDic[id].IsDead is true ||  // 忽略死亡agent
+                    m_OpTransDic[id].GetComponent<AgentController>().enabled is false) // 忽略暂停行为
+                    continue;
+
                 switch (res.Value.Plan)
                 {
                     case GOAPPlan.Null:
@@ -432,6 +442,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs.JobVersion
                         break;
                     case GOAPPlan.GoAndAttack:
                         // 可能会出现目标不同的情况，交给AgentController处理
+                        if (res.Value.TargetCid == -1) break;
                         m_OpTransDic[id].GetComponent<AgentController>().DoGoAndAttack(m_OpTransDic[res.Value.TargetCid].gameObject);
                         break;
                     case GOAPPlan.SurroundAndAttack:

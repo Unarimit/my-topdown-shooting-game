@@ -11,7 +11,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs.Builders
 
         List<GOAPStatus> condtions = new List<GOAPStatus>();
         List<GOAPStatus> effects = new List<GOAPStatus>();
-        List<(GOAPStatus, float)> factors = new List<(GOAPStatus, float)>();
+        List<GOAPActionFactor> factors = new List<GOAPActionFactor>();
         bool isGoal = false;
         GOAPPlan plan = GOAPPlan.Null;
         float cost = 100; // 默认相当大的值
@@ -35,7 +35,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs.Builders
         /// </summary>
         public GOAPActionBuilder AddFactor(GOAPStatus status, float factor)
         {
-            factors.Add((status, factor));
+            factors.Add(new GOAPActionFactor { Status = status, Factor = factor });
             return this;
 
         }
