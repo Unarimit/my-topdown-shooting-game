@@ -53,8 +53,8 @@ namespace Assets.Scripts.CombatLogic.GOAPs.JobVersion
             public int Hp;
             /// <summary> 现在子弹数 </summary>
             public int Ammo;
-            /// <summary> 是否由玩家控制 </summary>
-            public bool IsPlayer;
+            /// <summary> 不需要规划（正在由玩家控制，或者时间暂停） </summary>
+            public bool NeedNotPlan;
             /// <summary>  </summary>
             public bool HaveNoCdAttackSkill;
         }
@@ -93,6 +93,8 @@ namespace Assets.Scripts.CombatLogic.GOAPs.JobVersion
 
                 foreach (var x in CharactorHotDatas)
                 {
+                    if (x.Value.NeedNotPlan) continue;
+
                     int id = x.Key;
                     // 视野范围的敌人
                     var list = findFieldOfViewEnemy(id);
@@ -390,17 +392,25 @@ namespace Assets.Scripts.CombatLogic.GOAPs.JobVersion
         JobHandle? handle;
         private void Update()
         {
-            //if (handle != null && handle.Value.IsCompleted) handle = null;
-            //if (handle != null) return;
-
+            if (handle != null && handle.Value.IsCompleted)
+            {
+                handle.Value.Complete();
+                processPlanForJob();
+                handle = null;
+            }
+            if (handle != null) return;
+            prepareHotDataForJob();
+            handle = reusedJob.Schedule();
+        }
+        private void testRun()
+        {
             prepareHotDataForJob();
             reusedJob.Run();
             processPlanForJob();
-            
-
-            //handle = reusedJob.Schedule();
-
         }
+        /// <summary>
+        /// 传入会随时间变更的状态
+        /// </summary>
         private void prepareHotDataForJob()
         {
             reusedJob.CharactorHotDatas = new NativeHashMap<int, CombatCharacterHotData>(reusedJob.CharactorColdDatas.Count, Allocator.TempJob);
@@ -411,18 +421,23 @@ namespace Assets.Scripts.CombatLogic.GOAPs.JobVersion
                     Position = new Vector2(m_OpTransDic[x.Id].position.x, m_OpTransDic[x.Id].position.z),
                     Forward = new Vector2(m_OpTransDic[x.Id].forward.x, m_OpTransDic[x.Id].forward.z),
                     IsDead = x.IsDead,
-                    IsPlayer = x.IsPlayer,
+                    NeedNotPlan = x.IsPlayer is true || x.IsDead is true || m_OpTransDic[x.Id].GetComponent<AgentController>().enabled is false,
                     Hp = x.CurrentHP,
                     Ammo = m_OpTransDic[x.Id].GetComponent<GunController>().gunProperty.CurrentAmmo,
                     HaveNoCdAttackSkill = GOAPStatusHelper.HaveNoCdAttackSkill(x),
                 });
             }
         }
+        /// <summary>
+        /// 处理返回的结果
+        /// </summary>
         private void processPlanForJob()
         {
             foreach(var res in reusedJob.CharactorPlans)
             {
                 int id = res.Key;
+                if (reusedJob.CharactorHotDatas[res.Key].NeedNotPlan is true) // 要额外在判断这个，防止不一致
+                    continue;
 
                 if (m_OperatorDic[id].IsPlayer is true || // 忽略玩家
                     m_OperatorDic[id].IsDead is true ||  // 忽略死亡agent
@@ -447,14 +462,17 @@ namespace Assets.Scripts.CombatLogic.GOAPs.JobVersion
                         break;
                     case GOAPPlan.SurroundAndAttack:
                         // 可能会出现目标不同的情况，交给AgentController处理
+                        if (res.Value.TargetCid == -1) break;
                         m_OpTransDic[id].GetComponent<AgentController>().DoSurroundAndAttack(m_OpTransDic[res.Value.TargetCid].gameObject);
                         break;
                     case GOAPPlan.RetreatAndReload:
                         // 可能会出现目标不同的情况，交给AgentController处理
+                        if (res.Value.TargetCid == -1) break;
                         m_OpTransDic[id].GetComponent<AgentController>().DoRetreatAndReload(m_OpTransDic[res.Value.TargetCid].gameObject);
                         break;
                     case GOAPPlan.FollowAndHeal:
                         // 可能会出现目标不同的情况，交给AgentController处理
+                        if (res.Value.TargetCid == -1) break;
                         m_OpTransDic[id].GetComponent<AgentController>().DoFollowAndHeal(m_OpTransDic[res.Value.TargetCid].gameObject);
                         break;
                 }
