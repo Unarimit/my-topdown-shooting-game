@@ -3,15 +3,25 @@ using Assets.Scripts.Entities.Buildings;
 using Assets.Scripts.Entities.HomeMessage;
 using Assets.Scripts.Entities.Level;
 using Assets.Scripts.Entities.Mechas;
+using Assets.Scripts.Entities.Save;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.Services.Interface
 {
     internal interface IGameDatabase
     {
+        #region 存档信息，启动游戏时读取
+
+        public IList<SaveAbstract> Saves { get; }
+
+        public void LoadSave(string saveId);
+
+        #endregion
+
+
         #region 和单个存档相关的数据
         /// <summary> 玩家拥有的Op </summary>
-        public IList<Operator> Operators { get; }
+        public IList<Operator> Operators { get; } // 没用MVC控制全局数据，改视图好麻烦。（想改成IDictionary来着）
 
         /// <summary> 玩家拥有的机甲 </summary>
         public IList<MechaBase> Mechas { get; }
@@ -45,10 +55,8 @@ namespace Assets.Scripts.Services.Interface
 
         /// <summary> 当前加载的模型信息 </summary>
         public List<string> ModelList { get; }
-
-
-
         #endregion
+
         /// <summary> 获取入侵关卡信息，需要完善输入以指定强度，或采取其他方式 </summary>
         public CombatLevelRule GetInvasionLevel();
     }

@@ -4,15 +4,20 @@ using Assets.Scripts.Entities.Buildings;
 using Assets.Scripts.Entities.HomeMessage;
 using Assets.Scripts.Entities.Level;
 using Assets.Scripts.Entities.Mechas;
+using Assets.Scripts.Entities.Save;
 using Assets.Scripts.Services.Interface;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static Assets.Scripts.Services.MyConfig;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Services
 {
     internal class TestDatabase : IGameDatabase
     {
+        public IList<SaveAbstract> Saves { get; private set; }
+
         public IList<Operator> Operators { get; private set; }
         public IList<MechaBase> Mechas { get; private set; }
         public IDictionary<string, int> Inventory { get; private set; }
@@ -26,9 +31,10 @@ namespace Assets.Scripts.Services
         public List<string> ModelList { get; private set; }
         public IList<CombatSkill> CombatSkills { get; private set; }
 
-
         public TestDatabase()
         {
+            Saves = getTestSaves();
+
             ModelList = new List<string> { "Hoshino", "Shiroko", "Aru", "Karin", "Mashiro" };
             LevelRules = generateTestLevel();
             Buildings = getTestBuildings();
@@ -564,6 +570,31 @@ namespace Assets.Scripts.Services
             newMehca.DataBind(@this);
         }
 
-        
+
+        private List<SaveAbstract> getTestSaves()
+        {
+            return new List<SaveAbstract>
+            {
+                new SaveAbstract{ 
+                    SaveName = "测试存档1",
+                    SaveTime = DateTime.Now,
+                    SaveDesc = "day0, 家园",
+                    SaveId = "test123",
+                    SaveDay = 0,
+                    Resource = new Produce[]{ 
+                        new Produce{ ItemId = ItemTable.Red.ToString(), Amount = 100 },
+                        new Produce{ ItemId = ItemTable.Ammo.ToString(), Amount = 1000 },
+                        new Produce{ ItemId = ItemTable.Iron.ToString(), Amount = 1000 },
+                        new Produce{ ItemId = ItemTable.Al.ToString(), Amount = 1000 },
+                    }
+                }
+            };
+        }
+
+        public void LoadSave(string saveId)
+        {
+            // do nothing
+            Debug.Log("在TestDatabase中不会真正的读取存档");
+        }
     }
 }
