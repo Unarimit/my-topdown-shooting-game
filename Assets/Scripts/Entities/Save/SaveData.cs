@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Assets.Scripts.Entities.Save
 {
+    /// <summary>
+    /// 存档数据类
+    /// </summary>
     [Serializable]
     internal class SaveData
     {

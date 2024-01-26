@@ -3,6 +3,9 @@ using System;
 
 namespace Assets.Scripts.Entities.Save
 {
+    /// <summary>
+    /// 存档摘要类
+    /// </summary>
     [Serializable]
     internal class SaveAbstract
     {

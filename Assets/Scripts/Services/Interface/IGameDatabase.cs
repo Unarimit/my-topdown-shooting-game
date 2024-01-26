@@ -14,7 +14,11 @@ namespace Assets.Scripts.Services.Interface
 
         public IList<SaveAbstract> Saves { get; }
 
-        public void LoadSave(string saveId);
+        /// <summary> 加载游戏数据，string不能为空 </summary>
+        public void LoadSaveData(string saveId);
+
+        /// <summary> 保存游戏数据</summary>
+        public void SaveData();
 
         #endregion
 

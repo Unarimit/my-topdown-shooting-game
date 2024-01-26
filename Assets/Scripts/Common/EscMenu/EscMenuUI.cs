@@ -14,7 +14,7 @@ namespace Assets.Scripts.Common.EscMenu
         Button quitCombatBtn;
         Button returnStartBtn;
         RectTransform menuPanelTrans;
-        EnviorSettingUI enviorSettingUI;
+        EnviorSettingUI enviorSettingUI = null;
         internal static EscMenuUI OpenEscMenuUI()
         {
             var prefab = ResourceManager.Load<GameObject>("UIs/EscMenuCanvas");
@@ -30,7 +30,6 @@ namespace Assets.Scripts.Common.EscMenu
             enviormentBtn = transform.Find("MenuPanel").Find("EnviormentBtn").GetComponent<Button>();
             returnStartBtn = transform.Find("MenuPanel").Find("ReturnStartBtn").GetComponent<Button>();
             menuPanelTrans = transform.Find("MenuPanel").GetComponent<RectTransform>();
-            enviorSettingUI = transform.Find("EnviorSettingPanel").GetComponent<EnviorSettingUI>();
 
             sizeDelta = menuPanelTrans.sizeDelta;
             menuPanelTrans.sizeDelta = Vector2.zero;
@@ -54,11 +53,12 @@ namespace Assets.Scripts.Common.EscMenu
         }
         private void openEnviormentSettingPanel()
         {
-            enviorSettingUI.Open();
+            if(enviorSettingUI == null) enviorSettingUI = EnviorSettingUI.OpenEnviorSettingUI();
         }
 
         public void Quit()
         {
+            if (enviorSettingUI != null) enviorSettingUI.Quit();
             quit();
         }
     }

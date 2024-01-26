@@ -54,11 +54,11 @@ namespace Assets.Scripts.Services
 
         private HomeMessageQueue getTestHomeMessages()
         {
-            return new HomeMessageQueue() { 
+            return new HomeMessageQueue() {
                 new HomeMessage {  // 卑微的胜利提示
-                    Day = 50, 
-                    MessageAction = (context) => { Debug.Log("You WIN!!!!"); } 
-                } 
+                    Day = 50,
+                    MessageAction = (context) => { Debug.Log("You WIN!!!!"); }
+                }
             };
         }
 
@@ -346,7 +346,7 @@ namespace Assets.Scripts.Services
                     Description = "密码正确！获得大量资源",
                     ImageUrl = "Textures/eventLevel-yayi",
                     MessageAction = (context) => {
-                        context.Afford(new List<Produce>(){ 
+                        context.Afford(new List<Produce>(){
                             new Produce { ItemId = ItemTable.Red.ToString(), Amount = -100 },
                             new Produce { ItemId = ItemTable.Iron.ToString(), Amount = -1000 },
                             new Produce { ItemId = ItemTable.Al.ToString(), Amount = -1000 },
@@ -491,7 +491,7 @@ namespace Assets.Scripts.Services
                 Dimensions = d3b3,
                 Produces = new Produce[] {
                     new Produce { ItemId = ItemTable.Red.ToString(), Amount = 10 } },
-                Costs = new Produce[] { 
+                Costs = new Produce[] {
                     new Produce { ItemId = ItemTable.Electric.ToString(), Amount = 100 },
                     new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 100 } }
             });
@@ -558,7 +558,7 @@ namespace Assets.Scripts.Services
         /// </summary>
         private void registerDatabind()
         {
-            foreach(var op in Operators)
+            foreach (var op in Operators)
             {
                 op.MechaChangeEventHandler += opMechaChangeEventHandler;
             }
@@ -575,13 +575,13 @@ namespace Assets.Scripts.Services
         {
             return new List<SaveAbstract>
             {
-                new SaveAbstract{ 
+                new SaveAbstract{
                     SaveName = "测试存档1",
                     SaveTime = DateTime.Now,
                     SaveDesc = "day0, 家园",
                     SaveId = "test123",
                     SaveDay = 0,
-                    Resource = new Produce[]{ 
+                    Resource = new Produce[]{
                         new Produce{ ItemId = ItemTable.Red.ToString(), Amount = 100 },
                         new Produce{ ItemId = ItemTable.Ammo.ToString(), Amount = 1000 },
                         new Produce{ ItemId = ItemTable.Iron.ToString(), Amount = 1000 },
@@ -591,10 +591,18 @@ namespace Assets.Scripts.Services
             };
         }
 
-        public void LoadSave(string saveId)
+        public void LoadSaveData(string saveId)
         {
             // do nothing
-            Debug.Log("在TestDatabase中不会真正的读取存档");
+            Debug.Log($"try load data:{saveId} 在TestDatabase中不会真正的读取存档");
+        }
+        public void SaveData(string saveId)
+        {
+            Debug.Log($"try save data {saveId} 在TestDatabase中不会真正的保存存档");
+        }
+        public void SaveData()
+        {
+            Debug.Log($"try save new data 在TestDatabase中不会真正的保存存档");
         }
     }
 }

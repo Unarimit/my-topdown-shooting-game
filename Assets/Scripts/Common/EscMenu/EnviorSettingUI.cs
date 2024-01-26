@@ -7,19 +7,29 @@ namespace Assets.Scripts.Common.EscMenu
 {
     internal class EnviorSettingUI : MonoBehaviour
     {
-        Button quitBtn;
-        MainPanelManager mpm;
-        public void Open()
+
+        public static EnviorSettingUI OpenEnviorSettingUI()
         {
-            if(mpm == null) mpm = GetComponent<MainPanelManager>();
-            mpm.OpenPanel("GamePlay");
-            gameObject.SetActive(true);
-            GetComponent<Animator>().Play("Panel In");
+            var prefab = ResourceManager.Load<GameObject>("UIs/EnviorSettingCanvas");
+            var go = Instantiate(prefab);
+            go.GetComponent<EnviorSettingUI>().Display();
+            return go.GetComponent<EnviorSettingUI>();
         }
 
-        private void quit()
+        Button quitBtn;
+        MainPanelManager mpm;
+
+        public void Display()
         {
-            gameObject.SetActive(false);
+            if(mpm == null) mpm = transform.Find("EnviorSettingPanel").GetComponent<MainPanelManager>();
+            mpm.OpenPanel("GamePlay");
+            gameObject.SetActive(true);
+            transform.Find("EnviorSettingPanel").GetComponent<Animator>().Play("Panel In");
+        }
+
+        public void Quit()
+        {
+            Destroy(gameObject);
         }
     }
 }
