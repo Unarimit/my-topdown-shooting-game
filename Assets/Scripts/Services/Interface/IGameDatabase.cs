@@ -12,13 +12,13 @@ namespace Assets.Scripts.Services.Interface
     {
         #region 存档信息，启动游戏时读取
 
-        public IList<SaveAbstract> Saves { get; }
+        public IList<SaveAbstract> SaveAbstracts { get; }
 
         /// <summary> 加载游戏数据，string不能为空 </summary>
         public void LoadSaveData(string saveId);
 
-        /// <summary> 保存游戏数据</summary>
-        public void SaveData();
+        /// <summary> 保存游戏数据 </summary>
+        public bool SaveData();
 
         #endregion
 
@@ -39,6 +39,7 @@ namespace Assets.Scripts.Services.Interface
         /// <summary> 当前战斗关卡信息 </summary>
         public CombatLevelInfo CurCombatLevelInfo { get; set; }
 
+        /// <summary> 家园事件队列 </summary>
         public HomeMessageQueue HomeMessages { get; }
 
         /// <summary> 根据这个判断是否需要结算建筑新一天产出 </summary>

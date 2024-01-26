@@ -16,7 +16,7 @@ namespace Assets.Scripts.Services
 {
     internal class TestDatabase : IGameDatabase
     {
-        public IList<SaveAbstract> Saves { get; private set; }
+        public IList<SaveAbstract> SaveAbstracts { get; private set; }
 
         public IList<Operator> Operators { get; private set; }
         public IList<MechaBase> Mechas { get; private set; }
@@ -33,7 +33,7 @@ namespace Assets.Scripts.Services
 
         public TestDatabase()
         {
-            Saves = getTestSaves();
+            SaveAbstracts = getTestSaves();
 
             ModelList = new List<string> { "Hoshino", "Shiroko", "Aru", "Karin", "Mashiro" };
             LevelRules = generateTestLevel();
@@ -594,15 +594,17 @@ namespace Assets.Scripts.Services
         public void LoadSaveData(string saveId)
         {
             // do nothing
-            Debug.Log($"try load data:{saveId} 在TestDatabase中不会真正的读取存档");
+            Debug.Log($"try load data:{saveId} 在TestDatabase中不会真的读取存档");
         }
         public void SaveData(string saveId)
         {
-            Debug.Log($"try save data {saveId} 在TestDatabase中不会真正的保存存档");
+            Debug.Log($"try save data {saveId} 在TestDatabase中不会真的保存存档");
         }
-        public void SaveData()
+        public bool SaveData()
         {
-            Debug.Log($"try save new data 在TestDatabase中不会真正的保存存档");
+            Debug.Log($"try save new data, generate DataAbstract 在TestDatabase中不会真的保存存档");
+            SaveAbstracts.Add(Entities.Save.SaveData.GenerateSaveData(this).GenerateAbstract(DateTime.Now.ToString()));
+            return true;
         }
     }
 }

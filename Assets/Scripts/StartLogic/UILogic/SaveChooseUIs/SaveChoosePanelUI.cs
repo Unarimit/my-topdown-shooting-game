@@ -8,7 +8,7 @@ namespace Assets.Scripts.StartLogic.UILogic.SaveChooseUIs
     {
         private void OnEnable()
         {
-            transform.Find("ScrollView").GetComponent<SaveChooseScrollViewUI>().Inject(MyServices.Database.Saves, this);
+            transform.Find("ScrollView").GetComponent<SaveChooseScrollViewUI>().Inject(MyServices.Database.SaveAbstracts, this);
         }
 
         public void OnSaveSelect(string saveId)

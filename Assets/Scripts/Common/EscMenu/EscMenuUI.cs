@@ -12,6 +12,7 @@ namespace Assets.Scripts.Common.EscMenu
         public Button ReturnBtn;
         Button enviormentBtn;
         Button quitCombatBtn;
+        Button saveGameBtn;
         Button returnStartBtn;
         RectTransform menuPanelTrans;
         EnviorSettingUI enviorSettingUI = null;
@@ -28,8 +29,10 @@ namespace Assets.Scripts.Common.EscMenu
             ReturnBtn = transform.Find("MenuPanel").Find("ReturnBtn").GetComponent<Button>();
             quitCombatBtn = transform.Find("MenuPanel").Find("QuitCombatBtn").GetComponent<Button>();
             enviormentBtn = transform.Find("MenuPanel").Find("EnviormentBtn").GetComponent<Button>();
+            saveGameBtn = transform.Find("MenuPanel").Find("SaveGameBtn").GetComponent<Button>();
             returnStartBtn = transform.Find("MenuPanel").Find("ReturnStartBtn").GetComponent<Button>();
             menuPanelTrans = transform.Find("MenuPanel").GetComponent<RectTransform>();
+
 
             sizeDelta = menuPanelTrans.sizeDelta;
             menuPanelTrans.sizeDelta = Vector2.zero;
@@ -37,6 +40,7 @@ namespace Assets.Scripts.Common.EscMenu
             ReturnBtn.onClick.AddListener(quit);
             returnStartBtn.onClick.AddListener(quitToStart);
             enviormentBtn.onClick.AddListener(openEnviormentSettingPanel);
+            saveGameBtn.onClick.AddListener(saveGame);
         }
         private void Start()
         {
@@ -54,6 +58,13 @@ namespace Assets.Scripts.Common.EscMenu
         private void openEnviormentSettingPanel()
         {
             if(enviorSettingUI == null) enviorSettingUI = EnviorSettingUI.OpenEnviorSettingUI();
+        }
+        private void saveGame()
+        {
+            if(MyServices.Database.SaveData() is true)
+            {
+                TipsUI.GenerateNewTips("保存成功");
+            }
         }
 
         public void Quit()
