@@ -6,6 +6,7 @@ using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Assets.Scripts.Entities.Save
 {
@@ -33,7 +34,7 @@ namespace Assets.Scripts.Entities.Save
         public BuildingArea BuildingArea;
 
         /// <summary> 家园事件队列 </summary>
-        public HomeMessageQueue HomeMessages;
+        public List<HomeMessage.HomeMessage> HomeMessages;
 
         /// <summary> 根据这个判断是否需要结算建筑新一天产出 </summary>
         public bool OnNewDay;
@@ -59,13 +60,13 @@ namespace Assets.Scripts.Entities.Save
         {
             return new SaveData
             {
-                SaveId = DateTime.Now.ToString(),
+                SaveId = $"Saves{database.SaveAbstracts.Count}",
                 SaveTime = DateTime.Now,
                 Operators = database.Operators,
                 Mechas = database.Mechas,
                 Inventory = database.Inventory,
                 BuildingArea = database.BuildingArea,
-                HomeMessages = database.HomeMessages,
+                HomeMessages = database.HomeMessages.ToList(),
                 OnNewDay = database.OnNewDay,
 
             };

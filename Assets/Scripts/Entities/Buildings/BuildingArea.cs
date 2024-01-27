@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Entities.Buildings
 {
+    [Serializable]
     internal struct PlaceInfo
     {
         /// <summary> 战斗区域的索引 </summary>
@@ -16,7 +17,20 @@ namespace Assets.Scripts.Entities.Buildings
         public int AreaIndex;
 
         /// <summary> 放置位置 </summary>
-        public Vector2Int PlacePosition;
+        public Vector2Int PlacePosition { 
+            get { 
+                return new Vector2Int(_placePostionX, _placePostionY);
+            }
+            set
+            {
+                _placePostionX = value.x;
+                _placePostionY = value.y;
+            }
+        }
+        
+        // 为了序列化
+        private int _placePostionX;
+        private int _placePostionY;
 
         /// <summary> 管理员Id, 用于序列化存储 </summary>
         public int AdminOperatorId;
@@ -25,6 +39,7 @@ namespace Assets.Scripts.Entities.Buildings
         public Operator AdminOperator{ get; set; }
 
     }
+    [Serializable]
     internal class BuildingArea
     {
         /// <summary>  建筑的放置信息集合 </summary>

@@ -10,6 +10,8 @@ using Assets.Scripts.Services.Database;
 using Assets.Scripts.Services.Interface;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using Unity.VisualScripting;
 
 namespace Assets.Scripts.Services
 {
@@ -56,6 +58,16 @@ namespace Assets.Scripts.Services
                 SaveAbstracts = FileHelper.LoadFile<List<SaveAbstract>>(FileHelper.SAVE_ABSTRACTS_FILENAME);
             else
                 SaveAbstracts = new List<SaveAbstract>();
+
+            // 提前加载存档，为了展示角色
+            if(SaveAbstracts.Count != 0)
+            {
+                LoadSaveData(SaveAbstracts[^1].SaveId);
+            }
+            else
+            {
+                NewGame();
+            }
         }
 
         public CombatLevelRule GetInvasionLevel()
@@ -86,7 +98,8 @@ namespace Assets.Scripts.Services
             Operators = save.Operators; // 需要链接舰载机
             Mechas = save.Mechas; // 需要链接Operator
             BuildingArea = save.BuildingArea; // TODO：需要链接Operator管理员，先不做
-            HomeMessages = save.HomeMessages; // 需要链接事件
+            HomeMessages = new HomeMessageQueue(); // 需要链接事件
+            HomeMessages.AddRange(save.HomeMessages);
             CurCombatLevelInfo = null;
             OnNewDay = false;
 

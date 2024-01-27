@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Common;
+using System;
 using System.Text;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace Assets.Scripts.Entities.Buildings
         /// <summary> 战斗建筑 </summary>
         Combat
     }
+    [Serializable]
     public struct Produce
     {
         public string ItemId;

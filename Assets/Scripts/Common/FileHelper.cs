@@ -42,8 +42,16 @@ namespace Assets.Scripts.Common
             if(replace is false && File.Exists(path) is true) return false;
 
             FileStream file = File.Create(path);
-            bf.Serialize(file, data);
-            file.Close();
+            try
+            {
+                bf.Serialize(file, data);
+            }
+            catch
+            {
+                file.Close();
+                File.Delete(path);
+                throw;
+            }
             return true;
         }
     }

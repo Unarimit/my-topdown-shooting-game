@@ -32,6 +32,7 @@ namespace Assets.Scripts.Entities
         Fighter
     }
     /// <summary> 人物工作信息 </summary>
+    [Serializable]
     public struct OperatorJob
     {
         public OperatorJob(JobStatus jobStatus, string data)
@@ -110,6 +111,7 @@ namespace Assets.Scripts.Entities
                 _mcLeg = value;
             }
         }
+        
         [NonSerialized]
         private MechaHead _mcHead = MechaHead.DefaultMecha();
         [NonSerialized]
@@ -118,6 +120,7 @@ namespace Assets.Scripts.Entities
         private MechaLeg _mcLeg = MechaLeg.DefaultMecha();
 
         public delegate void MechaChangeEvent(Operator @this, MechaBase oldMehca, MechaBase newMehca);
+        [field: NonSerialized]
         public event MechaChangeEvent MechaChangeEventHandler;
 
 

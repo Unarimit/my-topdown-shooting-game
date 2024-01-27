@@ -20,7 +20,8 @@ namespace Assets.Scripts
         static MyServices()
         {
             // 测试使用
-            Database = new TestDatabase();
+            //Database = new TestDatabase();
+            Database = new FileDatabase();
             GameDataHelper = new GameDataHelper(Database);
         }
     }

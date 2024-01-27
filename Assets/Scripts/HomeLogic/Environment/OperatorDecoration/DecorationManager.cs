@@ -27,7 +27,7 @@ namespace Assets.Scripts.HomeLogic.Environment.OperatorDecoration
             {
                 for(int i = 0; i < typec.transform.childCount; i++)
                 {
-                    place(typec, typec.transform.GetChild(i), ops[Random.Range(0, ops.Count)]);
+                    if (ops.Count != 0) place(typec, typec.transform.GetChild(i), ops[Random.Range(0, ops.Count)]);
                 }
             }
         }
@@ -38,7 +38,7 @@ namespace Assets.Scripts.HomeLogic.Environment.OperatorDecoration
 
             var ops = HomeContextManager.Instance.GetDecorationOperator();
             var typec = aimCam.GetComponentInParent<DecorationTypeController>();
-            place(typec, aimCam.transform.parent, ops[Random.Range(0, ops.Count)]);
+            if(ops.Count != 0) place(typec, aimCam.transform.parent, ops[Random.Range(0, ops.Count)]);
 
             foreach(var x in cameras)
             {
