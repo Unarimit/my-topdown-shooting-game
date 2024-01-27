@@ -394,7 +394,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs.JobVersion
         {
             if (handle != null && handle.Value.IsCompleted)
             {
-                handle.Value.Complete();
+                handle?.Complete();
                 processPlanForJob();
                 handle = null;
             }

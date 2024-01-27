@@ -8,6 +8,9 @@ namespace Assets.Scripts.Common
 {
     internal class SceneLoadHelper : MonoBehaviour
     {
+        /// <summary>
+        /// 异步加载场景，会创建过渡效果，不要重复创建了
+        /// </summary>
         public static void MyLoadSceneAsync(string sceneName)
         {
             GameObject go = new GameObject("MyLoadSceneAsync");
