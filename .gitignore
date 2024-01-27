@@ -93,6 +93,9 @@ Assets/Plugins/Gizmos/
 Assets/Plugins/Behavior Designer Movement.meta
 Assets/Plugins/Behavior Designer Movement/
 
+# savedata dir
+Assets/SaveData/
+
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*

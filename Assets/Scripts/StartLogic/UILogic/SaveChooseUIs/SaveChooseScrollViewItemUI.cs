@@ -28,7 +28,7 @@ namespace Assets.Scripts.StartLogic.UILogic.SaveChooseUIs
             m_saveDescTMP.text = save.SaveDesc;
 
             // TODO: 改成保存时截图存储
-            if (save.SaveDay % 2 == 0) m_SaveSnapshotImage.texture = ResourceManager.Load<Texture>("Textures/save-night");
+            if (save.SaveDay % 2 == 1) m_SaveSnapshotImage.texture = ResourceManager.Load<Texture>("Textures/save-night");
             else m_SaveSnapshotImage.texture = ResourceManager.Load<Texture>("Textures/save-day");
 
             m_obProduceScrollViewUI.Inject(save.Resource);

@@ -171,12 +171,6 @@ namespace Assets.Scripts.HomeLogic
             return MyServices.Database.Operators;
         }
 
-        private void OnDestroy()
-        {
-            HomeVM.Submit();
-        }
-
-
         public class ViewModel
         {
             /// <summary> 全局时间 </summary>
@@ -212,15 +206,6 @@ namespace Assets.Scripts.HomeLogic
                 ResAl.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Al.ToString()];
                 ResGacha.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Red.ToString()];
             }
-            /// <summary> 提交到数据库 </summary>
-            public void Submit()
-            {
-                MyServices.Database.Inventory[MyConfig.ItemTable.Electric.ToString()] = ResElectric.Data;
-                MyServices.Database.Inventory[MyConfig.ItemTable.Iron.ToString()] = ResIron.Data;
-                MyServices.Database.Inventory[MyConfig.ItemTable.Ammo.ToString()] = ResAmmo.Data;
-                MyServices.Database.Inventory[MyConfig.ItemTable.Al.ToString()] = ResAl.Data;
-                MyServices.Database.Inventory[MyConfig.ItemTable.Red.ToString()] = ResGacha.Data;
-            }
             /// <summary>
             /// 在执行资源改变之前，先执行Test方法 <see cref="TestResource" /> 
             /// </summary>
@@ -228,6 +213,7 @@ namespace Assets.Scripts.HomeLogic
             {
                 var res = GetResourceById(itemId);
                 res.Data += diff;
+                MyServices.Database.Inventory[itemId] += diff;
             }
 
             public bool TestResource(string itemId, int diff)

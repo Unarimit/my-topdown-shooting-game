@@ -12,10 +12,12 @@ namespace Assets.Scripts.Common
     internal static class FileHelper
     {
         public static readonly string SAVE_ABSTRACTS_FILENAME = "SaveAbstracts";
+        private static readonly string SAVE_ROOT_PATH = $"{Application.dataPath}/SaveData";
+
 
         public static bool HasFile(string fileName)
         {
-            var path = $"{Application.dataPath}/{fileName}.dat";
+            var path = $"{SAVE_ROOT_PATH}/{fileName}.dat";
             return File.Exists(path);
         }
         /// <summary>
@@ -23,7 +25,7 @@ namespace Assets.Scripts.Common
         /// </summary>
         public static T LoadFile<T>(string fileName)
         {
-            var path = $"{Application.dataPath}/{fileName}.dat";
+            var path = $"{SAVE_ROOT_PATH}/{fileName}.dat";
             if (File.Exists(path) is false) throw new ArgumentException($"filepath not exits:{path}");
 
             BinaryFormatter bf = new BinaryFormatter();
@@ -37,7 +39,13 @@ namespace Assets.Scripts.Common
         /// </summary>
         public static bool SaveFile<T>(T data, string fileName, bool replace = false)
         {
-            var path = $"{Application.dataPath}/{fileName}.dat";
+            // 确保文件存在
+            if (Directory.Exists(SAVE_ROOT_PATH) is false)
+            {
+                Directory.CreateDirectory(SAVE_ROOT_PATH);
+            }
+
+            var path = $"{SAVE_ROOT_PATH}/{fileName}.dat";
             BinaryFormatter bf = new BinaryFormatter();
             if(replace is false && File.Exists(path) is true) return false;
 
