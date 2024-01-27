@@ -1,4 +1,5 @@
 ﻿
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Entities.Buildings
@@ -17,8 +18,11 @@ namespace Assets.Scripts.Entities.Buildings
         /// <summary> 放置位置 </summary>
         public Vector2Int PlacePosition;
 
+        /// <summary> 管理员Id, 用于序列化存储 </summary>
+        public int AdminOperatorId;
+
         /// <summary> 管理员 </summary>
-        public Operator AdminOperator;
+        public Operator AdminOperator{ get; set; }
 
     }
     internal class BuildingArea

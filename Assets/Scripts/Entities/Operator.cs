@@ -49,7 +49,7 @@ namespace Assets.Scripts.Entities
     public class Operator : ICloneable
     {
         /// <summary>
-        /// 人物Id
+        /// 人物Id，由于生成敌人算法的影响，战斗场景可能出现相同的Id
         /// </summary>
         public string Id;
         public OperatorType Type = OperatorType.CA;
@@ -79,7 +79,7 @@ namespace Assets.Scripts.Entities
         public OperatorJob Job = new OperatorJob(JobStatus.Nothing, null);
 
         // 舰载机，引用关系，数据库应该存key
-        public List<Fighter> Fighters { get; set; }
+        public List<Fighter> Fighters;
 
         // 装备，对于装备是引用关系，绑定事件方便数据库响应
         public MechaHead McHead { 
@@ -110,9 +110,11 @@ namespace Assets.Scripts.Entities
                 _mcLeg = value;
             }
         }
-
+        [NonSerialized]
         private MechaHead _mcHead = MechaHead.DefaultMecha();
+        [NonSerialized]
         private MechaBody _mcBody = MechaBody.DefaultMecha();
+        [NonSerialized]
         private MechaLeg _mcLeg = MechaLeg.DefaultMecha();
 
         public delegate void MechaChangeEvent(Operator @this, MechaBase oldMehca, MechaBase newMehca);
@@ -123,7 +125,7 @@ namespace Assets.Scripts.Entities
         public int RecoverHP => McBody.HPRecover;
         public float MaxSpeed => McLeg.Speed;
 
-        public float ReviveTime = 5;
+        public float ReviveTime => 5 - ((float)PropGreen / 20); // 最高减少一半，仍需修改
 
         /// <summary> 返回是 0 - 35 </summary>
         public int GetRarity()

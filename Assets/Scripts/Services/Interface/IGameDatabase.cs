@@ -13,12 +13,17 @@ namespace Assets.Scripts.Services.Interface
         #region 存档信息，启动游戏时读取
 
         public IList<SaveAbstract> SaveAbstracts { get; }
+        /// <summary> 新开存档的情况 </summary>
+        public void NewGame();
 
         /// <summary> 加载游戏数据，string不能为空 </summary>
         public void LoadSaveData(string saveId);
 
         /// <summary> 保存游戏数据 </summary>
         public bool SaveData();
+
+        /// <summary> 替换存档 </summary>
+        public void ReplaceAndSaveData(string saveId);
 
         #endregion
 

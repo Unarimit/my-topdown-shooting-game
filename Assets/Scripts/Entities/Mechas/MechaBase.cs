@@ -12,12 +12,14 @@ namespace Assets.Scripts.Entities.Mechas
         Body,
         Leg
     }
+    [Serializable]
     public class MechaBase
     {
         public int Id;
         public string IconUrl;
         public string Name;
         public string Description;
+        public string OperatorId;
 
         /// <summary>
         /// 无人使用时，这个值为空
@@ -29,6 +31,7 @@ namespace Assets.Scripts.Entities.Mechas
         public void DataBind(Operator op)
         {
             Operator = op;
+            OperatorId = op.Id;
         }
 
         public MechaType GetMechaType()

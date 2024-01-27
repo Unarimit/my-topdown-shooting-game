@@ -3,12 +3,15 @@ using System;
 
 namespace Assets.Scripts.Entities.HomeMessage
 {
+    [Serializable]
     internal class HomeMessage
     {
         private static int _ID = 0;
         public int Id;
         public int Day;
-        public Action<HomeContextManager> MessageAction;
+        /// <summary> 用于序列化 </summary>
+        public int MessageActionId;
+        public Action<HomeContextManager> MessageAction { get; set; }
         public HomeMessage()
         {
             Id = _ID++;

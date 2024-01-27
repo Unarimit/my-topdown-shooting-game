@@ -11,6 +11,13 @@ namespace Assets.Scripts.Common
     /// </summary>
     internal static class FileHelper
     {
+        public static readonly string SAVE_ABSTRACTS_FILENAME = "SaveAbstracts";
+
+        public static bool HasFile(string fileName)
+        {
+            var path = $"{Application.dataPath}/{fileName}.dat";
+            return File.Exists(path);
+        }
         /// <summary>
         /// 读取文件
         /// </summary>
@@ -26,13 +33,13 @@ namespace Assets.Scripts.Common
         }
 
         /// <summary>
-        /// 保存文件，如果文件已存在，会返回false
+        /// 保存文件，如果文件已存在且replace不为true，会中断保存并返回false
         /// </summary>
-        public static bool SaveFile<T>(T data, string fileName)
+        public static bool SaveFile<T>(T data, string fileName, bool replace = false)
         {
             var path = $"{Application.dataPath}/{fileName}.dat";
             BinaryFormatter bf = new BinaryFormatter();
-            if(File.Exists(path) is true) return false;
+            if(replace is false && File.Exists(path) is true) return false;
 
             FileStream file = File.Create(path);
             bf.Serialize(file, data);

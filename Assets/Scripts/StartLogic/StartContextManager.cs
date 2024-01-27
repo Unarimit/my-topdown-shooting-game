@@ -25,7 +25,7 @@ namespace Assets.Scripts.StartLogic
 
         public void StartNewGame() // 简单
         {
-            SlideUI.CreateSlideUI();
+            MyServices.Database.NewGame();
             SceneLoadHelper.MyLoadSceneAsync("Home");
         }
 
@@ -43,7 +43,6 @@ namespace Assets.Scripts.StartLogic
         public void LoadGame(string saveId)
         {
             MyServices.Database.LoadSaveData(saveId);
-            SlideUI.CreateSlideUI();
             SceneLoadHelper.MyLoadSceneAsync("Home");
         }
     }

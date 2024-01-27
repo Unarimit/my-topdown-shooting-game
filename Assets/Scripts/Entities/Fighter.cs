@@ -18,16 +18,23 @@ namespace Assets.Scripts.Entities
         {
             if (type == FighterType.Bomber) return "BM";
             else if (type == FighterType.AirFighter) return "AF";
-            else return "NL";
+            else
+            {
+                throw new Exception($"FighterType donot match, the type is {type.ToString()}");
+            }
         }
     }
+    [Serializable]
     public class Fighter
     {
         /// <summary>
         /// 战机类型
         /// </summary>
         public FighterType Type = FighterType.Bomber;
-
+        /// <summary>
+        /// 序列化使用
+        /// </summary>
+        public string OperatorId;
         /// <summary>
         /// 战机操作员，决定战机属性。
         /// </summary>

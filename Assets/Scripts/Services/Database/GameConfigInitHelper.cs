@@ -1,73 +1,113 @@
-﻿using Assets.Scripts.Common;
-using Assets.Scripts.Entities;
+﻿using Assets.Scripts.Entities;
 using Assets.Scripts.Entities.Buildings;
-using Assets.Scripts.Entities.HomeMessage;
-using Assets.Scripts.Entities.Level;
-using Assets.Scripts.Entities.Mechas;
-using Assets.Scripts.Entities.Save;
-using Assets.Scripts.Services.Interface;
-using System;
 using System.Collections.Generic;
-using UnityEngine;
 using static Assets.Scripts.Services.MyConfig;
-using Random = UnityEngine.Random;
+using UnityEngine;
+using Assets.Scripts.Common;
+using Assets.Scripts.Entities.Level;
+using System.Security.Cryptography;
+using Assets.Scripts.Entities.HomeMessage;
+using Assets.Scripts.HomeLogic;
 
-namespace Assets.Scripts.Services
+namespace Assets.Scripts.Services.Database
 {
-    internal class TestDatabase : IGameDatabase
+    /// <summary>
+    /// 数据库初始化配置时的帮助类
+    /// </summary>
+    internal static class GameConfigInitHelper
     {
-        public IList<SaveAbstract> SaveAbstracts { get; private set; }
-
-        public IList<Operator> Operators { get; private set; }
-        public IList<MechaBase> Mechas { get; private set; }
-        public IDictionary<string, int> Inventory { get; private set; }
-        public CombatLevelInfo CurCombatLevelInfo { get; set; }
-        public BuildingArea BuildingArea { get; private set; }
-        public HomeMessageQueue HomeMessages { get; }
-        public bool OnNewDay { get; set; } = true;
-
-        public IList<LevelRule> LevelRules { get; private set; }
-        public IDictionary<string, Building> Buildings { get; private set; }
-        public List<string> ModelList { get; private set; }
-        public IList<CombatSkill> CombatSkills { get; private set; }
-
-        public TestDatabase()
+        public static List<CombatSkill> GetConfigCombatSkills()
         {
-            SaveAbstracts = getTestSaves();
-
-            ModelList = new List<string> { "Hoshino", "Shiroko", "Aru", "Karin", "Mashiro" };
-            LevelRules = generateTestLevel();
-            Buildings = getTestBuildings();
-            CombatSkills = getCombatSkills();
-
-            Operators = generateTestOperators();
-            Mechas = generateTestMechas();
-            Inventory = getTestInventory();
-            BuildingArea = getTestBuildingArea();
-            HomeMessages = getTestHomeMessages();
-            registerDatabind();
-
-            Operators[0].McHead = (MechaHead)Mechas[0];
-            Operators[0].McBody = (MechaBody)Mechas[1];
-            Operators[0].McLeg = (MechaLeg)Mechas[2];
+            return ResourceManager.Load<SkillListConfig>("SkillList").CombatSkills;
         }
-
-        private HomeMessageQueue getTestHomeMessages()
+        public static Dictionary<string, Building> GetConfigBuildings()
         {
-            return new HomeMessageQueue() {
-                new HomeMessage {  // 卑微的胜利提示
-                    Day = 50,
-                    MessageAction = (context) => { Debug.Log("You WIN!!!!"); }
+            var d3b3 = new Vector2Int(3, 3);
+            var d2b2 = new Vector2Int(2, 2);
+            var res = new Dictionary<string, Building>();
+            res.Add("e1",
+                new ResourceBuilding
+                {
+                    BuildingId = "e1",
+                    Name = "发电厂",
+                    Description = "测试电力建筑+10",
+                    ModelUrl = "cooling-tower Variant",
+                    Dimensions = d3b3,
+                    Produces = new Produce[] { new Produce { ItemId = ItemTable.Electric.ToString(), Amount = 10 } },
+                    Costs = new Produce[] { new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 100 } }
+
                 }
-            };
+            );
+
+            res.Add("iaa1",
+                new ResourceBuilding
+                {
+                    BuildingId = "iaa1",
+                    Name = "冶炼厂",
+                    Description = "测试建筑，生产基本资源+10",
+                    ModelUrl = "industry-factory Variant",
+                    Dimensions = d3b3,
+                    Produces = new Produce[] {
+                        new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 10 },
+                        new Produce { ItemId = ItemTable.Ammo.ToString(), Amount = 10 },
+                        new Produce { ItemId = ItemTable.Al.ToString(), Amount = 10 } },
+                    Costs = new Produce[] { new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 100 } }
+                }
+            );
+            res.Add("s1", new ResourceBuilding
+            {
+                BuildingId = "s1",
+                Name = "购物广场",
+                Description = "测试建筑，生产抽卡资源+10",
+                ModelUrl = "skyscraper-part-bottom Variant",
+                Dimensions = d3b3,
+                Produces = new Produce[] {
+                    new Produce { ItemId = ItemTable.Red.ToString(), Amount = 10 } },
+                Costs = new Produce[] {
+                    new Produce { ItemId = ItemTable.Electric.ToString(), Amount = 100 },
+                    new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 100 } }
+            });
+            res.Add("h1", new ResourceBuilding
+            {
+                BuildingId = "h1",
+                Name = "住宅",
+                Description = "测试建筑，恢复角色体力+2",
+                ModelUrl = "House_1Room_Blue Variant",
+                Dimensions = d2b2,
+                Produces = new Produce[] {
+                    new Produce { ItemId = ItemTable.PowerRecover.ToString(), Amount = 2 } },
+                Costs = new Produce[] { new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 50 } }
+            });
+
+            res.Add("mgTower1", new CombatBuilding
+            {
+                BuildingId = "mgTower1",
+                Name = "机枪塔",
+                Description = "测试建筑，攻击敌人",
+                ModelUrl = "MachineGunTower_0 Variant",
+                Dimensions = d2b2,
+                Costs = new Produce[] { new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 50 } },
+                Hp = 30,
+                WeaponId = 4,
+                Range = 10,
+            });
+            res.Add("cmd", new CombatBuilding
+            {
+                BuildingId = "cmd",
+                Name = "指挥部",
+                Description = "测试建筑",
+                ModelUrl = "Airport_Building Variant",
+                Dimensions = new Vector2Int(12, 6),
+                CanBuild = false,
+                Hp = 50,
+                WeaponId = -1,
+                Range = -1,
+            });
+
+            return res;
         }
 
-        public CombatLevelRule GetInvasionLevel()
-        {
-            return (CombatLevelRule)LevelRules[^1];
-        }
-
-        private List<LevelRule> generateTestLevel()
+        public static List<LevelRule> GetConfigLevels()
         {
             // 演习作战（聚集分布敌人，进攻性强）、攻城作战（互动单位，中范围聚集分布敌人，进攻性弱）、三角定位（互动单位，和随机位置分布敌人，进攻性弱）
             return new List<LevelRule>()
@@ -356,82 +396,15 @@ namespace Assets.Scripts.Services
             };
         }
 
-        int opId = 0;
-
-        private List<Operator> generateTestOperators()
+        public static List<string> GetConfigModelList()
         {
-            // TODO: these just for test
-            return new List<Operator>() {
-                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", WeaponSkillId = 3, Id = (++opId).ToString() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Type = OperatorType.CV,
-                    WeaponSkillId = 6,
-                    Fighters = new List<Fighter>{
-                        new Fighter { Operator = new Operator { Name = "ho", ModelResourceUrl = "Hoshino", Id = (++opId).ToString() } },
-                        new Fighter { Operator = new Operator { Name = "shi", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() } }
-                    },
-                    Id = (++opId).ToString()
-                },
-                new Operator { Name = "aru", ModelResourceUrl = "Aru",Id = (++opId).ToString(), Trait = OperatorTrait.Tactical },
-                new Operator { Name = "akrin", ModelResourceUrl = "Karin", Id = (++opId).ToString() },
-                new Operator { Name = "mashiro", ModelResourceUrl = "Mashiro",Id = (++opId).ToString()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString()},
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
-            };
+            return modelList;
         }
 
-        int mechaId = 0;
-        private List<MechaBase> generateTestMechas()
-        {
-            return new List<MechaBase>
-            {
-                new MechaHead("Head II", "head2", 10, 10, ++mechaId),
-                new MechaBody("Body II", "body2", 15, 2, ++mechaId),
-                new MechaLeg(name: "Leg II", "leg2", 4, 10, ++mechaId),
-                new MechaHead("Head II", "head2", 10, 10, ++mechaId),
-                new MechaBody("Body II", "body2", 15, 2, ++mechaId),
-                new MechaLeg(name: "Leg II", "leg2", 4, 10, ++mechaId),
-            };
-        }
-        private Operator getRandomCA()
-        {
-            return new Operator
-            {
-                Name = "CA_",
-                ModelResourceUrl = ModelList[Random.Range(0, ModelList.Count)],
-                WeaponSkillId = 4,
-                Type = OperatorType.CA,
-                Id = (++opId).ToString()
-            };
-        }
-        private Operator getRandomCV()
-        {
-            return new Operator
-            {
-                Name = "CV_",
-                ModelResourceUrl = ModelList[Random.Range(0, ModelList.Count)],
-                WeaponSkillId = 6,
-                Type = OperatorType.CV,
-                Fighters = new List<Fighter>{
-                    new Fighter { Operator = new Operator { Name = "r1", ModelResourceUrl = ModelList[Random.Range(0, ModelList.Count)] } },
-                    new Fighter { Operator = new Operator { Name = "r2", ModelResourceUrl = ModelList[Random.Range(0, ModelList.Count)] } }
-                },
-                Id = (++opId).ToString()
-            };
-        }
-        private Operator getRandomDD()
-        {
-            return new Operator
-            {
-                Name = "DD_",
-                ModelResourceUrl = ModelList[Random.Range(0, ModelList.Count)],
-                WeaponSkillId = 8,
-                Type = OperatorType.DD,
-                Id = (++opId).ToString()
-            };
-        }
-
-        private Dictionary<string, int> getTestInventory()
+        /// <summary>
+        /// 获得初始资源数据
+        /// </summary>
+        public static Dictionary<string, int> GetConfigInitInventory()
         {
             var res = new Dictionary<string, int>();
             res.Add(ItemTable.GTime.ToString(), 1);
@@ -448,163 +421,78 @@ namespace Assets.Scripts.Services
             return res;
         }
 
-        private Dictionary<string, Building> getTestBuildings()
+        public static HomeMessageQueue GetConfigInitHomeMessages()
         {
-            var d3b3 = new Vector2Int(3, 3);
-            var d2b2 = new Vector2Int(2, 2);
-            var res = new Dictionary<string, Building>();
-            res.Add("e1",
-                new ResourceBuilding
-                {
-                    BuildingId = "e1",
-                    Name = "发电厂",
-                    Description = "测试电力建筑+10",
-                    ModelUrl = "cooling-tower Variant",
-                    Dimensions = d3b3,
-                    Produces = new Produce[] { new Produce { ItemId = ItemTable.Electric.ToString(), Amount = 10 } },
-                    Costs = new Produce[] { new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 100 } }
-
+            return new HomeMessageQueue() {
+                new HomeMessage {  // 卑微的胜利提示
+                    Day = 50,
+                    MessageActionId = 1,
+                    MessageAction = (context) => { Debug.Log("You WIN!!!!"); }
                 }
-            );
-
-            res.Add("iaa1",
-                new ResourceBuilding
-                {
-                    BuildingId = "iaa1",
-                    Name = "冶炼厂",
-                    Description = "测试建筑，生产基本资源+10",
-                    ModelUrl = "industry-factory Variant",
-                    Dimensions = d3b3,
-                    Produces = new Produce[] {
-                        new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 10 },
-                        new Produce { ItemId = ItemTable.Ammo.ToString(), Amount = 10 },
-                        new Produce { ItemId = ItemTable.Al.ToString(), Amount = 10 } },
-                    Costs = new Produce[] { new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 100 } }
-                }
-            );
-            res.Add("s1", new ResourceBuilding
-            {
-                BuildingId = "s1",
-                Name = "购物广场",
-                Description = "测试建筑，生产抽卡资源+10",
-                ModelUrl = "skyscraper-part-bottom Variant",
-                Dimensions = d3b3,
-                Produces = new Produce[] {
-                    new Produce { ItemId = ItemTable.Red.ToString(), Amount = 10 } },
-                Costs = new Produce[] {
-                    new Produce { ItemId = ItemTable.Electric.ToString(), Amount = 100 },
-                    new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 100 } }
-            });
-            res.Add("h1", new ResourceBuilding
-            {
-                BuildingId = "h1",
-                Name = "住宅",
-                Description = "测试建筑，恢复角色体力+2",
-                ModelUrl = "House_1Room_Blue Variant",
-                Dimensions = d2b2,
-                Produces = new Produce[] {
-                    new Produce { ItemId = ItemTable.PowerRecover.ToString(), Amount = 2 } },
-                Costs = new Produce[] { new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 50 } }
-            });
-
-            res.Add("mgTower1", new CombatBuilding
-            {
-                BuildingId = "mgTower1",
-                Name = "机枪塔",
-                Description = "测试建筑，攻击敌人",
-                ModelUrl = "MachineGunTower_0 Variant",
-                Dimensions = d2b2,
-                Costs = new Produce[] { new Produce { ItemId = ItemTable.Iron.ToString(), Amount = 50 } },
-                Hp = 30,
-                WeaponId = 4,
-                Range = 10,
-            });
-            res.Add("cmd", new CombatBuilding
-            {
-                BuildingId = "cmd",
-                Name = "指挥部",
-                Description = "测试建筑",
-                ModelUrl = "Airport_Building Variant",
-                Dimensions = new Vector2Int(12, 6),
-                CanBuild = false,
-                Hp = 50,
-                WeaponId = -1,
-                Range = -1,
-            });
-
-            return res;
+            };
         }
 
-
-        private List<CombatSkill> getCombatSkills()
+        public static BuildingArea GetConfigInitBuildingArea()
         {
-            return ResourceManager.Load<SkillListConfig>("SkillList").CombatSkills;
-        }
-
-        private BuildingArea getTestBuildingArea()
-        {
-            return new BuildingArea() { PlaceInfos = new PlaceInfo[] {
+            return new BuildingArea()
+            {
+                PlaceInfos = new PlaceInfo[] {
                 new PlaceInfo { BuildingId = "h1", AreaIndex = 0, PlacePosition = new Vector2Int(4, 4)},
                 new PlaceInfo { BuildingId = "h1", AreaIndex = 1, PlacePosition = new Vector2Int(4, 4)},
                 new PlaceInfo { BuildingId = "e1", AreaIndex = 2, PlacePosition = new Vector2Int(1, 4)},
                 new PlaceInfo { BuildingId = "e1", AreaIndex = 2, PlacePosition = new Vector2Int(4, 4)},
                 new PlaceInfo { BuildingId = "cmd", AreaIndex = PlaceInfo.BattleIndex, PlacePosition = new Vector2Int(4, 0)},
                 new PlaceInfo { BuildingId = "mgTower1", AreaIndex = PlaceInfo.BattleIndex, PlacePosition = new Vector2Int(10, 10)},
-            } };
-        }
-
-        /// <summary>
-        /// 注册数据绑定，面向1对1或1对多关系
-        /// </summary>
-        private void registerDatabind()
-        {
-            foreach (var op in Operators)
-            {
-                op.MechaChangeEventHandler += opMechaChangeEventHandler;
             }
+            };
         }
-
-        private void opMechaChangeEventHandler(Operator @this, MechaBase oldMehca, MechaBase newMehca)
+        public static Dictionary<int, System.Action<HomeContextManager>> GetConfigHomeEvents()
         {
-            if (oldMehca.IsDefaultMecha() is false) oldMehca.DataBind(null);
-            newMehca.DataBind(@this);
-        }
-
-
-        private List<SaveAbstract> getTestSaves()
-        {
-            return new List<SaveAbstract>
+            return new Dictionary<int, System.Action<HomeContextManager>>
             {
-                new SaveAbstract{
-                    SaveName = "测试存档1",
-                    SaveTime = DateTime.Now,
-                    SaveDesc = "day0, 家园",
-                    SaveId = "test123",
-                    SaveDay = 0,
-                    Resource = new Produce[]{
-                        new Produce{ ItemId = ItemTable.Red.ToString(), Amount = 100 },
-                        new Produce{ ItemId = ItemTable.Ammo.ToString(), Amount = 1000 },
-                        new Produce{ ItemId = ItemTable.Iron.ToString(), Amount = 1000 },
-                        new Produce{ ItemId = ItemTable.Al.ToString(), Amount = 1000 },
-                    }
-                }
+                { 1, (context) => { Debug.Log("You WIN!!!!"); } }
             };
         }
 
-        public void LoadSaveData(string saveId)
+        private static readonly List<string> modelList = new List<string> { "Hoshino", "Shiroko", "Aru", "Karin", "Mashiro" };
+        // 区分当作原型使用的Operator
+        private static Operator getRandomCA()
         {
-            // do nothing
-            Debug.Log($"try load data:{saveId} 在TestDatabase中不会真的读取存档");
+            return new Operator
+            {
+                Name = "CA_",
+                ModelResourceUrl = modelList[Random.Range(0, modelList.Count)],
+                WeaponSkillId = 4,
+                Type = OperatorType.CA,
+                Id = "prefab_CA",
+            };
         }
-        public void SaveData(string saveId)
+        private static Operator getRandomCV()
         {
-            Debug.Log($"try save data {saveId} 在TestDatabase中不会真的保存存档");
+            return new Operator
+            {
+                Name = "CV_",
+                ModelResourceUrl = modelList[Random.Range(0, modelList.Count)],
+                WeaponSkillId = 6,
+                Type = OperatorType.CV,
+                Fighters = new List<Fighter>{
+                    new Fighter { Operator = new Operator { Name = "r1", ModelResourceUrl = modelList[Random.Range(0, modelList.Count)] } },
+                    new Fighter { Operator = new Operator { Name = "r2", ModelResourceUrl = modelList[Random.Range(0, modelList.Count)] } }
+                },
+                Id = "prefab_CV"
+            };
         }
-        public bool SaveData()
+        private static Operator getRandomDD()
         {
-            Debug.Log($"try save new data, generate DataAbstract 在TestDatabase中不会真的保存存档");
-            SaveAbstracts.Add(Entities.Save.SaveData.GenerateSaveData(this).GenerateAbstract(DateTime.Now.ToString()));
-            return true;
+            return new Operator
+            {
+                Name = "DD_",
+                ModelResourceUrl = modelList[Random.Range(0, modelList.Count)],
+                WeaponSkillId = 8,
+                Type = OperatorType.DD,
+                Id = "prefab_DD"
+            };
         }
+
     }
 }

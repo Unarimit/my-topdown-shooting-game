@@ -9,7 +9,16 @@ namespace Assets.Scripts.StartLogic.UILogic
         Button m_loadSaveButton;
         private void Awake()
         {
-            m_loadSaveButton.onClick.AddListener(() => transform.Find("SaveDataPanel").gameObject.SetActive(true));
+            if(MyServices.Database.SaveAbstracts.Count == 0)
+            {
+                m_loadSaveButton.interactable = false;
+            }
+            else
+            {
+                m_loadSaveButton.interactable = true;
+                m_loadSaveButton.onClick.AddListener(() => transform.Find("SaveDataPanel").gameObject.SetActive(true));
+            }
+            
         }
         private void OnDestroy()
         {
