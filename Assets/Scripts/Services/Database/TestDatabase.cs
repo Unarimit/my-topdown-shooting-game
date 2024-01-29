@@ -116,7 +116,7 @@ namespace Assets.Scripts.Services
 
         private void opMechaChangeEventHandler(Operator @this, MechaBase oldMehca, MechaBase newMehca)
         {
-            if (oldMehca.IsDefaultMecha() is false) oldMehca.DataBind(null);
+            if (oldMehca != null && oldMehca.IsDefaultMecha() is false) oldMehca.DataBind(null);
             newMehca.DataBind(@this);
         }
 

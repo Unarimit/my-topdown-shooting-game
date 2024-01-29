@@ -84,7 +84,9 @@ namespace Assets.Scripts.Entities
 
         // 装备，对于装备是引用关系，绑定事件方便数据库响应
         public MechaHead McHead { 
-            get {
+            get
+            {
+                _mcHead ??= MechaHead.DefaultMecha();
                 return _mcHead;
             } 
             set {
@@ -95,6 +97,7 @@ namespace Assets.Scripts.Entities
         public MechaBody McBody
         {
             get{
+                _mcBody ??= MechaBody.DefaultMecha();
                 return _mcBody;
             }
             set{
@@ -103,7 +106,9 @@ namespace Assets.Scripts.Entities
             }
         }
         public MechaLeg McLeg {
-            get{
+            get
+            {
+                _mcLeg ??= MechaLeg.DefaultMecha();
                 return _mcLeg;
             }
             set{
@@ -115,7 +120,7 @@ namespace Assets.Scripts.Entities
         [NonSerialized]
         private MechaHead _mcHead = MechaHead.DefaultMecha();
         [NonSerialized]
-        private MechaBody _mcBody = MechaBody.DefaultMecha();
+        private MechaBody _mcBody;
         [NonSerialized]
         private MechaLeg _mcLeg = MechaLeg.DefaultMecha();
 

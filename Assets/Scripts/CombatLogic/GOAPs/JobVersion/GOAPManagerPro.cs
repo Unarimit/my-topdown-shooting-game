@@ -392,6 +392,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs.JobVersion
         JobHandle? handle;
         private void Update()
         {
+            if (initSuccess is false) return;
             if (handle != null && handle.Value.IsCompleted)
             {
                 handle?.Complete();

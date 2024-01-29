@@ -55,6 +55,7 @@ namespace Assets.Scripts.CombatLogic.GOAPs.Builders
                 builder.AddAction("follow and heal")
                     .SetCost(5)
                     .AddEffect(GOAPStatus.Support)
+                    .AddFactor(GOAPStatus.NoAmmo, 20)
                     .SetPlan(GOAPPlan.FollowAndHeal)
                     .BuildAction();
             }
