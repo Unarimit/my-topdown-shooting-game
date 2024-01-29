@@ -372,6 +372,77 @@ namespace Assets.Scripts.Services.Database
                     TeamAttackThreshold = 0.5f,
                     EnemyAttackThreshold = 0
                 },
+                new CombatLevelRule
+                {
+                    LevelName = "演习作战ProMax",
+                    Description = "达到击杀数就是胜利！可能会出现40-50个水平相当的敌人",
+                    ImageUrl = "Textures/combatLevel-1",
+                    MapType = MapType.Big,
+                    TeamSpawn = new RectInt(5, 5, 10, 5),
+                    EnemySpawn = new RectInt(35, 35, 10, 5),
+                    OperatorPrefabs = new OperatorPrefab[]
+                    {
+                        new OperatorPrefab
+                        {
+                            OpInfo = getRandomDD(),
+                            MinAmount = 20,
+                            MaxAmount = 25,
+                            UseRandomCModel = true,
+                            MechaRandomUpgradeFactor = 0,
+                            AiAgressive = true,
+                            InitPosition = InitPosition.EnemySpawnScatter,
+                            Dropouts = new Dropout[]{
+                                new Dropout(ItemHelper.GetItem(ItemTable.Sphere.ToString()))
+                            }
+                        },
+                        new OperatorPrefab
+                        {
+                            OpInfo = getRandomCA(),
+                            MinAmount = 13,
+                            MaxAmount = 17,
+                            UseRandomCModel = true,
+                            MechaRandomUpgradeFactor = 0,
+                            AiAgressive = true,
+                            InitPosition = InitPosition.EnemySpawnScatter,
+                            Dropouts = new Dropout[]{
+                                new Dropout(ItemHelper.GetItem(ItemTable.Sphere.ToString()))
+                            }
+                        },
+                        new OperatorPrefab
+                        {
+                            OpInfo = getRandomCV(),
+                            MinAmount = 4,
+                            MaxAmount = 6,
+                            UseRandomCModel = true,
+                            MechaRandomUpgradeFactor = 0,
+                            AiAgressive = true,
+                            InitPosition = InitPosition.EnemySpawnScatter,
+                            Dropouts = new Dropout[]{
+                                new Dropout(ItemHelper.GetItem(ItemTable.Red.ToString())),
+                                new Dropout(ItemHelper.GetItem(ItemTable.Purple.ToString()))
+                            }
+                        }
+                    },
+                    WinCondition = new Condition[]{
+                        new Condition
+                        {
+                            ItemName =  ItemTable.KillEnemy.ToString(),
+                            Amount = 60,
+                            Description = "击杀{0}个敌人"
+                        }
+                    },
+                    LossCondition = new Condition[]{
+                        new Condition
+                        {
+                            ItemName =  ItemTable.KillTeam.ToString(),
+                            Amount = 60,
+                            Description = "被击杀{0}个队友"
+                        }
+                    },
+                    AllowRespawn = true,
+                    TeamAttackThreshold = 0,
+                    EnemyAttackThreshold = 0
+                },
                 // EventRule
                 new EventLevelRule
                 {
