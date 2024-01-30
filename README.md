@@ -26,6 +26,9 @@ a easy cartoon top down shooting game
 - `main`分支：最新的稳定版
 - `ver0.x`分支: 特定版本
 
+
+- `dev-with-xlua`分支: 尝试使用xlua做热更的分支（之后可能会尝试其他热更方案）
+
 ## 使用开源项目
 
 - [FernNPR](https://github.com/FernRP/FernRP)
