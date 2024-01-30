@@ -11,7 +11,9 @@ namespace Assets.Scripts.StartLogic
         private void Awake()
         {
             homeScene = SceneManager.LoadScene("HomeBackground", new LoadSceneParameters(LoadSceneMode.Additive));
-            
+            XLua.LuaEnv luaenv = new XLua.LuaEnv();
+            luaenv.DoString("CS.UnityEngine.Debug.Log('hello world')");
+            luaenv.Dispose();
         }
 
     }

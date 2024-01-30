@@ -93,6 +93,11 @@ Assets/Plugins/Gizmos/
 Assets/Plugins/Behavior Designer Movement.meta
 Assets/Plugins/Behavior Designer Movement/
 
+# xlua
+Assets/Plugins/XLua.meta
+Assets/Plugins/XLua/
+Assets/XLua/
+
 # savedata dir
 Assets/SaveData/
 
@@ -109,3 +114,4 @@ Assets/Character/Animations/EditRoomDisplay/Idle2.fbx.meta
 Assets/Character/Animations/EditRoomDisplay/Idle2.fbx
 Assets/Character/Animations/EditRoomDisplay/Idle.fbx.meta
 Assets/Character/Animations/EditRoomDisplay/Idle.fbx
+Assets/XLua.meta
