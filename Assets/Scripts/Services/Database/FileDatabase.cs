@@ -7,7 +7,6 @@ using Assets.Scripts.Entities.Mechas;
 using Assets.Scripts.Entities.Save;
 using Assets.Scripts.HomeLogic;
 using Assets.Scripts.Services.Database;
-using Assets.Scripts.Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -44,10 +43,11 @@ namespace Assets.Scripts.Services
         public List<string> ModelList { get; private set; }
 
         /// <summary> 存储delegate </summary>
-        private Dictionary<int, Action<HomeContextManager>> HomeEvents {get; set;}
+        private Dictionary<string, Action<HomeContextManager>> HomeEvents {get; set;}
 
         public FileDatabase()
         {
+            // 加载配置信息
             ModelList = GameConfigInitHelper.GetConfigModelList();
             LevelRules = GameConfigInitHelper.GetConfigLevels();
             Buildings = GameConfigInitHelper.GetConfigBuildings();

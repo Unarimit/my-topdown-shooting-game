@@ -1,18 +1,14 @@
-﻿using Assets.Scripts.Common;
-using Assets.Scripts.Entities;
+﻿using Assets.Scripts.Entities;
 using Assets.Scripts.Entities.Buildings;
 using Assets.Scripts.Entities.HomeMessage;
 using Assets.Scripts.Entities.Level;
 using Assets.Scripts.Entities.Mechas;
 using Assets.Scripts.Entities.Save;
 using Assets.Scripts.Services.Database;
-using Assets.Scripts.Services.Interface;
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityPlayerPrefs;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static Assets.Scripts.Services.MyConfig;
-using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Services
 {
