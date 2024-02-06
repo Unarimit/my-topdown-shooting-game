@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using XLua;
-using XLuaTest;
 
 namespace Assets.Scripts.StartLogic
 {
