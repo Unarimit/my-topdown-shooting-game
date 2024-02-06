@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Services;
-using Assets.Scripts.Services.Interface;
+using Assets.Scripts.Services.Database;
 using System;
 
 namespace Assets.Scripts.Entities.Level

@@ -10,7 +10,7 @@ namespace Assets.Scripts.Entities.HomeMessage
         public int Id;
         public int Day;
         /// <summary> 用于序列化 </summary>
-        public int MessageActionId;
+        public string MessageActionId;
         public Action<HomeContextManager> MessageAction { get; set; }
         public HomeMessage()
         {

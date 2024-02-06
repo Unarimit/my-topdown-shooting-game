@@ -5,7 +5,6 @@ using static Assets.Scripts.Services.MyConfig;
 using UnityEngine;
 using Assets.Scripts.Common;
 using Assets.Scripts.Entities.Level;
-using System.Security.Cryptography;
 using Assets.Scripts.Entities.HomeMessage;
 using Assets.Scripts.HomeLogic;
 
@@ -497,8 +496,8 @@ namespace Assets.Scripts.Services.Database
             return new HomeMessageQueue() {
                 new HomeMessage {  // 卑微的胜利提示
                     Day = 50,
-                    MessageActionId = 1,
-                    MessageAction = (context) => { Debug.Log("You WIN!!!!"); }
+                    MessageActionId = "origin_1",
+                    MessageAction = (context) => { Debug.Log("You WIN!!!!"); } // 序列化时通过Id映射
                 }
             };
         }
@@ -517,11 +516,11 @@ namespace Assets.Scripts.Services.Database
             }
             };
         }
-        public static Dictionary<int, System.Action<HomeContextManager>> GetConfigHomeEvents()
+        public static Dictionary<string, System.Action<HomeContextManager>> GetConfigHomeEvents()
         {
-            return new Dictionary<int, System.Action<HomeContextManager>>
+            return new Dictionary<string, System.Action<HomeContextManager>>
             {
-                { 1, (context) => { Debug.Log("You WIN!!!!"); } }
+                { "origin_1", (context) => { Debug.Log("You WIN!!!!"); } }
             };
         }
 

@@ -6,7 +6,7 @@ using Assets.Scripts.Entities.Mechas;
 using Assets.Scripts.Entities.Save;
 using System.Collections.Generic;
 
-namespace Assets.Scripts.Services.Interface
+namespace Assets.Scripts.Services.Database
 {
     internal interface IGameDatabase
     {
