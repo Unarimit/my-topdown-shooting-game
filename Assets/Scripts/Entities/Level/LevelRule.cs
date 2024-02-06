@@ -4,8 +4,10 @@ using System;
 
 namespace Assets.Scripts.Entities.Level
 {
-    public class LevelRule
+    public abstract class LevelRule
     {
+        /// <summary> 关卡Id </summary>
+        public string LevelId;
         /// <summary> 关卡名称 </summary>
         public string LevelName;
         /// <summary> 关卡描述 </summary>

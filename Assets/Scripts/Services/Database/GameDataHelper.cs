@@ -47,7 +47,11 @@ namespace Assets.Scripts.Services
             }
 
             // 1. 推入队列
-            _database.HomeMessages.Push(new HomeMessage { Day = DayNow + eventLevel.DelayDay, MessageAction = eventLevel.MessageAction });
+            _database.HomeMessages.Push(new HomeMessage { 
+                Day = DayNow + eventLevel.DelayDay, 
+                MessageAction = eventLevel.MessageAction, 
+                MessageActionId = eventLevel.LevelId 
+            });
 
             // last. 推进时间
             DayNow += 1; // 属性真方便啊
