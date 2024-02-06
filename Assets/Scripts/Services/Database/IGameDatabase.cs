@@ -25,6 +25,9 @@ namespace Assets.Scripts.Services.Database
         /// <summary> 替换存档 </summary>
         public void ReplaceAndSaveData(string saveId);
 
+        /// <summary> 以Lua的方式添加关卡规则 </summary>
+        public void LuaAddLevelRule(LevelRule rule); // 因为需要额外的链接工作（由序列化导致的），不能直接在下面的数据结构中添加
+
         #endregion
 
 

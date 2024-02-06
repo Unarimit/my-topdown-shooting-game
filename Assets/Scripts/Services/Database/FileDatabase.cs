@@ -9,8 +9,9 @@ using Assets.Scripts.HomeLogic;
 using Assets.Scripts.Services.Database;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 using Unity.VisualScripting;
+using UnityEngine;
 
 namespace Assets.Scripts.Services
 {
@@ -184,6 +185,21 @@ namespace Assets.Scripts.Services
         {
             if (oldMehca.IsDefaultMecha() is false) oldMehca.DataBind(null);
             newMehca.DataBind(@this);
+        }
+
+        public void LuaAddLevelRule(LevelRule rule)
+        {
+            if (LevelRules.Where(x => x.LevelId == rule.LevelId).Count() != 0)
+            {
+                Debug.LogWarning($"have same level id: {rule.LevelId}");
+                return;
+            }
+            if (rule is EventLevelRule eRule)
+            {
+                HomeEvents.Add(eRule.LevelId, eRule.MessageAction);
+            }
+            
+            LevelRules.Add(rule);
         }
     }
 }

@@ -1,2 +1,17 @@
 ﻿
-print(_database.Operators.Count)
+-- try add event level
+-- 1 define level
+local level = CS.Assets.Scripts.Entities.Level.EventLevelRule()
+level.LevelName = '今天是个好天气'
+level.LevelId = 'test_level2'
+level.Description = 'lua添加的测试Level, 触发条件是时间%2==0'
+level.EnableFunc = function (database)
+    return database.Inventory['GTime'] % 2 == 0
+end
+level.DelayDay = 1
+level.MessageAction = function (homeContext)
+    homeContext.ShowTip()
+end
+
+-- 2 add to level list
+_database:LuaAddLevelRule(level)

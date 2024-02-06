@@ -7,6 +7,7 @@ using Assets.Scripts.Entities.Save;
 using Assets.Scripts.Services.Database;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static Assets.Scripts.Services.MyConfig;
 
@@ -158,6 +159,16 @@ namespace Assets.Scripts.Services
             Debug.Log($"try save new data, generate DataAbstract 在TestDatabase中不会真的保存存档");
             SaveAbstracts.Add(Entities.Save.SaveData.GenerateSaveData(this).GenerateAbstract(DateTime.Now.ToString()));
             return true;
+        }
+
+        public void LuaAddLevelRule(LevelRule rule)
+        {
+            if(LevelRules.Where(x => x.LevelId == rule.LevelId).Count() != 0)
+            {
+                Debug.LogWarning($"have same level id: {rule.LevelId}");
+                return;
+            }
+            LevelRules.Add(rule);
         }
     }
 }
