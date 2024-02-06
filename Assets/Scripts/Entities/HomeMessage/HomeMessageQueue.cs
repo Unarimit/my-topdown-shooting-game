@@ -9,7 +9,7 @@ namespace Assets.Scripts.Entities.HomeMessage
     /// <summary>
     /// 优先队列like的封装
     /// </summary>
-    internal class HomeMessageQueue : SortedSet<HomeMessage>
+    public class HomeMessageQueue : SortedSet<HomeMessage>
     {
         public HomeMessageQueue() : base(new HomeMessageComparer())
         {

@@ -4,6 +4,7 @@ using Assets.Scripts.Common.Test;
 using Assets.Scripts.Entities;
 using Assets.Scripts.Entities.Buildings;
 using Assets.Scripts.Entities.Level;
+using Assets.Scripts.HomeLogic.UILogic;
 using Assets.Scripts.Services;
 using System;
 using System.Collections.Generic;
@@ -169,6 +170,16 @@ namespace Assets.Scripts.HomeLogic
         public IList<Operator> GetDecorationOperator()
         {
             return MyServices.Database.Operators;
+        }
+
+        public void CreateHomeMessage(string title, string desc, string spriteUrl = null)
+        {
+            Sprite sp = null;
+            if (spriteUrl != null)
+            {
+                sp = ResourceManager.Load<Sprite>(spriteUrl);
+            }
+            HomeMessageUI.CreateNewHomeMessage(title, desc, sp);
         }
 
         public class ViewModel
