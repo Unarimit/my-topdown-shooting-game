@@ -15,7 +15,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Services
 {
-    internal class FileDatabase : IGameDatabase
+    public class FileDatabase : IGameDatabase
     {
         // saves
         public IList<SaveAbstract> SaveAbstracts { get; private set; }

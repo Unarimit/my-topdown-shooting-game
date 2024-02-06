@@ -7,7 +7,7 @@ namespace Assets.Scripts.Entities.Save
     /// 存档摘要类
     /// </summary>
     [Serializable]
-    internal class SaveAbstract
+    public class SaveAbstract
     {
         /// <summary> 存档id </summary>
         public string SaveId;

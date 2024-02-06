@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Assets.Scripts.Entities.Buildings
 {
     [Serializable]
-    internal struct PlaceInfo
+    public struct PlaceInfo
     {
         /// <summary> 战斗区域的索引 </summary>
         public static int BattleIndex = 6;
@@ -40,7 +40,7 @@ namespace Assets.Scripts.Entities.Buildings
 
     }
     [Serializable]
-    internal class BuildingArea
+    public class BuildingArea
     {
         /// <summary>  建筑的放置信息集合 </summary>
         public PlaceInfo[] PlaceInfos;

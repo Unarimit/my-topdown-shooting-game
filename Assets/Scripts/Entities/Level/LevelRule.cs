@@ -17,7 +17,7 @@ namespace Assets.Scripts.Entities.Level
         /// <summary> 跳转页面 </summary>
         public MyConfig.Scene JumpScene;
         /// <summary> 触发条件 </summary>
-        internal Func<IGameDatabase, bool> EnableFunc = DefaultEnableFunc;
+        public Func<IGameDatabase, bool> EnableFunc = DefaultEnableFunc;
         /// <summary> 是否独占 </summary>
         public bool IsOnly = false;
 

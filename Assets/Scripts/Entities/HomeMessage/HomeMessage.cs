@@ -4,7 +4,7 @@ using System;
 namespace Assets.Scripts.Entities.HomeMessage
 {
     [Serializable]
-    internal class HomeMessage
+    public class HomeMessage
     {
         private static int _ID = 0;
         [NonSerialized]
@@ -13,12 +13,12 @@ namespace Assets.Scripts.Entities.HomeMessage
         public int Day;
         /// <summary> 用于序列化 </summary>
         public string MessageActionId;
-        public Action<HomeContextManager> MessageAction { get; set; }
+        internal Action<HomeContextManager> MessageAction { get; set; }
         public HomeMessage()
         {
             Id = _ID++;
         }
-        public void DoMessage(HomeContextManager context)
+        internal void DoMessage(HomeContextManager context)
         {
             MessageAction(context);
         }

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace Assets.Scripts.Services.Database
 {
-    internal interface IGameDatabase
+    public interface IGameDatabase
     {
         #region 存档信息，启动游戏时读取
 
