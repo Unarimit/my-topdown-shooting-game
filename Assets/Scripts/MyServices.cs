@@ -1,6 +1,6 @@
 ﻿using Assets.Scripts.Entities;
 using Assets.Scripts.Services;
-using Assets.Scripts.Services.Interface;
+using Assets.Scripts.Services.Database;
 using XLua;
 
 namespace Assets.Scripts

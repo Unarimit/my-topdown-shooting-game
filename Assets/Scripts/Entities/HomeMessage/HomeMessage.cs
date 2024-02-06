@@ -7,6 +7,8 @@ namespace Assets.Scripts.Entities.HomeMessage
     internal class HomeMessage
     {
         private static int _ID = 0;
+        [NonSerialized]
+        /// <summary> 临时Id，不应序列化存储 </summary>
         public int Id;
         public int Day;
         /// <summary> 用于序列化 </summary>
