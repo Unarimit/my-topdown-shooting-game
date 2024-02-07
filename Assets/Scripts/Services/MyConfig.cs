@@ -19,7 +19,8 @@ namespace Assets.Scripts.Services
         public static readonly Color PlayerColor = new Color32(248, 255, 13, 255);
         public enum SkillSelectorStr
         {
-            Trigger
+            Trigger,
+            LuaTrigger
         }
 
         // 抽卡信息

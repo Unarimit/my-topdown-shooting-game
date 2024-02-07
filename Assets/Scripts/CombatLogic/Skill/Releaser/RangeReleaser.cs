@@ -21,10 +21,14 @@ namespace Assets.Scripts.CombatLogic.Skill.Releaser
             _skill = skill;
             _aim = aim;
             // 配置selector
-            ISelector selector = null;
-            if (skill.SkillSelector.SelectorName == MyConfig.SkillSelectorStr.Trigger.ToString())
+            ISelector selector;
+            if (skill.SkillSelector.SelectorName == MyConfig.SkillSelectorStr.Trigger.ToString()) // 两个有投射物（以来碰撞箱）的特殊selector
             {
                 selector = gameObject.AddComponent<TriggerSelector>();
+            }
+            else if(skill.SkillSelector.SelectorName == MyConfig.SkillSelectorStr.LuaTrigger.ToString())
+            {
+                selector = gameObject.AddComponent<LuaTriggerSelector>();
             }
             else
             {
@@ -43,7 +47,7 @@ namespace Assets.Scripts.CombatLogic.Skill.Releaser
             }
             
 
-
+            // 推动技能释放过程
             selector.Init(impactors, caster, skill, aim);
 
 
