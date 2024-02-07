@@ -8,3 +8,4 @@ Id,Type,Name,Description,RangeTip,TargetTip,CoolDown,Duration,AfterCastTime,Char
 6,Weapon,HealthGun,null,10,TeammateSingle,0.3,1.5,0,null,Range,Trigger:0,ShootAndFreeze,Damage:-1,-1,10,HealBullet,ar-1
 7,Normal,Slide,null,0,Self,5,1,1,Slide,Melee,Self:null,Shoot,Slide:null;Defend:null,-1,-1,null,null
 8,Weapon,Blade,剑是杀人的凶器,2,EnemySingle,0.5,0.5,0.5,Blade,Melee,Sector:2;60,Shoot,Damage:2,-1,-1,null,Blade
+9,Normal,LuaTestSkill,null,10,EnemySingle,5,1.5,0,null,Range,LuaTrigger:LuaTestSkill,Shoot,Damage:1,-1,-1,Beam,0-img

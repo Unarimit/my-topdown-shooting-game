@@ -209,3 +209,25 @@ MonoBehaviour:
     Ammo: -1
     PrefabResourceUrl: null
     IconUrl: Blade
+  - Type: 0
+    Name: LuaTestSkill
+    Id: 9
+    Description: null
+    TargetTip: 0
+    RangeTip: 10
+    CoolDown: 5
+    Duration: 1.5
+    AfterCastTime: 0
+    CharacterAnimeId: null
+    ReleaserType: 0
+    SkillSelector:
+      SelectorName: LuaTrigger
+      Data: LuaTestSkill
+    EffectType: 2
+    SkillImpectors:
+    - ImpectorName: Damage
+      Data: 1
+    NextSkillId: -1
+    Ammo: -1
+    PrefabResourceUrl: Beam
+    IconUrl: 0-img

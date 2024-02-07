@@ -1,0 +1,4 @@
+﻿LuaTestSkill = function (go, caster_trans, vector3)
+    CS.UnityEngine.Debug.Log('hello world')
+    CS.DG.Tweening.ShortcutExtensions.DOMove(go.transform, vector3, 1);
+end

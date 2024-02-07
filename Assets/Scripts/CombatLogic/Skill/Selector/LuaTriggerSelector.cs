@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.CombatLogic.Skill.Impactor;
 using Assets.Scripts.Entities;
-using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +17,13 @@ namespace Assets.Scripts.CombatLogic.Skill.Selector
     {
         List<IImpactor> _impactors;
         CombatSkill _skill;
-        Action<Transform, Vector3> action;
+        Action<GameObject, Transform, Vector3> action;
         public void Init(List<IImpactor> impectors, Transform caster, CombatSkill skill, Vector3 aim)
         {
             _impactors = impectors;
             _skill = skill;
-            action =  MyServices.LuaEnv.Global.GetInPath<Action<Transform, Vector3>>(skill.SkillSelector.Data);
-            action(caster, aim);
+            action =  MyServices.LuaEnv.Global.GetInPath<Action<GameObject, Transform, Vector3>>(skill.SkillSelector.Data);
+            action(gameObject, caster, aim);
         }
         private void OnTriggerEnter(Collider collision)
         {

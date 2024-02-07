@@ -2608,7 +2608,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c95929c60115f3744ae190b2d7a866ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  luaScript: {fileID: 4900000, guid: 60825fa8c28f3df4f906cc174694395f, type: 3}
+  luaLevelScript: {fileID: 4900000, guid: 60825fa8c28f3df4f906cc174694395f, type: 3}
+  luaSkillScript: {fileID: 4900000, guid: abf132d18cab61541b59ef6ef1fa7c4a, type: 3}
 --- !u!1 &1229987647
 GameObject:
   m_ObjectHideFlags: 0

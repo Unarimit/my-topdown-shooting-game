@@ -12,7 +12,8 @@ namespace Assets.Scripts
         [CSharpCallLua]
         public static List<Type> mymodule_lua_call_cs_list = new List<Type>()
         {
-            typeof(Func<IGameDatabase, bool>)
+            typeof(Func<IGameDatabase, bool>),
+            typeof(Action<GameObject, UnityEngine.Transform, UnityEngine.Vector3>)
         };
 
     }
