@@ -226,7 +226,7 @@ MonoBehaviour:
     EffectType: 2
     SkillImpectors:
     - ImpectorName: Damage
-      Data: 1
+      Data: 5
     NextSkillId: -1
     Ammo: -1
     PrefabResourceUrl: Beam

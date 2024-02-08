@@ -13,6 +13,7 @@ namespace Assets.Scripts
         public static List<Type> mymodule_lua_call_cs_list = new List<Type>()
         {
             typeof(Func<IGameDatabase, bool>),
+            typeof(System.Collections.IEnumerator),
             typeof(Action<GameObject, UnityEngine.Transform, UnityEngine.Vector3>)
         };
 

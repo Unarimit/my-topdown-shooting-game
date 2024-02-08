@@ -1,4 +1,29 @@
-﻿LuaTestSkill = function (go, caster_trans, vector3)
-    CS.UnityEngine.Debug.Log('hello world')
-    CS.DG.Tweening.ShortcutExtensions.DOMove(go.transform, vector3, 1);
+﻿LuaTestSkill = function (go, caster_trans, aim_pos)
+    local comp = go:GetComponent("LuaTriggerSelector") -- 应该传进来的，懒得改了
+    local size = 3
+    local points = {}
+    -- 五角星的五个点
+    for i = 1, 5, 1 do
+        local angle = i * 72 * CS.UnityEngine.Mathf.Deg2Rad;
+        local x = aim_pos.x + size * CS.UnityEngine.Mathf.Cos(angle);
+        local z = aim_pos.z + size * CS.UnityEngine.Mathf.Sin(angle);
+        points[i] = CS.UnityEngine.Vector3(x, aim_pos.y, z)
+    end
+    go.transform.position = points[1]
+    local step = 0.2
+    local util = require 'xlua.util'
+    comp:StartCoroutine(
+        util.cs_generator(function ()
+            coroutine.yield(CS.UnityEngine.WaitForSeconds(step)) -- 强行前摇
+            go:GetComponent('Collider').enabled = true;
+            CS.DG.Tweening.ShortcutExtensions.DOMove(go.transform, points[3], step);
+            coroutine.yield(CS.UnityEngine.WaitForSeconds(step))
+            CS.DG.Tweening.ShortcutExtensions.DOMove(go.transform, points[5], step);
+            coroutine.yield(CS.UnityEngine.WaitForSeconds(step))
+            CS.DG.Tweening.ShortcutExtensions.DOMove(go.transform, points[2], step);
+            coroutine.yield(CS.UnityEngine.WaitForSeconds(step))
+            CS.DG.Tweening.ShortcutExtensions.DOMove(go.transform, points[4], step);
+            coroutine.yield(CS.UnityEngine.WaitForSeconds(step))
+            CS.DG.Tweening.ShortcutExtensions.DOMove(go.transform, points[1], step);
+        end))
 end
