@@ -15,7 +15,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
         {
             _contentTrans = transform.Find("Viewport").Find("Content");
         }
-        public void GenerateHeadIcon(List<Fighter> fighters)
+        public void GenerateFighterSV(List<Fighter> fighters)
         {
             if(_carriorItems != null)
             {

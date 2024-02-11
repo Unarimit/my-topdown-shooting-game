@@ -9,11 +9,12 @@ using Assets.Scripts.PrepareLogic.EffectLogic;
 using Assets.Scripts.PrepareLogic.UILogic.TeammateUIs;
 using Assets.Scripts.Entities.Mechas;
 using Assets.Scripts.Entities;
-using Assets.Scripts.Services;
-using static UnityEngine.UI.GridLayoutGroup;
 
 namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
 {
+    /// <summary>
+    /// 尝试把一个页面的UI逻辑写在一起，有点shit山的感觉了
+    /// </summary>
     public class CharacterEditorUI : MonoBehaviour
     {
         public RawImage m_EditCanvasRawImage;
@@ -197,9 +198,20 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
             _model = model;
             _model.OpInfo.MechaChangeEventHandler += ChangeDisplayMecha;
 
-            EditRoomManager.Instance.SetCharacterModel(model.OpInfo);
             GenerateUIText();
-            generateCvConfigPanel();
+
+            // 配置舰载机面板
+            if(model.OpInfo.Type == OperatorType.CV)
+            {
+                model.OpInfo.CertainFighters();
+                generateFighterConfigPanel();
+            }
+            else
+            {
+                tryCloseFighterConfigPanel();
+            }
+
+            EditRoomManager.Instance.SetCharacterModel(model.OpInfo);
         }
         
 
@@ -284,20 +296,19 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
 
         private CarrierScrollViewUI carrierScrollViewUI;
         private GameObject carrierPanel;
-        private void generateCvConfigPanel()
+        private void generateFighterConfigPanel()
         {
             if (carrierScrollViewUI == null || carrierPanel == null)
             {
                 carrierScrollViewUI = transform.Find("CarrierPanel").Find("CarrierScrollView").GetComponent<CarrierScrollViewUI>();
                 carrierPanel = transform.Find("CarrierPanel").gameObject;
             }
-            if (_model.OpInfo.Type != OperatorType.CV)
-            {
-                carrierPanel.SetActive(false);
-                return;
-            }
             carrierPanel.SetActive(true);
-            carrierScrollViewUI.GenerateHeadIcon(_model.OpInfo.Fighters);
+            carrierScrollViewUI.GenerateFighterSV(_model.OpInfo.Fighters);
+        }
+        private void tryCloseFighterConfigPanel()
+        {
+            if(carrierPanel != null) carrierPanel.SetActive(false);
         }
     }
 }

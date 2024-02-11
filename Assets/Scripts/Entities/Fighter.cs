@@ -32,12 +32,25 @@ namespace Assets.Scripts.Entities
         /// </summary>
         public FighterType Type = FighterType.Bomber;
         /// <summary>
-        /// 序列化使用
+        /// 序列化使用，为空表示没有相关的战机
         /// </summary>
-        public string OperatorId;
+        public string OperatorId = null;
         /// <summary>
         /// 战机操作员，决定战机属性。
         /// </summary>
-        public Operator Operator { get; set; }
+        public Operator Operator { 
+            get {
+                return _Operator;
+            } 
+            set {
+                _Operator = value;
+                if(value != null)
+                {
+                    OperatorId = value.Id;
+                }
+            } 
+        }
+
+        Operator _Operator;
     }
 }

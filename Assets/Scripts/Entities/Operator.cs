@@ -146,6 +146,17 @@ namespace Assets.Scripts.Entities
             return res;
         }
 
+        /// <summary>
+        /// 确保舰载机位置
+        /// </summary>
+        public void CertainFighters()
+        {
+            if(Type == OperatorType.CV)
+            {
+                if (Fighters == null) Fighters = new List<Fighter> { new Fighter(), new Fighter() };
+            }
+        }
+
 
         //TODO: 使用次数较少，优化这个方案
         public object Clone()
