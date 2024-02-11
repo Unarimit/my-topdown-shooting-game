@@ -326,7 +326,18 @@ namespace Assets.Scripts.CombatLogic
             
             // 挂components
             // animator component
-            GetComponent<FbxLoadManager>().LoadModel(fighter.Operator.ModelResourceUrl, go.transform.Find("modelroot"), go.transform, false);
+            if(fighter.Operator != null)
+            {
+                GetComponent<FbxLoadManager>().LoadModel(fighter.Operator.ModelResourceUrl, go.transform.Find("modelroot"), go.transform, false);
+            }
+            else
+            {
+                var sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                sphere.transform.parent = go.transform.Find("modelroot");
+                sphere.transform.localScale = Vector3.one * 0.2f;
+                sphere.transform.localPosition = Vector3.zero;
+            }
+            
 
             // Add FighterController, set cvBase and add to dictionary
             {

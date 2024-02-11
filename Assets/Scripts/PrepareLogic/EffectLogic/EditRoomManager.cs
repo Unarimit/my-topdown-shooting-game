@@ -22,13 +22,15 @@ namespace Assets.Scripts.PrepareLogic.EffectLogic
             _characterTrans = transform.Find("CharacterTrans");
         }
         private GameObject _lastGO;
+        private Operator _lastOp;
         private GameObject[] _lastFightersGO;
         static private readonly Vector3[] fighterPos = new Vector3[] { new Vector3(1.1f, 2, 0.2f), new Vector3(-0.2f, 2f, 1f), 
             new Vector3(0.4f, 2f, -0.4f) };
         public void SetCharacterModel(Operator op)
         {
             // clear old
-            if(_lastGO != null) Destroy(_lastGO);
+            _lastOp = op;
+            if (_lastGO != null) Destroy(_lastGO);
             if(_lastFightersGO != null)
             {
                 foreach (var x in _lastFightersGO) Destroy(x);
@@ -54,14 +56,30 @@ namespace Assets.Scripts.PrepareLogic.EffectLogic
                 for(int i = 0; i < op.Fighters.Count; i++)
                 {
                     _lastFightersGO[i] = Instantiate(ResourceManager.Load<GameObject>("Characters/FighterDisplayer"), _characterTrans);
-                    PrepareContextManager.Instance.GetComponent<FbxLoadManager>()
+
+                    if(op.Fighters[i].Operator != null)
+                    {
+                        PrepareContextManager.Instance.GetComponent<FbxLoadManager>()
                         .LoadModel(op.Fighters[i].Operator.ModelResourceUrl, _lastFightersGO[i].transform.Find("modelroot"), _lastFightersGO[i].transform, false);
+                    }
+                    else
+                    {
+                        var go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                        go.transform.parent = _lastFightersGO[i].transform.Find("modelroot");
+                        go.transform.localScale = Vector3.one * 0.2f;
+                        go.transform.localPosition = Vector3.zero;
+                    }
                     _lastFightersGO[i].transform.LookAt(m_Camera.transform);
                     _lastFightersGO[i].transform.eulerAngles = new Vector3(0, _lastFightersGO[i].transform.eulerAngles.y, 0);
                     _lastFightersGO[i].GetComponent<EditRoomFighterController>().Inject(fighterPos[i]);
 
                 }
             }
+        }
+
+        public void Refresh()
+        {
+            SetCharacterModel(_lastOp);
         }
 
         GameObject headGO;
