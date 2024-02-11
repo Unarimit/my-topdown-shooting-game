@@ -312,7 +312,7 @@ namespace Assets.Scripts.CombatLogic
 
             // 还有驾驶舱
             CockpitManager.Instance.ResetAnimator();
-            GetComponent<FbxLoadManager>().LoadModel(Operators[agent].OpInfo.ModelResourceUrl, CockpitManager.Instance.CharacterAnimator.transform, false);
+            GetComponent<FbxLoadManager>().LoadModel(Operators[agent].OpInfo.ModelResourceUrl, CockpitManager.Instance.CharacterAnimator.transform, false, FbxLoadManager.ModelShaderLayer.BackgroundShading);
 
             TransformHelper.ActiveCharacter(this, agent, false);
             TransformHelper.ActiveCharacter(this, oldOpTrans, false);
