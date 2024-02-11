@@ -495,9 +495,9 @@ namespace Assets.Scripts.Services.Database
         {
             return new HomeMessageQueue() {
                 new HomeMessage {  // 卑微的胜利提示
-                    Day = 50,
+                    Day = 8,
                     MessageActionId = "origin_1",
-                    MessageAction = (context) => { Debug.Log("You WIN!!!!"); } // 序列化时通过Id映射
+                    MessageAction = (context) => { context.CreateHomeMessage("游戏结束", "恭喜您获得游戏的胜利！"); } // 序列化时通过Id映射
                 }
             };
         }
@@ -520,7 +520,7 @@ namespace Assets.Scripts.Services.Database
         {
             return new Dictionary<string, System.Action<HomeContextManager>>
             {
-                { "origin_1", (context) => { Debug.Log("You WIN!!!!"); } }
+                { "origin_1", (context) => { context.CreateHomeMessage("游戏结束", "恭喜您获得游戏的胜利！"); } }
             };
         }
 
