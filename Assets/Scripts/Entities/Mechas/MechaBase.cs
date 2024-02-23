@@ -24,6 +24,7 @@ namespace Assets.Scripts.Entities.Mechas
         /// <summary>
         /// 无人使用时，这个值为空
         /// </summary>
+        [field:NonSerialized]
         public Operator Operator { get; private set; }
         /// <summary>
         /// 应该只被数据库管理类调用
