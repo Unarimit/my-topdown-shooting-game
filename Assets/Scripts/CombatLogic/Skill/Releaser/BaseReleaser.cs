@@ -11,6 +11,9 @@ namespace Assets.Scripts.CombatLogic.Skill.Releaser
     /// </summary>
     internal class BaseReleaser : MonoBehaviour
     {
+        public CombatSkill Skill;
+        public Transform Caster;
+        public Vector3 Aim;
         public virtual void Release(Transform Caster, CombatSkill skill, Vector3 aim)
         {
 

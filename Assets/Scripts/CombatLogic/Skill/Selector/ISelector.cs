@@ -1,12 +1,11 @@
 ﻿using Assets.Scripts.CombatLogic.Skill.Impactor;
-using Assets.Scripts.Entities;
+using Assets.Scripts.CombatLogic.Skill.Releaser;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Assets.Scripts.CombatLogic.Skill.Selector
 {
     internal interface ISelector
     {
-        public void Init(List<IImpactor> impectors, Transform caster, CombatSkill skill, Vector3 aim);
+        public void Init(List<IImpactor> impectors, BaseReleaser releaser);
     }
 }

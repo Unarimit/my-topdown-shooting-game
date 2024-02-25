@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.CombatLogic.Skill.Impactor;
+using Assets.Scripts.CombatLogic.Skill.Releaser;
 using Assets.Scripts.Entities;
 using System;
 using System.Collections.Generic;
@@ -18,12 +19,16 @@ namespace Assets.Scripts.CombatLogic.Skill.Selector
         List<IImpactor> _impactors;
         CombatSkill _skill;
         Action<GameObject, Transform, Vector3> action;
-        public void Init(List<IImpactor> impectors, Transform caster, CombatSkill skill, Vector3 aim)
+        public void Init(List<IImpactor> impectors, BaseReleaser releaser)
         {
             _impactors = impectors;
-            _skill = skill;
-            action =  MyServices.LuaEnv.Global.GetInPath<Action<GameObject, Transform, Vector3>>(skill.SkillSelector.Data);
-            action(gameObject, caster, aim);
+            _skill = releaser.Skill;
+            action =  MyServices.LuaEnv.Global.GetInPath<Action<GameObject, Transform, Vector3>>(_skill.SkillSelector.Data);
+            action(gameObject, releaser.Caster, releaser.Aim);
+
+            // reset碰撞系统
+            GetComponent<Collider>().enabled = true;
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         }
         private void OnTriggerEnter(Collider collision)
         {
