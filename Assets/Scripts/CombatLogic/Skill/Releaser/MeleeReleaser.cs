@@ -13,16 +13,15 @@ using UnityEngine;
 namespace Assets.Scripts.CombatLogic.Skill.Releaser
 {
     /// <summary>
-    /// 贴在角色go上的释放器
+    /// 贴在角色go上的释放器，没有（衍生）投掷物
     /// </summary>
     internal class MeleeReleaser : BaseReleaser
     {
-        private CombatSkill _skill;
-        private Transform _caster;
-        private Vector3 _aim;
         public override void Release(Transform caster, CombatSkill skill, Vector3 aim)
         {
-            _skill = skill;
+            Skill = skill;
+            Caster = caster;
+            Aim = aim;
             // 配置selector
             var selector = createSelector(skill.SkillSelector.SelectorName);
 
@@ -31,11 +30,11 @@ namespace Assets.Scripts.CombatLogic.Skill.Releaser
             foreach (var im in skill.SkillImpectors)
             {
                 impactors.Add(createImpactor(im.ImpectorName));
-                impactors[^1].Init(im, caster);
+                impactors[^1].Init(im, this);
             }
 
 
-            selector.Init(impactors, caster, skill, aim);
+            selector.Init(impactors, this);
 
 
             // 延迟销毁go和触发连锁技能
@@ -47,8 +46,8 @@ namespace Assets.Scripts.CombatLogic.Skill.Releaser
 
         IEnumerator DelayDestroySelf()
         {
-            yield return new WaitForSeconds(_skill.Duration);
-            if (_skill.IsHaveNextSkill) InvokeTriggerChainSkillEvent(_caster, SkillManager.Instance.skillConfig.CombatSkills[_skill.NextSkillId], _aim, transform.position, transform.eulerAngles);
+            yield return new WaitForSeconds(Skill.Duration);
+            if (Skill.IsHaveNextSkill) InvokeTriggerChainSkillEvent(Caster, SkillManager.Instance.skillConfig.CombatSkills[Skill.NextSkillId], Aim, transform.position, transform.eulerAngles);
             Destroy(this); // 销毁component而不是go
             yield break;
         }

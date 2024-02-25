@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.CombatLogic.Skill.Impactor;
+using Assets.Scripts.CombatLogic.Skill.Releaser;
 using Assets.Scripts.Entities;
 using DG.Tweening;
 using System;
@@ -14,14 +15,12 @@ namespace Assets.Scripts.CombatLogic.Skill.Selector
     {
         List<IImpactor> _impactors;
         CombatSkill _skill;
-        Vector3 _aim;
         float _time; // -1代表不销毁，0表示碰到就销毁(暂时未对trigger实现)，除此之外表示按时销毁
-        public void Init(List<IImpactor> impectors, Transform caster, CombatSkill skill, Vector3 aim)
+        public void Init(List<IImpactor> impectors, BaseReleaser releaser)
         {
             _impactors = impectors;
-            _skill = skill;
-            _aim = aim;
-            _time = float.Parse(skill.SkillSelector.Data);
+            _skill = releaser.Skill;
+            _time = float.Parse(_skill.SkillSelector.Data);
             if (_time > 0) DOVirtual.DelayedCall(_time, () => GetComponent<Collider>().enabled = false);
 
             if (_skill.EffectType == SkillEffectType.PaticalPrefab)
@@ -31,13 +30,15 @@ namespace Assets.Scripts.CombatLogic.Skill.Selector
             }
             else if (_skill.EffectType == SkillEffectType.Shoot || _skill.EffectType == SkillEffectType.ShootAndFreeze)
             {
-                GetComponent<Rigidbody>().velocity = (_aim - transform.position).normalized * 20 / 0.2f;
+                GetComponent<Rigidbody>().velocity = (releaser.Aim - transform.position).normalized * 20 / 0.2f;
             }
             else if (_skill.EffectType == SkillEffectType.Throw)
             {
-                GetComponent<Rigidbody>().velocity = _aim - transform.position;
+                GetComponent<Rigidbody>().velocity = releaser.Aim - transform.position;
             }
+            // reset碰撞系统
             GetComponent<Collider>().enabled = true;
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         }
 
         private void OnTriggerEnter(Collider collision)

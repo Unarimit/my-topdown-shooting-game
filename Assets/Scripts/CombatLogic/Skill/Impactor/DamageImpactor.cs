@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Entities;
+﻿using Assets.Scripts.CombatLogic.Skill.Releaser;
+using Assets.Scripts.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +11,17 @@ namespace Assets.Scripts.CombatLogic.Skill.Impactor
 {
     internal class DamageImpactor : IImpactor
     {
-        Transform _castor;
+        BaseReleaser _releaser;
         int dmg;
-        public void Init(SkillImpactor impactor, Transform castor)
+        public void Init(SkillImpactor impactor, BaseReleaser releaser)
         {
-            _castor = castor;
+            _releaser = releaser;
             dmg = int.Parse(impactor.Data);
         }
 
         public void Impact(Transform aim)
         {
-            CombatContextManager.Instance.DellDamage(_castor, aim, dmg);
+            CombatContextManager.Instance.DellDamage(_releaser.Caster, aim, dmg);
         }
 
     }

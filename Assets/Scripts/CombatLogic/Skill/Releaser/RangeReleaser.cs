@@ -10,19 +10,23 @@ using UnityEngine;
 
 namespace Assets.Scripts.CombatLogic.Skill.Releaser
 {
+    /// <summary>
+    /// 远程释放器，有（衍生）投掷物
+    /// </summary>
     internal class RangeReleaser : BaseReleaser
     {
-        private CombatSkill _skill;
-        private Transform _caster;
-        private Vector3 _aim;
+        ISelector selector;
+        List<IImpactor> impactors = new List<IImpactor>();
+        /// <summary>
+        /// 释放，考虑重用时的情况
+        /// </summary>
         public override void Release(Transform caster, CombatSkill skill, Vector3 aim)
         {
-            _caster = caster;
-            _skill = skill;
-            _aim = aim;
+            Caster = caster;
+            Skill = skill;
+            Aim = aim;
             // 配置selector
-            ISelector selector = null;
-            if (skill.SkillSelector.SelectorName == MyConfig.SkillSelectorStr.Trigger.ToString())
+            if (skill.SkillSelector.SelectorName == MyConfig.SkillSelectorStr.Trigger.ToString()) // 两个有投射物（以来碰撞箱）的特殊selector
             {
                 selector = gameObject.AddComponent<TriggerSelector>();
             }
@@ -32,19 +36,18 @@ namespace Assets.Scripts.CombatLogic.Skill.Releaser
             }
 
             // 配置impector
-            var impactors = new List<IImpactor>();
             if(skill.SkillImpectors != null)
             {
                 foreach (var im in skill.SkillImpectors)
                 {
                     impactors.Add(createImpactor(im.ImpectorName));
-                    impactors[impactors.Count - 1].Init(im, caster);
+                    impactors[impactors.Count - 1].Init(im, this);
                 }
             }
             
 
-
-            selector.Init(impactors, caster, skill, aim);
+            // 推动技能释放过程
+            selector.Init(impactors, this);
 
 
             // 延迟销毁go和触发连锁技能
@@ -55,8 +58,8 @@ namespace Assets.Scripts.CombatLogic.Skill.Releaser
 
         IEnumerator DelayDestroySelf()
         {
-            yield return new WaitForSeconds(_skill.Duration);
-            if (_skill.IsHaveNextSkill) InvokeTriggerChainSkillEvent(_caster, SkillManager.Instance.skillConfig.CombatSkills[_skill.NextSkillId], _aim, transform.position, transform.eulerAngles);
+            yield return new WaitForSeconds(Skill.Duration);
+            if (Skill.IsHaveNextSkill) InvokeTriggerChainSkillEvent(Caster, SkillManager.Instance.skillConfig.CombatSkills[Skill.NextSkillId], Aim, transform.position, transform.eulerAngles);
             Destroy(gameObject);
             yield break;
         }
