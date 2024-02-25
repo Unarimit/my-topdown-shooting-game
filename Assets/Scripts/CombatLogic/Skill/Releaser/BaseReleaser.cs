@@ -14,9 +14,13 @@ namespace Assets.Scripts.CombatLogic.Skill.Releaser
         public CombatSkill Skill;
         public Transform Caster;
         public Vector3 Aim;
-        public virtual void Release(Transform Caster, CombatSkill skill, Vector3 aim)
+        protected SkillManager Manager;
+        public virtual void Release(SkillManager manager, Transform caster, CombatSkill skill, Vector3 aim)
         {
-
+            Manager = manager;
+            Caster = caster;
+            Skill = skill;
+            Aim = aim;
         }
 
         protected void InvokeTriggerChainSkillEvent(Transform Caster, CombatSkill skill, Vector3 aim, Vector3 startPos, Vector3 startAngle)

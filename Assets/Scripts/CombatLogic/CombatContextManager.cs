@@ -127,6 +127,8 @@ namespace Assets.Scripts.CombatLogic
         {
             if(to.gameObject.layer == MyConfig.CHARACTER_LAYER)
             {
+                // 不能攻击尸体
+                if (Operators[to].IsDead) return;
                 // Process DMG
                 val = Operators[to].TakeDamage(val);
                 // statistic

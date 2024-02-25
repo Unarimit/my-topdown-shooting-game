@@ -2,10 +2,8 @@
 using Assets.Scripts.CombatLogic.Skill.Selector;
 using Assets.Scripts.Entities;
 using Assets.Scripts.Services;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Burst.Intrinsics;
 using UnityEngine;
 
 namespace Assets.Scripts.CombatLogic.Skill.Releaser
@@ -16,36 +14,40 @@ namespace Assets.Scripts.CombatLogic.Skill.Releaser
     internal class RangeReleaser : BaseReleaser
     {
         ISelector selector;
-        List<IImpactor> impactors = new List<IImpactor>();
+        List<IImpactor> impactors;
         /// <summary>
         /// 释放，考虑重用时的情况
         /// </summary>
-        public override void Release(Transform caster, CombatSkill skill, Vector3 aim)
+        public override void Release(SkillManager manager, Transform caster, CombatSkill skill, Vector3 aim)
         {
-            Caster = caster;
-            Skill = skill;
-            Aim = aim;
-            // 配置selector
-            if (skill.SkillSelector.SelectorName == MyConfig.SkillSelectorStr.Trigger.ToString()) // 两个有投射物（以来碰撞箱）的特殊selector
+            if(Manager == null) // 考虑对象池重用时的情况
             {
-                selector = gameObject.AddComponent<TriggerSelector>();
+                // 配置selector
+                if (skill.SkillSelector.SelectorName == MyConfig.SkillSelectorStr.Trigger.ToString()) // 两个有投射物（以来碰撞箱）的特殊selector
+                {
+                    selector = gameObject.AddComponent<TriggerSelector>();
+                }
+                else
+                {
+                    selector = createSelector(skill.SkillSelector.SelectorName);
+                }
+                // 配置impector
+                impactors = new List<IImpactor>();
+                if (skill.SkillImpectors != null)
+                {
+                    foreach (var im in skill.SkillImpectors)
+                    {
+                        impactors.Add(createImpactor(im.ImpectorName));
+                        impactors[impactors.Count - 1].Init(im, this);
+                    }
+                }
             }
             else
             {
-                selector = createSelector(skill.SkillSelector.SelectorName);
-            }
-
-            // 配置impector
-            if(skill.SkillImpectors != null)
-            {
-                foreach (var im in skill.SkillImpectors)
-                {
-                    impactors.Add(createImpactor(im.ImpectorName));
-                    impactors[impactors.Count - 1].Init(im, this);
-                }
+                Caster = caster;
+                Aim = aim;
             }
             
-
             // 推动技能释放过程
             selector.Init(impactors, this);
 
@@ -60,7 +62,7 @@ namespace Assets.Scripts.CombatLogic.Skill.Releaser
         {
             yield return new WaitForSeconds(Skill.Duration);
             if (Skill.IsHaveNextSkill) InvokeTriggerChainSkillEvent(Caster, SkillManager.Instance.skillConfig.CombatSkills[Skill.NextSkillId], Aim, transform.position, transform.eulerAngles);
-            Destroy(gameObject);
+            Manager.FinalizerSkill(this);
             yield break;
         }
 

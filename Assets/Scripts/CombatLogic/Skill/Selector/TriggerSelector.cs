@@ -2,11 +2,7 @@
 using Assets.Scripts.CombatLogic.Skill.Releaser;
 using Assets.Scripts.Entities;
 using DG.Tweening;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Scripts.CombatLogic.Skill.Selector
@@ -18,6 +14,11 @@ namespace Assets.Scripts.CombatLogic.Skill.Selector
         float _time; // -1代表不销毁，0表示碰到就销毁(暂时未对trigger实现)，除此之外表示按时销毁
         public void Init(List<IImpactor> impectors, BaseReleaser releaser)
         {
+            // reset碰撞系统
+            GetComponent<Collider>().enabled = true;
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
+
             _impactors = impectors;
             _skill = releaser.Skill;
             _time = float.Parse(_skill.SkillSelector.Data);
@@ -36,9 +37,6 @@ namespace Assets.Scripts.CombatLogic.Skill.Selector
             {
                 GetComponent<Rigidbody>().velocity = releaser.Aim - transform.position;
             }
-            // reset碰撞系统
-            GetComponent<Collider>().enabled = true;
-            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         }
 
         private void OnTriggerEnter(Collider collision)
