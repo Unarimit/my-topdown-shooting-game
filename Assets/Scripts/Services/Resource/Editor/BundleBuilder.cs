@@ -22,8 +22,8 @@ namespace Assets.Scripts.Editor
                 // 1. 考虑build平台的转换
                 // TODO
 
-                // 2. 收集资源目录的依赖信息，遇到循环依赖会报错
-                var bundleDic = collectDependency();
+                // 2. 按照某种规则收集ab包的资产，遇到循环依赖会报错
+                var bundleDic = collectAssets();
 
                 // 3. 根据依赖信息打ab包
                 var manfinfect = buildBundle(bundleDic);
@@ -33,11 +33,14 @@ namespace Assets.Scripts.Editor
             }
 
             
-
-            private Dictionary<string, List<string>> collectDependency()
+            /// <summary>
+            /// 使用并查集检测环，存在环则使用dfs输出依赖异常的地方
+            /// </summary>
+            private Dictionary<string, List<string>> collectAssets()
             {
                 throw new NotImplementedException();
             }
+
             private AssetBundleManifest buildBundle(Dictionary<string, List<string>> bundleDic)
             {
                 throw new NotImplementedException();
