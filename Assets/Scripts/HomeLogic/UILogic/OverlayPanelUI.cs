@@ -26,20 +26,20 @@ namespace Assets.Scripts.HomeLogic.UILogic
             base.Awake();
             bagPanelUI = transform.Find("BagPanel").GetComponent<BagPanelUI>();
             opsPanelUI = transform.Find("OperatorsPanel").GetComponent<OperatorsPanelUI>();
-            buildingPanelUI = transform.Find("BuildingsPanel").GetComponent<OverlayBuildingPanelUI>();
+            if(m_buildingBtn != null) buildingPanelUI = transform.Find("BuildingsPanel").GetComponent<OverlayBuildingPanelUI>();
         }
         private void OnEnable()
         {
             m_bagBtn.onClick.AddListener(openBag);
             m_characterBtn.onClick.AddListener(openCharacter);
-            m_buildingBtn.onClick.AddListener(() => buildingPanelUI.Enter());
+            if (m_buildingBtn != null) m_buildingBtn.onClick.AddListener(() => buildingPanelUI.Enter());
 
         }
         private void OnDisable()
         {
             m_bagBtn.onClick.RemoveListener(openBag);
             m_characterBtn.onClick.RemoveListener(openCharacter);
-            m_buildingBtn.onClick.RemoveAllListeners();
+            if (m_buildingBtn != null) m_buildingBtn.onClick.RemoveAllListeners();
         }
 
         private void openBag()

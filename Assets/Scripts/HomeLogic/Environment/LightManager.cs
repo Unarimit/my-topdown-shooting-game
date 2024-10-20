@@ -17,5 +17,12 @@ namespace Assets.Scripts.HomeLogic.Environment
             transform.Find("Night").gameObject.SetActive(true);
             transform.Find("Day").gameObject.SetActive(false);
         }
+
+        public void InSpace()
+        {
+            RenderSettings.ambientLight = new Color32(111, 111, 111, 0);
+            transform.Find("Night").gameObject.SetActive(true);
+            transform.Find("Day").gameObject.SetActive(false);
+        }
     }
 }

@@ -24,7 +24,7 @@ namespace Assets.Scripts.HomeLogic.UILogic
 
         private void Start()
         {
-            setTimeText();
+            if(m_timeTMP != null) setTimeText();
             setPopulationText();
             setElectricText();
             setIronText();
