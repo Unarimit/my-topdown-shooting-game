@@ -8,6 +8,11 @@ namespace Assets.Scripts.ShipLogic
     public class ShipStarup : MonoBehaviour
     {
 
+        private void Awake()
+        {
+            CommonLoader.TryInitCommonLoader();
+        }
+
         [SerializeField]
         LightManager lightManager;
         // Start is called before the first frame update
