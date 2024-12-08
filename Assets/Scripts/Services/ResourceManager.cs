@@ -5,14 +5,25 @@ namespace Assets.Scripts
 {
     internal static class ResourceManager
     {
-        public static T Load<T>(string resName) where T : Object
+        public static T Load<T>(string resPath) where T : Object
         {
-            var res = Resources.Load<T>(resName);
+            var res = Resources.Load<T>(resPath);
             if (res == null)
             {
-                Debug.LogError($"ResourceManager can not find {resName}");
+                Debug.LogError($"ResourceManager can not find {resPath}");
             }
             return res;
+        }
+
+        public static GameObject LoadGoAndInstantiate(string resPath, Transform parent)
+        {
+            var res = Resources.Load<GameObject>(resPath);
+            if (res == null)
+            {
+                Debug.LogError($"ResourceManager can not find {resPath}");
+                return null;
+            }
+            return GameObject.Instantiate(res, parent);
         }
 
         /// <summary>
