@@ -18,13 +18,13 @@ namespace Assets.Scripts.HomeLogic.UILogic.OperatorsUIs
 
         private void Start()
         {
-            transform.Find("ScrollView").GetComponent<OpScrollViewUI>().Inject(MyServices.Database.Operators);
+            transform.Find("ScrollView").GetComponent<OpScrollViewUI>().Inject(MyServices.OpDataHelper.Operators);
         }
         private void OnEnable()
         {
             if(_context.HomeVM.OperatorListDirtyMark is true)
             {
-                transform.Find("ScrollView").GetComponent<OpScrollViewUI>().Inject(MyServices.Database.Operators);
+                transform.Find("ScrollView").GetComponent<OpScrollViewUI>().Inject(MyServices.OpDataHelper.Operators);
                 _context.HomeVM.OperatorListDirtyMark = false;
             }
         }

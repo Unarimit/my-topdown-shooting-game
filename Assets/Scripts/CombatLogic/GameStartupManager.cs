@@ -33,7 +33,7 @@ namespace Assets.Scripts.CombatLogic
             {   // 调试生成，第二个判断是因为可能进入了prepare页面，但没有选择角色，保存了不完整的生成信息
                 Debug.Log("DB has no level info, enter test mode");
                 level = CombatLevelGenerator.GeneratorLevelInfo((CombatLevelRule)MyServices.Database.LevelRules[0]);
-                level.TeamOperators = MyServices.Database.Operators.Take(5).ToList();
+                level.TeamOperators = MyServices.OpDataHelper.Operators.Take(5).ToList();
 
                 // 调试使用随机灯光
                 if (Random.Range(0, 2) == 0) lightManager.Day();
@@ -69,7 +69,7 @@ namespace Assets.Scripts.CombatLogic
         public void TestInvasion()
         {
             MyServices.Database.CurCombatLevelInfo = CombatLevelGenerator.GeneratorLevelInfo(MyServices.Database.GetInvasionLevel());
-            MyServices.Database.CurCombatLevelInfo.TeamOperators = MyServices.Database.Operators.Take(5).ToList();
+            MyServices.Database.CurCombatLevelInfo.TeamOperators = MyServices.OpDataHelper.Operators.Take(5).ToList();
             SceneLoadHelper.MyLoadSceneAsync("Playground");
         }
 

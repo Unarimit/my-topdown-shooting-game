@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Assets.Scripts.Services;
 using TMPro;
 using UnityEngine;
 
@@ -25,18 +27,13 @@ namespace Assets.Scripts.HomeLogic.UILogic
         private void Start()
         {
             if(m_timeTMP != null) setTimeText();
-            setPopulationText();
-            setElectricText();
-            setIronText();
-            setAmmoText();
-            setAlText();
-            setGachaText();
-            _context.HomeVM.Population.OnDataChange += setPopulationText;
-            _context.HomeVM.ResElectric.OnDataChange += setElectricText;
-            _context.HomeVM.ResIron.OnDataChange += setIronText;
-            _context.HomeVM.ResAmmo.OnDataChange += setAmmoText;
-            _context.HomeVM.ResAl.OnDataChange += setAlText;
-            _context.HomeVM.ResGacha.OnDataChange += setGachaText;
+            SetDataDisplay();
+            MyServices.OpDataHelper.OnOpDataChange += SetDataDisplay;
+        }
+
+        private void OnDestroy()
+        {
+            MyServices.OpDataHelper.OnOpDataChange -= SetDataDisplay;
         }
 
         private void setTimeText()
@@ -46,39 +43,14 @@ namespace Assets.Scripts.HomeLogic.UILogic
             else text += "夜晚";
             m_timeTMP.text = text;
         }
-
-        private void OnDestroy()
+        private void SetDataDisplay()
         {
-            _context.HomeVM.Population.OnDataChange -= setPopulationText;
-            _context.HomeVM.ResElectric.OnDataChange -= setElectricText;
-            _context.HomeVM.ResIron.OnDataChange -= setIronText;
-            _context.HomeVM.ResAmmo.OnDataChange -= setAmmoText;
-            _context.HomeVM.ResAl.OnDataChange -= setAlText;
-            _context.HomeVM.ResGacha.OnDataChange -= setGachaText;
-        }
-        private void setPopulationText()
-        {
-            m_populationTMP.text = _context.HomeVM.Population.Data.ToString();
-        }
-        private void setElectricText()
-        {
-            m_electricTMP.text = _context.HomeVM.ResElectric.Data.ToString();
-        }
-        private void setIronText()
-        {
-            m_ironTMP.text = _context.HomeVM.ResIron.Data.ToString();
-        }
-        private void setAmmoText()
-        {
-            m_ammoTMP.text = _context.HomeVM.ResAmmo.Data.ToString();
-        }
-        private void setAlText()
-        {
-            m_alTMP.text = _context.HomeVM.ResAl.Data.ToString();
-        }
-        private void setGachaText()
-        {
-            m_gachaTMP.text = _context.HomeVM.ResGacha.Data.ToString();
+            m_populationTMP.text = MyServices.OpDataHelper.Operators.Count.ToString();
+            m_electricTMP.text = MyServices.BagDataHelper.GetItemNum(MyConfig.ItemTable.Electric.ToString()).ToString();
+            m_ironTMP.text = MyServices.BagDataHelper.GetItemNum(MyConfig.ItemTable.Iron.ToString()).ToString();
+            m_ammoTMP.text = MyServices.BagDataHelper.GetItemNum(MyConfig.ItemTable.Ammo.ToString()).ToString();
+            m_alTMP.text = MyServices.BagDataHelper.GetItemNum(MyConfig.ItemTable.Al.ToString()).ToString();
+            m_gachaTMP.text = MyServices.BagDataHelper.GetItemNum(MyConfig.ItemTable.Red.ToString()).ToString();
         }
     }
 }

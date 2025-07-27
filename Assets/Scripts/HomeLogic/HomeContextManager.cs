@@ -78,7 +78,7 @@ namespace Assets.Scripts.HomeLogic
         {
             foreach (var c in produces)
             {
-                if (HomeVM.TestResource(c.ItemId, -c.Amount) is false)
+                if (MyServices.BagDataHelper.TestItem(c.ItemId, -c.Amount) is false)
                 {
                     return false;
                 }
@@ -92,7 +92,7 @@ namespace Assets.Scripts.HomeLogic
         {
             foreach (var c in produces)
             {
-                HomeVM.ChangeResource(c.ItemId, -c.Amount);
+                MyServices.BagDataHelper.ChangeItem(c.ItemId, c.Amount);
             }
         }
 
@@ -114,7 +114,7 @@ namespace Assets.Scripts.HomeLogic
 
                 foreach (var x in filterSum)
                 {
-                    HomeVM.ChangeResource(x.Key, x.Value);
+                    MyServices.BagDataHelper.ChangeItem(x.Key, x.Value);
                 }
             }
         }
@@ -169,7 +169,7 @@ namespace Assets.Scripts.HomeLogic
 
         public IList<Operator> GetDecorationOperator()
         {
-            return MyServices.Database.Operators;
+            return MyServices.OpDataHelper.Operators;
         }
 
         public void CreateHomeMessage(string title, string desc, string spriteUrl = null)
@@ -185,7 +185,7 @@ namespace Assets.Scripts.HomeLogic
         public class ViewModel
         {
             /// <summary> 全局时间 </summary>
-            public int GTime { get; private set; } // 变化会涉及创景切换，所以不做数据绑定
+            public int GTime { get; private set; }
 
             public bool IsDay { get; private set; }
 
@@ -194,74 +194,41 @@ namespace Assets.Scripts.HomeLogic
             public bool OperatorListDirtyMark { get; set; }
 
             /// <summary> 人口 </summary>
-            public MyBinded<int> Population { get; private set; } = new MyBinded<int>();
+            public int Population { get; private set; }
             /// <summary> 电力 </summary>
-            public MyBinded<int> ResElectric { get; private set; } = new MyBinded<int>();
+            public int ResElectric { get; private set; }
+
             /// <summary> 铁 </summary>
-            public MyBinded<int> ResIron { get; private set; } = new MyBinded<int>(); 
+            public int ResIron { get; private set; }
+
             /// <summary> 弹药 </summary>
-            public MyBinded<int> ResAmmo { get; private set; } = new MyBinded<int>();
+            public int ResAmmo { get; private set; }
             /// <summary> 铝 </summary>
-            public MyBinded<int> ResAl { get; private set; } = new MyBinded<int>();
+            public int ResAl { get; private set; }
             /// <summary> 抽卡道具 </summary>
-            public MyBinded<int> ResGacha { get; private set; } = new MyBinded<int>();
+            public int ResGacha { get; private set; }
             public ViewModel()
             {
-                GTime = MyServices.Database.Inventory[MyConfig.ItemTable.GTime.ToString()];
+                SetData();
+                MyServices.BagDataHelper.OnBagDataChange += SetData;
+            }
+
+            ~ViewModel()
+            {
+                MyServices.BagDataHelper.OnBagDataChange -= SetData;
+            }
+
+            public void SetData()
+            {
+                GTime = MyServices.GameDataHelper.GetTime();
                 IsDay = MyServices.GameDataHelper.IsDay();
                 IsInInvade = MyServices.GameDataHelper.IsInvasion();
-                Population.Data = MyServices.Database.Operators.Count;
-                ResElectric.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Electric.ToString()];
-                ResIron.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Iron.ToString()];
-                ResAmmo.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Ammo.ToString()];
-                ResAl.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Al.ToString()];
-                ResGacha.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Red.ToString()];
-            }
-            /// <summary>
-            /// 在执行资源改变之前，先执行Test方法 <see cref="TestResource" /> 
-            /// </summary>
-            public void ChangeResource(string itemId, int diff)
-            {
-                var res = GetResourceById(itemId);
-                res.Data += diff;
-                MyServices.Database.Inventory[itemId] += diff;
-            }
-
-            public bool TestResource(string itemId, int diff)
-            {
-                var res = GetResourceById(itemId);
-                if (res.Data + diff < 0) return false;
-                else return true;
-            }
-
-            private MyBinded<int> GetResourceById(string itemId)
-            {
-                var itemEnum = Enum.Parse<MyConfig.ItemTable>(itemId);
-                MyBinded<int> res;
-                if (itemEnum == MyConfig.ItemTable.Electric)
-                {
-                    res = ResElectric;
-                }
-                else if (itemEnum == MyConfig.ItemTable.Iron)
-                {
-                    res = ResIron;
-                }
-                else if (itemEnum == MyConfig.ItemTable.Ammo)
-                {
-                    res = ResAmmo;
-                }
-                else if (itemEnum == MyConfig.ItemTable.Al)
-                {
-                    res = ResAl;
-                }
-                else if (itemEnum == MyConfig.ItemTable.Red)
-                {
-                    res = ResGacha;
-                }else
-                {
-                    throw new Exception("un match item id");
-                }
-                return res;
+                Population = MyServices.OpDataHelper.Operators.Count;
+                ResElectric = MyServices.BagDataHelper.GetItemNum(MyConfig.ItemTable.Electric.ToString());
+                ResIron = MyServices.BagDataHelper.GetItemNum(MyConfig.ItemTable.Iron.ToString());
+                ResAmmo = MyServices.BagDataHelper.GetItemNum(MyConfig.ItemTable.Ammo.ToString());
+                ResAl = MyServices.BagDataHelper.GetItemNum(MyConfig.ItemTable.Al.ToString());
+                ResGacha = MyServices.BagDataHelper.GetItemNum(MyConfig.ItemTable.Red.ToString());
             }
         }
     }

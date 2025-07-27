@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Entities.HomeMessage;
 using Assets.Scripts.Entities.Level;
-using Assets.Scripts.Entities.Save;
 using Assets.Scripts.Services.Database;
 using System;
 using System.Collections.Generic;
@@ -27,11 +26,19 @@ namespace Assets.Scripts.Services
             _database = database;
         }
 
+        /// <summary> 是否是白天 </summary>
         public bool IsDay()
         {
             return DayNow % 2 == 0;
         }
 
+        /// <summary> 进行到哪一天 </summary>
+        public int GetTime()
+        {
+            return _database.Inventory[MyConfig.ItemTable.GTime.ToString()];
+        }
+
+        /// <summary> 是否有入侵 </summary>
         public bool IsInvasion()
         {
             return DayNow % 7 == 0;
@@ -65,7 +72,7 @@ namespace Assets.Scripts.Services
         public void FinishLevel(CombatLevelResult result)
         {
             // 1. 战利品
-            resourceAdd(result.Loot);
+            MyServices.BagDataHelper.ChangeItems(result.Loot);
             // 2. 扣除体力
             foreach (var op in result.JoinOperator) op.Power -= 1;
             // 3. TODO: win loss?
@@ -75,17 +82,5 @@ namespace Assets.Scripts.Services
             _database.OnNewDay = true;
         }
 
-        private void resourceAdd(Dictionary<string, int> resource)
-        {
-            foreach (var x in resource)
-            {
-                if (_database.Inventory.ContainsKey(x.Key) is false)
-                {
-                    throw new ArgumentException($"GameDatabase do not have key named: {x.Key}");
-                }
-
-                _database.Inventory[x.Key] += x.Value;
-            }
-        }
     }
 }

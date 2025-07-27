@@ -37,7 +37,7 @@ namespace Assets.Scripts.HomeLogic.UILogic.OverlayBuildingUIs
 
         private async void onOperatorButton()
         {
-            var op = await OperatorChooseUI.ChooseOperator(MyServices.Database.Operators);
+            var op = await OperatorChooseUI.ChooseOperator(MyServices.OpDataHelper.Operators);
             Debug.Log(op.Name);
             //TODO: 逻辑判断，不能选择在工作中的，或提示
         }

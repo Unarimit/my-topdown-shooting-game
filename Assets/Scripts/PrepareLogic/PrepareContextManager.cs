@@ -36,7 +36,7 @@ namespace Assets.Scripts.PrepareLogic
         private void dataInit()
         {
             PrepareOps = new List<PrepareOperator>();
-            var ops = MyServices.Database.Operators;
+            var ops = MyServices.OpDataHelper.Operators;
             foreach(var op in ops)
             {
                 PrepareOps.Add(new PrepareOperator(op));

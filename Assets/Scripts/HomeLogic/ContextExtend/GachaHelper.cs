@@ -32,8 +32,8 @@ namespace Assets.Scripts.HomeLogic.ContextExtend
             context.Afford(getMatchCostList(gacha));
             if (gacha == GachaType.SimpleCharacter)
             {
-                var op = gachaSimpleCharacter();
-                MyServices.Database.Operators.Add(op);
+                var op = MyServices.OpDataHelper.GachaSimpleOp();
+                MyServices.OpDataHelper.AddOperator(op);
                 context.HomeVM.OperatorListDirtyMark = true;
 
                 // 动画
@@ -41,8 +41,8 @@ namespace Assets.Scripts.HomeLogic.ContextExtend
             }
             else if (gacha == GachaType.ExpensiveCharacter)
             {
-                var op = gachaExpensiveCharacter();
-                MyServices.Database.Operators.Add(op);
+                var op = MyServices.OpDataHelper.GachaExpensiveOp();
+                MyServices.OpDataHelper.AddOperator(op);
                 context.HomeVM.OperatorListDirtyMark = true;
 
                 // TODO: 动画(根据op属性变动动画效果？
@@ -105,69 +105,6 @@ namespace Assets.Scripts.HomeLogic.ContextExtend
                 return null;
             }
             return temp;
-        }
-
-        private static Operator gachaSimpleCharacter()
-        {
-            Operator op;
-            if (Random.Range(0f, 1f) < 0.1f) // 10 %的概率抽到CV
-            {
-                op = new Operator
-                {
-                    Name = "CV_" + MyConfig.NameList[Random.Range(0, MyConfig.NameList.Count)].ToString(),
-                    ModelResourceUrl = MyServices.Database.ModelList[Random.Range(0, MyServices.Database.ModelList.Count)],
-                    WeaponSkillId = 6,
-                    Type = OperatorType.CV,
-                    Id = (MyServices.Database.Operators.Count + 1).ToString(),
-                };
-            }
-            else
-            {
-                op = new Operator
-                {
-                    Name = "CA_" + MyConfig.NameList[Random.Range(0, MyConfig.NameList.Count)].ToString(),
-                    ModelResourceUrl = MyServices.Database.ModelList[Random.Range(0, MyServices.Database.ModelList.Count)],
-                    WeaponSkillId = 4,
-                    Type = OperatorType.CA,
-                    Id = (MyServices.Database.Operators.Count + 1).ToString(),
-                };
-            }
-            op.PropGreen = Random.Range(1, 4);
-            op.PropRed = Random.Range(1, 4);
-            op.PropBlue = Random.Range(1, 4);
-
-            return op;
-        }
-        private static Operator gachaExpensiveCharacter()
-        {
-            Operator op;
-            if (Random.Range(0f, 1f) < 0.15f) // 15 %的概率抽到CV
-            {
-                op = new Operator
-                {
-                    Name = "CV_" + MyConfig.NameList[Random.Range(0, MyConfig.NameList.Count)].ToString(),
-                    ModelResourceUrl = MyServices.Database.ModelList[Random.Range(0, MyServices.Database.ModelList.Count)],
-                    WeaponSkillId = 6,
-                    Type = OperatorType.CV,
-                    Id = (MyServices.Database.Operators.Count + 1).ToString(),
-                };
-            }
-            else
-            {
-                op = new Operator
-                {
-                    Name = "CA_" + MyConfig.NameList[Random.Range(0, MyConfig.NameList.Count)].ToString(),
-                    ModelResourceUrl = MyServices.Database.ModelList[Random.Range(0, MyServices.Database.ModelList.Count)],
-                    WeaponSkillId = 4,
-                    Type = OperatorType.CA,
-                    Id = (MyServices.Database.Operators.Count + 1).ToString(),
-                };
-            }
-            op.PropGreen = Random.Range(3, 8);
-            op.PropRed = Random.Range(3, 8);
-            op.PropBlue = Random.Range(3, 8);
-
-            return op;
         }
         private static MechaBase gachaSimpleMecha()
         {

@@ -35,7 +35,7 @@ namespace Assets.Scripts.HomeLogic.Environment
         [MyTest]
         public void TestGachaCharacterAnime()
         {
-            GachaCharacterAnime(HomeContextManager.Instance, MyServices.Database.Operators[0], UIManager.Instance);
+            GachaCharacterAnime(HomeContextManager.Instance, MyServices.OpDataHelper.Operators[0], UIManager.Instance);
         }
 
         public void GachaCharacterAnime(HomeContextManager context, Operator op, UIManager UI)

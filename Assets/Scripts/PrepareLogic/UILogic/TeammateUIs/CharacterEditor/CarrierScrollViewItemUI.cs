@@ -23,7 +23,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterEditor
             // 设定逻辑在流程特别里面的地方，可视化不佳，不好修改。没有使用MVC导致的。
             GetComponent<Button>().onClick.AddListener(async () =>
             {
-                _model.Operator =  await OperatorChooseUI.ChooseOperator(MyServices.Database.Operators);
+                _model.Operator =  await OperatorChooseUI.ChooseOperator(MyServices.OpDataHelper.Operators);
                 showFighterIcon();
                 EditRoomManager.Instance.Refresh();
             });
