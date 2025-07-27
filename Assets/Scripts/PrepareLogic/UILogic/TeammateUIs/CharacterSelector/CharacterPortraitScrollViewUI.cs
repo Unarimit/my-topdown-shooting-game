@@ -1,12 +1,11 @@
 using Assets.Scripts.PrepareLogic.PrepareEntities;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterSelector
 {
     /// <summary>
-    /// ¿ØÖÆprepareOprators, hierarchyÀï½ÐPortraitsScrollView
+    /// ï¿½ï¿½ï¿½ï¿½prepareOprators, hierarchyï¿½ï¿½ï¿½PortraitsScrollView
     /// </summary>
     public class CharacterPortraitScrollViewUI : MonoBehaviour
     {
@@ -21,7 +20,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterSelector
             _teammateUI = teammateUI;
         }
         /// <summary>
-        /// Éú³É¿ÉÑ¡Ïî
+        /// ï¿½ï¿½ï¿½É¿ï¿½Ñ¡ï¿½ï¿½
         /// </summary>
         public void GeneratePortrait()
         {
@@ -39,7 +38,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterSelector
             }
         }
         /// <summary>
-        /// ±ä¸üµ½±à¼­Ò³Ãæ»òÑ¡ÔñÒ³Ãæ
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½à¼­Ò³ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½Ò³ï¿½ï¿½
         /// </summary>
         /// <param name="page"></param>
         public void ChangePage(TeammatePortraitPage page)
@@ -48,7 +47,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterSelector
             {
                 cp.ChangePage(page);
             }
-            if(page == TeammatePortraitPage.EditPage) // Ä¬ÈÏÑ¡ÖÐµÚÒ»¸ö½ÇÉ«
+            if(page == TeammatePortraitPage.EditPage) // Ä¬ï¿½ï¿½Ñ¡ï¿½Ðµï¿½Ò»ï¿½ï¿½ï¿½ï¿½É«
             {
                 InEditSelect(_characterPortraits[0], _context.PrepareOps[0]);
                 _characterPortraits[0].SetChoose(true);
@@ -56,7 +55,7 @@ namespace Assets.Scripts.PrepareLogic.UILogic.TeammateUIs.CharacterSelector
         }
 
         /// <summary>
-        /// ×Ó×é¼þÔÚÏÔÊ¾×Ô¼ºÇ°µ÷ÓÃ
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ô¼ï¿½Ç°ï¿½ï¿½ï¿½ï¿½
         /// </summary>
         public void InEditSelect(CharacterPortraitScrollViewItemUI portraitUI, PrepareOperator model)
         {
