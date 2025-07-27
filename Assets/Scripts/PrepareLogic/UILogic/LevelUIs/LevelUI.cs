@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.Entities;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 
 namespace Assets.Scripts.PrepareLogic.UILogic.LevelUIs
 {

@@ -3,7 +3,6 @@ using Assets.Scripts.Common;
 using Assets.Scripts.PrepareLogic.EffectLogic;
 using DG.Tweening;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -9,7 +9,7 @@ using static Assets.Scripts.Services.MyConfig;
 namespace Assets.Scripts.Services
 {
     /// <summary>
-    /// 常用的对游戏数据的方法
+    /// 常用的玩法状态判断方法
     /// </summary>
     internal class GameDataHelper
     {
@@ -32,7 +32,7 @@ namespace Assets.Scripts.Services
             return DayNow % 2 == 0;
         }
 
-        public bool IsInvation()
+        public bool IsInvasion()
         {
             return DayNow % 7 == 0;
         }

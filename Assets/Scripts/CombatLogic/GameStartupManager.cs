@@ -10,7 +10,6 @@ using Assets.Scripts.HomeLogic.Environment;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.AI.Navigation;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

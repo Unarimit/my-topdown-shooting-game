@@ -209,7 +209,7 @@ namespace Assets.Scripts.HomeLogic
             {
                 GTime = MyServices.Database.Inventory[MyConfig.ItemTable.GTime.ToString()];
                 IsDay = MyServices.GameDataHelper.IsDay();
-                IsInInvade = MyServices.GameDataHelper.IsInvation();
+                IsInInvade = MyServices.GameDataHelper.IsInvasion();
                 Population.Data = MyServices.Database.Operators.Count;
                 ResElectric.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Electric.ToString()];
                 ResIron.Data = MyServices.Database.Inventory[MyConfig.ItemTable.Iron.ToString()];

@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Common.Test;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Scripts.HomeLogic.Environment

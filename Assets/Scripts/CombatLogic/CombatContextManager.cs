@@ -14,9 +14,7 @@ using Assets.Scripts.Services;
 using Cinemachine;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.CombatLogic
 {

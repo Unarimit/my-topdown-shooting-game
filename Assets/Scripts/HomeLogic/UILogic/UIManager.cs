@@ -11,7 +11,6 @@ using Assets.Scripts.HomeLogic.UILogic.GachaUIs.GachaMe;
 using Assets.Scripts.HomeLogic.UILogic.GachaUIs.GachaOp;
 using DG.Tweening;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

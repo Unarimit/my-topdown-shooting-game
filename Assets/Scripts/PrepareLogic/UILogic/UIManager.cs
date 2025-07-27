@@ -3,7 +3,6 @@ using Assets.Scripts.PrepareLogic.UILogic.TeammateUIs;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Scripts.PrepareLogic
