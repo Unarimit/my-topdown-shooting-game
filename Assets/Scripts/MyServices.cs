@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Entities;
 using Assets.Scripts.Services;
 using Assets.Scripts.Services.Database;
+using Assets.Scripts.Services.Others;
 using BehaviorDesigner.Runtime.Tasks;
 using System;
 using System.IO;
@@ -21,6 +22,10 @@ namespace Assets.Scripts
         public static GameDataHelper GameDataHelper { get; }
         /// <summary> Lua全局环境 </summary>
         public static LuaEnv LuaEnv { get; }
+
+        /// <summary> UI管理 </summary>
+        public static IUiManager UiManager { get; set; }
+
         static MyServices()
         {
             // 测试使用
