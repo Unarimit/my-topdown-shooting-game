@@ -12,7 +12,7 @@ internal class CommonLoader : MonoBehaviour
     public static void TryInitCommonLoader()
     {
         if (Instance != null) return;
-        var go = ResourceManager.LoadGoAndInstantiate("Common/Common", null);
+        var go = ResourceManager.LoadGoAndInstantiate("Common/FbxLoader", null);
         DontDestroyOnLoad(go);
         Instance = go.GetComponent<CommonLoader>();
 
