@@ -55,9 +55,6 @@ namespace Assets.Scripts.CombatLogic
 
             prepareLevel(level);
 
-            // AI
-            GetComponent<GOAPManagerPro>().Inject(_context);
-
             // 组件注册
             transform.AddComponent<AnimeHelper>();
             transform.AddComponent<GameLevelManager>().Init(level.LevelRule);

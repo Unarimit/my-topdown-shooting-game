@@ -67,56 +67,56 @@ namespace Assets.Scripts.CombatLogic.GOAPs
         /// </summary>
         private void updatePlan()
         {
-            foreach(var id in m_OperatorDic.Keys)
-            {
-                if (m_OperatorDic[id].IsPlayer is true || // 忽略玩家
-                    m_OperatorDic[id].IsDead is true ||  // 忽略死亡agent
-                    m_OpTransDic[id].GetComponent<AgentController>().enabled is false) // 忽略暂停行为
-                    continue; 
-
-                var list = findFieldOfViewEnemy(id);
-                // 注意不需要搜索敌人的情况
-                var state = GOAPStatusHelper.CalcState(m_OperatorDic[id], 
-                    m_OpTransDic[id].GetComponent<GunController>().gunProperty, 
-                    false, 
-                    list.Count != 0, 
-                    list.Where(x => x.distance < m_OperatorDic[id].AttackRange + 2).Count() != 0); // 触发距离应长于实际攻击距离
-
-                var res = m_GraphDic[id].DoPlan(state);
-
-                if(GOAPDebugger.Instance != null) GOAPDebugger.Instance.PrintActions(m_GraphDic[id].Name, res);
-
-                // 执行plan
-                if (res.Count == 0) throw new Exception($"{m_GraphDic[id].Name} plan result cnt is 0");
-                switch (res[0].GOAPPlan) {
-                    case GOAPPlan.Null:
-                        throw new Exception($"can not do null plan in {res[0].ActionName}");
-                    case GOAPPlan.MoveForward:
-                        if (m_PlanDic[id] == res[0].GOAPPlan && 
-                            m_OpTransDic[id].GetComponent<AgentController>().IsBehaviorFinish() is false) 
-                            break; // 不重复执行该计划
-
-                        m_OpTransDic[id].GetComponent<AgentController>().DoMove(calPatrolPos(id));
-                        break;
-                    case GOAPPlan.GoAndAttack:
-                        // 可能会出现目标不同的情况，交给AgentController处理
-                        m_OpTransDic[id].GetComponent<AgentController>().DoGoAndAttack(getMostValuableTarget(list));
-                        break;
-                    case GOAPPlan.SurroundAndAttack:
-                        // 可能会出现目标不同的情况，交给AgentController处理
-                        m_OpTransDic[id].GetComponent<AgentController>().DoSurroundAndAttack(getMostValuableTarget(list));
-                        break;
-                    case GOAPPlan.RetreatAndReload:
-                        // 可能会出现目标不同的情况，交给AgentController处理
-                        m_OpTransDic[id].GetComponent<AgentController>().DoRetreatAndReload(findNearlyEnemy(id));
-                        break;
-                    case GOAPPlan.FollowAndHeal:
-                        // 可能会出现目标不同的情况，交给AgentController处理
-                        m_OpTransDic[id].GetComponent<AgentController>().DoFollowAndHeal(findNearlyTeammate(id));
-                        break;
-                }
-                m_PlanDic[id] = res[0].GOAPPlan;
-            }
+            // foreach(var id in m_OperatorDic.Keys)
+            // {
+            //     if (m_OperatorDic[id].IsPlayer is true || // 忽略玩家
+            //         m_OperatorDic[id].IsDead is true ||  // 忽略死亡agent
+            //         m_OpTransDic[id].GetComponent<AgentController>().enabled is false) // 忽略暂停行为
+            //         continue; 
+            //
+            //     var list = findFieldOfViewEnemy(id);
+            //     // 注意不需要搜索敌人的情况
+            //     var state = GOAPStatusHelper.CalcState(m_OperatorDic[id], 
+            //         m_OpTransDic[id].GetComponent<GunController>().gunProperty, 
+            //         false, 
+            //         list.Count != 0, 
+            //         list.Where(x => x.distance < m_OperatorDic[id].AttackRange + 2).Count() != 0); // 触发距离应长于实际攻击距离
+            //
+            //     var res = m_GraphDic[id].DoPlan(state);
+            //
+            //     if(GOAPDebugger.Instance != null) GOAPDebugger.Instance.PrintActions(m_GraphDic[id].Name, res);
+            //
+            //     // 执行plan
+            //     if (res.Count == 0) throw new Exception($"{m_GraphDic[id].Name} plan result cnt is 0");
+            //     switch (res[0].GOAPPlan) {
+            //         case GOAPPlan.Null:
+            //             throw new Exception($"can not do null plan in {res[0].ActionName}");
+            //         case GOAPPlan.MoveForward:
+            //             if (m_PlanDic[id] == res[0].GOAPPlan && 
+            //                 m_OpTransDic[id].GetComponent<AgentController>().IsBehaviorFinish() is false) 
+            //                 break; // 不重复执行该计划
+            //
+            //             m_OpTransDic[id].GetComponent<AgentController>().DoMove(calPatrolPos(id));
+            //             break;
+            //         case GOAPPlan.GoAndAttack:
+            //             // 可能会出现目标不同的情况，交给AgentController处理
+            //             m_OpTransDic[id].GetComponent<AgentController>().DoGoAndAttack(getMostValuableTarget(list));
+            //             break;
+            //         case GOAPPlan.SurroundAndAttack:
+            //             // 可能会出现目标不同的情况，交给AgentController处理
+            //             m_OpTransDic[id].GetComponent<AgentController>().DoSurroundAndAttack(getMostValuableTarget(list));
+            //             break;
+            //         case GOAPPlan.RetreatAndReload:
+            //             // 可能会出现目标不同的情况，交给AgentController处理
+            //             m_OpTransDic[id].GetComponent<AgentController>().DoRetreatAndReload(findNearlyEnemy(id));
+            //             break;
+            //         case GOAPPlan.FollowAndHeal:
+            //             // 可能会出现目标不同的情况，交给AgentController处理
+            //             m_OpTransDic[id].GetComponent<AgentController>().DoFollowAndHeal(findNearlyTeammate(id));
+            //             break;
+            //     }
+            //     m_PlanDic[id] = res[0].GOAPPlan;
+            // }
         }
 
 

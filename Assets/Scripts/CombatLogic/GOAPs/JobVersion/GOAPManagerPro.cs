@@ -434,51 +434,51 @@ namespace Assets.Scripts.CombatLogic.GOAPs.JobVersion
         /// </summary>
         private void processPlanForJob()
         {
-            foreach(var res in reusedJob.CharactorPlans)
-            {
-                int id = res.Key;
-                if (reusedJob.CharactorHotDatas[res.Key].NeedNotPlan is true) // 要额外在判断这个，防止不一致
-                    continue;
-
-                if (m_OperatorDic[id].IsPlayer is true || // 忽略玩家
-                    m_OperatorDic[id].IsDead is true ||  // 忽略死亡agent
-                    m_OpTransDic[id].GetComponent<AgentController>().enabled is false) // 忽略暂停行为
-                    continue;
-
-                switch (res.Value.Plan)
-                {
-                    case GOAPPlan.Null:
-                        throw new Exception($"return a null plan in job result");
-                    case GOAPPlan.MoveForward:
-                        if (m_PlanDic[id] == res.Value.Plan &&
-                            m_OpTransDic[id].GetComponent<AgentController>().IsBehaviorFinish() is false)
-                            break; // 不重复执行该计划
-
-                        m_OpTransDic[id].GetComponent<AgentController>().DoMove(res.Value.TargetPos);
-                        break;
-                    case GOAPPlan.GoAndAttack:
-                        // 可能会出现目标不同的情况，交给AgentController处理
-                        if (res.Value.TargetCid == -1) break;
-                        m_OpTransDic[id].GetComponent<AgentController>().DoGoAndAttack(m_OpTransDic[res.Value.TargetCid].gameObject);
-                        break;
-                    case GOAPPlan.SurroundAndAttack:
-                        // 可能会出现目标不同的情况，交给AgentController处理
-                        if (res.Value.TargetCid == -1) break;
-                        m_OpTransDic[id].GetComponent<AgentController>().DoSurroundAndAttack(m_OpTransDic[res.Value.TargetCid].gameObject);
-                        break;
-                    case GOAPPlan.RetreatAndReload:
-                        // 可能会出现目标不同的情况，交给AgentController处理
-                        if (res.Value.TargetCid == -1) break;
-                        m_OpTransDic[id].GetComponent<AgentController>().DoRetreatAndReload(m_OpTransDic[res.Value.TargetCid].gameObject);
-                        break;
-                    case GOAPPlan.FollowAndHeal:
-                        // 可能会出现目标不同的情况，交给AgentController处理
-                        if (res.Value.TargetCid == -1) break;
-                        m_OpTransDic[id].GetComponent<AgentController>().DoFollowAndHeal(m_OpTransDic[res.Value.TargetCid].gameObject);
-                        break;
-                }
-                m_PlanDic[id] = res.Value.Plan;
-            }
+            // foreach(var res in reusedJob.CharactorPlans)
+            // {
+            //     int id = res.Key;
+            //     if (reusedJob.CharactorHotDatas[res.Key].NeedNotPlan is true) // 要额外在判断这个，防止不一致
+            //         continue;
+            //
+            //     if (m_OperatorDic[id].IsPlayer is true || // 忽略玩家
+            //         m_OperatorDic[id].IsDead is true ||  // 忽略死亡agent
+            //         m_OpTransDic[id].GetComponent<AgentController>().enabled is false) // 忽略暂停行为
+            //         continue;
+            //
+            //     switch (res.Value.Plan)
+            //     {
+            //         case GOAPPlan.Null:
+            //             throw new Exception($"return a null plan in job result");
+            //         case GOAPPlan.MoveForward:
+            //             if (m_PlanDic[id] == res.Value.Plan &&
+            //                 m_OpTransDic[id].GetComponent<AgentController>().IsBehaviorFinish() is false)
+            //                 break; // 不重复执行该计划
+            //
+            //             m_OpTransDic[id].GetComponent<AgentController>().DoMove(res.Value.TargetPos);
+            //             break;
+            //         case GOAPPlan.GoAndAttack:
+            //             // 可能会出现目标不同的情况，交给AgentController处理
+            //             if (res.Value.TargetCid == -1) break;
+            //             m_OpTransDic[id].GetComponent<AgentController>().DoGoAndAttack(m_OpTransDic[res.Value.TargetCid].gameObject);
+            //             break;
+            //         case GOAPPlan.SurroundAndAttack:
+            //             // 可能会出现目标不同的情况，交给AgentController处理
+            //             if (res.Value.TargetCid == -1) break;
+            //             m_OpTransDic[id].GetComponent<AgentController>().DoSurroundAndAttack(m_OpTransDic[res.Value.TargetCid].gameObject);
+            //             break;
+            //         case GOAPPlan.RetreatAndReload:
+            //             // 可能会出现目标不同的情况，交给AgentController处理
+            //             if (res.Value.TargetCid == -1) break;
+            //             m_OpTransDic[id].GetComponent<AgentController>().DoRetreatAndReload(m_OpTransDic[res.Value.TargetCid].gameObject);
+            //             break;
+            //         case GOAPPlan.FollowAndHeal:
+            //             // 可能会出现目标不同的情况，交给AgentController处理
+            //             if (res.Value.TargetCid == -1) break;
+            //             m_OpTransDic[id].GetComponent<AgentController>().DoFollowAndHeal(m_OpTransDic[res.Value.TargetCid].gameObject);
+            //             break;
+            //     }
+            //     m_PlanDic[id] = res.Value.Plan;
+            // }
         }
 
     }
