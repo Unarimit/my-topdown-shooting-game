@@ -3,7 +3,9 @@ using Assets.Scripts.Entities;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tactical.Tasks;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.CombatLogic.CombatEntities;
+using Assets.Scripts.CombatLogic.ContextExtends;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -103,7 +105,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
                 _moveTargetVariable.Value = Vector3.zero;
                 _behaviorTree.SetVariable("moveTarget", _moveTargetVariable);
             }
-
+            
             // 初始化canBreak变量
             var canBreakVar = _behaviorTree.GetVariable("canBreak") as SharedBool;
             if (canBreakVar == null)

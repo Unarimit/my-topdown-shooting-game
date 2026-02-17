@@ -67,8 +67,8 @@ namespace Assets.Scripts.Services
         {
             // TODO: these just for test
             return new List<Operator>() {
-                new Operator { Name = "hoshino", ModelResourceUrl = "Hoshino", WeaponSkillId = 3, Id = (++opId).ToString(), MainSkillId = 9 },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Type = OperatorType.CV,
+                new Operator { Name = "CA_1", ModelResourceUrl = "Hoshino", WeaponSkillId = 3, Id = (++opId).ToString(), MainSkillId = 9 },
+                new Operator { Name = "CV_1", ModelResourceUrl = "Shiroko", Type = OperatorType.CV,
                     WeaponSkillId = 6,
                     Fighters = new List<Fighter>{
                         new Fighter { Operator = new Operator { Name = "ho", ModelResourceUrl = "Hoshino", Id = (++opId).ToString() } },
@@ -76,12 +76,24 @@ namespace Assets.Scripts.Services
                     },
                     Id = (++opId).ToString()
                 },
-                new Operator { Name = "aru", ModelResourceUrl = "Aru",Id = (++opId).ToString(), Trait = OperatorTrait.Tactical },
-                new Operator { Name = "akrin", ModelResourceUrl = "Karin", Id = (++opId).ToString() },
-                new Operator { Name = "mashiro", ModelResourceUrl = "Mashiro",Id = (++opId).ToString()  },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString()},
-                new Operator { Name = "shiroko", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "CA_2", ModelResourceUrl = "Aru",Id = (++opId).ToString(), Trait = OperatorTrait.Tactical },
+                new Operator { Name = "CA_3", ModelResourceUrl = "Karin", Id = (++opId).ToString() },
+                new Operator { Name = "CA_4", ModelResourceUrl = "Mashiro",Id = (++opId).ToString()  },
+                new Operator { Name = "CA_5", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "CA_6", ModelResourceUrl = "Shiroko", Id = (++opId).ToString()},
+                new Operator { Name = "CA_7", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "CA_8", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "CV_2", ModelResourceUrl = "Shiroko", Type = OperatorType.CV,
+                    WeaponSkillId = 6,
+                    Fighters = new List<Fighter>{
+                        new Fighter { Operator = new Operator { Name = "ho", ModelResourceUrl = "Hoshino", Id = (++opId).ToString() } },
+                        new Fighter { Operator = new Operator { Name = "shi", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() } }
+                    },
+                    Id = (++opId).ToString()
+                },
+                new Operator { Name = "CA_9", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "CA_10", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
+                new Operator { Name = "CA_11", ModelResourceUrl = "Shiroko", Id = (++opId).ToString() },
             };
         }
 

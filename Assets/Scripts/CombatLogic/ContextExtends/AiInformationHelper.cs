@@ -90,6 +90,11 @@ namespace Assets.Scripts.CombatLogic.ContextExtends
             if (belongTeam == 0) return context.EnemyTeamTrans;
             else return context.PlayerTeamTrans;
         }
+        public static List<Transform> GetTeammateGroup(this CombatContextManager context, int belongTeam)
+        {
+            if (belongTeam == 1) return context.EnemyTeamTrans;
+            else return context.PlayerTeamTrans;
+        }
 
         /// <summary>
         /// 是否允许自动索敌

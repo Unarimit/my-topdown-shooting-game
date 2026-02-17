@@ -81,6 +81,10 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
         #region 战斗统计信息
         public int StatCauseDamage { get; private set; } = 0;
         public int StatReceiveDamage { get; private set; } = 0;
+        /// <summary>
+        /// 击杀数（用于AI训练统计）
+        /// </summary>
+        public int StatKillCount { get; private set; } = 0;
 
         #endregion
 
@@ -160,6 +164,14 @@ namespace Assets.Scripts.CombatLogic.CombatEntities
         {
             LastInCombatTime = Time.time;
             StatCauseDamage += Math.Abs(val);
+        }
+
+        /// <summary>
+        /// 记录击杀（用于AI训练统计）
+        /// </summary>
+        public void ActKill()
+        {
+            StatKillCount++;
         }
     }
 }

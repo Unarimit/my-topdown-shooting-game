@@ -75,6 +75,12 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             if (isAccomplish is true) return;
             else isAccomplish = true;
 
+            // 训练模式：通知训练管理器战斗结束
+            if (AITrainingManager.Instance != null && AITrainingManager.Instance.IsRecording)
+            {
+                AITrainingManager.Instance.EndBattleRecording(isWin ? CombatStatu.Win : CombatStatu.Loss);
+            }
+
             // 0. stop game
             _context.ActiveAllCharacter(false);
 
