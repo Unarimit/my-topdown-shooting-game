@@ -9,6 +9,7 @@ using Assets.Scripts.Entities.Level;
 using Assets.Scripts.HomeLogic.Environment;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Services;
 using Unity.AI.Navigation;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -67,7 +68,7 @@ namespace Assets.Scripts.CombatLogic
         {
             MyServices.Database.CurCombatLevelInfo = CombatLevelGenerator.GeneratorLevelInfo(MyServices.Database.GetInvasionLevel());
             MyServices.Database.CurCombatLevelInfo.TeamOperators = MyServices.OpDataHelper.Operators.Take(5).ToList();
-            SceneLoadHelper.MyLoadSceneAsync("Playground");
+            SceneLoadHelper.MyLoadSceneAsync(MyConfig.Scene.GameScene.ToString());
         }
 
         /// <summary>

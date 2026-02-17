@@ -4,6 +4,7 @@ using Assets.Scripts.Entities;
 using Assets.Scripts.Entities.Level;
 using Assets.Scripts.PrepareLogic.PrepareEntities;
 using System.Collections.Generic;
+using Assets.Scripts.Services;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -60,7 +61,7 @@ namespace Assets.Scripts.PrepareLogic
                 TipsUI.GenerateNewTips("请至少选择一名干员");
                 return;
             }
-            SceneLoadHelper.MyLoadSceneAsync("Playground");
+            SceneLoadHelper.MyLoadSceneAsync(MyConfig.Scene.GameScene.ToString());
         }
         public void ReturnHome()
         {

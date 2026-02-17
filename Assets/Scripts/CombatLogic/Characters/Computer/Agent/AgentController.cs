@@ -3,6 +3,7 @@ using Assets.Scripts.Entities;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tactical.Tasks;
 using System.Collections.Generic;
+using Assets.Scripts.CombatLogic.CombatEntities;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -24,6 +25,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
         #endregion
 
         public int Team => _controller.Model.Team;
+        public CombatOperator Model => _controller.Model;
         private GameObject mapMarkUI;
 
         // 单一行为树

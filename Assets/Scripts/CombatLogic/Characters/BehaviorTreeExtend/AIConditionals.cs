@@ -91,8 +91,10 @@ namespace Assets.Scripts.CombatLogic.Characters.BehaviorTreeExtend
 
         public override TaskStatus OnUpdate()
         {
-            if (_agentController == null) return TaskStatus.Failure;
-
+            if (_agentController == null) 
+                return TaskStatus.Failure;
+            if(_agentController.Model.WeaponSkill.SkillInfo.TargetTip != SkillTargetTip.TeammateSingle)
+                return TaskStatus.Failure;
             GameObject teammate = _agentController.GetNearestTeammate();
             if (teammate == null) return TaskStatus.Failure;
 

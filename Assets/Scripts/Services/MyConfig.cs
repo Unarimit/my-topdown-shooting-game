@@ -83,7 +83,7 @@ namespace Assets.Scripts.Services
             Start,
             Home,
             Prepare,
-            Playground,
+            GameScene,
         }
 
         #endregion
