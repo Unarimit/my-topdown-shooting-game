@@ -2016,7 +2016,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 694423262}
   - {fileID: 1752503731}
   - {fileID: 1269789872}
   - {fileID: 425614684}
@@ -2578,6 +2577,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 694423262}
   - {fileID: 1993223546}
   - {fileID: 1617675872}
   - {fileID: 184057692}
@@ -2646,6 +2646,7 @@ MonoBehaviour:
   Skill2Mask: {fileID: 1084538656}
   HPSlider: {fileID: 184057693}
   CockpitShow: {fileID: 1993223547}
+  BreakHUD: {fileID: 694423262}
 --- !u!1 &434002911
 GameObject:
   m_ObjectHideFlags: 0
@@ -4293,17 +4294,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 694423261}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 346971317}
+  m_Father: {fileID: 425614684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 715, y: 353.30005}
+  m_SizeDelta: {x: 1430, y: 780}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &694423263
 MonoBehaviour:

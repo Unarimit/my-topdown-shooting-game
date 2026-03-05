@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.CombatLogic.UILogic
@@ -22,6 +23,7 @@ namespace Assets.Scripts.CombatLogic.UILogic
         public Slider HPSlider;
 
         public RawImage CockpitShow;
+        [FormerlySerializedAs("BreakHUDImg")] public Transform BreakHUD;
 
         private CockpitManager _cockpitManager;
         private void Awake()
@@ -75,6 +77,7 @@ namespace Assets.Scripts.CombatLogic.UILogic
             {
                 _cockpitManager.ChangeState(CockpitWalkState.Running);
             }
+            CheckBreakHUD();
         }
         /// <summary>
         /// 获得UI显示用的冷却比值
@@ -105,6 +108,12 @@ namespace Assets.Scripts.CombatLogic.UILogic
             base.TweenEnter(duration);
             var rect = GetComponent<RectTransform>();
             rect.DOAnchorPos(initPos, duration);
+        }
+        
+        private void CheckBreakHUD()
+        {
+            BreakHUD.gameObject.SetActive( // 当生命小于50%时，显示生命量少效果的HUD
+                (float)_context.CombatVM.Player.CurrentHP / _context.CombatVM.Player.MaxHP < 0.5);
         }
     }
 }

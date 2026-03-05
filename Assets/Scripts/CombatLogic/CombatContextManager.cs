@@ -150,12 +150,10 @@ namespace Assets.Scripts.CombatLogic
 
         }
 
-        
-
         private void OperatorDied(Transform aim)
         {
             Operators[aim].DoDied();
-            GameLevelManager.Instance.CalculateDropout(Operators[aim]);
+            GameLevelManager.Instance.CalculateOpDeadResult(Operators[aim]);
             aim.GetComponent<DestructiblePersonController>().DoDied();
             if (aim == PlayerTrans)
             {

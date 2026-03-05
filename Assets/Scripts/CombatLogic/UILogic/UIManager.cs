@@ -39,7 +39,6 @@ namespace Assets.Scripts.CombatLogic
         }
 
         const string ReviveCountdownPanel = "ReviveCountdownPanel";
-        const string BreakHUD = "BreakHUDImg";
         public void ShowReviveCountdown()
         {
             windows[ReviveCountdownPanel].SetVisible(true);
@@ -62,16 +61,6 @@ namespace Assets.Scripts.CombatLogic
             }
         }
 
-        private void OnGUI()
-        {
-            CheckBreakHUD();
-        }
-
-        private void CheckBreakHUD()
-        {
-            windows[BreakHUD].SetVisible( // 当生命小于50%时，显示生命量少效果的HUD
-                (float)_context.CombatVM.Player.CurrentHP / _context.CombatVM.Player.MaxHP < 0.5);
-        }
         
     }
 }

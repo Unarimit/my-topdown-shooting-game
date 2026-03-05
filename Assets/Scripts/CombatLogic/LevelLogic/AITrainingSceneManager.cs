@@ -54,7 +54,9 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             transform.GetComponent<SkillManager>()?.Init();
 
             // 设置训练配置
+            MyConfig.IsEnemyNeedDrop = false;
             SetupTrainingConfig();
+            UIManager.Instance.Init();
 
             if (AutoStartTraining)
             {
@@ -275,16 +277,8 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
                 {
                     // 严格按照 GameStartupManager 的坐标计算方式
                     var v3 = new Vector3(spawn.x + Random.Range(0, spawn.width), 0, spawn.y + Random.Range(0, spawn.height));
-                    if (i == 0 && TrainingConfig.UseAIForPlayerSlot)
-                    {
-                        // AI接管玩家位
-                        var playerTrans = _context.GeneratePlayer(ops[i], v3, Vector3.zero, spawnTrans);
-                        SetupAIForPlayer(playerTrans);
-                    }
-                    else
-                    {
-                        _context.GenerateAgent(ops[i], v3, Vector3.zero, 0, spawnTrans);
-                    }
+                    
+                    _context.GenerateAgent(ops[i], v3, Vector3.zero, 0, spawnTrans);
                 }
             }
 
@@ -314,12 +308,14 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             // 添加必要的组件
             if (transform.GetComponent<AnimeHelper>() == null)
                 transform.AddComponent<AnimeHelper>();
-            
-            if (transform.GetComponent<GameLevelManager>() == null)
+
+
+            GameLevelManager glm = transform.GetComponent<GameLevelManager>();
+            if (glm == null)
             {
-                var glm = transform.AddComponent<GameLevelManager>();
-                glm.Init(level.LevelRule);
+                glm = transform.AddComponent<GameLevelManager>();
             }
+            glm.Init(level.LevelRule);
 
             // 应用行为树
             ApplyBehaviorTrees(enemyBehaviorTree);

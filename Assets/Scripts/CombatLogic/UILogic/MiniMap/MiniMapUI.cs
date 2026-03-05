@@ -23,7 +23,7 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
         }
         private void Start()
         {
-            setPlayer();
+            if(_context.CombatVM.PlayerTrans != null) setPlayer();
         }
         private void setPlayer()
         {

@@ -54,6 +54,11 @@ namespace Assets.Scripts.Services
         #endregion
 
         #region 全局信息（如关卡、仓库状态）
+
+        /// <summary> 敌方是否结算掉落 </summary>
+        public static bool IsEnemyNeedDrop = true;
+        
+        
         /// <summary> 掉落物表，用于ToString，防止拼错 </summary>
         public enum ItemTable
         {

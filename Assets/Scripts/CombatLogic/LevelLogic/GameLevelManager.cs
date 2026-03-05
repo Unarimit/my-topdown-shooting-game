@@ -14,6 +14,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
 {
     public class GameLevelManager : MonoBehaviour
     {
+        
         public static GameLevelManager Instance;
         private CombatContextManager _context => CombatContextManager.Instance;
         /// <summary>
@@ -24,8 +25,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         /// <summary>
         /// 掉落
         /// </summary>
-        private Dictionary<string, int> Dropouts = new Dictionary<string, int>();
-
+        private Dictionary<string, int> Dropouts;
         private void Awake()
         {
             if (Instance == null) Instance = this;
@@ -33,7 +33,9 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         }
         public void Init(CombatLevelRule rule)
         {
+            _isAccomplish = false;
             _rule = rule;
+            Dropouts = new Dictionary<string, int>();
         }
         private void Start()
         {
@@ -66,19 +68,20 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         }
 
 
-        private bool isAccomplish = false;
+        private bool _isAccomplish = false;
         /// <summary>
         /// 关卡目标达成
         /// </summary>
         private void levelAccomplish(bool isWin)
         {
-            if (isAccomplish is true) return;
-            else isAccomplish = true;
+            if (_isAccomplish is true) return;
+            else _isAccomplish = true;
 
             // 训练模式：通知训练管理器战斗结束
             if (AITrainingManager.Instance != null && AITrainingManager.Instance.IsRecording)
             {
                 AITrainingManager.Instance.EndBattleRecording(isWin ? CombatStatu.Win : CombatStatu.Loss);
+                return;
             }
 
             // 0. stop game
@@ -115,10 +118,21 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
                 addDropout(x.DropItem.ItemId, x.GetDropoutAmount());
             }
         }
-        public void CalculateDropout(CombatOperator cOperator)
+        public void CalculateOpDeadResult(CombatOperator cOperator)
         {
+            // 统计信息
             if (cOperator.Team == 0) addDropout(MyConfig.ItemTable.KillTeam.ToString(), 1);
-            else if (cOperator.Team == 1)
+            else if(cOperator.Team == 1) addDropout(MyConfig.ItemTable.KillEnemy.ToString(), 1);
+            // 掉落
+            if (MyConfig.IsEnemyNeedDrop) CalculateDropout(cOperator);
+            // AI相关
+            if(cOperator.Team == 1)
+                EnemyAttackFactor += 0.2f;
+        }
+
+        private void CalculateDropout(CombatOperator cOperator)
+        {
+            if (cOperator.Team == 1)
             {
                 // 自带掉落
                 foreach(var ePrab in _rule.OperatorPrefabs)
@@ -135,10 +149,6 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
                         break;
                     }
                 }
-                // 敌人指示物
-                addDropout(MyConfig.ItemTable.KillEnemy.ToString(), 1);
-                // AI相关
-                EnemyAttackFactor += 0.2f;
             }
         }
         private void addDropout(string key, int value)
@@ -156,7 +166,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         public event AimChangeEventHandler AimChangeEvent;
         public void CheckAimAndAction()
         {
-            if (isAccomplish is true) return;
+            if (_isAccomplish is true) return;
 
             if(AimChangeEvent != null) AimChangeEvent.Invoke(generateText());
 
