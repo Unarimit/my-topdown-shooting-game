@@ -11,6 +11,8 @@ namespace Assets.Scripts.CombatLogic
     public class UIManager : MonoBehaviour
     {
         public static UIManager Instance;
+        [NonSerialized]
+        public bool IsInitialized = false;
 
         private Dictionary<string, SubUIBase> windows;
         private CombatContextManager _context => CombatContextManager.Instance;
@@ -27,6 +29,7 @@ namespace Assets.Scripts.CombatLogic
                 windows.Add(x.name, x);
                 x.SetVisible(false);
             }
+            IsInitialized = true;
         }
         public void Init()
         {
@@ -66,6 +69,11 @@ namespace Assets.Scripts.CombatLogic
                 x.TweenEnter(0.5f);
             }
         }
-
+        
+        const string MipMapPanel = "MiniMap";
+        public void Refresh()
+        {
+            windows[MipMapPanel].SetVisible(true);
+        }
     }
 }

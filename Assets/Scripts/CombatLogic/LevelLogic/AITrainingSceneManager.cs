@@ -172,7 +172,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             _context.Operators.Clear();
             _context.PlayerTeamTrans.Clear();
             _context.EnemyTeamTrans.Clear();
-
+            if(UIManager.Instance.IsInitialized) UIManager.Instance.Refresh();
             yield return new WaitForSeconds(0.1f);
         }
 
@@ -387,10 +387,13 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
                 });
                 _opId += 1;
             }
-            res.Add(new Operator
-            {
-                Name = $"CV_{_opId}", ModelResourceUrl = team == 0 ? "Shiroko" : "Hoshino", Id = (_opId).ToString(),
-                Trait = OperatorTrait.Tactical
+            res.Add(new Operator { Name = $"CV_{_opId}", ModelResourceUrl = "Shiroko", Type = OperatorType.CV,
+                WeaponSkillId = 6,
+                Fighters = new List<Fighter>{
+                    new Fighter { Operator = new Operator { Name = "ho", ModelResourceUrl = "Hoshino", Id = (_opId++).ToString() } },
+                    new Fighter { Operator = new Operator { Name = "shi", ModelResourceUrl = "Shiroko", Id = (_opId++).ToString() } }
+                },
+                Id = _opId.ToString()
             });
             _opId += 1;
             return res;

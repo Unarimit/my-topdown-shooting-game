@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
@@ -12,6 +13,14 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
             bl_MiniMap = GetComponent<bl_MiniMap>();
             _context.CombatVM.PlayerChangeEvent += setPlayer;
         }
+
+        public override void SetVisible(bool isVisible)
+        {
+            base.SetVisible(isVisible);
+            if (isVisible) Start();
+
+        }
+
         private void OnEnable()
         {
             StartCoroutine(waitToActive());
@@ -23,7 +32,20 @@ namespace Assets.Scripts.CombatLogic.UILogic.MiniMap
         }
         private void Start()
         {
-            if(_context.CombatVM.PlayerTrans != null) setPlayer();
+            StopCoroutine(StartCorotine());
+            StartCoroutine(StartCorotine());
+            IEnumerator StartCorotine()
+            {
+                if (_context.CombatVM.PlayerTrans != null) setPlayer();
+                else
+                {
+                    while (_context.Operators.Any() is false)
+                    {
+                        yield return null;
+                    }
+                    bl_MiniMap.Target = _context.Operators.First().Key;
+                }
+            }   
         }
         private void setPlayer()
         {

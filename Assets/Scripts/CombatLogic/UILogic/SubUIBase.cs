@@ -14,7 +14,7 @@ namespace Assets.Scripts.CombatLogic.UILogic
         /// 实际上是SetActive
         /// </summary>
         /// <param name="isVisible"></param>
-        public void SetVisible(bool isVisible)
+        public virtual void SetVisible(bool isVisible)
         {
             gameObject.SetActive(isVisible);
         }
