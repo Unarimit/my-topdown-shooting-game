@@ -158,7 +158,7 @@ namespace Assets.Scripts.Entities.Level
         /// <summary>
         /// 是否允许复活
         /// </summary>
-        public bool AllowRespawn;
+        public bool IsAllowRespawn;
         /// <summary>
         /// 是否允许家园建筑加入战斗
         /// </summary>

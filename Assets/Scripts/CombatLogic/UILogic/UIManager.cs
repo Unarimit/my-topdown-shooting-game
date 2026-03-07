@@ -43,6 +43,12 @@ namespace Assets.Scripts.CombatLogic
         {
             windows[ReviveCountdownPanel].SetVisible(true);
         }
+
+        public void ShowDeadTip()
+        {
+            //TODO: 死亡提示
+            throw new NotImplementedException();
+        }
         /// <summary>
         /// 结束战斗UI
         /// </summary>
@@ -61,6 +67,5 @@ namespace Assets.Scripts.CombatLogic
             }
         }
 
-        
     }
 }

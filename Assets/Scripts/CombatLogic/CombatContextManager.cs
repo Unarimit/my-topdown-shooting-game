@@ -83,6 +83,8 @@ namespace Assets.Scripts.CombatLogic
         }
         private void FixedUpdate()
         {
+            //TODO: 优化判空，这样效率太低了
+            if (CombatVM?.Level == null) return;
             ForOperatorsLogic();
             UpdatePerSecond();
         }
@@ -158,7 +160,10 @@ namespace Assets.Scripts.CombatLogic
             if (aim == PlayerTrans)
             {
                 PlayerDiedEvent.Invoke(transform, true);
-                UIManager.Instance.ShowReviveCountdown();
+                if(CombatVM.Level.LevelRule.IsAllowRespawn) 
+                    UIManager.Instance.ShowReviveCountdown();
+                else
+                    UIManager.Instance.ShowDeadTip();
             }
 
             aim.gameObject.SetActive(false);
@@ -202,11 +207,14 @@ namespace Assets.Scripts.CombatLogic
         }
         public void ForOperatorsLogic()
         {
-            foreach (var pair in Operators)
+            if (CombatVM.Level.LevelRule.IsAllowRespawn)
             {
-                if (pair.Value.TryRevive())
+                foreach (var pair in Operators)
                 {
-                    Respawn(pair.Key);
+                    if (pair.Value.TryRevive())
+                    {
+                        Respawn(pair.Key);
+                    }
                 }
             }
         }

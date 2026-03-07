@@ -178,7 +178,7 @@ namespace Assets.Scripts.Services.Database
                             Description = "被击杀{0}个队友"
                         }
                     },
-                    AllowRespawn = true,
+                    IsAllowRespawn = true,
                     TeamAttackThreshold = 0,
                     EnemyAttackThreshold = 0
                 },
@@ -244,7 +244,7 @@ namespace Assets.Scripts.Services.Database
                             Description = "时间经过{0}秒"
                         }
                     },
-                    AllowRespawn = true,
+                    IsAllowRespawn = true,
                     TeamAttackThreshold = 0.5f,
                     EnemyAttackThreshold = 0.5f
                 },
@@ -312,7 +312,7 @@ namespace Assets.Scripts.Services.Database
                             Description = "时间经过{0}秒"
                         }
                     },
-                    AllowRespawn = true,
+                    IsAllowRespawn = true,
                     TeamAttackThreshold = 0.5f,
                     EnemyAttackThreshold = 0.5f
                 },
@@ -367,7 +367,7 @@ namespace Assets.Scripts.Services.Database
                             Description = "基地被摧毁{0}"
                         }
                     },
-                    AllowRespawn = true,
+                    IsAllowRespawn = true,
                     TeamAttackThreshold = 0.5f,
                     EnemyAttackThreshold = 0
                 },
@@ -438,7 +438,7 @@ namespace Assets.Scripts.Services.Database
                             Description = "被击杀{0}个队友"
                         }
                     },
-                    AllowRespawn = true,
+                    IsAllowRespawn = true,
                     TeamAttackThreshold = 0,
                     EnemyAttackThreshold = 0
                 },

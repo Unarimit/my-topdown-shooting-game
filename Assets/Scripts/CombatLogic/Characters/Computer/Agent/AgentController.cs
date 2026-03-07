@@ -192,7 +192,7 @@ namespace Assets.Scripts.CombatLogic.Characters.Computer.Agent
             _controller.Aim(isAim, aim);
         }
 
-        float scatter = 1f;
+        float scatter = 0.2f;
         SkillTargetTip? weaponTargetTip = null;
         public void Shoot(Vector3 aim)
         {

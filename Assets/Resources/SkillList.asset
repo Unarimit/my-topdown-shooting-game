@@ -105,7 +105,7 @@ MonoBehaviour:
     Description: null
     TargetTip: 0
     RangeTip: 10
-    CoolDown: 0.2
+    CoolDown: 0.1
     Duration: 1.5
     AfterCastTime: 0
     CharacterAnimeId: null
@@ -118,7 +118,7 @@ MonoBehaviour:
     - ImpectorName: Damage
       Data: 1
     NextSkillId: -1
-    Ammo: 10
+    Ammo: 8
     PrefabResourceUrl: Bullet
     IconUrl: ar-1
   - Type: 0

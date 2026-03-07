@@ -15,6 +15,7 @@ using BehaviorDesigner.Runtime;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Entities;
 using Unity.AI.Navigation;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -68,12 +69,19 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         {
             if (TrainingConfig == null)
             {
-                TrainingConfig = ScriptableObject.CreateInstance<AITrainingConfig>();
-                TrainingConfig.UseAIForPlayerSlot = true;
-                TrainingConfig.TeamOperatorCount = 5;
-                TrainingConfig.EnemyOperatorCount = 5;
-                TrainingConfig.MapType = MapType.Small;
-                TrainingConfig.MaxBattleDuration = 120f;
+                // 尝试加载默认训练配置
+                TrainingConfig = Resources.Load<AITrainingConfig>("AITraining/New_Training_Config");
+                
+                // 如果仍为空，创建默认配置
+                if (TrainingConfig == null)
+                {
+                    TrainingConfig = ScriptableObject.CreateInstance<AITrainingConfig>();
+                    TrainingConfig.UseAIForPlayerSlot = true;
+                    TrainingConfig.TeamOperatorCount = 5;
+                    TrainingConfig.EnemyOperatorCount = 5;
+                    TrainingConfig.MapType = MapType.Small;
+                    TrainingConfig.MaxBattleDuration = 120f;
+                }
             }
             _trainingManager.InitializeTraining(TrainingConfig);
         }
@@ -173,7 +181,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             var levelRule = new CombatLevelRule
             {
                 MapType = TrainingConfig.MapType,
-                AllowRespawn = false,
+                IsAllowRespawn = false,
                 AllowHomeBuilding = false,
                 TeamAttackThreshold = 1f,
                 EnemyAttackThreshold = 0f,
@@ -215,17 +223,9 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
                 Map = GenerateMap(TrainingConfig.MapType)
             };
 
-            // 友方和敌方使用不同的干员（避免重复）
-            var allOps = MyServices.OpDataHelper.Operators.ToList();
-            levelInfo.TeamOperators = allOps.Take(TrainingConfig.TeamOperatorCount).ToList();
-            levelInfo.EnemyOperators = allOps.Skip(TrainingConfig.TeamOperatorCount).Take(TrainingConfig.EnemyOperatorCount).ToList();
-            
-            // 如果敌方数量不足，重复使用友方之后的
-            if (levelInfo.EnemyOperators.Count < TrainingConfig.EnemyOperatorCount)
-            {
-                int need = TrainingConfig.EnemyOperatorCount - levelInfo.EnemyOperators.Count;
-                levelInfo.EnemyOperators.AddRange(allOps.Take(need));
-            }
+            // 友方和敌方人员
+            levelInfo.TeamOperators = generateTestOperators(TrainingConfig.TeamOperatorCount, 0);
+            levelInfo.EnemyOperators = generateTestOperators(TrainingConfig.EnemyOperatorCount, 1);
 
             levelInfo.EnemyOperatorsBy = new List<OperatorPrefab>();
             foreach (var op in levelInfo.EnemyOperators)
@@ -372,6 +372,28 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         {
             if (!EnableTrainingMode) EnableTrainingMode = true;
             StartCoroutine(TrainingSequence());
+        }
+
+        private int _opId;
+        private List<Operator> generateTestOperators(int num, int team)
+        {
+            var res = new List<Operator>();
+            for (int i = 0; i < num - 1; i++)
+            {
+                res.Add(new Operator
+                {
+                    Name = $"CA_{_opId}", ModelResourceUrl = team == 0 ? "Shiroko" : "Hoshino", Id = (_opId).ToString(),
+                    Trait = OperatorTrait.Tactical
+                });
+                _opId += 1;
+            }
+            res.Add(new Operator
+            {
+                Name = $"CV_{_opId}", ModelResourceUrl = team == 0 ? "Shiroko" : "Hoshino", Id = (_opId).ToString(),
+                Trait = OperatorTrait.Tactical
+            });
+            _opId += 1;
+            return res;
         }
     }
 }

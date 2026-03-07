@@ -13,14 +13,16 @@ namespace Assets.Scripts.CombatLogic.Characters.BehaviorTreeExtend
     {
         public SharedVector3 MovePos;
         NavMeshAgent agent;
+        public bool _setStatus;
         public override void OnStart()
         {
             agent = GetComponent<NavMeshAgent>();
-            agent.SetDestination(MovePos.Value);
+            _setStatus = agent.SetDestination(MovePos.Value);
         }
 
         public override TaskStatus OnUpdate()
         {
+            if(_setStatus is false) return TaskStatus.Failure;
             agent.isStopped = false;
             if (Vector3.Distance(transform.position, agent.destination) < 1f) return TaskStatus.Success;
             else return TaskStatus.Running;
