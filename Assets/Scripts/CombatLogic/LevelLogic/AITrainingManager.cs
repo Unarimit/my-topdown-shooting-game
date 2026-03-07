@@ -37,8 +37,36 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         private List<CombatOperator> _teamOperatorsSnapshot;
         private List<CombatOperator> _enemyOperatorsSnapshot;
 
+        // Agent行为追踪数据
+        private Dictionary<Transform, AgentBehaviorData> _agentBehaviorData = new Dictionary<Transform, AgentBehaviorData>();
+
         // 行为树引用缓存
         private Dictionary<Transform, ExternalBehaviorTree> _originalBehaviorTrees = new Dictionary<Transform, ExternalBehaviorTree>();
+
+        /// <summary>
+        /// Agent行为追踪数据结构（简化版）
+        /// </summary>
+        private class AgentBehaviorData
+        {
+            public Transform AgentTransform;
+            public BehaviorTree BehaviorTree;  // 行为树引用
+            public string AgentName;
+            public int Team;
+            public Vector3 StartPosition;
+            public Vector3 LastPosition;
+            public float TotalDistanceMoved;
+            public float TimeStationary;
+            public float TimeInCombatRange;
+            public int TimesInAttackRange;
+            public bool WasInAttackRange;
+            public float MaxAttackRange;
+            
+            // 行为树节点追踪
+            public string LastActiveTaskName;
+            public string CurrentActiveTaskName;
+            public float TimeInCurrentTask;  // 在当前任务停留的时间
+            public Dictionary<string, float> TaskDurations = new Dictionary<string, float>();  // 各任务停留时长统计
+        }
 
         // 事件
         public event Action<TrainingBattleResult> OnBattleEnd;
@@ -103,10 +131,292 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             _currentBattle.TeamMaxTotalHP = _teamOperatorsSnapshot.Sum(o => o.MaxHP);
             _currentBattle.EnemyMaxTotalHP = _enemyOperatorsSnapshot.Sum(o => o.MaxHP);
 
+            // 启动Agent行为追踪
+            StartAgentBehaviorTracking();
+
             if (TrainingConfig && TrainingConfig.VerboseLogging)
             {
                 Debug.Log($"[AITraining] 开始记录对战: {teamBehaviorName} vs {enemyBehaviorName}");
             }
+        }
+
+        /// <summary>
+        /// 启动Agent行为追踪
+        /// </summary>
+        private void StartAgentBehaviorTracking()
+        {
+            _agentBehaviorData.Clear();
+            var context = CombatContextManager.Instance;
+            
+            // 追踪友方
+            foreach (var trans in context.PlayerTeamTrans)
+            {
+                if (context.Operators.TryGetValue(trans, out var op))
+                {
+                    var behaviorTree = trans.GetComponent<BehaviorTree>();
+                    _agentBehaviorData[trans] = new AgentBehaviorData
+                    {
+                        AgentTransform = trans,
+                        BehaviorTree = behaviorTree,
+                        AgentName = op.OpInfo.Name,
+                        Team = 0,
+                        StartPosition = trans.position,
+                        LastPosition = trans.position,
+                        MaxAttackRange = op.AttackRange,
+                        CurrentActiveTaskName = GetActiveTaskName(behaviorTree)
+                    };
+                }
+            }
+            
+            // 追踪敌方
+            foreach (var trans in context.EnemyTeamTrans)
+            {
+                if (context.Operators.TryGetValue(trans, out var op))
+                {
+                    var behaviorTree = trans.GetComponent<BehaviorTree>();
+                    _agentBehaviorData[trans] = new AgentBehaviorData
+                    {
+                        AgentTransform = trans,
+                        BehaviorTree = behaviorTree,
+                        AgentName = op.OpInfo.Name,
+                        Team = 1,
+                        StartPosition = trans.position,
+                        LastPosition = trans.position,
+                        MaxAttackRange = op.AttackRange,
+                        CurrentActiveTaskName = GetActiveTaskName(behaviorTree)
+                    };
+                }
+            }
+        }
+
+        /// <summary>
+        /// 获取行为树当前活跃的任务名称（外部访问，不修改行为树节点）
+        /// 简化版：通过反射获取行为树执行栈信息
+        /// </summary>
+        private string GetActiveTaskName(BehaviorTree behaviorTree)
+        {
+            if (behaviorTree == null) return "None";
+            
+            // 使用行为树的ExecutionStatus来判断状态
+            var executionStatus = behaviorTree.ExecutionStatus;
+            
+            // 尝试通过反射获取行为树中的活跃任务信息
+            // 注意：这是外部监控，不修改行为树节点本身
+            try
+            {
+                // 获取行为树的外部行为名称作为标识
+                var externalBehavior = behaviorTree.ExternalBehavior;
+                if (externalBehavior != null)
+                {
+                    return externalBehavior.name;
+                }
+            }
+            catch { }
+            
+            return executionStatus.ToString();
+        }
+
+        /// <summary>
+        /// 更新Agent行为数据
+        /// </summary>
+        private void UpdateAgentBehaviorTracking()
+        {
+            if (_agentBehaviorData.Count == 0) return;
+            
+            var context = CombatContextManager.Instance;
+            
+            foreach (var kvp in _agentBehaviorData)
+            {
+                var data = kvp.Value;
+                var trans = kvp.Key;
+                
+                if (trans == null) continue;
+                
+                // 计算移动距离
+                float distance = Vector3.Distance(trans.position, data.LastPosition);
+                data.TotalDistanceMoved += distance;
+                
+                // 检测静止
+                if (distance < 0.05f)
+                {
+                    data.TimeStationary += Time.deltaTime;
+                }
+                
+                // 检查战斗参与
+                UpdateCombatParticipation(data, context);
+                
+                // 更新行为树节点监控（外部访问，不修改行为树）
+                UpdateBehaviorTreeTracking(data);
+                
+                data.LastPosition = trans.position;
+            }
+        }
+
+        /// <summary>
+        /// 更新行为树节点追踪（外部访问，不修改行为树节点）
+        /// </summary>
+        private void UpdateBehaviorTreeTracking(AgentBehaviorData data)
+        {
+            if (data.BehaviorTree == null) return;
+            
+            // 获取当前活跃任务
+            string currentTask = GetActiveTaskName(data.BehaviorTree);
+            
+            // 如果任务变化了
+            if (currentTask != data.CurrentActiveTaskName)
+            {
+                // 记录上一个任务的停留时间
+                if (!string.IsNullOrEmpty(data.CurrentActiveTaskName))
+                {
+                    if (!data.TaskDurations.ContainsKey(data.CurrentActiveTaskName))
+                        data.TaskDurations[data.CurrentActiveTaskName] = 0f;
+                    data.TaskDurations[data.CurrentActiveTaskName] += data.TimeInCurrentTask;
+                }
+                
+                data.LastActiveTaskName = data.CurrentActiveTaskName;
+                data.CurrentActiveTaskName = currentTask;
+                data.TimeInCurrentTask = 0f;
+            }
+            else
+            {
+                // 继续在当前任务停留
+                data.TimeInCurrentTask += Time.deltaTime;
+            }
+        }
+
+        /// <summary>
+        /// 更新战斗参与数据
+        /// </summary>
+        private void UpdateCombatParticipation(AgentBehaviorData data, CombatContextManager context)
+        {
+            float combatRangeThreshold = 30f;
+            bool hasEnemyInRange = false;
+            
+            // 检查是否有敌人在战斗范围内
+            var enemies = data.Team == 0 ? context.EnemyTeamTrans : context.PlayerTeamTrans;
+            foreach (var enemy in enemies)
+            {
+                if (enemy == null) continue;
+                float dist = Vector3.Distance(data.AgentTransform.position, enemy.position);
+                if (dist <= combatRangeThreshold)
+                {
+                    hasEnemyInRange = true;
+                    break;
+                }
+            }
+            
+            if (hasEnemyInRange)
+            {
+                data.TimeInCombatRange += Time.deltaTime;
+            }
+            
+            // 检查攻击范围
+            foreach (var enemy in enemies)
+            {
+                if (enemy == null) continue;
+                float dist = Vector3.Distance(data.AgentTransform.position, enemy.position);
+                bool inAttackRange = dist <= data.MaxAttackRange;
+                
+                if (inAttackRange && !data.WasInAttackRange)
+                {
+                    data.TimesInAttackRange++;
+                }
+                data.WasInAttackRange = inAttackRange;
+                break; // 只检查最近的敌人
+            }
+        }
+
+        /// <summary>
+        /// 结束Agent行为追踪并生成统计
+        /// </summary>
+        private void EndAgentBehaviorTracking()
+        {
+            float battleDuration = Time.time - _battleStartTime;
+            if (battleDuration <= 0) battleDuration = 1f;
+            
+            int idleCount = 0;
+            int slackingCount = 0;
+            float totalActivity = 0f;
+            
+            // 构建合并的日志
+            var teamLogBuilder = new System.Text.StringBuilder();
+            var enemyLogBuilder = new System.Text.StringBuilder();
+            teamLogBuilder.AppendLine("友方Agent行为分析:");
+            enemyLogBuilder.AppendLine("敌方Agent行为分析:");
+            
+            foreach (var data in _agentBehaviorData.Values)
+            {
+                // 创建统计对象
+                var stats = new AIAgentBehaviorStats
+                {
+                    AgentName = data.AgentName,
+                    Team = data.Team,
+                    StartPosition = data.StartPosition,
+                    EndPosition = data.AgentTransform != null ? data.AgentTransform.position : data.LastPosition,
+                    TotalDistanceMoved = data.TotalDistanceMoved,
+                    StationaryPercentage = (data.TimeStationary / battleDuration) * 100f,
+                    TimeInCombatRange = data.TimeInCombatRange,
+                    CombatParticipationRate = (data.TimeInCombatRange / battleDuration) * 100f,
+                    TimesInAttackRange = data.TimesInAttackRange
+                };
+                
+                // 计算评分
+                stats.ActivityScore = 100f - stats.StationaryPercentage;
+                stats.CombatScore = stats.CombatParticipationRate;
+                
+                // 判断发呆/划水
+                bool isIdling = stats.IsIdling;
+                bool isSlacking = stats.IsSlacking;
+                if (isIdling) idleCount++;
+                if (isSlacking) slackingCount++;
+                totalActivity += stats.ActivityScore;
+                
+                // 存储到战斗结果
+                if (data.Team == 0)
+                    _currentBattle.TeamBehaviorStats.Add(stats);
+                else
+                    _currentBattle.EnemyBehaviorStats.Add(stats);
+                
+                // 构建个体分析字符串
+                string behaviorInfo = $"  {stats.GetBehaviorAnalysis()}";
+                if (isIdling || isSlacking)
+                {
+                    // 获取发呆/划水时的行为树节点信息
+                    string currentTask = data.CurrentActiveTaskName;
+                    float taskTime = data.TimeInCurrentTask;
+                    
+                    behaviorInfo += $"\n    └─ 当前节点: {currentTask} ({taskTime:F1}s)";
+                    
+                    // 输出停留时间最长的节点（可能是卡住的原因）
+                    if (data.TaskDurations.Count > 0)
+                    {
+                        var longestTask = data.TaskDurations.OrderByDescending(kvp => kvp.Value).First();
+                        behaviorInfo += $", 最长停留: {longestTask.Key} ({longestTask.Value:F1}s)";
+                    }
+                }
+                
+                // 添加到对应的日志构建器
+                if (data.Team == 0)
+                    teamLogBuilder.AppendLine(behaviorInfo);
+                else
+                    enemyLogBuilder.AppendLine(behaviorInfo);
+            }
+            
+            // 汇总数据
+            _currentBattle.IdleAgentCount = idleCount;
+            _currentBattle.SlackingAgentCount = slackingCount;
+            _currentBattle.TeamAverageActivity = _agentBehaviorData.Count > 0 ? 
+                totalActivity / _agentBehaviorData.Count : 0f;
+            
+            // 输出合并后的日志（每条包含多个Agent）
+            Debug.Log($"[AGENT_BEHAVIOR_TEAM]\n{teamLogBuilder}");
+            Debug.Log($"[AGENT_BEHAVIOR_ENEMY]\n{enemyLogBuilder}");
+            
+            // 输出团队摘要
+            Debug.Log($"[BEHAVIOR_SUMMARY] 发呆Agent: {idleCount}, 划水Agent: {slackingCount}, " +
+                $"团队平均活跃度: {_currentBattle.TeamAverageActivity:F1}%");
+            
+            _agentBehaviorData.Clear();
         }
 
         /// <summary>
@@ -115,6 +425,9 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         public void EndBattleRecording(CombatStatu result)
         {
             if (!IsRecording) return;
+
+            // 结束行为追踪
+            EndAgentBehaviorTracking();
 
             _currentBattle.Result = result;
             _currentBattle.BattleDuration = Time.time - _battleStartTime;
@@ -276,11 +589,14 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         }
 
         /// <summary>
-        /// 检查是否超时
+        /// 检查是否超时，并更新行为追踪
         /// </summary>
         private void Update()
         {
             if (!IsRecording || TrainingConfig == null) return;
+
+            // 更新Agent行为追踪数据
+            UpdateAgentBehaviorTracking();
 
             float elapsed = Time.time - _battleStartTime;
             if (elapsed > TrainingConfig.MaxBattleDuration)

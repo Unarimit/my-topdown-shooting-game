@@ -92,6 +92,15 @@ namespace Assets.Scripts.Entities.Level
         // 详细数据
         public List<OperatorBattleStats> TeamOperatorStats = new List<OperatorBattleStats>();
         public List<OperatorBattleStats> EnemyOperatorStats = new List<OperatorBattleStats>();
+        
+        // AI行为详细统计 (新增)
+        public List<AIAgentBehaviorStats> TeamBehaviorStats = new List<AIAgentBehaviorStats>();
+        public List<AIAgentBehaviorStats> EnemyBehaviorStats = new List<AIAgentBehaviorStats>();
+        
+        // 行为分析摘要
+        public int IdleAgentCount;      // 发呆agent数量
+        public int SlackingAgentCount;  // 划水agent数量
+        public float TeamAverageActivity;   // 团队平均活跃度
 
         public float VictoryScore => CalculateVictoryScore();
 
@@ -137,6 +146,64 @@ namespace Assets.Scripts.Entities.Level
     }
 
     /// <summary>
+    /// AI Agent详细行为统计数据
+    /// 用于检测发呆、挂机等问题
+    /// </summary>
+    [Serializable]
+    public class AIAgentBehaviorStats
+    {
+        // 基础信息
+        public string AgentName;
+        public int Team; // 0=友方, 1=敌方
+        public bool IsDead;
+        
+        // 位置相关 - 检测发呆
+        public float TotalDistanceMoved;      // 总移动距离
+        public float AverageSpeed;            // 平均速度
+        public float TimeStationary;          // 静止时间（秒）
+        public float StationaryPercentage;    // 静止时间占比
+        public Vector3 StartPosition;         // 起始位置
+        public Vector3 EndPosition;           // 结束位置
+        
+        // 战斗参与 - 检测划水
+        public float TimeInCombatRange;       // 在战斗范围内的时长
+        public float CombatParticipationRate; // 战斗参与率
+        public int TimesInAttackRange;        // 进入攻击范围次数
+        public float TotalAimTime;            // 瞄准总时长
+        
+        // 决策活跃度
+        public int DecisionChanges;           // 行为树决策改变次数
+        public float AverageDecisionInterval; // 平均决策间隔
+        public string LastActionName;         // 最后执行的动作
+        
+        // 行为评分
+        public float ActivityScore;           // 活跃度评分 (0-100)
+        public float CombatScore;             // 战斗参与评分 (0-100)
+        public float EfficiencyScore;         // 效率评分 (0-100)
+        
+        /// <summary>
+        /// 是否被判定为"发呆"
+        /// </summary>
+        public bool IsIdling => StationaryPercentage > 50f && CombatParticipationRate < 20f;
+        
+        /// <summary>
+        /// 是否被判定为"划水"
+        /// </summary>
+        public bool IsSlacking => ActivityScore < 30f || CombatScore < 20f;
+        
+        public string GetBehaviorAnalysis()
+        {
+            var analysis = $"{AgentName}: ";
+            if (IsIdling) analysis += "[发呆] ";
+            else if (IsSlacking) analysis += "[划水] ";
+            else analysis += "[正常] ";
+            
+            analysis += $"移动{TotalDistanceMoved:F1}m 静止{StationaryPercentage:F1}% 参与率{CombatParticipationRate:F1}%";
+            return analysis;
+        }
+    }
+
+    /// <summary>
     /// 训练会话结果，包含多轮对战
     /// </summary>
     [Serializable]
@@ -158,6 +225,13 @@ namespace Assets.Scripts.Entities.Level
         
         public float AverageTeamCasualties => BattleResults.Count > 0
             ? (float)BattleResults.Average(r => r.TeamCasualties)
+            : 0f;
+        
+        // 行为统计摘要
+        public int TotalIdleAgents => BattleResults.Sum(b => b.IdleAgentCount);
+        public int TotalSlackingAgents => BattleResults.Sum(b => b.SlackingAgentCount);
+        public float AverageTeamActivity => BattleResults.Count > 0 
+            ? BattleResults.Average(b => b.TeamAverageActivity) 
             : 0f;
 
         public string GetSummary()

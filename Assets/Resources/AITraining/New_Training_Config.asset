@@ -24,8 +24,8 @@ MonoBehaviour:
   EnemyLevelOffset: 0
   EnemyEquipmentOffset: 0
   EnemyAiAggressive: 1
-  TeamBehaviorTree: {fileID: 11400000, guid: 5b4911f216f947a43b98adb07401b478, type: 2}
-  EnemyBehaviorTree: {fileID: 11400000, guid: 5b4911f216f947a43b98adb07401b478, type: 2}
-  UseMultipleOpponents: 1
-  BestBehaviorTree: {fileID: 11400000, guid: 5b4911f216f947a43b98adb07401b478, type: 2}
-  BaseBehaviorTree: {fileID: 11400000, guid: 5b4911f216f947a43b98adb07401b478, type: 2}
+  TeamBehaviorTree: {fileID: 11400000, guid: e72516bd6f8a9924783a8b42accd8238, type: 2}
+  EnemyBehaviorTree: {fileID: 11400000, guid: 434b1e485c5516345b3fbbc2180c5e63, type: 2}
+  UseMultipleOpponents: 0
+  BestBehaviorTree: {fileID: 11400000, guid: 434b1e485c5516345b3fbbc2180c5e63, type: 2}
+  BaseBehaviorTree: {fileID: 11400000, guid: 434b1e485c5516345b3fbbc2180c5e63, type: 2}
