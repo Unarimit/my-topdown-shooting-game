@@ -1,6 +1,4 @@
 ﻿using Assets.Scripts.CombatLogic.EnviormentLogic;
-using Assets.Scripts.CombatLogic.GOAPs;
-using Assets.Scripts.CombatLogic.GOAPs.JobVersion;
 using Assets.Scripts.CombatLogic.LevelLogic;
 using Assets.Scripts.Common;
 using Assets.Scripts.Common.Test;

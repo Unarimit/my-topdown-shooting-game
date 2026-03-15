@@ -4,8 +4,6 @@ using Assets.Scripts.CombatLogic.Characters.Player;
 using Assets.Scripts.CombatLogic.CombatEntities;
 using Assets.Scripts.CombatLogic.ContextExtends;
 using Assets.Scripts.CombatLogic.EnviormentLogic;
-using Assets.Scripts.CombatLogic.GOAPs;
-using Assets.Scripts.CombatLogic.GOAPs.JobVersion;
 using Assets.Scripts.Common;
 using Assets.Scripts.Entities.Buildings;
 using Assets.Scripts.Entities.Level;

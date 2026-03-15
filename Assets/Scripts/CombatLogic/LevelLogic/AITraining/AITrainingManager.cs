@@ -524,7 +524,25 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
                 _originalBehaviorTrees[operatorTransform] = behaviorTreeComponent.ExternalBehavior as ExternalBehaviorTree;
             }
 
+            // 禁用当前行为树
+            behaviorTreeComponent.enabled = false;
+            
+            // 设置新的行为树
             behaviorTreeComponent.ExternalBehavior = behaviorTree;
+            
+            // 重新启用行为树
+            behaviorTreeComponent.enabled = true;
+            behaviorTreeComponent.EnableBehavior();
+            
+            // 初始化行为树变量
+            var agentController = operatorTransform.GetComponent<AgentController>();
+            if (agentController != null)
+            {
+                // 通过反射调用InitializeBehaviorTreeVariables
+                var method = agentController.GetType().GetMethod("InitializeBehaviorTreeVariables", 
+                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                method?.Invoke(agentController, null);
+            }
         }
 
         /// <summary>
