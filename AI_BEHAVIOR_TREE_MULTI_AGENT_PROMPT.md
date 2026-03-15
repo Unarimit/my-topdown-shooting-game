@@ -2,7 +2,9 @@
 
 ## 流程
 
-创建4个agent：Orchestrator、Critic、Planner、Coder
+在claude code cli中，创建4个agent：Orchestrator、Critic、Planner、Coder
+
+- 一定要创建agent，不能单agent扮演。目的是让每个agent的上下文专注于特定领域
 
 Orchestrator是控制主要流程，是用户和agent team的交互接口。
 
@@ -21,10 +23,14 @@ Orchestrator是控制主要流程，是用户和agent team的交互接口。
 
 ### 1. Orchestrator (主控)
 
-Orchestrator是控制主要流程，是用户和agent team的交互接口。按主要流程依次唤醒ai起来工作。
+Orchestrator是控制主要流程，是用户和agent team的交互接口。按主要流程依次唤醒ai起来工作。输出：
+- 变化和新增的文件名，只要文件名就行。
+
+以下流程需要参考下文实现：
+1. 检测训练完成时，使用mcp在console里面找包含`[AITraining] 对战结束`的日志，为了节省token
 
 ### 2. Critic (分析师)
-分析训练结果，输出：
+分析训练结果(主要是每轮的`[TRAINING_RESULT_BATTLE]`)，输出：
 - 胜率、均分、活跃度统计
 - 核心问题(最多3个)
 - 决策：[Continue]/[Promote]/[Rollback]
@@ -41,6 +47,7 @@ Orchestrator是控制主要流程，是用户和agent team的交互接口。按�
 - 或创建新任务类
 - 直接编辑行为树YAML引用新类
 - 创建新版本asset
+- 通过mcp refresh后确定配置正确生效
 
 ## 关键规则
 

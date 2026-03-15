@@ -49,7 +49,8 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         private class AgentBehaviorData
         {
             public Transform AgentTransform;
-            public BehaviorTree BehaviorTree;  // 行为树引用
+            public BehaviorTree BehaviorTree;
+            public CombatOperator Operator;  // 引用CombatOperator获取伤害统计
             public string AgentName;
             public int Team;
             public Vector3 StartPosition;
@@ -60,12 +61,11 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             public int TimesInAttackRange;
             public bool WasInAttackRange;
             public float MaxAttackRange;
-            
-            // 行为树节点追踪
+
             public string LastActiveTaskName;
             public string CurrentActiveTaskName;
-            public float TimeInCurrentTask;  // 在当前任务停留的时间
-            public Dictionary<string, float> TaskDurations = new Dictionary<string, float>();  // 各任务停留时长统计
+            public float TimeInCurrentTask;
+            public Dictionary<string, float> TaskDurations = new Dictionary<string, float>();
         }
 
         // 事件
@@ -158,6 +158,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
                     {
                         AgentTransform = trans,
                         BehaviorTree = behaviorTree,
+                        Operator = op,
                         AgentName = op.OpInfo.Name,
                         Team = 0,
                         StartPosition = trans.position,
@@ -178,6 +179,7 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
                     {
                         AgentTransform = trans,
                         BehaviorTree = behaviorTree,
+                        Operator = op,
                         AgentName = op.OpInfo.Name,
                         Team = 1,
                         StartPosition = trans.position,
@@ -346,20 +348,21 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
             
             foreach (var data in _agentBehaviorData.Values)
             {
+                var op = data.Operator;
                 // 创建统计对象
                 var stats = new AIAgentBehaviorStats
                 {
                     AgentName = data.AgentName,
                     Team = data.Team,
-                    StartPosition = data.StartPosition,
-                    EndPosition = data.AgentTransform != null ? data.AgentTransform.position : data.LastPosition,
+                    IsDead = op != null ? op.IsDead : false,
+                    DamageDealt = op != null ? op.StatCauseDamage : 0,
+                    DamageTaken = op != null ? (op.MaxHP - Mathf.Max(0, op.CurrentHP)) : 0,
                     TotalDistanceMoved = data.TotalDistanceMoved,
                     StationaryPercentage = (data.TimeStationary / battleDuration) * 100f,
-                    TimeInCombatRange = data.TimeInCombatRange,
                     CombatParticipationRate = (data.TimeInCombatRange / battleDuration) * 100f,
                     TimesInAttackRange = data.TimesInAttackRange
                 };
-                
+
                 // 计算评分
                 stats.ActivityScore = 100f - stats.StationaryPercentage;
                 stats.CombatScore = stats.CombatParticipationRate;
@@ -440,12 +443,10 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
                 var stats = new OperatorBattleStats
                 {
                     OperatorName = op.OpInfo.Name,
-                    MaxHP = op.MaxHP,
                     RemainingHP = Mathf.Max(0, op.CurrentHP),
                     IsDead = op.IsDead,
-                DamageDealt = op.StatCauseDamage,
-                DamageTaken = op.MaxHP - Mathf.Max(0, op.CurrentHP),
-                KillCount = op.StatKillCount
+                    DamageDealt = op.StatCauseDamage,
+                    DamageTaken = op.MaxHP - Mathf.Max(0, op.CurrentHP)
                 };
                 _currentBattle.TeamOperatorStats.Add(stats);
                 
@@ -459,12 +460,10 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
                 var stats = new OperatorBattleStats
                 {
                     OperatorName = op.OpInfo.Name,
-                    MaxHP = op.MaxHP,
                     RemainingHP = Mathf.Max(0, op.CurrentHP),
                     IsDead = op.IsDead,
                     DamageDealt = op.StatCauseDamage,
-                    DamageTaken = op.MaxHP - Mathf.Max(0, op.CurrentHP),
-                    KillCount = op.StatKillCount
+                    DamageTaken = op.MaxHP - Mathf.Max(0, op.CurrentHP)
                 };
                 _currentBattle.EnemyOperatorStats.Add(stats);
                 
@@ -574,23 +573,36 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
         }
 
         /// <summary>
-        /// 输出对战结果到Console（JSON格式，便于MCP解析）
+        /// 输出对战结果到Console（CSV格式，单行输出）
+        /// 格式: ConfigName,Timestamp,TeamBehavior,EnemyBehavior,Result,BattleDuration,TeamCasualties,EnemyCasualties,TeamTotalHP,EnemyTotalHP,IdleCount,SlackingCount,AvgActivity|AgentName,Team,IsDead,DamageDealt,DamageTaken,DistanceMoved,StationaryPct,CombatRate,TimesInAttackRange,ActivityScore,CombatScore;...
         /// </summary>
         private void OutputBattleResult(TrainingBattleResult result)
         {
-            // 使用特定标记便于MCP识别
-            string json = JsonUtility.ToJson(result);
-            Debug.Log($"[TRAINING_RESULT_BATTLE] {json}");
+            var sb = new System.Text.StringBuilder();
+            // 汇总数据
+            sb.Append($"{result.ConfigName},{result.Timestamp},{result.TeamBehaviorTreeName},{result.EnemyBehaviorTreeName},{result.Result},{result.BattleDuration:F2},{result.TeamCasualties},{result.EnemyCasualties},{result.TeamTotalHP},{result.EnemyTotalHP},{result.IdleAgentCount},{result.SlackingAgentCount},{result.TeamAverageActivity:F2}");
+            sb.Append("|"); // 分隔符
+            // Agent详细数据
+            foreach (var agent in result.TeamBehaviorStats)
+            {
+                sb.Append($"{agent.AgentName},0,{agent.IsDead},{agent.DamageDealt},{agent.DamageTaken},{agent.TotalDistanceMoved:F2},{agent.StationaryPercentage:F2},{agent.CombatParticipationRate:F2},{agent.TimesInAttackRange},{agent.ActivityScore:F2},{agent.CombatScore:F2};\n");
+            }
+            foreach (var agent in result.EnemyBehaviorStats)
+            {
+                sb.Append($"{agent.AgentName},1,{agent.IsDead},{agent.DamageDealt},{agent.DamageTaken},{agent.TotalDistanceMoved:F2},{agent.StationaryPercentage:F2},{agent.CombatParticipationRate:F2},{agent.TimesInAttackRange},{agent.ActivityScore:F2},{agent.CombatScore:F2};\n");
+            }
+            Debug.Log($"[TRAINING_RESULT_BATTLE] {sb}");
         }
 
         /// <summary>
-        /// 输出会话结果到Console
+        /// 输出会话结果到Console（CSV格式）
+        /// 格式: SessionId,StartTime,EndTime,BehaviorTreeVersion,BattleCount,WinRate,AvgVictoryScore,AvgTeamCasualties,TotalIdleAgents,TotalSlackingAgents,AvgTeamActivity
         /// </summary>
         private void OutputSessionResult(TrainingSessionResult result)
         {
-            string json = JsonUtility.ToJson(result);
-            Debug.Log($"[TRAINING_RESULT_SESSION] {json}");
-            
+            string csv = $"{result.SessionId},{result.StartTime},{result.EndTime},{result.BehaviorTreeVersion},{result.BattleResults.Count},{result.WinRate:F2},{result.AverageVictoryScore:F2},{result.AverageTeamCasualties:F2},{result.TotalIdleAgents},{result.TotalSlackingAgents},{result.AverageTeamActivity:F2}";
+            Debug.Log($"[TRAINING_RESULT_SESSION] {csv}");
+
             // 同时输出人类可读的摘要
             Debug.Log($"[TRAINING_SUMMARY]\n{result.GetSummary()}");
         }

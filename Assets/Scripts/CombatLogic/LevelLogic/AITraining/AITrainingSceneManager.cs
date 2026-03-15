@@ -103,8 +103,8 @@ namespace Assets.Scripts.CombatLogic.LevelLogic
                 }
             }
 
-            var result = _trainingManager.EndTrainingSession();
-            Debug.Log($"[TRAINING_FINAL_REPORT] {JsonUtility.ToJson(result)}");
+            _trainingManager.EndTrainingSession();
+            // 会话结果已通过SESSION_CSV输出
         }
 
         private void SetupTestOpponents()

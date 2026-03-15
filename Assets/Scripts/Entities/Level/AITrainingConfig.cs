@@ -71,36 +71,33 @@ namespace Assets.Scripts.Entities.Level
     }
 
     /// <summary>
-    /// 训练结果数据，用于记录每场对战的结果
+    /// 训练结果数据，用于记录每场对战的结果（精简CSV格式）
     /// </summary>
     [Serializable]
     public class TrainingBattleResult
     {
+        // CSV核心字段（12个）
         public string ConfigName;
         public string Timestamp;
         public string TeamBehaviorTreeName;
         public string EnemyBehaviorTreeName;
         public CombatStatu Result;
         public float BattleDuration;
-        public int TeamCasualties;  // 友方阵亡数
-        public int EnemyCasualties; // 敌方阵亡数
-        public int TeamTotalHP;     // 友方剩余总血量
-        public int EnemyTotalHP;    // 敌方剩余总血量
-        public int TeamMaxTotalHP;  // 友方最大总血量
-        public int EnemyMaxTotalHP; // 敌方最大总血量
-        
-        // 详细数据
-        public List<OperatorBattleStats> TeamOperatorStats = new List<OperatorBattleStats>();
-        public List<OperatorBattleStats> EnemyOperatorStats = new List<OperatorBattleStats>();
-        
-        // AI行为详细统计 (新增)
-        public List<AIAgentBehaviorStats> TeamBehaviorStats = new List<AIAgentBehaviorStats>();
-        public List<AIAgentBehaviorStats> EnemyBehaviorStats = new List<AIAgentBehaviorStats>();
-        
-        // 行为分析摘要
-        public int IdleAgentCount;      // 发呆agent数量
-        public int SlackingAgentCount;  // 划水agent数量
-        public float TeamAverageActivity;   // 团队平均活跃度
+        public int TeamCasualties;
+        public int EnemyCasualties;
+        public int TeamTotalHP;
+        public int EnemyTotalHP;
+        public int IdleAgentCount;
+        public int SlackingAgentCount;
+        public float TeamAverageActivity;
+
+        // 内部计算用（不输出到CSV）
+        [NonSerialized] public int TeamMaxTotalHP;
+        [NonSerialized] public int EnemyMaxTotalHP;
+        [NonSerialized] public List<OperatorBattleStats> TeamOperatorStats = new List<OperatorBattleStats>();
+        [NonSerialized] public List<OperatorBattleStats> EnemyOperatorStats = new List<OperatorBattleStats>();
+        [NonSerialized] public List<AIAgentBehaviorStats> TeamBehaviorStats = new List<AIAgentBehaviorStats>();
+        [NonSerialized] public List<AIAgentBehaviorStats> EnemyBehaviorStats = new List<AIAgentBehaviorStats>();
 
         public float VictoryScore => CalculateVictoryScore();
 
@@ -131,75 +128,52 @@ namespace Assets.Scripts.Entities.Level
     }
 
     /// <summary>
-    /// 单个干员的战斗统计
+    /// 单个干员的战斗统计（精简版）
     /// </summary>
     [Serializable]
     public class OperatorBattleStats
     {
         public string OperatorName;
-        public int MaxHP;
         public int RemainingHP;
         public bool IsDead;
         public int DamageDealt;
         public int DamageTaken;
-        public int KillCount;
     }
 
     /// <summary>
-    /// AI Agent详细行为统计数据
-    /// 用于检测发呆、挂机等问题
+    /// AI Agent行为统计数据（完整版）
     /// </summary>
     [Serializable]
     public class AIAgentBehaviorStats
     {
         // 基础信息
         public string AgentName;
-        public int Team; // 0=友方, 1=敌方
+        public int Team;
         public bool IsDead;
-        
-        // 位置相关 - 检测发呆
-        public float TotalDistanceMoved;      // 总移动距离
-        public float AverageSpeed;            // 平均速度
-        public float TimeStationary;          // 静止时间（秒）
-        public float StationaryPercentage;    // 静止时间占比
-        public Vector3 StartPosition;         // 起始位置
-        public Vector3 EndPosition;           // 结束位置
-        
-        // 战斗参与 - 检测划水
-        public float TimeInCombatRange;       // 在战斗范围内的时长
-        public float CombatParticipationRate; // 战斗参与率
-        public int TimesInAttackRange;        // 进入攻击范围次数
-        public float TotalAimTime;            // 瞄准总时长
-        
-        // 决策活跃度
-        public int DecisionChanges;           // 行为树决策改变次数
-        public float AverageDecisionInterval; // 平均决策间隔
-        public string LastActionName;         // 最后执行的动作
-        
-        // 行为评分
-        public float ActivityScore;           // 活跃度评分 (0-100)
-        public float CombatScore;             // 战斗参与评分 (0-100)
-        public float EfficiencyScore;         // 效率评分 (0-100)
-        
-        /// <summary>
-        /// 是否被判定为"发呆"
-        /// </summary>
+
+        // 伤害统计
+        public int DamageDealt;
+        public int DamageTaken;
+
+        // 移动统计
+        public float TotalDistanceMoved;
+        public float StationaryPercentage;
+
+        // 战斗参与
+        public float CombatParticipationRate;
+        public int TimesInAttackRange;
+
+        // 评分
+        public float ActivityScore;
+        public float CombatScore;
+
         public bool IsIdling => StationaryPercentage > 50f && CombatParticipationRate < 20f;
-        
-        /// <summary>
-        /// 是否被判定为"划水"
-        /// </summary>
         public bool IsSlacking => ActivityScore < 30f || CombatScore < 20f;
-        
+
         public string GetBehaviorAnalysis()
         {
-            var analysis = $"{AgentName}: ";
-            if (IsIdling) analysis += "[发呆] ";
-            else if (IsSlacking) analysis += "[划水] ";
-            else analysis += "[正常] ";
-            
-            analysis += $"移动{TotalDistanceMoved:F1}m 静止{StationaryPercentage:F1}% 参与率{CombatParticipationRate:F1}%";
-            return analysis;
+            var state = IsIdling ? "[发呆] " : IsSlacking ? "[划水] " : "[正常] ";
+            return $"{AgentName}: {state}移动{TotalDistanceMoved:F1}m 静止{StationaryPercentage:F1}% 参与率{CombatParticipationRate:F1}%";
         }
     }
 
