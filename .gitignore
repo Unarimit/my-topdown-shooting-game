@@ -114,3 +114,5 @@ Assets/XLua.meta
 Assets/Scenes/ShipScene/PolygonSciFiSpace.meta
 .idea/
 .vscode/
+.claude/
+.mcp.json
